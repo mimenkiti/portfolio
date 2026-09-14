@@ -8,7 +8,7 @@ export function About() {
         <p className="label m__num">About</p>
         <div className="prose m__prose">
           <p className="lede m__lift">
-            I&rsquo;m Michelle Menkiti, a product manager and builder based in San Francisco.
+            I&rsquo;m Michelle A. Menkiti, a product manager and builder based in San Francisco.
           </p>
           <p>
             I currently work on Samsung Wallet, where I&rsquo;ve worked across payments, identity,

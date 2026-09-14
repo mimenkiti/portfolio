@@ -136,10 +136,14 @@ html.is-dark-ground .modeswitch {
 /* ---------------------------------------------------------------
    The index, as a ledger.
 
-   The whole information architecture in the first viewport: who she is,
-   two bodies of work, what kind each one is, and somewhere to find her.
-   The descriptions follow underneath, because the architecture has to
-   be legible immediately and the prose does not.
+   The whole information architecture in one screen, and it is the only
+   screen: who she is, two bodies of work, what kind each one is, and
+   where to find her. Nothing follows it, because a cover that scrolls
+   is not a cover.
+
+   Lime is the interaction signal here, and only that. It marks the Dot
+   and whatever is under the cursor or keyboard focus. Nothing static
+   takes it: no name, no rules, no headings, no blocks of copy.
 
    The two entries are asymmetric on purpose. Equal treatment is what
    makes two things read as cards, and a question with a live full stop
@@ -148,7 +152,12 @@ html.is-dark-ground .modeswitch {
 
 .index__first {
   position: relative;
-  min-height: 100svh;
+  /* The cover is the whole page now, so this is the only screen there
+     is and it has to hold everything without scrolling. Sizes that
+     drive the composition's height are in `dvh` rather than `rem`
+     below, so the composition fits the viewport it is given instead of
+     asking the viewport to be tall enough for it. */
+  min-height: 100dvh;
   /* `space-between` made this gap a residue rather than a decision: it
      was whatever height the bands did not use, which swung from 21px on
      a short laptop to 211px on a tall display, and separated the intro
@@ -158,7 +167,7 @@ html.is-dark-ground .modeswitch {
   align-content: start;
   padding-top: clamp(3rem, 7vh, 5.5rem);
   padding-bottom: clamp(0.75rem, 2vh, 1.75rem);
-  row-gap: clamp(3rem, 8vh, 5.5rem);
+  row-gap: clamp(2rem, 6dvh, 4.5rem);
 }
 
 .index__id {
@@ -168,6 +177,9 @@ html.is-dark-ground .modeswitch {
   transition: opacity 0.8s var(--e-out);
 }
 
+/* Bone, not the accent. Lime on this page means one thing only: the
+   Dot, and whatever is under the cursor or keyboard focus. A name is
+   neither, however much it wants to stand out. */
 .index__name {
   font-family: var(--serif);
   font-size: clamp(1.9rem, 1rem + 2.2vw, 3.1rem);
@@ -260,13 +272,16 @@ html.is-dark-ground .modeswitch {
   gap: 0.5em;
   padding-bottom: 0.15em;
   border-bottom: 1px solid var(--rule);
-  transition: gap 0.25s var(--e-out), border-color 0.25s var(--e-out);
+  transition: gap 0.25s var(--e-out), color 0.25s var(--e-out),
+    border-color 0.25s var(--e-out);
 }
 
 .index__band:hover .index__enter,
+.index__band:focus-within .index__enter,
 .index__enter:focus-visible {
   gap: 0.8em;
-  border-color: var(--ink);
+  color: var(--live);
+  border-color: var(--live);
 }
 
 /* --- 01, the taller entry --------------------------------------- */
@@ -349,27 +364,27 @@ html.is-dark-ground .modeswitch {
   top: -0.1em;
   right: -1vw;
   font-size: clamp(3rem, 8vw, 7rem);
-  opacity: 0.055;
+  opacity: 0.135;
 }
 
 .index__ghost--2 {
   bottom: 0.1em;
   right: 13vw;
   font-size: clamp(1.4rem, 3.2vw, 2.6rem);
-  opacity: 0.045;
+  opacity: 0.115;
 }
 
 .index__ghost--3 {
   top: 46%;
   right: 30vw;
   font-size: clamp(1rem, 2vw, 1.6rem);
-  opacity: 0.07;
+  opacity: 0.155;
 }
 
 /* Engaged, the entry's own language comes up very slightly. */
 .index__band--llp:hover .index__ghost,
 .index__band--llp:focus-within .index__ghost {
-  opacity: 0.1;
+  opacity: 0.2;
 }
 
 /* --- 02, shorter and drawn -------------------------------------- */
@@ -383,7 +398,7 @@ html.is-dark-ground .modeswitch {
 .index__mark {
   position: relative;
   z-index: 1;
-  width: clamp(10.5rem, 18.5vw, 17rem);
+  width: min(clamp(10.5rem, 18.5vw, 17rem), 26dvh);
   color: var(--ink);
   opacity: 1;
   pointer-events: none;
@@ -471,7 +486,8 @@ html.is-dark-ground .modeswitch {
   transition: color 0.25s var(--e-out);
 }
 
-.index__about:hover {
+.index__about:hover,
+.index__about:focus-visible {
   color: var(--live);
 }
 
@@ -491,7 +507,8 @@ html.is-dark-ground .modeswitch {
   transition: color 0.25s var(--e-out), border-color 0.25s var(--e-out);
 }
 
-.index__links a:hover {
+.index__links a:hover,
+.index__links a:focus-visible {
   color: var(--live);
   border-color: var(--live);
 }
@@ -521,46 +538,6 @@ html.is-dark-ground .modeswitch {
   }
 }
 
-/* --- the descriptions, underneath ------------------------------- */
-
-.index__notes {
-  padding-top: clamp(3.5rem, 12vh, 8rem);
-  padding-bottom: clamp(3.5rem, 12vh, 8rem);
-  row-gap: clamp(3rem, 9vh, 6rem);
-  align-content: start;
-  transition: opacity 0.8s var(--e-out);
-}
-
-.index__note {
-  display: grid;
-  gap: 0.9rem;
-  justify-items: start;
-  max-width: 44rem;
-}
-
-.index__noteHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  color: var(--ink-3);
-}
-
-.index__blurb {
-  display: grid;
-  gap: 0.9em;
-  max-width: 41rem;
-  font-size: var(--t-body-sm);
-  line-height: 1.62;
-  color: var(--ink-2);
-  font-weight: 340;
-  text-wrap: pretty;
-}
-
-.index__go {
-  justify-self: start;
-  margin-top: 0.2rem;
-}
-
 /* --- the encounter ---------------------------------------------- */
 
 /* Lamplight. Sits above the ground plate so the dark reads warm. */
@@ -585,7 +562,6 @@ html.is-dark-ground .modeswitch {
 
 .index.is-hushed .index__id,
 .index.is-hushed .index__meta,
-.index.is-hushed .index__notes,
 .index.is-hushed .index__band--faber,
 .index.is-hushed .index__band--about,
 .index.is-hushed .index__ghosts {

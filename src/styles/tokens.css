@@ -118,18 +118,36 @@ html[data-world='cover'] {
   --room-rule: rgba(244, 233, 219, 0.15);
 }
 
-/* Hovering or focusing an entry on the index pulls the ground toward
-   that project's temperature without leaving the cover. Warm toward
-   burnt sienna for LLP, cool toward plum for Faber. Both keep every
-   text colour above 3.6:1. */
+/* Engaging an entry on the index takes the ground a real distance toward
+   that project's world rather than to another shade of the same dark
+   red. Both states land at roughly 4.6x the oxblood's luminance, in
+   opposite temperature directions, so the shift is immediately legible
+   as a change of territory: warm clay for LLP, slate blue for Faber.
+
+   The two quiet ink tones move with the ground. That is not a new
+   accent — it is the same two roles kept legible as the surface they
+   sit on gets lighter. Held against the lightest point of the radial
+   lift, the worst ratio in either state is 4.95:1, so every tone stays
+   above AA throughout the transition. The chartreuse is untouched and
+   still marks only the Dot and focus. */
 html[data-world='cover'].is-warming {
-  --ground: #3a1810;
-  --ground-lift: #48201a;
+  --ground: #66301b;
+  --ground-lift: #753926;
+  --ground-2: #542715;
+  --ink-2: #e8d5c9;
+  --ink-3: #d9bcac;
+  --rule: #8a4e33;
+  --rule-soft: #7a4229;
 }
 
 html[data-world='cover'].is-cooling {
-  --ground: #241722;
-  --ground-lift: #2f1f2d;
+  --ground: #24405f;
+  --ground-lift: #2c4b6d;
+  --ground-2: #1d3450;
+  --ink-2: #c8d7e4;
+  --ink-3: #adc0d3;
+  --rule: #3a577a;
+  --rule-soft: #314c6c;
 }
 
 /* --- LLP: warmer, ochre, evening. Its room is lit like a lamp. */

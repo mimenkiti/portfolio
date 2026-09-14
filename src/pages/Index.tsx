@@ -12,11 +12,12 @@ type Beat = 'idle' | 'wake' | 'greet' | 'choose' | 'answer' | 'done'
  * The index, as a ledger.
  *
  * Not a hero and not two cards under a bio. The first viewport is the
- * whole information architecture: who she is, that there are exactly
- * two bodies of work, what kind of thing each one is, and that there is
- * somewhere to find her. The project descriptions follow underneath,
- * because the architecture has to be visible immediately and the prose
- * does not.
+ * whole information architecture, and it is the only screen: who she
+ * is, that there are exactly two bodies of work, what kind of thing
+ * each one is, and where to find her. Nothing follows it. A cover that
+ * scrolls is not a cover, so the descriptions that used to sit under
+ * the ledger are gone and each entry carries its own subject line and
+ * its own way in.
  *
  * The two entries are deliberately not equal. LLP is the taller band
  * and carries a question, a live Dot and its own language in the
@@ -153,7 +154,7 @@ export function Index({ setGround }: { setGround: (v: number) => void }) {
 
       <section className="index__first spread">
         <div className="index__id wide">
-          <h1 className="index__name">Michelle Menkiti</h1>
+          <h1 className="index__name">Michelle A. Menkiti</h1>
           <p className="index__role">
             I&rsquo;m a product manager and builder based in San Francisco. I currently work on
             Samsung Wallet, where I get to work across payments, rewards and identity products.
@@ -301,48 +302,6 @@ export function Index({ setGround }: { setGround: (v: number) => void }) {
         </div>
       </section>
 
-      {/* The descriptions, underneath, where prose belongs. Both are
-          unchanged from the approved copy. */}
-      <section className="index__notes spread">
-        <div className="index__note wide">
-          <p className="index__noteHead label">
-            <span className="index__num data">01</span> LLP
-          </p>
-          <div className="index__blurb">
-            <p>
-              I&rsquo;m building LLP because I want to learn Igbo, and the tools that worked for me
-              when learning French don&rsquo;t really exist for many heritage languages.
-            </p>
-            <p>
-              It started as something pretty close to Duolingo for Igbo. Since then, I&rsquo;ve been
-              experimenting with conversation, different ways of teaching, pronunciation, and where
-              AI is actually useful when the language itself is underrepresented in the technology.
-            </p>
-          </div>
-          <button className="act index__go" onClick={() => go('/llp')}>
-            Explore LLP <span aria-hidden="true">→</span>
-          </button>
-        </div>
-
-        <div className="index__note wide">
-          <p className="index__noteHead label">
-            <span className="index__num data">02</span> Faber
-          </p>
-          <div className="index__blurb">
-            <p>
-              Faber started with furniture. I wanted to be able to see an object I liked, understand
-              how it was made, and figure out how I might make my own version.
-            </p>
-            <p>
-              I built Faber to explore that idea and to get more hands-on with AI, while returning to
-              some of the visual and spatial design work I missed from architecture.
-            </p>
-          </div>
-          <button className="act index__go" onClick={() => go('/faber')}>
-            Explore Faber <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </section>
     </div>
   )
 }
