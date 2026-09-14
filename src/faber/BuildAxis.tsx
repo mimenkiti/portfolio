@@ -1,6 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LevelDrawing } from './assets'
 import { CAPTURE, LEVELS, RERUN } from './data'
+
+/**
+ * The panel demonstrates itself once.
+ *
+ * The control is legible but it does not look movable, so the first
+ * time it meaningfully enters the viewport the axis walks Maker →
+ * Curious → Craftsperson → Maker and then stops for good. It ends where
+ * it started, so nothing is left changed and the recommended level is
+ * still what a visitor finds.
+ *
+ * It is not a carousel and it does not fight anybody: the first
+ * deliberate touch, key or focus inside the panel cancels the rest of
+ * the sequence where it stands, with no snap back. Under reduced motion
+ * it never runs.
+ *
+ * The 15px round thumb travelling along a 1px track is deliberately the
+ * same dot-on-a-rail primitive as the live mark on figure captions, so
+ * this reads as part of the site's vocabulary rather than as a widget
+ * doing something on its own.
+ */
+const DEMO: number[] = [0, 2, 1]
+const HOLD = 480
 
 /**
  * One axis, three stops. Not three cards, because three cards make the
@@ -15,10 +37,64 @@ import { CAPTURE, LEVELS, RERUN } from './data'
  */
 export function BuildAxis() {
   const [i, setI] = useState(1)
+  const [showing, setShowing] = useState(false)
+  const panel = useRef<HTMLDivElement>(null)
+  const timers = useRef<number[]>([])
+  const played = useRef(false)
+
+  const stop = () => {
+    timers.current.forEach((t) => window.clearTimeout(t))
+    timers.current = []
+    setShowing(false)
+  }
+
+  useEffect(() => {
+    const el = panel.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const io = new IntersectionObserver(
+      (es) => {
+        if (!es.some((e) => e.isIntersecting) || played.current) return
+        played.current = true
+        io.disconnect()
+        setShowing(true)
+        DEMO.forEach((stop, k) => {
+          timers.current.push(
+            window.setTimeout(() => {
+              setI(stop)
+              if (k === DEMO.length - 1) setShowing(false)
+            }, HOLD * (k + 1)),
+          )
+        })
+      },
+      // Enough of the panel to be worth demonstrating, rather than a
+      // sliver of it at the bottom of the screen.
+      { threshold: 0.45 },
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      timers.current.forEach((t) => window.clearTimeout(t))
+    }
+  }, [])
+
+  // The visitor always wins, including mid-sequence.
+  const yield_ = () => {
+    played.current = true
+    if (timers.current.length) stop()
+  }
+
   const lv = LEVELS[i]
 
   return (
-    <div className="bx">
+    <div
+      className={['bx', showing ? 'is-showing' : ''].join(' ')}
+      ref={panel}
+      onPointerDown={yield_}
+      onKeyDown={yield_}
+      onFocusCapture={yield_}
+    >
       <div className="fq bx__card">
         <p className="bx__eyebrow">Chair No. 14 · choose your approach</p>
 

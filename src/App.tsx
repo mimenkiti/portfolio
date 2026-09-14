@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { Marker } from './components/Marker'
 import { useRoute } from './lib/router'
+import { useScrollHide } from './lib/hide'
 import { useWorld } from './lib/theme'
 import { useMode } from './project/useMode'
 import { ModeSwitch } from './project/ModeSwitch'
@@ -19,6 +20,9 @@ export default function App() {
   const route = useRoute()
   const shift = useRef<HTMLDivElement>(null)
   const { mode, morphing, switchTo } = useMode()
+  // Bleed figures now scroll under the fixed chrome, so the switch gets
+  // out of the way on the way down exactly as the Marker does.
+  const chromeHidden = useScrollHide()
 
   useWorld(route)
 
@@ -39,7 +43,7 @@ export default function App() {
       <div className={['above-shift', morphing ? 'is-morphing' : ''].join(' ')}>
         {route !== '/' && <Marker route={route} title={TITLES[route]} />}
         {(route === '/llp' || route === '/faber') && (
-          <div className="topright">
+          <div className={['topright', chromeHidden ? 'is-hidden' : ''].join(' ')}>
             <ModeSwitch mode={mode} onSwitch={switchTo} />
           </div>
         )}

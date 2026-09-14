@@ -106,8 +106,16 @@ export const LLP_PROJECT: Project = {
           unique to Igbo. There are many languages with millions of people connected to them and
           relatively few tools designed to help those people learn.
         </>,
-        <>My first instinct was a fairly obvious one: build the thing I wished existed.</>,
       ],
+    },
+    // Already the closing one-sentence paragraph of the block above.
+    // Promoted, not rewritten and not duplicated: it is the hinge into
+    // the next section, so the sentence carries the section change
+    // rather than the small heading having to.
+    {
+      id: 'pull-instinct',
+      kind: 'pull',
+      text: 'My first instinct was a fairly obvious one: build the thing I wished existed.',
     },
 
     {
@@ -151,6 +159,9 @@ export const LLP_PROJECT: Project = {
     {
       id: 'first-after',
       kind: 'prose',
+      // Same measure, different position on the page: the spread turns
+      // without the line length moving.
+      offset: true,
       paras: [
         <>
           But the longer I worked on it, the more I became interested in a different part of the
@@ -175,12 +186,18 @@ export const LLP_PROJECT: Project = {
     {
       id: 'sheet',
       kind: 'figure',
-      scale: 'wide',
+      // A sheet of five documents wants to be read as a sheet, so it
+      // takes the viewport. One of LLP's two bleeds.
+      scale: 'bleed',
+      // Her own sentence, moved rather than reworded: the caption
+      // already said "Each one opens", and instructions now live on the
+      // live mark, which is the one place a visitor looks for them.
+      does: 'Each one opens.',
       caption: (
         <>
           Some of what that took: what the product should feel like, what makes someone open a
           learning app on the hundred and ninetieth day, and where a lesson should sit relative to
-          a conversation. Each one opens.
+          a conversation.
         </>
       ),
       render: () => <ContactSheet />,
@@ -218,6 +235,9 @@ export const LLP_PROJECT: Project = {
         </>,
       ],
     },
+    // Her opening line in the deployed build, and the diagnostic's
+    // anchor item. Sits beside the threshold you are about to cross.
+    { id: 'g-kedu', kind: 'gloss', formId: 'context-32' },
     {
       id: 'market',
       kind: 'room',
@@ -256,7 +276,25 @@ export const LLP_PROJECT: Project = {
           questions: when a hint should appear, whether it should persist, how quickly the
           interface should react, what should happen after a wrong answer.
         </>,
-        <>A lot of the design work has been an exercise in removing things.</>,
+      ],
+    },
+    // Welcome. The phrase the market scene is built around. Glosses go
+    // immediately after a reading-column block so grid auto-placement
+    // seats them in that block's row rather than in a band of their own.
+    { id: 'g-nnoo', kind: 'gloss', formId: 'combination-27' },
+    // The thesis of the block it sits in, and already its own
+    // one-sentence paragraph. It stays exactly where it was in the
+    // reading order; the block is split around it so it can be set
+    // large without moving.
+    {
+      id: 'pull-removing',
+      kind: 'pull',
+      text: 'A lot of the design work has been an exercise in removing things.',
+    },
+    {
+      id: 'conv-after-2',
+      kind: 'prose',
+      paras: [
         <>
           The simpler versions generally feel better. Positive reinforcement matters more than I
           expected. And when someone does need more help, I don't want that help to feel like they
@@ -274,6 +312,7 @@ export const LLP_PROJECT: Project = {
       id: 'approaches',
       kind: 'figure',
       scale: 'wide',
+      does: 'ask any of the three',
       caption: (
         <>
           Three of those experiments, still running. None of them is a finished answer, and the
@@ -362,10 +401,14 @@ export const LLP_PROJECT: Project = {
         </>,
       ],
     },
+    // IGB-KNW-016. The registry holds this one as a template rather
+    // than a finished line, which is the section's whole subject.
+    { id: 'g-aha', kind: 'gloss', formId: 'context-35' },
     {
       id: 'inspector',
       kind: 'figure',
       scale: 'wide',
+      does: 'follow any phrase through',
       caption: (
         <>
           One phrase, traced from the source it came from to the moment a learner meets it. Every
@@ -377,6 +420,9 @@ export const LLP_PROJECT: Project = {
     {
       id: 'under-after',
       kind: 'prose',
+      // Same measure, different position on the page: the spread turns
+      // without the line length moving.
+      offset: true,
       paras: [
         <>
           The separation is partly practical. I want to be able to improve what LLP knows without
@@ -409,7 +455,20 @@ export const LLP_PROJECT: Project = {
           producing audio and producing audio I was comfortable asking someone to learn from turned
           out to be different problems.
         </>,
-        <>Igbo pronunciation exposed the gap pretty quickly.</>,
+      ],
+    },
+    // Already its own one-sentence paragraph, at the midpoint of the
+    // block. It also lands directly above the pronunciation apparatus,
+    // so it introduces that figure as well as breaking the run.
+    {
+      id: 'pull-gap',
+      kind: 'pull',
+      text: 'Igbo pronunciation exposed the gap pretty quickly.',
+    },
+    {
+      id: 'voice-prose-2',
+      kind: 'prose',
+      paras: [
         <>
           I don't think a learner needs perfect pronunciation, and an accent isn't a failure. But I
           do think the standard changes when the product is the teacher. If LLP is asking someone
@@ -429,10 +488,16 @@ export const LLP_PROJECT: Project = {
         </>,
       ],
     },
+    // One spelling, three words, and tone absent from both conditions.
+    // This item is the argument of the passage it sits beside.
+    { id: 'g-isi', kind: 'gloss', formId: 'tone-31' },
     {
       id: 'listen',
       kind: 'figure',
-      scale: 'wide',
+      // The most instrument-like thing on the page, and the one the
+      // section is about. LLP's second and last bleed.
+      scale: 'bleed',
+      does: 'play either reading',
       caption: (
         <>
           The tests, as they were run. Two clips per line, the same voice and model in each, and
@@ -502,6 +567,9 @@ export const LLP_PROJECT: Project = {
         <>So that is where I'm working now.</>,
       ],
     },
+    // Parting. The last thing the encounter asks a learner to say, and
+    // the one the product is least able to hear.
+    { id: 'g-kaodi', kind: 'gloss', formId: 'context-36' },
     {
       id: 'hearing',
       kind: 'figure',

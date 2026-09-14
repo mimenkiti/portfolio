@@ -1,0 +1,95 @@
+{
+ "_generated": "Derived from src/llp/data/pronunciation.json by derive-forms.mjs. Do not edit by hand.",
+ "forms": {
+  "context-32": {
+   "id": "context-32",
+   "form": "Kedụ?",
+   "ipa": "kedʊ̙?",
+   "gloss": "how are you? / hello",
+   "feature": "ANCHOR — known good at baseline",
+   "watch": "if this is bad at baseline, distrust the whole run",
+   "provenance": "IGB-KNW-001 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "context-33": {
+   "id": "context-33",
+   "form": "Ọ dị mma.",
+   "ipa": "ɔ̙ dɪ̙ mma.",
+   "gloss": "fine; it is good",
+   "feature": "ANCHOR — known bad at baseline, repaired by IPA",
+   "watch": "the original finding; it should reproduce",
+   "provenance": "IGB-KNW-002 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "context-34": {
+   "id": "context-34",
+   "form": "Kedụ aha gị?",
+   "ipa": "kedʊ̙ aɦa ɡɪ̙?",
+   "gloss": "what is your name?",
+   "feature": "question, three words",
+   "watch": "question contour, and ɦ in aha",
+   "provenance": "IGB-KNW-017 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "context-35": {
+   "id": "context-35",
+   "form": "Aha m bụ Chioma",
+   "ipa": "aɦa m bʊ̙ t͡ʃioma",
+   "gloss": "my name is Chioma",
+   "feature": "syllabic m as a word + a name",
+   "watch": "the name specifically — a mispronounced name is a different kind of wrong",
+   "provenance": "IGB-KNW-016 + KNW-035 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "context-36": {
+   "id": "context-36",
+   "form": "Ka ọ dị",
+   "ipa": "ka ɔ̙ dɪ̙",
+   "gloss": "may it be well; see you",
+   "feature": "short closing phrase",
+   "watch": "three light syllables — is it rushed?",
+   "provenance": "KNW-040 · IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE; IGB-SRC-006 FSI"
+  },
+  "combination-27": {
+   "id": "combination-27",
+   "form": "Nnọọ",
+   "ipa": "nnɔ̙ɔ̙",
+   "gloss": "welcome",
+   "feature": "nn geminate + ọọ long vowel",
+   "watch": "is the long vowel held, or clipped to one?",
+   "provenance": "IGB-KNW-008 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "tone-31": {
+   "id": "tone-31",
+   "form": "isi",
+   "ipa": "isi",
+   "gloss": "ìsì “blindness” · ísí “head” · ísì “smell” — one spelling, three words",
+   "feature": "tone is absent from BOTH conditions",
+   "watch": "which reading do you hear? Neither path can be told which was meant.",
+   "provenance": "IGB-SRC-008 — Nkọwa okwu"
+  },
+  "consonants-6": {
+   "id": "consonants-6",
+   "form": "Chioma",
+   "ipa": "t͡ʃioma",
+   "gloss": "Igbo name — “good God / good fortune”",
+   "feature": "ch → t͡ʃ (tie bar)",
+   "watch": "whether the affricate holds or splits across a syllable",
+   "provenance": "KNW-035 · IGB-SRC-015 Awajis; IGB-SRC-002 Echeruo"
+  },
+  "vowels-1": {
+   "id": "vowels-1",
+   "form": "gị",
+   "ipa": "ɡɪ̙",
+   "gloss": "you (singular)",
+   "feature": "ị  [−ATR]",
+   "watch": "against ihe — is this a different vowel at all?",
+   "provenance": "IGB-KNW-017 · IGB-SRC-001 — Harvard ELIAS"
+  },
+  "vowels-5": {
+   "id": "vowels-5",
+   "form": "ụzọ",
+   "ipa": "ʊ̙zɔ̙",
+   "gloss": "way; road; door",
+   "feature": "ụ  [−ATR]",
+   "watch": "ụ against u in uche, plus ọ word-finally",
+   "provenance": "IGB-SRC-008 — Nkọwa okwu"
+  }
+ }
+}

@@ -4,7 +4,13 @@ import { onLevel } from '../lib/level'
 export type DotState = 'punctuation' | 'idle' | 'speaking' | 'listening' | 'held'
 
 type Props = {
-  size?: number
+  /**
+   * A number is pixels. A CSS length is passed straight through, which
+   * is what the LLP hero needs: there the Dot has to be the point of a
+   * question mark set in a fluid clamp, so its diameter is given in `em`
+   * and tracks the type rather than a fixed size.
+   */
+  size?: number | string
   state?: DotState
   dark?: boolean
   label?: string
@@ -40,7 +46,7 @@ export function Dot({ size = 14, state = 'idle', dark, label, onActivate, classN
     <Tag
       ref={ref as never}
       className={['dot', `dot--${state}`, dark ? 'dot--dark' : '', className || ''].join(' ')}
-      style={{ ['--d' as string]: `${size}px` }}
+      style={{ ['--d' as string]: typeof size === 'number' ? `${size}px` : size }}
       onClick={onActivate}
       aria-label={onActivate ? label || 'Play' : undefined}
       type={onActivate ? 'button' : undefined}

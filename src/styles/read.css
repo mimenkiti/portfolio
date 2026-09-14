@@ -113,3 +113,25 @@
     animation: none;
   }
 }
+
+/* The live product as a contained figure. 480px is the product's own
+   design width (`--stage-max-width: 30rem` in the deployed build), not
+   the 390px phone the page used to assume. Scoped to this one figure:
+   the other phone embeds are single-file prototypes genuinely built at
+   390 and must not be stretched to fit a number that is not theirs. */
+.b--roomfig .embed--phone .embed__frame {
+  width: 480px;
+  height: min(84vh, 44rem);
+}
+
+/* Read has no margin track, so a gloss comes inline as a note — the
+   same move `aside` makes. */
+.mode-read .b--gloss {
+  margin-top: 1.5rem;
+}
+
+/* The pull phrases return to reading size. A document does not need
+   the page broken up for it. */
+.mode-read .b--pull {
+  margin-top: 1.35rem;
+}

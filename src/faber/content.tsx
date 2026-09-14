@@ -150,6 +150,7 @@ export const FABER_PROJECT: Project = {
       id: 'identify-compare',
       kind: 'figure',
       scale: 'wide',
+      does: 'switch between the two objects',
       caption: (
         <>
           A chair the world has written about, and a cabinet nobody signed. Same fields, same
@@ -247,6 +248,7 @@ export const FABER_PROJECT: Project = {
       id: 'build-axis',
       kind: 'figure',
       scale: 'wide',
+      does: 'choose the approach',
       caption: (
         <>
           The same chair, asked for three ways on one afternoon. A wire sculpture you can bend with

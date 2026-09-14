@@ -1,4 +1,5 @@
 import { LLP_PROJECT } from '../llp/content'
+import { Hero } from '../llp/Hero'
 import { ProjectView } from '../project/ProjectView'
 import type { Mode } from '../project/blocks'
 import { go } from '../lib/router'
@@ -7,13 +8,24 @@ import { LIVE, SOURCE } from '../lib/links'
 export function LLP({ mode, setGround }: { mode: Mode; setGround: (v: number) => void }) {
   return (
     <div className={['route llp', `mode-${mode}`].join(' ')}>
-      <header className="spread proj">
+      <header className="spread proj proj--llp">
         <p className="proj__meta label">
           <span className="proj__num">01</span>
           <span className="proj__name">{LLP_PROJECT.name}</span>
           <span>{LLP_PROJECT.subject}</span>
         </p>
       </header>
+
+      {/* The hero is the project's own opening, not a banner over it, so
+          it bleeds and the narrative begins underneath. In Read it is
+          not wanted at all: a document opens with its first sentence. */}
+      {mode === 'experience' && (
+        <div className="spread">
+          <div className="bleed">
+            <Hero />
+          </div>
+        </div>
+      )}
 
       <ProjectView project={LLP_PROJECT} mode={mode} setGround={setGround} />
 

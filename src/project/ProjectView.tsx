@@ -1,8 +1,11 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dot } from '../components/Dot'
+import { LiveMark } from '../components/LiveMark'
 import { Embed } from '../llp/Embed'
 import { Room } from '../llp/Room'
+import { WATERMARKS, form } from '../llp/lang'
 import { clamp01, ease, inv, stickyProgress, useScrollEffect } from '../lib/scroll'
+import { Contents } from './Contents'
 import type { Block, Mode, Project } from './blocks'
 
 /**
@@ -87,6 +90,7 @@ export function ProjectView({
   return (
     <div className={['pv', `pv--${mode}`].join(' ')}>
       <div className="spread pv__spread">
+        <Contents project={project} mode={mode} />
         {project.blocks.map((b) => (
           <Fragment key={b.id}>{renderBlock(b, mode, { enter, setThreshold, sceneGround })}</Fragment>
         ))}
@@ -110,13 +114,33 @@ type Ctx = {
   sceneGround: (id: string) => (v: number) => void
 }
 
+/** Reading measure, reading plus margin, or the whole viewport. */
+function scaleClass(scale: 'column' | 'wide' | 'bleed') {
+  return scale === 'bleed' ? 'bleed' : scale === 'wide' ? 'wide' : ''
+}
+
 function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
   const experience = mode === 'experience'
-  // Moment numbers and margin notes make terrible anchors: a note that
-  // moves from the margin into the flow lands the reader a screen away
-  // from the sentence they were on. Only substantive blocks anchor.
-  const anchorable = b.kind !== 'moment' && b.kind !== 'aside'
-  const anchor = { 'data-b': b.id, ...(anchorable ? { 'data-anchor': '1' } : {}) }
+  // Margin notes make terrible anchors: a note that moves from the
+  // margin into the flow lands the reader a screen away from the
+  // sentence they were on. Only substantive blocks anchor.
+  //
+  // Moments are the exception now that the contents rail exists. They
+  // are Faber's real section markers, so they have to be anchorable to
+  // be navigable; they were excluded before because nothing linked to
+  // them. `useMode` reads the same attribute, and a moment is a single
+  // short line that does not move between modes, so pinning to one is
+  // safe in a way that pinning to a margin note is not.
+  const anchorable = b.kind !== 'aside' && b.kind !== 'gloss'
+  // A watermark field: one real form, very large and very faint, behind
+  // the passage whose argument it is. Carried as an attribute so the
+  // whole effect is CSS and no block has to know it is decorated.
+  const wm = experience ? WATERMARKS.find((w) => w.anchor === b.id) : undefined
+  const anchor = {
+    'data-b': b.id,
+    ...(anchorable ? { 'data-anchor': '1' } : {}),
+    ...(wm ? { 'data-wm': form(wm.formId).form } : {}),
+  }
 
   switch (b.kind) {
     case 'moment':
@@ -156,12 +180,54 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
 
     case 'prose':
       return (
-        <div className="b b--prose prose" {...anchor}>
+        <div
+          className={['b b--prose prose', experience && b.offset ? 'is-shifted' : ''].join(' ')}
+          {...anchor}
+        >
           {b.paras.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
       )
+
+    // Already a one-sentence paragraph in the narrative; only its size
+    // and its span change. In Read it returns to reading size, because
+    // a document does not need the page broken up for it.
+    case 'pull':
+      return experience ? (
+        <p className="b b--pull wide" {...anchor}>
+          {b.text}
+        </p>
+      ) : (
+        <div className="b b--prose prose" {...anchor}>
+          <p>{b.text}</p>
+        </div>
+      )
+
+    // A real form from the archive. In Experience it is margin
+    // material; in Read the margin is gone, so it comes inline as a
+    // note, the same move `aside` makes.
+    case 'gloss': {
+      const f = form(b.formId)
+      const body = (
+        <>
+          <span className="gloss__form ig">{f.form}</span>
+          <span className="gloss__ipa data">{f.ipa}</span>
+          <span className="gloss__gloss">{f.gloss}</span>
+          {b.note && <span className="gloss__note">{b.note}</span>}
+          <span className="gloss__prov">{f.provenance}</span>
+        </>
+      )
+      return experience ? (
+        <aside className="b b--gloss gloss side caption" {...anchor}>
+          {body}
+        </aside>
+      ) : (
+        <aside className="b b--gloss b--gloss-inline gloss caption" {...anchor}>
+          {body}
+        </aside>
+      )
+    }
 
     case 'aside':
       // Margin note in Experience; an inline note under the prose in Read.
@@ -178,11 +244,18 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
     case 'figure':
       return (
         <figure
-          className={['b b--figure', experience && b.scale === 'wide' ? 'wide' : ''].join(' ')}
+          className={[
+            'b b--figure',
+            experience ? scaleClass(b.scale) : '',
+            experience && b.scale === 'bleed' ? 'b--bleedfig' : '',
+          ].join(' ')}
           {...anchor}
         >
           <div className="b__art">{b.render(mode)}</div>
-          <figcaption className="caption b__cap">{b.caption}</figcaption>
+          <figcaption className="caption b__cap">
+            {b.does && <LiveMark does={b.does} />}
+            {b.caption}
+          </figcaption>
         </figure>
       )
 

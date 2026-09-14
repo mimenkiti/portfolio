@@ -258,21 +258,50 @@
   transition: opacity 0.5s var(--e-out), filter 0.5s var(--e-out);
 }
 /* The room now holds the deployed product, so the stage is a frame and
-   nothing else: no speaker, no utterance, no synthesised encounter. */
+   nothing else: no speaker, no utterance, no synthesised encounter.
+
+   `align-self: stretch` is load-bearing, not tidying. Inherited from
+   `.room__stage` it was `center`, so the stage never filled its grid
+   row and its height became content-derived. The frame's height was a
+   percentage of that, which made the percentage indefinite, so the
+   iframe fell back to the HTML default of 150px and the deployed
+   product rendered at 390x150 — 4.5% of a 1440x900 screen. Stretching
+   the stage gives the percentage something real to resolve against. */
 .room__stage--live {
-  justify-items: center;
-  align-content: center;
+  align-self: stretch;
+  /* One explicitly stretched row and column, rather than content-sized
+     tracks. `align-content: center` was not enough on its own: it left
+     the frame's grid area auto-sized, so a percentage height still had
+     nothing definite to resolve against. With the track at 1fr the area
+     is the row, and the frame centres inside it with place-self. */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  align-content: stretch;
+  gap: 0;
   max-width: none;
   width: 100%;
   min-height: 0;
 }
 
+/* Not a handset. `--stage-max-width: 30rem` in the deployed build caps
+   only its launcher and reflection screens; the encounter itself has no
+   width cap and fills whatever it is given. Measured against the live
+   build: at 760x880 and 900x900 the market resolves into a room — stall,
+   awning, skyline and Chioma all present, replies a full-width panel —
+   and at 1180x820 the scene art scales past its sweet spot and crops
+   her head. So the frame is a near-square slab, sized off the height it
+   has been given, and there is no bezel or phone radius pretending
+   otherwise. */
 .room__frame {
-  width: 390px;
-  max-width: 100%;
-  height: min(844px, 100%);
+  place-self: center;
+  height: 100%;
+  max-height: 100%;
+  aspect-ratio: 1.02 / 1;
+  width: auto;
+  max-width: min(960px, 100%);
   border: 0;
-  border-radius: 14px;
+  border-radius: 4px;
   background: var(--room-2);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 24px 60px rgba(0, 0, 0, 0.45);
 }
@@ -284,14 +313,19 @@
   z-index: 1;
 }
 
-/* On a phone the device drawing is a lie — give it everything. */
+/* On a phone, or anywhere too short for a slab, the frame takes the
+   whole stage. `aspect-ratio: auto` is required: with both width and
+   height given, a ratio would otherwise fight them. */
 @media (max-width: 30rem), (max-height: 46rem) {
   .room {
     padding: 10px var(--pad) 8px;
   }
 
   .room__frame {
+    aspect-ratio: auto;
+    place-self: stretch;
     width: 100%;
+    max-width: 100%;
     height: 100%;
     border-radius: 8px;
     box-shadow: none;
@@ -300,4 +334,640 @@
   .room__foot {
     display: none;
   }
+}
+
+/* ---------------------------------------------------------------
+   Pull phrases
+
+   Each of these was already a one-sentence paragraph in the narrative.
+   Nothing is added, removed or reworded; the sentence is set large and
+   given the margin track as well as the reading track, so it breaks a
+   long prose run without leaving its place in the reading order.
+   --------------------------------------------------------------- */
+
+.b--pull {
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+  margin-bottom: clamp(1.5rem, 4vh, 3rem);
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 1rem + 2.5vw, 3.05rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+  max-width: 32ch;
+  color: var(--ink);
+}
+
+/* Same measure, different position. The line length does not move. */
+.b--prose.is-shifted {
+  margin-left: clamp(0rem, 5vw, 4.5rem);
+}
+
+/* ---------------------------------------------------------------
+   Margin glosses
+
+   Real forms out of the project's archive, in the track LLP was not
+   using at all. Grid auto-placement seats them in the row of the block
+   they follow, so a gloss sits beside its passage rather than in a band
+   of its own.
+   --------------------------------------------------------------- */
+
+.gloss {
+  display: grid;
+  gap: 0.3rem;
+  align-self: start;
+  margin-top: 4.2rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.8rem;
+}
+
+.gloss__form {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 340;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.gloss__ipa {
+  color: var(--ink-2);
+}
+
+.gloss__gloss {
+  color: var(--ink-2);
+}
+
+.gloss__note {
+  color: var(--ink-2);
+}
+
+.gloss__prov {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ink-3);
+  margin-top: 0.15rem;
+}
+
+/* Below the point where the outer track can hold the contents rail the
+   margin is under pressure too, so a gloss becomes an inline note. */
+@media (max-width: 1269px) {
+  .spread > .b--gloss.side {
+    grid-column: 2 / 3;
+  }
+  .gloss {
+    margin-top: 1.6rem;
+    border-top: 0;
+    border-left: 2px solid var(--rule);
+    padding: 0.1rem 0 0.1rem 1rem;
+    max-width: 34rem;
+  }
+}
+
+.b--gloss-inline {
+  border-top: 0;
+  border-left: 2px solid var(--rule);
+  padding: 0.1rem 0 0.1rem 1rem;
+  margin-top: 1.6rem;
+  max-width: 34rem;
+}
+
+/* ---------------------------------------------------------------
+   Bleed figures
+
+   The third artifact scale, and rationed: two on LLP. The art takes
+   the viewport; the caption stays on the reading column so the page
+   does not lose its left edge.
+   --------------------------------------------------------------- */
+
+.b--bleedfig {
+  padding: 0 var(--pad);
+  margin-top: clamp(3.5rem, 10vh, 7rem);
+  margin-bottom: clamp(1rem, 3vh, 2rem);
+}
+
+.b--bleedfig .b__cap {
+  max-width: 41rem;
+}
+
+/* ---------------------------------------------------------------
+   Watermark fields
+
+   Three in the whole project, each one the argument of the passage it
+   sits behind. Real forms, so the diacritics are the archive's.
+   --------------------------------------------------------------- */
+
+.llp [data-wm] {
+  position: relative;
+}
+
+.llp [data-wm]::before {
+  content: attr(data-wm);
+  position: absolute;
+  left: -0.08em;
+  top: -0.24em;
+  font-family: var(--serif);
+  font-size: clamp(9rem, 26vw, 22rem);
+  font-weight: 300;
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  opacity: 0.045;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+/* The threshold is dark by the time it is on screen, so its watermark
+   has to be light to be there at all. */
+.llp .threshold[data-wm]::before {
+  color: var(--room-ink);
+  opacity: 0.06;
+  top: 14vh;
+}
+
+/* Text always wins over its own watermark. */
+.llp .b--prose,
+.llp .b--lede,
+.llp .b--pull,
+.llp .b--heading,
+.llp .b--figure {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------
+   The live mark
+
+   One cue for "this is an instrument", reusing the dot the embed
+   invite and the Dot itself already established. It sits on the caption
+   line and always carries the thing you can actually do. Figures
+   without a `does` get nothing, so a static figure stays silent.
+   --------------------------------------------------------------- */
+
+.live-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin-right: 0.7em;
+}
+
+.live-mark__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  flex: 0 0 auto;
+  transform: translateY(-0.1em);
+  animation: dot-breathe 5.5s ease-in-out infinite;
+}
+
+.live-mark__does {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-mark__dot {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Contents
+
+   Derived from each project's real structure: LLP's six headings,
+   unnumbered because the writing is not numbered, and Faber's five
+   numbered moments. The rail lives in the spread's outermost track,
+   which nothing else has ever used, and is fixed rather than sticky so
+   it does not need a tall grid parent to stick inside.
+   --------------------------------------------------------------- */
+
+[data-b] {
+  scroll-margin-top: clamp(4.5rem, 11vh, 7rem);
+}
+
+.toc {
+  position: fixed;
+  top: clamp(6.5rem, 17vh, 11.5rem);
+  left: calc(
+    var(--pad) + var(--col-lead) + var(--col-main) + var(--col-gap) + var(--col-side) +
+      clamp(0.5rem, 1.4vw, 1.5rem)
+  );
+  width: calc(
+    100vw - var(--pad) * 2 - var(--col-lead) - var(--col-main) - var(--col-gap) - var(--col-side) -
+      clamp(0.5rem, 1.4vw, 1.5rem)
+  );
+  max-width: 15rem;
+  z-index: 8;
+  display: grid;
+  gap: 0.75rem;
+  opacity: 1;
+  transition: opacity 0.5s var(--e-out);
+}
+
+/* Nothing useful left to do over the closing links. */
+.toc.is-away {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toc__head {
+  color: var(--ink-3);
+}
+
+.toc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.toc__item {
+  display: grid;
+  grid-template-columns: 1.35rem auto 1fr;
+  align-items: baseline;
+  gap: 0.5rem;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--ink-3);
+  transition: color 0.3s var(--e-out);
+  width: 100%;
+}
+
+.toc__item:hover {
+  color: var(--ink);
+}
+
+/* The lead rule is the current-section marker. A rule that grows reads
+   as position; a colour block reads as a selected tab. */
+.toc__lead {
+  grid-column: 1;
+  height: 1px;
+  width: 0.5rem;
+  background: currentColor;
+  opacity: 0.5;
+  transform: translateY(-0.28em);
+  transition: width 0.35s var(--e-out), opacity 0.35s var(--e-out);
+}
+
+.toc__item.is-at {
+  color: var(--ink);
+}
+
+.toc__item.is-at .toc__lead {
+  width: 1.35rem;
+  opacity: 1;
+  background: var(--live);
+}
+
+.toc__n {
+  grid-column: 2;
+  color: var(--ink-3);
+}
+
+.toc__label {
+  grid-column: 3;
+}
+
+html.is-dark-ground .toc {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- the compact control: phones, narrow desktops, and Read --- */
+
+.toc-c {
+  margin-top: clamp(1rem, 3vh, 1.75rem);
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 0.55rem 0;
+}
+
+.toc-c__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--ink-2);
+  min-height: 2.75rem;
+}
+
+.toc-c__mark {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  flex: 0 0 auto;
+}
+
+.toc-c__count {
+  color: var(--ink-3);
+}
+
+.toc-c__list {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  display: grid;
+  gap: 0.1rem;
+  width: 100%;
+}
+
+.toc-c__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--ink-2);
+  /* A comfortable target rather than a dense list. */
+  min-height: 2.75rem;
+  width: 100%;
+}
+
+.toc-c__item.is-at {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------
+   The LLP hero
+
+   Faber constructs and then fades away to reveal a drawing that was
+   already there. LLP writes, and what it writes is the hero, so nothing
+   here fades away. The sequence is the writing order for this
+   orthography: the letters, then the diacritic in a second pass, then
+   the punctuation.
+
+   Everything below is written as its SETTLED state, with only the
+   pre-stage classes overriding it. That way the reduced-motion path and
+   the end of the animation are the same declaration rather than two
+   descriptions of the same composition that can drift apart.
+   --------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: min(74svh, 660px);
+  padding: clamp(1.5rem, 6vh, 4.5rem) var(--pad) clamp(1.5rem, 5vh, 3.5rem);
+  display: grid;
+  align-content: center;
+  /* Crops the ground glyph against the viewport rather than letting it
+     widen the page. */
+  overflow: hidden;
+}
+
+/* The ground: a letter English does not have, cropped, and written by
+   the same gesture as the word on a slower curve. */
+.hero__ground {
+  position: absolute;
+  left: -0.14em;
+  top: 50%;
+  transform: translateY(-54%);
+  font-family: var(--serif);
+  font-size: min(64svh, 42vw);
+  line-height: 0.78;
+  font-weight: 300;
+  color: var(--ink);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.15s var(--e-io);
+}
+
+.hero__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(0.9rem, 2.5vh, 1.6rem);
+  justify-items: start;
+}
+
+.hero__line {
+  font-family: var(--serif);
+  font-size: var(--t-display);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  font-variation-settings: 'opsz' 60;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* The stroke. One horizontal reveal, not a typewriter and not an
+   outlined stroke-path — that would be Faber's linework vocabulary. */
+.hero__word {
+  display: inline-block;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.58s var(--e-io);
+}
+
+/* While the diacritic is being written the word is `Ked` + `u` with a
+   drawn mark beneath it; the instant that pass ends it is swapped for
+   the precomposed `Kedụ` from the archive. A dot below does not change
+   a `u`'s advance width, so the swap moves nothing. */
+.hero__u {
+  position: relative;
+  display: inline-block;
+}
+
+/* Measured off Newsreader's own `ụ`, so the swap to the precomposed
+   character at the end of the pass does not move anything: its dot is
+   0.1087em across, centred on the 0.5em advance, and its bottom sits
+   0.1522em below the baseline — which is 0.031em up from the bottom of
+   a 1.02em line box. */
+.hero__below {
+  position: absolute;
+  left: 50%;
+  bottom: var(--below-y, 0.031em);
+  width: 0.1087em;
+  height: 0.1087em;
+  margin-left: -0.0544em;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 1;
+  transform: none;
+  /* A little overshoot, because this is the one mark the page is
+     allowed any character about. */
+  transition: opacity 0.2s var(--e-out), transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* The question mark, with its own point clipped off. The live Dot
+   occupies the space it leaves, so the phrase has one full stop in it
+   and that full stop is the thing you can touch. */
+/* The question mark, with its own point clipped off so the live Dot can
+   be that point instead of sitting beside it as a second mark.
+
+   The clip is measured, not guessed. Newsreader's `?` puts the top of
+   its point 0.1087em above the baseline, and the baseline sits 0.183em
+   above the bottom of a 1.02em line box, so everything below
+   0.2917em from the box bottom is the point: 28.6% of the box. The
+   ratio is the same at every font size, because all three terms scale
+   with the type. */
+.hero__q {
+  display: inline-block;
+  clip-path: inset(0 0 var(--q-clip, 28.6%) 0);
+  opacity: 1;
+  transition: opacity 0.24s var(--e-out);
+}
+
+/* The glyph's point is centred 0.1957em into a 0.4438em advance, so
+   after the `?` the Dot comes back 0.308em to land exactly where the
+   ink was. Its bottom needs no offset: an inline-block baseline-aligns
+   its bottom edge, and the point it replaces sits on the baseline. */
+.hero__dot {
+  display: inline-block;
+  margin-left: var(--dot-x, -0.308em);
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* At the size of a piece of punctuation the Dot is far too small to be
+   a target, so the button keeps a real one without the mark growing. */
+.hero__dot .dot::before {
+  content: '';
+  position: absolute;
+  inset: -0.16em;
+  border-radius: 50%;
+}
+
+.hero__gloss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+  opacity: 1;
+  transition: opacity 0.4s var(--e-out);
+}
+
+.hero__ipa {
+  color: var(--ink-2);
+}
+
+.hero__mean {
+  color: var(--ink-2);
+}
+
+/* Three more the archive holds, arriving as a field rather than one at
+   a time, and then completely still. */
+.hero__periphery {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 0.45s var(--e-out);
+}
+
+.hero__near {
+  position: absolute;
+  font-family: var(--serif);
+  font-weight: 300;
+  color: var(--ink);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.hero__near--1 {
+  top: 8%;
+  right: -1.5vw;
+  font-size: clamp(2.2rem, 6vw, 5.5rem);
+  opacity: 0.085;
+}
+
+.hero__near--2 {
+  bottom: 11%;
+  right: 8vw;
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  opacity: 0.07;
+}
+
+.hero__near--3 {
+  top: 42%;
+  right: 24vw;
+  font-size: clamp(1.1rem, 2.2vw, 1.9rem);
+  opacity: 0.11;
+}
+
+/* --- the pre-settled states, and nothing else --- */
+
+.hero--blank .hero__ground,
+.hero--stroke .hero__ground {
+  clip-path: inset(0 100% 0 0);
+}
+
+.hero--blank .hero__word {
+  clip-path: inset(0 100% 0 0);
+}
+
+.hero--blank .hero__below,
+.hero--stroke .hero__below {
+  opacity: 0;
+  transform: translateY(-0.075em);
+}
+
+.hero--blank .hero__q,
+.hero--stroke .hero__q,
+.hero--below .hero__q {
+  opacity: 0;
+}
+
+.hero--blank .hero__dot,
+.hero--stroke .hero__dot,
+.hero--below .hero__dot,
+.hero--question .hero__dot {
+  transform: scale(0);
+}
+
+.hero--blank .hero__gloss,
+.hero--stroke .hero__gloss,
+.hero--below .hero__gloss,
+.hero--question .hero__gloss,
+.hero--blank .hero__periphery,
+.hero--stroke .hero__periphery,
+.hero--below .hero__periphery,
+.hero--question .hero__periphery {
+  opacity: 0;
+}
+
+/* Reduced motion renders the settled composition on first paint, which
+   is what `hero--settled` already is. A reveal nobody can perceive as
+   motion is only a delay, so there is nothing here to switch off but
+   the transitions themselves. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__ground,
+  .hero__word,
+  .hero__below,
+  .hero__q,
+  .hero__dot,
+  .hero__gloss,
+  .hero__periphery {
+    transition: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    min-height: min(62svh, 460px);
+  }
+  .hero__near--3 {
+    display: none;
+  }
+}
+
+/* The project header sits directly on top of the hero, so it gives up
+   the deep top padding it needs when it is the first thing on a page. */
+.proj--llp {
+  padding-top: clamp(4.5rem, 11vh, 7rem);
+  padding-bottom: 0;
 }

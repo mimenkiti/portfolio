@@ -1,6 +1,7 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { go, type Route } from '../lib/router'
 import { useScrollEffect, clamp01 } from '../lib/scroll'
+import { useScrollHide } from '../lib/hide'
 
 /**
  * The only persistent navigation. No bar, no blur, no pill. It reports
@@ -18,15 +19,10 @@ export function Marker({
   aside?: ReactNode
 }) {
   const home = route === '/'
-  const [hidden, setHidden] = useState(false)
+  const hidden = useScrollHide()
   const bar = useRef<HTMLSpanElement>(null)
-  const last = useRef(0)
 
   useScrollEffect((y) => {
-    if (Math.abs(y - last.current) > 6) {
-      setHidden(y > 240 && y > last.current)
-      last.current = y
-    }
     if (bar.current) {
       const h = document.documentElement.scrollHeight - window.innerHeight
       bar.current.style.transform = `scaleX(${clamp01(h > 0 ? y / h : 0).toFixed(4)})`

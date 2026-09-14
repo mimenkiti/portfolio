@@ -67,6 +67,71 @@
   --e-io: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+/* ---------------------------------------------------------------
+   The cover. The index only.
+
+   The three grounds above are all pale and all within a point of each
+   other in lightness, which is exactly why a fourth pale neutral would
+   have read as a fourth variation of the same paper. The index moves in
+   lightness instead of hue: a deep oxblood that is unmistakably a colour
+   at display scale and nearly black at caption scale.
+
+   That gives the site a three-state grammar it did not have: a cover
+   that is dark and saturated, project pages that are light and either
+   warm or cool, and rooms that are near-black. Page-versus-room still
+   carries its narrative meaning, because oxblood is a colour and a room
+   is an absence of one.
+
+   The accent has to change here and nowhere else. Michelle's madder red
+   measures 2.68:1 on this ground and disappears; the accent's whole job
+   is "this responds to you", and that job needs to be visible. So on the
+   cover the mark is the one thing that is not red. It is used for the
+   Dot, focus, and nothing else — no rules, no headings, no hovers.
+   --------------------------------------------------------------- */
+html[data-world='cover'] {
+  --ground: #2e1216;
+  --ground-lift: #3c181d;
+  --ground-2: #240e11;
+  --ground-raised: #35151a;
+
+  --ink: #f2ebe4;
+  --ink-2: #c4afa8;
+  --ink-3: #a68a82;
+  --rule: #4a2126;
+  --rule-soft: #3a181d;
+
+  --live: #d9f04a;
+  --live-2: #e8ff6b;
+  --live-wash: rgba(217, 240, 74, 0.12);
+
+  /* The cover's dark state belongs to LLP: the only thing that takes it
+     there is the encounter with Chioma. So it borrows LLP's room light
+     rather than the neutral one, and the cover going dark is a preview
+     of the room the project page opens into. */
+  --room: #17110c;
+  --room-2: #221a13;
+  --room-3: #31261c;
+  --room-ink: #f4e9db;
+  --room-ink-2: #b0a08c;
+  --room-ink-3: #7a6c5c;
+  --room-live: #e5a33f;
+  --room-rule: rgba(244, 233, 219, 0.15);
+}
+
+/* Hovering or focusing an entry on the index pulls the ground toward
+   that project's temperature without leaving the cover. Warm toward
+   burnt sienna for LLP, cool toward plum for Faber. Both keep every
+   text colour above 3.6:1. */
+html[data-world='cover'].is-warming {
+  --ground: #3a1810;
+  --ground-lift: #48201a;
+}
+
+html[data-world='cover'].is-cooling {
+  --ground: #241722;
+  --ground-lift: #2f1f2d;
+}
+
 /* --- LLP: warmer, ochre, evening. Its room is lit like a lamp. */
 html[data-world='llp'] {
   --ground: #efe7dd;
