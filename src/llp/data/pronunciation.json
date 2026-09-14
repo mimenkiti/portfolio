@@ -1,0 +1,1549 @@
+{
+ "method": {
+  "hypothesis": "ElevenLabs' Igbo weakness is grapheme-to-phoneme interpretation, not phonetic capability. Supplying africa-g2p IPA should correct it.",
+  "proposedArchitecture": "canonical Igbo → africa-g2p (ibo) → IPA → Eleven v3 → native-speaker-validated audio",
+  "caveat": "Audio here is provider output. It has NOT been through native-speaker review and may not be used as teaching content until it has — PRODUCT-DECISIONS → CONTENT.",
+  "ttsModel": "eleven_v3",
+  "voices": [
+   {
+    "name": "Ayomide",
+    "id": "bcbkbYJpNzQGHml4XFrp"
+   },
+   {
+    "name": "Rho",
+    "id": "v411uyEKbaj63pTJHHbK"
+   }
+  ],
+  "g2p": {
+   "library": "africa-g2p",
+   "version": "0.2.0",
+   "source": "https://github.com/AfriSpeech/africa-g2p",
+   "ruleTables": "Hartell, Alphabets of Africa (UNESCO, 1993)",
+   "lang": "ibo",
+   "method": "rule-based greedy longest-match over grapheme tables; deterministic, no model",
+   "calls": {
+    "native": "AfricaPipeline(lang='ibo').run(text)",
+    "nativeSep": "AfricaPipeline(lang='ibo').run(text, sep=' ')",
+    "ipa": "AfricaPipeline(lang='ibo', output='ipa').run(text)",
+    "ipaSep": "AfricaPipeline(lang='ibo', output='ipa').run(text, sep=' ')"
+   },
+   "verbatim": true,
+   "note": "Outputs copied exactly as emitted. Not normalised, not Anglicised, no invented respelling."
+  },
+  "whatDiffers": "Between the two clips in every pair, only the text sent to the API changes. Same endpoint, same voice id, same model, no voice settings, no other parameters.",
+  "noJudgementRecorded": "No score, rating, verdict or listening judgement is recorded in any of these result files. The rating instrument built for the diagnostic stores its ratings in the rater’s own browser, and no export of it exists in the archive."
+ },
+ "diagnosticMeta": {
+  "experiment": "LLP Igbo Pronunciation Diagnostic",
+  "question": "Which phonological / orthographic patterns predict when Ayomide + Eleven v3 needs pronunciation intervention?",
+  "notDoing": "No rules are derived here. This collects human judgements from which rules could later be derived.",
+  "voice": {
+   "name": "Ayomide",
+   "id": "bcbkbYJpNzQGHml4XFrp"
+  },
+  "model": "eleven_v3",
+  "generated": "2026-08-23",
+  "g2p": {
+   "library": "africa-g2p",
+   "version": "0.2.0",
+   "lang": "ibo",
+   "repo": "https://github.com/AfriSpeech/africa-g2p",
+   "tableSource": "Omniglot chart (igbo.xls), © Simon Ager, https://omniglot.com",
+   "tableConfidence": "omniglot",
+   "tableNote": "Tilde notation in IPA cell alternatives (e.g. ɓ~ɡ͡ɓ, ɓ̥~k͡p) reduced to first listed option per rules.",
+   "tones": "EMPTY — the ibo table carries no tone information at all.",
+   "caution": "The package cites Hartell, Alphabets of Africa (UNESCO 1993) generally, but the ibo table declares Omniglot. Emenanjọ (IGB-SRC-003) is the phonology authority already in LLP’s source registry and should supersede it before this fronts teaching content."
+  },
+  "provenanceTiers": {
+   "REGISTRY": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx — carries Knowledge ID, Source ID, ProductionStatus",
+   "DICTIONARY": "IGB-SRC-008 Nkọwa okwu, per-entry URL and retrieval date"
+  },
+  "uncoveredGraphemes": [
+   {
+    "grapheme": "sh → ʃ",
+    "why": "No standard-Igbo word sourced. Marginal/dialectal; not in the Ọnwụ alphabet. Present in the table via the Omniglot chart."
+   },
+   {
+    "grapheme": "v → v",
+    "why": "Same. Chiefly loanwords."
+   }
+  ],
+  "caveat": "All audio is unreviewed provider output and is NOT teaching content. africa-g2p output is evidence about phonemes only — it says nothing about whether a form is natural or pedagogically appropriate Igbo."
+ },
+ "pairs": {
+  "multiphrase": [
+   {
+    "knowledgeId": "IGB-KNW-001",
+    "voice": "Ayomide",
+    "voiceId": "bcbkbYJpNzQGHml4XFrp",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Kedụ?",
+      "ms": 841,
+      "bytes": 16344,
+      "audio": "/audio/multiphrase/IGB-KNW-001__Ayomide__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme>?",
+      "ms": 843,
+      "bytes": 25539,
+      "audio": "/audio/multiphrase/IGB-KNW-001__Ayomide__ipa.mp3"
+     }
+    },
+    "display": "Kedụ?",
+    "english": "How are you? / hello",
+    "beat": "Beat 02 — her opening",
+    "ipa": "kedʊ̙?",
+    "perWord": [
+     {
+      "grapheme": "Kedụ",
+      "native": "kedụ",
+      "ipa": "kedʊ̙"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-001",
+    "voice": "Rho",
+    "voiceId": "v411uyEKbaj63pTJHHbK",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Kedụ?",
+      "ms": 624,
+      "bytes": 21359,
+      "audio": "/audio/multiphrase/IGB-KNW-001__Rho__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme>?",
+      "ms": 576,
+      "bytes": 20106,
+      "audio": "/audio/multiphrase/IGB-KNW-001__Rho__ipa.mp3"
+     }
+    },
+    "display": "Kedụ?",
+    "english": "How are you? / hello",
+    "beat": "Beat 02 — her opening",
+    "ipa": "kedʊ̙?",
+    "perWord": [
+     {
+      "grapheme": "Kedụ",
+      "native": "kedụ",
+      "ipa": "kedʊ̙"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-017",
+    "voice": "Ayomide",
+    "voiceId": "bcbkbYJpNzQGHml4XFrp",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Kedụ aha gị?",
+      "ms": 724,
+      "bytes": 20106,
+      "audio": "/audio/multiphrase/IGB-KNW-017__Ayomide__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"aɦa\">aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɡɪ̙\">gị</phoneme>?",
+      "ms": 765,
+      "bytes": 17598,
+      "audio": "/audio/multiphrase/IGB-KNW-017__Ayomide__ipa.mp3"
+     }
+    },
+    "display": "Kedụ aha gị?",
+    "english": "What is your name?",
+    "beat": "Beat 04 — her question",
+    "ipa": "kedʊ̙ aɦa ɡɪ̙?",
+    "perWord": [
+     {
+      "grapheme": "Kedụ",
+      "native": "kedụ",
+      "ipa": "kedʊ̙"
+     },
+     {
+      "grapheme": "aha",
+      "native": "aha",
+      "ipa": "aɦa"
+     },
+     {
+      "grapheme": "gị",
+      "native": "gị",
+      "ipa": "ɡɪ̙"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-017",
+    "voice": "Rho",
+    "voiceId": "v411uyEKbaj63pTJHHbK",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Kedụ aha gị?",
+      "ms": 740,
+      "bytes": 21359,
+      "audio": "/audio/multiphrase/IGB-KNW-017__Rho__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"aɦa\">aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɡɪ̙\">gị</phoneme>?",
+      "ms": 976,
+      "bytes": 24285,
+      "audio": "/audio/multiphrase/IGB-KNW-017__Rho__ipa.mp3"
+     }
+    },
+    "display": "Kedụ aha gị?",
+    "english": "What is your name?",
+    "beat": "Beat 04 — her question",
+    "ipa": "kedʊ̙ aɦa ɡɪ̙?",
+    "perWord": [
+     {
+      "grapheme": "Kedụ",
+      "native": "kedụ",
+      "ipa": "kedʊ̙"
+     },
+     {
+      "grapheme": "aha",
+      "native": "aha",
+      "ipa": "aɦa"
+     },
+     {
+      "grapheme": "gị",
+      "native": "gị",
+      "ipa": "ɡɪ̙"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-016",
+    "voice": "Ayomide",
+    "voiceId": "bcbkbYJpNzQGHml4XFrp",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Aha m bụ Chioma",
+      "ms": 982,
+      "bytes": 33062,
+      "audio": "/audio/multiphrase/IGB-KNW-016__Ayomide__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"aɦa\">Aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"m\">m</phoneme> <phoneme alphabet=\"ipa\" ph=\"bʊ̙\">bụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"t͡ʃioma\">Chioma</phoneme>",
+      "ms": 1224,
+      "bytes": 44765,
+      "audio": "/audio/multiphrase/IGB-KNW-016__Ayomide__ipa.mp3"
+     }
+    },
+    "display": "Aha m bụ Chioma",
+    "english": "My name is Chioma",
+    "beat": "Beat 04r — she offers hers",
+    "ipa": "aɦa m bʊ̙ t͡ʃioma",
+    "perWord": [
+     {
+      "grapheme": "Aha",
+      "native": "aha",
+      "ipa": "aɦa"
+     },
+     {
+      "grapheme": "m",
+      "native": "m",
+      "ipa": "m"
+     },
+     {
+      "grapheme": "bụ",
+      "native": "bụ",
+      "ipa": "bʊ̙"
+     },
+     {
+      "grapheme": "Chioma",
+      "native": "chioma",
+      "ipa": "t͡ʃioma"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-016",
+    "voice": "Rho",
+    "voiceId": "v411uyEKbaj63pTJHHbK",
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — registry orthography",
+      "sent": "Aha m bụ Chioma",
+      "ms": 833,
+      "bytes": 28047,
+      "audio": "/audio/multiphrase/IGB-KNW-016__Rho__baseline.mp3"
+     },
+     "ipa": {
+      "label": "africa-g2p IPA, inline <phoneme>",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"aɦa\">Aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"m\">m</phoneme> <phoneme alphabet=\"ipa\" ph=\"bʊ̙\">bụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"t͡ʃioma\">Chioma</phoneme>",
+      "ms": 1291,
+      "bytes": 35570,
+      "audio": "/audio/multiphrase/IGB-KNW-016__Rho__ipa.mp3"
+     }
+    },
+    "display": "Aha m bụ Chioma",
+    "english": "My name is Chioma",
+    "beat": "Beat 04r — she offers hers",
+    "ipa": "aɦa m bʊ̙ t͡ʃioma",
+    "perWord": [
+     {
+      "grapheme": "Aha",
+      "native": "aha",
+      "ipa": "aɦa"
+     },
+     {
+      "grapheme": "m",
+      "native": "m",
+      "ipa": "m"
+     },
+     {
+      "grapheme": "bụ",
+      "native": "bụ",
+      "ipa": "bʊ̙"
+     },
+     {
+      "grapheme": "Chioma",
+      "native": "chioma",
+      "ipa": "t͡ʃioma"
+     }
+    ]
+   }
+  ],
+  "singlePhrase": [
+   {
+    "knowledgeId": "IGB-KNW-002",
+    "voice": "Ayomide",
+    "voiceId": null,
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — plain orthography",
+      "sent": "Ọ dị mma.",
+      "ms": 668,
+      "bytes": 15090,
+      "audio": "/audio/g2p/eleven_v3__Ayomide__baseline.mp3"
+     },
+     "ipa": {
+      "label": "inline <phoneme> tag",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙\">Ọ</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme> <phoneme alphabet=\"ipa\" ph=\"mma\">mma</phoneme>.",
+      "ms": 998,
+      "bytes": 20106,
+      "audio": "/audio/g2p/eleven_v3__Ayomide__inline-ipa.mp3"
+     }
+    },
+    "display": "Ọ dị mma.",
+    "english": "Fine / it is good",
+    "beat": "Beat 02 — the learner target",
+    "ipa": "ɔ̙ dɪ̙ mma.",
+    "perWord": [
+     {
+      "grapheme": "Ọ",
+      "ipa": "ɔ̙"
+     },
+     {
+      "grapheme": "dị",
+      "ipa": "dɪ̙"
+     },
+     {
+      "grapheme": "mma",
+      "ipa": "mma"
+     }
+    ]
+   },
+   {
+    "knowledgeId": "IGB-KNW-002",
+    "voice": "Rho",
+    "voiceId": null,
+    "model": "eleven_v3",
+    "conditions": {
+     "baseline": {
+      "label": "baseline — plain orthography",
+      "sent": "Ọ dị mma.",
+      "ms": 655,
+      "bytes": 16344,
+      "audio": "/audio/g2p/eleven_v3__Rho__baseline.mp3"
+     },
+     "ipa": {
+      "label": "inline <phoneme> tag",
+      "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙\">Ọ</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme> <phoneme alphabet=\"ipa\" ph=\"mma\">mma</phoneme>.",
+      "ms": 873,
+      "bytes": 23031,
+      "audio": "/audio/g2p/eleven_v3__Rho__inline-ipa.mp3"
+     }
+    },
+    "display": "Ọ dị mma.",
+    "english": "Fine / it is good",
+    "beat": "Beat 02 — the learner target",
+    "ipa": "ɔ̙ dɪ̙ mma.",
+    "perWord": [
+     {
+      "grapheme": "Ọ",
+      "ipa": "ɔ̙"
+     },
+     {
+      "grapheme": "dị",
+      "ipa": "dɪ̙"
+     },
+     {
+      "grapheme": "mma",
+      "ipa": "mma"
+     }
+    ]
+   }
+  ]
+ },
+ "diagnostic": {
+  "order": [
+   "vowels",
+   "consonants",
+   "position",
+   "combination",
+   "tone",
+   "context"
+  ],
+  "groups": {
+   "vowels": [
+    {
+     "id": "vowels-0",
+     "group": "vowels",
+     "form": "ihe",
+     "gloss": "thing; something",
+     "feature": "i  [+ATR]",
+     "watch": "the i, and ɦ rather than English h",
+     "ipa": "iɦe",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "íhé",
+      "gloss": "thing; something; what (thing)",
+      "url": "https://nkowaokwu.com/search/word?word=ihe",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ihe",
+       "ms": 1173,
+       "audio": "/audio/diagnostic/vowels-0_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"iɦe\">ihe</phoneme>",
+       "ms": 679,
+       "audio": "/audio/diagnostic/vowels-0_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "vowels-1",
+     "group": "vowels",
+     "form": "gị",
+     "gloss": "you (singular)",
+     "feature": "ị  [−ATR]",
+     "watch": "against ihe — is this a different vowel at all?",
+     "ipa": "ɡɪ̙",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-017",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx",
+      "note": "Constituent of the registry phrase Kedụ aha gị?, isolated here."
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "gị",
+       "ms": 700,
+       "audio": "/audio/diagnostic/vowels-1_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ɡɪ̙\">gị</phoneme>",
+       "ms": 609,
+       "audio": "/audio/diagnostic/vowels-1_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "vowels-2",
+     "group": "vowels",
+     "form": "oche",
+     "gloss": "chair; seat",
+     "feature": "o  [+ATR]",
+     "watch": "the o",
+     "ipa": "ot͡ʃe",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "óché",
+      "gloss": "chair; seat; desk",
+      "url": "https://nkowaokwu.com/search/word?word=oche",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "oche",
+       "ms": 920,
+       "audio": "/audio/diagnostic/vowels-2_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ot͡ʃe\">oche</phoneme>",
+       "ms": 757,
+       "audio": "/audio/diagnostic/vowels-2_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "vowels-3",
+     "group": "vowels",
+     "form": "ọcha",
+     "gloss": "white; fair; clean",
+     "feature": "ọ  [−ATR]",
+     "watch": "against oche — the pair differs only in the vowel and one consonant",
+     "ipa": "ɔ̙t͡ʃa",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ọ̀cha",
+      "gloss": "the colour white; fair in complexion; clean",
+      "url": "https://nkowaokwu.com/search/word?word=%E1%BB%8Dcha",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ọcha",
+       "ms": 688,
+       "audio": "/audio/diagnostic/vowels-3_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙t͡ʃa\">ọcha</phoneme>",
+       "ms": 623,
+       "audio": "/audio/diagnostic/vowels-3_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "vowels-4",
+     "group": "vowels",
+     "form": "uche",
+     "gloss": "mind; thought; intention",
+     "feature": "u  [+ATR]",
+     "watch": "the u; also a near-pair with oche",
+     "ipa": "ut͡ʃe",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "úchè",
+      "gloss": "mind; thought; will; opinion",
+      "url": "https://nkowaokwu.com/search/word?word=uche",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "uche",
+       "ms": 674,
+       "audio": "/audio/diagnostic/vowels-4_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ut͡ʃe\">uche</phoneme>",
+       "ms": 689,
+       "audio": "/audio/diagnostic/vowels-4_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "vowels-5",
+     "group": "vowels",
+     "form": "ụzọ",
+     "gloss": "way; road; door",
+     "feature": "ụ  [−ATR]",
+     "watch": "ụ against u in uche, plus ọ word-finally",
+     "ipa": "ʊ̙zɔ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ụzọ̀",
+      "gloss": "way; road; path; doorway",
+      "url": "https://nkowaokwu.com/search/word?word=%E1%BB%A5z%E1%BB%8D",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ụzọ",
+       "ms": 1023,
+       "audio": "/audio/diagnostic/vowels-5_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ʊ̙zɔ̙\">ụzọ</phoneme>",
+       "ms": 823,
+       "audio": "/audio/diagnostic/vowels-5_ipa.mp3"
+      }
+     }
+    }
+   ],
+   "consonants": [
+    {
+     "id": "consonants-6",
+     "group": "consonants",
+     "form": "Chioma",
+     "gloss": "Igbo name — “good God / good fortune”",
+     "feature": "ch → t͡ʃ (tie bar)",
+     "watch": "whether the affricate holds or splits across a syllable",
+     "ipa": "t͡ʃioma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-035",
+      "source": "IGB-SRC-015 Awajis; IGB-SRC-002 Echeruo",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Chioma",
+       "ms": 607,
+       "audio": "/audio/diagnostic/consonants-6_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"t͡ʃioma\">Chioma</phoneme>",
+       "ms": 728,
+       "audio": "/audio/diagnostic/consonants-6_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-7",
+     "group": "consonants",
+     "form": "Mgbede ọma",
+     "gloss": "good evening",
+     "feature": "gb → ɓ  ⚠ lossy",
+     "watch": "the table discards the ɡ͡ɓ reading — IPA may make this WORSE than baseline",
+     "ipa": "mɓede ɔ̙ma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-030",
+      "source": "IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Mgbede ọma",
+       "ms": 599,
+       "audio": "/audio/diagnostic/consonants-7_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"mɓede\">Mgbede</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɔ̙ma\">ọma</phoneme>",
+       "ms": 786,
+       "audio": "/audio/diagnostic/consonants-7_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-8",
+     "group": "consonants",
+     "form": "akpa",
+     "gloss": "bag; sack",
+     "feature": "kp → ɓ̥  ⚠ lossy",
+     "watch": "same reduction as gb — the k͡p reading is discarded",
+     "ipa": "aɓ̥a",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "àkpà",
+      "gloss": "bag; sack; casing; pocket",
+      "url": "https://nkowaokwu.com/search/word?word=akpa",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "akpa",
+       "ms": 791,
+       "audio": "/audio/diagnostic/consonants-8_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"aɓ̥a\">akpa</phoneme>",
+       "ms": 976,
+       "audio": "/audio/diagnostic/consonants-8_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-9",
+     "group": "consonants",
+     "form": "akwụkwọ",
+     "gloss": "book; paper; leaf",
+     "feature": "kw → kʷ, twice",
+     "watch": "both kw, plus ụ and ọ in one word",
+     "ipa": "akʷʊ̙kʷɔ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "akwụkwọ",
+      "gloss": "leaf; book; paper; school",
+      "url": "https://nkowaokwu.com/search/word?word=akw%E1%BB%A5kw%E1%BB%8D",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "akwụkwọ",
+       "ms": 934,
+       "audio": "/audio/diagnostic/consonants-9_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"akʷʊ̙kʷɔ̙\">akwụkwọ</phoneme>",
+       "ms": 1081,
+       "audio": "/audio/diagnostic/consonants-9_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-10",
+     "group": "consonants",
+     "form": "ọgwụ",
+     "gloss": "medicine; charm",
+     "feature": "gw → ɡʷ",
+     "watch": "labialisation, between two [−ATR] vowels",
+     "ipa": "ɔ̙ɡʷʊ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ọgwụ̀",
+      "gloss": "medicine; poison; charm; tree stump",
+      "url": "https://nkowaokwu.com/search/word?word=%E1%BB%8Dgw%E1%BB%A5",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ọgwụ",
+       "ms": 830,
+       "audio": "/audio/diagnostic/consonants-10_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙ɡʷʊ̙\">ọgwụ</phoneme>",
+       "ms": 722,
+       "audio": "/audio/diagnostic/consonants-10_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-11",
+     "group": "consonants",
+     "form": "aghụghọ",
+     "gloss": "trick; deceit; craftiness",
+     "feature": "gh → ɣ, twice",
+     "watch": "the voiced velar fricative — easily read as English g or silent",
+     "ipa": "aɣʊ̙ɣɔ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "aghụ̀ghọ̀",
+      "gloss": "trick; deceit; craftiness; double dealing",
+      "url": "https://nkowaokwu.com/search/word?word=agh%E1%BB%A5gh%E1%BB%8D",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "aghụghọ",
+       "ms": 863,
+       "audio": "/audio/diagnostic/consonants-11_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"aɣʊ̙ɣɔ̙\">aghụghọ</phoneme>",
+       "ms": 625,
+       "audio": "/audio/diagnostic/consonants-11_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-12",
+     "group": "consonants",
+     "form": "Nwanna",
+     "gloss": "brother/sister; kinsperson",
+     "feature": "nw → ŋʷ",
+     "watch": "initial labialised velar nasal, plus the nn geminate",
+     "ipa": "ŋʷanna",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-033",
+      "source": "IGB-SRC-014 academic; IGB-SRC-012 NKENNE",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Nwanna",
+       "ms": 642,
+       "audio": "/audio/diagnostic/consonants-12_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ŋʷanna\">Nwanna</phoneme>",
+       "ms": 506,
+       "audio": "/audio/diagnostic/consonants-12_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-13",
+     "group": "consonants",
+     "form": "Ifeanyi",
+     "gloss": "Igbo name — “nothing is impossible”",
+     "feature": "ny → ɲ",
+     "watch": "palatal nasal, medial",
+     "ipa": "ifeaɲi",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-038",
+      "source": "IGB-SRC-015 Awajis",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ifeanyi",
+       "ms": 888,
+       "audio": "/audio/diagnostic/consonants-13_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ifeaɲi\">Ifeanyi</phoneme>",
+       "ms": 616,
+       "audio": "/audio/diagnostic/consonants-13_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-14",
+     "group": "consonants",
+     "form": "aṅụ",
+     "gloss": "bee",
+     "feature": "ṅ → ŋ",
+     "watch": "the dotted ṅ — distinct grapheme, easily read as plain n",
+     "ipa": "aŋʊ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "aṅụ",
+      "gloss": "bee (insect)",
+      "url": "https://nkowaokwu.com/search/word?word=a%E1%B9%85%E1%BB%A5",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "aṅụ",
+       "ms": 692,
+       "audio": "/audio/diagnostic/consonants-14_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"aŋʊ̙\">aṅụ</phoneme>",
+       "ms": 551,
+       "audio": "/audio/diagnostic/consonants-14_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-15",
+     "group": "consonants",
+     "form": "nri",
+     "gloss": "food",
+     "feature": "r → ɹ  ⚠ suspect",
+     "watch": "the table gives the ENGLISH approximant; Igbo r is normally a tap",
+     "ipa": "nɹi",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ńrí",
+      "gloss": "food; any nourishing substance eaten to sustain life",
+      "url": "https://nkowaokwu.com/search/word?word=nri",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "nri",
+       "ms": 809,
+       "audio": "/audio/diagnostic/consonants-15_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"nɹi\">nri</phoneme>",
+       "ms": 643,
+       "audio": "/audio/diagnostic/consonants-15_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-16",
+     "group": "consonants",
+     "form": "azụ",
+     "gloss": "fish; back, behind",
+     "feature": "z → z",
+     "watch": "plain z with a [−ATR] vowel",
+     "ipa": "azʊ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "àzụ",
+      "gloss": "behind; back — and: fish",
+      "url": "https://nkowaokwu.com/search/word?word=az%E1%BB%A5",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "azụ",
+       "ms": 890,
+       "audio": "/audio/diagnostic/consonants-16_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"azʊ̙\">azụ</phoneme>",
+       "ms": 669,
+       "audio": "/audio/diagnostic/consonants-16_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-17",
+     "group": "consonants",
+     "form": "pụta",
+     "gloss": "come out; exit",
+     "feature": "p → p",
+     "watch": "initial p, a relatively rare Igbo onset",
+     "ipa": "pʊ̙ta",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "pụ̀tà",
+      "gloss": "come out; exit, especially towards the speaker",
+      "url": "https://nkowaokwu.com/search/word?word=p%E1%BB%A5ta",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "pụta",
+       "ms": 920,
+       "audio": "/audio/diagnostic/consonants-17_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"pʊ̙ta\">pụta</phoneme>",
+       "ms": 710,
+       "audio": "/audio/diagnostic/consonants-17_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-18",
+     "group": "consonants",
+     "form": "Jisie ike",
+     "gloss": "well done; keep strong",
+     "feature": "j → d͡ʒ (tie bar)",
+     "watch": "second tie-barred affricate — compare with ch in Chioma",
+     "ipa": "d͡ʒisie ike",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-015",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Hold",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Jisie ike",
+       "ms": 651,
+       "audio": "/audio/diagnostic/consonants-18_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"d͡ʒisie\">Jisie</phoneme> <phoneme alphabet=\"ipa\" ph=\"ike\">ike</phoneme>",
+       "ms": 866,
+       "audio": "/audio/diagnostic/consonants-18_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-19",
+     "group": "consonants",
+     "form": "Ifeoma",
+     "gloss": "Igbo name — “a good thing”",
+     "feature": "f → f, and the eo sequence",
+     "watch": "whether eo stays two vowels",
+     "ipa": "ifeoma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-036",
+      "source": "IGB-SRC-015 Awajis",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ifeoma",
+       "ms": 600,
+       "audio": "/audio/diagnostic/consonants-19_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ifeoma\">Ifeoma</phoneme>",
+       "ms": 681,
+       "audio": "/audio/diagnostic/consonants-19_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "consonants-20",
+     "group": "consonants",
+     "form": "Ndo",
+     "gloss": "sorry",
+     "feature": "nd cluster, initial",
+     "watch": "whether an epenthetic vowel appears before the d",
+     "ipa": "ndo",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-014",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ndo",
+       "ms": 557,
+       "audio": "/audio/diagnostic/consonants-20_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ndo\">Ndo</phoneme>",
+       "ms": 590,
+       "audio": "/audio/diagnostic/consonants-20_ipa.mp3"
+      }
+     }
+    }
+   ],
+   "position": [
+    {
+     "id": "position-21",
+     "group": "position",
+     "form": "ọcha",
+     "gloss": "white; clean",
+     "feature": "ọ — word-INITIAL",
+     "watch": "compare all three ọ items",
+     "ipa": "ɔ̙t͡ʃa",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ọ̀cha",
+      "gloss": "the colour white; fair; clean",
+      "url": "https://nkowaokwu.com/search/word?word=%E1%BB%8Dcha",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ọcha",
+       "ms": 688,
+       "audio": "/audio/diagnostic/position-21_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙t͡ʃa\">ọcha</phoneme>",
+       "ms": 623,
+       "audio": "/audio/diagnostic/position-21_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "position-22",
+     "group": "position",
+     "form": "akwụkwọ",
+     "gloss": "book; paper",
+     "feature": "ọ — word-FINAL",
+     "watch": "is the final ọ reduced or centralised?",
+     "ipa": "akʷʊ̙kʷɔ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "akwụkwọ",
+      "gloss": "leaf; book; paper; school",
+      "url": "https://nkowaokwu.com/search/word?word=akw%E1%BB%A5kw%E1%BB%8D",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "akwụkwọ",
+       "ms": 934,
+       "audio": "/audio/diagnostic/position-22_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"akʷʊ̙kʷɔ̙\">akwụkwọ</phoneme>",
+       "ms": 1081,
+       "audio": "/audio/diagnostic/position-22_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "position-23",
+     "group": "position",
+     "form": "Ka ọ dị",
+     "gloss": "may it be well; until we meet",
+     "feature": "ọ — STANDALONE word",
+     "watch": "a one-letter word carrying the whole vowel",
+     "ipa": "ka ɔ̙ dɪ̙",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-040",
+      "source": "IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE; IGB-SRC-006 FSI",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ka ọ dị",
+       "ms": 826,
+       "audio": "/audio/diagnostic/position-23_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ka\">Ka</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɔ̙\">ọ</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme>",
+       "ms": 1302,
+       "audio": "/audio/diagnostic/position-23_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "position-24",
+     "group": "position",
+     "form": "ụzọ",
+     "gloss": "way; road; door",
+     "feature": "ụ — word-INITIAL",
+     "watch": "compare with the medial and final ụ below",
+     "ipa": "ʊ̙zɔ̙",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ụzọ̀",
+      "gloss": "way; road; path; doorway",
+      "url": "https://nkowaokwu.com/search/word?word=%E1%BB%A5z%E1%BB%8D",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "ụzọ",
+       "ms": 1023,
+       "audio": "/audio/diagnostic/position-24_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ʊ̙zɔ̙\">ụzọ</phoneme>",
+       "ms": 823,
+       "audio": "/audio/diagnostic/position-24_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "position-25",
+     "group": "position",
+     "form": "Ụtụtụ ọma",
+     "gloss": "good morning",
+     "feature": "ụ — three times, all positions",
+     "watch": "do the three ụ match each other?",
+     "ipa": "ʊ̙tʊ̙tʊ̙ ɔ̙ma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-029",
+      "source": "IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ụtụtụ ọma",
+       "ms": 1033,
+       "audio": "/audio/diagnostic/position-25_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ʊ̙tʊ̙tʊ̙\">Ụtụtụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɔ̙ma\">ọma</phoneme>",
+       "ms": 914,
+       "audio": "/audio/diagnostic/position-25_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "position-26",
+     "group": "position",
+     "form": "Kedụ?",
+     "gloss": "how are you? / hello",
+     "feature": "ụ — word-FINAL, phrase-final",
+     "watch": "the known-good baseline anchor",
+     "ipa": "kedʊ̙?",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-001",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Kedụ?",
+       "ms": 887,
+       "audio": "/audio/diagnostic/position-26_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme>?",
+       "ms": 739,
+       "audio": "/audio/diagnostic/position-26_ipa.mp3"
+      }
+     }
+    }
+   ],
+   "combination": [
+    {
+     "id": "combination-27",
+     "group": "combination",
+     "form": "Nnọọ",
+     "gloss": "welcome",
+     "feature": "nn geminate + ọọ long vowel",
+     "watch": "is the long vowel held, or clipped to one?",
+     "ipa": "nnɔ̙ɔ̙",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-008",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Nnọọ",
+       "ms": 848,
+       "audio": "/audio/diagnostic/combination-27_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"nnɔ̙ɔ̙\">Nnọọ</phoneme>",
+       "ms": 661,
+       "audio": "/audio/diagnostic/combination-27_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "combination-28",
+     "group": "combination",
+     "form": "Anyị dị mma.",
+     "gloss": "we are fine",
+     "feature": "ny + ị + mm geminate",
+     "watch": "the mm — the same geminate that sits inside Ọ dị mma.",
+     "ipa": "aɲɪ̙ dɪ̙ mma.",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-005",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Anyị dị mma.",
+       "ms": 606,
+       "audio": "/audio/diagnostic/combination-28_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"aɲɪ̙\">Anyị</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme> <phoneme alphabet=\"ipa\" ph=\"mma\">mma</phoneme>",
+       "ms": 802,
+       "audio": "/audio/diagnostic/combination-28_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "combination-29",
+     "group": "combination",
+     "form": "Kedụnụ?",
+     "gloss": "how are you all?",
+     "feature": "plural -nụ suffix, two ụ",
+     "watch": "both ụ, and whether the suffix is swallowed",
+     "ipa": "kedʊ̙nʊ̙?",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-004",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Kedụnụ?",
+       "ms": 536,
+       "audio": "/audio/diagnostic/combination-29_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙nʊ̙\">Kedụnụ</phoneme>?",
+       "ms": 688,
+       "audio": "/audio/diagnostic/combination-29_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "combination-30",
+     "group": "combination",
+     "form": "Mgbede ọma",
+     "gloss": "good evening",
+     "feature": "syllabic m + gb",
+     "watch": "whether the initial m gets its own beat",
+     "ipa": "mɓede ɔ̙ma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-030",
+      "source": "IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Mgbede ọma",
+       "ms": 599,
+       "audio": "/audio/diagnostic/combination-30_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"mɓede\">Mgbede</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɔ̙ma\">ọma</phoneme>",
+       "ms": 786,
+       "audio": "/audio/diagnostic/combination-30_ipa.mp3"
+      }
+     }
+    }
+   ],
+   "tone": [
+    {
+     "id": "tone-31",
+     "group": "tone",
+     "form": "isi",
+     "gloss": "ìsì “blindness” · ísí “head” · ísì “smell” — one spelling, three words",
+     "feature": "tone is absent from BOTH conditions",
+     "watch": "which reading do you hear? Neither path can be told which was meant.",
+     "ipa": "isi",
+     "provenance": {
+      "tier": "DICTIONARY",
+      "source": "IGB-SRC-008 — Nkọwa okwu",
+      "headword": "ìsì / ísí / ísì",
+      "gloss": "blindness · head · scent, smell — 11 entries share this spelling",
+      "url": "https://nkowaokwu.com/search/word?word=isi",
+      "retrieved": "2026-08-23",
+      "where": "Artifacts/Sources/igbo_source_registry_v0_2.xlsx → IGB-SRC-008"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "isi",
+       "ms": 634,
+       "audio": "/audio/diagnostic/tone-31_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"isi\">isi</phoneme>",
+       "ms": 601,
+       "audio": "/audio/diagnostic/tone-31_ipa.mp3"
+      }
+     }
+    }
+   ],
+   "context": [
+    {
+     "id": "context-32",
+     "group": "context",
+     "form": "Kedụ?",
+     "gloss": "how are you? / hello",
+     "feature": "ANCHOR — known good at baseline",
+     "watch": "if this is bad at baseline, distrust the whole run",
+     "ipa": "kedʊ̙?",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-001",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Kedụ?",
+       "ms": 887,
+       "audio": "/audio/diagnostic/context-32_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme>?",
+       "ms": 739,
+       "audio": "/audio/diagnostic/context-32_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "context-33",
+     "group": "context",
+     "form": "Ọ dị mma.",
+     "gloss": "fine; it is good",
+     "feature": "ANCHOR — known bad at baseline, repaired by IPA",
+     "watch": "the original finding; it should reproduce",
+     "ipa": "ɔ̙ dɪ̙ mma.",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-002",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ọ dị mma.",
+       "ms": 853,
+       "audio": "/audio/diagnostic/context-33_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ɔ̙\">Ọ</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme> <phoneme alphabet=\"ipa\" ph=\"mma\">mma</phoneme>.",
+       "ms": 934,
+       "audio": "/audio/diagnostic/context-33_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "context-34",
+     "group": "context",
+     "form": "Kedụ aha gị?",
+     "gloss": "what is your name?",
+     "feature": "question, three words",
+     "watch": "question contour, and ɦ in aha",
+     "ipa": "kedʊ̙ aɦa ɡɪ̙?",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-017",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Kedụ aha gị?",
+       "ms": 1196,
+       "audio": "/audio/diagnostic/context-34_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"kedʊ̙\">Kedụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"aɦa\">aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɡɪ̙\">gị</phoneme>?",
+       "ms": 1003,
+       "audio": "/audio/diagnostic/context-34_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "context-35",
+     "group": "context",
+     "form": "Aha m bụ Chioma",
+     "gloss": "my name is Chioma",
+     "feature": "syllabic m as a word + a name",
+     "watch": "the name specifically — a mispronounced name is a different kind of wrong",
+     "ipa": "aɦa m bʊ̙ t͡ʃioma",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "IGB-KNW-016 + KNW-035",
+      "source": "IGB-SRC-001 — Harvard ELIAS",
+      "status": "Candidate",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Aha m bụ Chioma",
+       "ms": 846,
+       "audio": "/audio/diagnostic/context-35_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"aɦa\">Aha</phoneme> <phoneme alphabet=\"ipa\" ph=\"m\">m</phoneme> <phoneme alphabet=\"ipa\" ph=\"bʊ̙\">bụ</phoneme> <phoneme alphabet=\"ipa\" ph=\"t͡ʃioma\">Chioma</phoneme>",
+       "ms": 1312,
+       "audio": "/audio/diagnostic/context-35_ipa.mp3"
+      }
+     }
+    },
+    {
+     "id": "context-36",
+     "group": "context",
+     "form": "Ka ọ dị",
+     "gloss": "may it be well; see you",
+     "feature": "short closing phrase",
+     "watch": "three light syllables — is it rushed?",
+     "ipa": "ka ɔ̙ dɪ̙",
+     "provenance": {
+      "tier": "REGISTRY",
+      "ref": "KNW-040",
+      "source": "IGB-SRC-001 Harvard; IGB-SRC-012 NKENNE; IGB-SRC-006 FSI",
+      "status": "Approved",
+      "where": "Artifacts/Knowledge/igbo_knowledge_registry_v0_2.xlsx"
+     },
+     "knowledgeId": null,
+     "conditions": {
+      "baseline": {
+       "sent": "Ka ọ dị",
+       "ms": 826,
+       "audio": "/audio/diagnostic/context-36_baseline.mp3"
+      },
+      "ipa": {
+       "sent": "<phoneme alphabet=\"ipa\" ph=\"ka\">Ka</phoneme> <phoneme alphabet=\"ipa\" ph=\"ɔ̙\">ọ</phoneme> <phoneme alphabet=\"ipa\" ph=\"dɪ̙\">dị</phoneme>",
+       "ms": 1302,
+       "audio": "/audio/diagnostic/context-36_ipa.mp3"
+      }
+     }
+    }
+   ]
+  },
+  "count": 37
+ },
+ "blocked": {
+  "what": "Two of the four planned conditions never ran.",
+  "conditions": [
+   "dict-ipa (pronunciation-dictionary rules)",
+   "dict-stripped (the same with U+0319 removed, as a control)"
+  ],
+  "error": "HTTP 401 {\"detail\":{\"type\":\"authentication_error\",\"code\":\"unauthorized\",\"message\":\"The API key you used is missing the permission pronunciation_dictionaries_write to execute this operation.\",\"status\":\"missing_permissions\",\"request_id\":\"a09a2819bec01eba6a70a3a973d6cdb3\"}}",
+  "consequence": "The test of whether ElevenLabs honours the retracted-tongue-root mark was not run, so nothing here establishes that the [±ATR] distinction was carried."
+ }
+}

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research 01 — What makes someone open a product every day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..600&family=Space+Grotesk:wght@400..700&family=Space+Mono:wght@400;700&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#eceae4; --card:#fff; --ink0:#181712; --ink1:#3c392f; --ink2:#6f6b5e;
+    --line:#dcd8cf; --accent:#c65a34; --accent2:#2f6b57; --warn:#b0472e; --good:#2f7d5b;
+    --hi:#2f7d5b; --med:#c98a2e; --lo:#b0472e;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--page);color:var(--ink0);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .col{max-width:720px;}
+  a{color:var(--accent);}
+  h1,h2,h3,h4{letter-spacing:-.01em;}
+  .kicker{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);}
+  /* masthead */
+  .mast{padding:64px 0 26px;}
+  .mast h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(34px,5.4vw,58px);line-height:1.03;margin:.3em 0 .2em;}
+  .mast .dot{display:inline-block;width:.6em;height:.6em;border-radius:50%;background:radial-gradient(circle at 34% 30%,#57534a,#0a0a08 66%);vertical-align:.02em;}
+  .mast p{font-size:18px;color:var(--ink1);max-width:64ch;}
+  /* section */
+  section{padding:30px 0;border-top:1px solid var(--line);}
+  .secnum{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;}
+  section h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(24px,3.4vw,34px);margin:.15em 0 .5em;line-height:1.08;}
+  section h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:26px 0 6px;}
+  section h4{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15px;margin:18px 0 4px;color:var(--ink1);}
+  p{margin:0 0 14px;}
+  .lead{font-size:18px;color:var(--ink1);}
+  ul,ol{margin:0 0 14px;padding-left:22px;} li{margin-bottom:7px;}
+  strong,b{color:var(--ink0);}
+  em{color:var(--ink1);}
+  /* callout */
+  .call{background:#1c1b16;color:#efece4;border-radius:18px;padding:22px 24px;margin:18px 0;}
+  .call .k{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c9c4b6;margin-bottom:8px;}
+  .call p{color:#ded9cd;margin:0;}
+  .call.good{background:#173a2c;} .call.good .k{color:#9fd3ba;}
+  .call.warn{background:#3a2018;} .call.warn .k{color:#e6a68f;}
+  .call strong{color:#fff;}
+  /* product card */
+  .cards{display:grid;gap:12px;margin:14px 0;}
+  .pc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .pc .nm{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16px;}
+  .pc .nails{color:var(--accent2);font-weight:600;font-size:13.5px;margin-left:6px;}
+  .pc p{margin:6px 0 0;font-size:14.5px;color:var(--ink1);}
+  .pc .mech{font-size:13.5px;margin-top:7px;color:var(--ink1);}
+  .pc .mech b{color:var(--good);} .pc .fr b{color:var(--warn);}
+  .pc .fr{font-size:13px;margin-top:4px;color:var(--ink2);}
+  .feat{border:2px solid #1c1b16;}
+  /* taxonomy grid */
+  .tax{display:grid;grid-template-columns:1fr;gap:10px;margin:16px 0;}
+  .tx{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .tx b{font-family:"Space Grotesk";font-size:15px;} .tx .q{color:var(--ink2);font-style:italic;font-size:13.5px;}
+  .tx p{margin:6px 0 0;font-size:14px;color:var(--ink1);}
+  /* matrix */
+  .matrix{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden;margin:12px 0 6px;border:1px solid var(--line);}
+  .matrix th,.matrix td{padding:8px 7px;text-align:center;border-bottom:1px solid var(--line);border-right:1px solid var(--line);}
+  .matrix th{background:#faf8f4;font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink2);font-weight:700;}
+  .matrix td:first-child,.matrix th:first-child{text-align:left;font-family:"Space Grotesk";font-weight:700;font-size:12.5px;color:var(--ink0);white-space:nowrap;}
+  .matrix .H{color:var(--hi);font-weight:700;} .matrix .M{color:var(--med);font-weight:700;} .matrix .L{color:var(--lo);font-weight:700;}
+  .kkm{display:grid;gap:8px;margin:8px 0 4px;}
+  .kkm div{font-size:14px;} .kkm .keep b{color:var(--good);} .kkm .kill b{color:var(--warn);} .kkm .mod b{color:var(--med);}
+  /* freq table */
+  .freq{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:12px 0;}
+  .freq th,.freq td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+  .freq th{background:#faf8f4;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);}
+  .freq td:first-child{font-family:"Space Grotesk";font-weight:700;white-space:nowrap;color:var(--ink0);}
+  .principles{counter-reset:p;}
+  .principles .pr{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 52px;margin:10px 0;position:relative;}
+  .principles .pr:before{counter-increment:p;content:counter(p);position:absolute;left:16px;top:14px;font-family:"Fraunces";font-size:22px;color:var(--accent);font-weight:500;}
+  .principles .pr b{font-family:"Space Grotesk";font-size:15.5px;}
+  .principles .pr p{margin:5px 0 0;font-size:14px;color:var(--ink1);}
+  .combo{background:#faf7f0;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .combo .t{font-family:"Space Grotesk";font-weight:700;font-size:15.5px;}
+  .combo .f{font-family:"Space Mono",monospace;font-size:12px;color:var(--accent2);margin:4px 0 6px;}
+  .combo p{margin:0;font-size:14px;color:var(--ink1);}
+  .toc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:20px 0;column-count:2;column-gap:26px;}
+  .toc a{display:block;text-decoration:none;color:var(--ink1);font-size:14px;padding:3px 0;}
+  .toc a b{color:var(--ink0);font-family:"Space Grotesk";}
+  @media(max-width:620px){.toc{column-count:1;} .matrix{font-size:11px;}}
+  footer{padding:40px 0 80px;color:var(--ink2);font-size:12.5px;}
+  footer .src{font-family:"Space Mono",monospace;font-size:11px;word-break:break-all;line-height:1.9;}
+  .tag{display:inline-block;font-family:"Space Mono";font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:#efe9dc;color:#6f6b5e;margin-right:4px;}
+</style>
+</head>
+<body>
+<div class="wrap col">
+
+  <header class="mast">
+    <div class="kicker">Research 01 · Loyalty &amp; delight · for the ● language product</div>
+    <h1>What kind of product would someone enjoy learning with every day<span class="dot"></span></h1>
+    <p class="lead">A grounded study of what creates delight, habit, and 190-day loyalty — in Duolingo, in other learning apps, and in great consumer products — turned into a critique of our five directions and a set of design principles. Not a moodboard. Not a new direction.</p>
+  </header>
+
+  <div class="call">
+    <div class="k">The one lesson, if you read nothing else</div>
+    <p><strong>Durable delight lives inside the core act, not around it.</strong> Every product people still love on Day 190 — Duolingo's satisfying lesson loop, Drops' drag-to-match, CapWords' capture, ELSA's red→green, Things' checkbox — puts its joy in the <em>mechanic itself</em>. The surrounding scaffolding (streaks, XP, leagues, confetti) creates Day-1 delight and Day-190 fatigue, guilt, or anxiety. For us, the core act is <strong>speaking and being understood</strong>. That is where our delight budget must go — which is exactly why the ● and speech-as-material matter more than any wrapper we put around them.</p>
+  </div>
+
+  <nav class="toc">
+    <a href="#p1"><b>1–2 ·</b> The reference landscape</a>
+    <a href="#p3"><b>3 ·</b> Why people open a product daily</a>
+    <a href="#p4"><b>4 ·</b> Pressure-testing our criteria</a>
+    <a href="#p5"><b>5 ·</b> Critique of the five directions</a>
+    <a href="#p6"><b>6 ·</b> What ● needs to become</a>
+    <a href="#p7"><b>7 ·</b> Signal &amp; speech as material</a>
+    <a href="#p8"><b>8 ·</b> Culture &amp; "living language"</a>
+    <a href="#p9"><b>9 ·</b> Synthesis &amp; principles</a>
+  </nav>
+
+  <!-- ============ PART 1-2 ============ -->
+  <section id="p1">
+    <div class="secnum">Parts 1 &amp; 2 · The reference landscape, through one lens</div>
+    <h2>What each product actually gets right</h2>
+    <p class="lead">Researched against current (2024–2026) versions, reviews, design commentary and real user sentiment. Each distilled to: what it nails, how it holds up over time, the mechanism worth stealing, and where it curdles.</p>
+
+    <h3>A · Learning products</h3>
+    <div class="cards">
+
+      <div class="pc feat">
+        <span class="nm">Duolingo</span><span class="nails">— the delight engine, studied honestly</span>
+        <p><b>Why it delights:</b> it manufactures constant, legible, multi-sensory <em>wins</em> on a variable schedule, wrapped in a lovable, flawed <em>character</em> who gives your effort a face — with near-zero friction and softened failure. Lessons are 3–5 min, one prompt on screen, engineered to <em>end on an easy item</em> so you close on a win; the progress bar advances <em>even on wrong answers</em>; wrong answers show the right one instantly with a neutral "GOT IT," not shame.</p>
+        <p class="mech"><b>Steal:</b> character-as-interface (reminders feel relational, not corporate); end every session on a win; progress that never regresses; non-punitive failure copy; one signature multi-sensory success moment; a grace mechanic (streak freeze) so one miss ≠ abandonment.</p>
+        <p class="fr"><b>What curdles by Day 190:</b> the metric (app-opens) drifts from the goal (fluency) — the deepest, most-repeated complaint is <em>"I finished the whole tree and still can't hold a conversation."</em> Streaks weaponise loss aversion into midnight-obligation anxiety; hearts/ads/refills <em>monetise friction Duolingo itself created</em>; leagues breed hollow speed-tapping; the tone can read juvenile to adults.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Speak</span><span class="nails">— speech as the whole interface</span>
+        <p>Best-in-class <b>safety engineering</b> for a vulnerable act: correct words <em>light up</em>, errors stay neutral, corrections appear <em>inside your own sentence</em> as a fill-in, and you can code-switch (drop English words mid-sentence) to keep talking. A plain-language "why?" tutor sits in the flow.</p>
+        <p class="mech"><b>Steal:</b> light-up-the-right-words; failure-as-completion not rejection; accept code-switching (huge for heritage speakers with partial vocab).</p>
+        <p class="fr"><b>Trap:</b> leniency taken too far — perfect scores for reversed word order breed <em>false mastery</em>; feedback is thin and non-cumulative; the AI ends every turn with a question, killing conversational rhythm.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Memrise</span><span class="nails">— real humans in real rooms</span>
+        <p>"Learn with locals" clips — actual people on streets and in kitchens saying phrases with slang, speed, emotion, humour. The strongest <em>ear-and-courage</em> builder of any app here, and culture delivered through voice, not decoration.</p>
+        <p class="mech"><b>Steal:</b> real, multiple, revisitable native speakers as the primary cultural signal — culture enters through the <em>ear</em>.</p>
+        <p class="fr"><b>Trap:</b> the speak-back layer (MemBot) is a shallow chatbot exercise; content thins fast; killing community courses burned trust.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Babbel &amp; Busuu</span><span class="nails">— adult, calm, "learning-led not dopamine-led"</span>
+        <p>Babbel is the <em>boring-educational-software</em> trap done tastefully — trustworthy, scaffolded, no streak anxiety, but speaking is nearly absent. Busuu's magic is <b>human correction</b>: submit a phrase, a real native speaker corrects it, and you reciprocate — <em>"a person chose to help you"</em> is a powerful belonging + safety signal.</p>
+        <p class="mech"><b>Steal:</b> a calm adult tone with no anxiety loops; async human warmth &amp; reciprocity as a belonging signal.</p>
+        <p class="fr"><b>Trap:</b> both stall at a "B1 plateau" of recycled scenarios; both barely let you actually <em>speak</em>.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Drops</span><span class="nails">— the learning act <em>is</em> the toy</span>
+        <p>No typing, ever — you <em>drag</em> words onto illustrations, swipe to sort, tap syllables. The quiz is a physics-of-dragging interaction, so delight lives <em>inside</em> the mechanic. A hard 5-minute session is the spine ("a gaming, not gamified, app"). Radically low density: one word, one image, one gesture.</p>
+        <p class="mech"><b>Steal:</b> make the learning act a <em>gesture</em>, not an answer; radical low density; soft failure (word slides back, no penalty).</p>
+        <p class="fr"><b>Trap:</b> teaches words, not language — breadth without the ability to form a sentence.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">CapWords</span><span class="nails">— vocabulary anchored to your own world (ADA 2025)</span>
+        <p>Point your camera at a real object → it's recognised, <em>peeled into a sticker</em>, and the word attaches. The magic is <em>capture + ownership</em>: your rooms become a personal, autobiographical dictionary. Delight is fully inside the core act; no points needed.</p>
+        <p class="mech"><b>Steal:</b> anchor language to the learner's real life; progress as a growing <em>personal artifact</em>, not a leaderboard.</p>
+        <p class="fr"><b>Trap:</b> thin on grammar/conversation; a collection can sprawl without structure.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">ELSA Speak + Brilliant</span><span class="nails">— feedback-as-transformation; touch-then-explain</span>
+        <p>ELSA renders your pronunciation as phonemes lighting <em>green / yellow / red</em> in real time — the correction <em>is</em> the reward, granular and motivating (though gameable, and it scores sounds not conversation). Brilliant lets you <em>manipulate</em> a concept before any notation, and getting it wrong opens an explorable path — the gold standard for "playful yet grown-up."</p>
+        <p class="mech"><b>Steal:</b> make feedback a <em>visible, warm transformation</em>; let people touch the thing before you explain it; failure as a doorway, not a dead-end.</p>
+      </div>
+    </div>
+
+    <h3>B · Consumer products (where people just like <em>being</em> in the app)</h3>
+    <div class="cards">
+
+      <div class="pc feat">
+        <span class="nm">Finch</span><span class="nails">— attachment engineered without needing a face</span>
+        <p>You <em>design the bird before you disclose anything</em> (ownership with zero friction). Then your real self-care fuels its energy and 8-hour adventures; it returns with a story your reply shapes, so its personality <em>accretes from your choices</em> — co-authored. Users: <em>"I feel so responsible for this dang bird… it helped me get out of bed."</em> The bird is a living progress bar you love because it reflects <em>your own effort</em> back at you.</p>
+        <p class="mech"><b>Steal (all faceless):</b> invest-before-disclose; reflected effort; reactivity/contingency; ritual rhythm; accreted memory; reciprocity + shame-free failure.</p>
+        <p class="fr"><b>Trap:</b> reflected-effort bonds can tip into <em>guilt/obligation</em>; density &amp; tap-fatigue; "too cute" for some adults.</p>
+      </div>
+
+      <div class="pc feat">
+        <span class="nm">Focus Friend (Bean)</span><span class="nails">— attachment from behaviour alone</span>
+        <p>Bean <em>knits</em> while you focus — effort visualised in real time — and <em>visibly saddens</em> if you quit early. That's the whole emotional engine: reactivity + a persistent world you curate (and don't want to abandon). Cozy, non-punitive, minimal. Went from zero to Google Play App of the Year.</p>
+        <p class="mech"><b>Steal:</b> the companion <em>reacts to effort in real time</em>; one gentle emotional lever, not constant performance; loss aversion via a world you built, not a streak you fear.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Headspace</span><span class="nails">— mature whimsy; emotion without literal faces</span>
+        <p>Round, edgeless characters personify <em>your</em> inner states through metaphor (steam for anger, not a scowl); colour acts as a "dimmer switch." Serious practice made approachable through <b>restraint and metaphor</b>, never childishness. Warmth is a <em>world/brand</em> relationship, not a pet.</p>
+        <p class="mech"><b>Steal:</b> abstract shapes + warm motion + metaphor carry real emotion with no face; "space, air to breathe."</p>
+      </div>
+
+      <div class="pc feat">
+        <span class="nm">Things</span><span class="nails">— the non-cute benchmark; affection from competence</span>
+        <p>Zero characters, deep affection — because it treats you with respect and <em>reliability</em>. The <b>Magic Plus</b> button, the satisfying check + haptic tick, items sliding away: delight is choreography, not decoration. Motion is almost purely <em>information</em>; <b>haptics carry the personality</b> a mascot would. It ages into furniture precisely because it never spent a novelty budget.</p>
+        <p class="mech"><b>Steal:</b> haptics + one signature micro-interaction as the emotional payload; motion-as-information; whitespace &amp; typography as warmth; restraint as the thing that survives to Day 190.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Airbnb</span><span class="nails">— warmth + trust at mainstream scale</span>
+        <p>Complex info (price math, reviews, policies) made approachable through hierarchy, an 8px grid, and a bespoke warm typeface (<b>Cereal</b>) doing "90% of the brand feel" — because 90% of UI is text. One consistent design system means every new surface feels like the same trustworthy place. Fun is kept <em>out</em> of the transactional core on purpose.</p>
+        <p class="mech"><b>Steal:</b> typography as voice; one system so every screen feels like home; put warmth around the edges, keep the core act calm.</p>
+      </div>
+
+      <div class="pc">
+        <span class="nm">Award winners &amp; a wordless game</span><span class="nails">— delight without cuteness or budget</span>
+        <p><span class="tag">ADA'25</span>CapWords (delight fused into learning) · <span class="tag">ADA'24</span>Bears Gratitude (character-led ritual), Rooms (tactile 3D detail), Rytmos (one gesture → complexity), NYT Games (typographic restraint) · <span class="tag">ADA'25</span>PBJ (personality via rhythm/haptics, no mascot) · <span class="tag">Play'24</span>Partiful (expressive-but-usable). And <b>Sky: Children of the Light</b> — a <em>faceless</em> companion earns love through <em>ritual, progressive revelation and reciprocity</em>, no dialogue, all gesture and light. Validation that our ● can be a <em>presence</em>, not a pet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section id="p3">
+    <div class="secnum">Part 3 · Loyalty &amp; delight</div>
+    <h2>Why someone actually opens a product every day</h2>
+    <p class="lead">Six different forces get confused under "engagement." The strongest products stack several; the weak ones fake the ones they lack. Pulling them apart tells us which to lean on.</p>
+
+    <div class="tax">
+      <div class="tx"><b>Functional</b> <span class="q">"I need this."</span><p>The real-world reason. Here is our quiet superpower: Duolingo's functional value is <em>weak</em> — nobody <em>needs</em> it — which is exactly why it leans so hard on manufactured streaks. A heritage language has <strong>intrinsically strong functional value</strong>: talk to your grandmother, understand your family, belong. We should build on that, not paper over its absence with gamification.</p></div>
+      <div class="tx"><b>Habit</b> <span class="q">"It's part of my routine."</span><p>Built from a low-friction daily unit + ritual rhythm + a grace mechanic. The trigger matters morally: Duolingo triggers with <em>anxiety</em> (you'll lose your streak); Finch/Bean trigger with <em>a small return you look forward to</em>. Same loop, opposite feeling on Day 190.</p></div>
+      <div class="tx"><b>Affection</b> <span class="q">"I like this product."</span><p>The ● companion (reflected effort, reactivity, shame-free failure), the warmth of the voice, tactile micro-interactions, a signature sound. Note Things: affection with <em>zero</em> characters, purely from competence + haptics. Affection does not require cuteness.</p></div>
+      <div class="tx"><b>Progress</b> <span class="q">"I can see myself getting somewhere."</span><p>Must measure the <strong>real thing</strong>. "You can now meet someone" beats "+50 XP" because it's true and it matters. Best delivered as a growing personal artifact (CapWords) — a record of conversations you can now actually have.</p></div>
+      <div class="tx"><b>Delight</b> <span class="q">"It occasionally makes me smile."</span><p>Surprise, humour, the feedback-that-transforms, a rare ● behaviour. Powerful precisely because it's <em>occasional and variable</em> — the honest version of Duolingo's variable reward, tied to joy instead of loss.</p></div>
+      <div class="tx"><b>Identity</b> <span class="q">"This is for people like me."</span><p>The most under-used and, for us, the most powerful. A heritage-language product can make someone feel <em>seen</em> in a way a global app never will — contemporary and diaspora life, real voices, names, food, humour. This is where we can decisively out-resonate Duolingo.</p></div>
+    </div>
+
+    <h4>How the strongest products combine them</h4>
+    <p>Weak products lead with <em>habit + delight</em> and hope you don't notice the functional value is thin (Duolingo's structural bet). Strong, durable products lead with <em>functional + progress + identity</em> and use habit and delight as honest servants. <strong>Our natural stack is unusual and favourable:</strong> lead with <em>identity + functional</em> (heritage belonging), make <em>progress</em> honest and capability-based, earn <em>affection</em> through the ●, and spend <em>habit + delight</em> scaffolding lightly — because we don't need to manufacture a reason to return. The reason is real.</p>
+
+    <div class="call warn">
+      <div class="k">Gamification — genuinely useful vs. manipulative</div>
+      <p><strong>Useful</strong> when the mechanic celebrates something the user actually values: legible progress toward real capability, a gentle habit cue, a grace mechanic that forgives a missed day, a milestone that marks a true achievement. <strong>Manipulative</strong> when it detaches from the goal (rewarding app-opens, not learning), weaponises loss aversion (streak dread), monetises manufactured friction (hearts sold back to you), or breeds hollow competition (leagues). <strong>The test:</strong> does this mechanic <em>celebrate something the user values, or manufacture an anxiety and sell relief?</em> We keep the first kind and refuse the second.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 4 ============ -->
+  <section id="p4">
+    <div class="secnum">Part 4 · Our criteria, pressure-tested</div>
+    <h2>Do our stated qualities survive contact with the research?</h2>
+    <p class="lead">Mostly yes — with sharper edges, and two additions the research forces.</p>
+
+    <p><strong>Delightful</strong> — holds, but redirect it: put delight in the <em>core</em> (speaking, being understood), not in decoration that fatigues. <br>
+    <strong>Friendly</strong> — the central UX problem, and the research names the exact solution and its trap: warm framing (light-up-right, failure-as-fill-in, shame-free like Finch/Bean) <em>plus</em> honest feedback. Speak proves warmth alone tips into false mastery; nobody has nailed <em>warm framing with truthful, pattern-level feedback</em> — that gap is ours to take. <br>
+    <strong>Habitual</strong> — holds, but trigger on intrinsic value, not anxiety. Add a grace mechanic; refuse streak dread. <br>
+    <strong>Clean</strong> — strongly supported (Drops, Things, Headspace: one thing on screen). The learning <em>is</em> the cognitive load; the UI must not compete. <br>
+    <strong>Mature-playful</strong> — supported and achievable without cuteness (Things, Brilliant, PBJ, Headspace): playfulness via motion, haptics, typography and restraint. <br>
+    <strong>Grassroots / lived-in</strong> — this is the <em>Identity</em> lever, your biggest advantage. Delivered through real voices and everyday/diaspora life (Memrise's locals), never museum or motif. <br>
+    <strong>Dynamic</strong> — this is Signal/speech-as-material, and it's genuinely ownable and on-message (ELSA, Speak). <br>
+    <strong>Ownable</strong> — the signature test (Things = whitespace + type + micro-interaction; Duolingo = green + Duo). Our candidates: the ●'s <em>motion signature</em>, speech-as-visual, a warm type voice, a signature <em>sound</em>. <br>
+    <strong>Culturally alive</strong> — same as grassroots; carried by people/voices/food/places/contemporary life. <br>
+    <strong>Scalable</strong> — the ● stays constant; the world re-tunes through voices/content/accent, not bespoke art (this is what indicts Places and rescues everything else). One DLS-style system. <br>
+    <strong>Long-lasting</strong> — the Day-190 filter. Restraint ages (Things); novelty and cuteness curdle. Capability-progress and reflected-effort attachment age well; streak-anxiety and confetti don't.</p>
+
+    <div class="call good">
+      <div class="k">Two criteria to add</div>
+      <p><strong>Honest.</strong> Progress and feedback must reflect real conversational capability, never a vanity metric — because "the number rewards opening the app, not learning" is the single failure that eventually loses even loyal users. <strong>Sound-first.</strong> For a listen/speak product, sound (voices, a signature success chime, haptics) is a first-class material and one of the most scalable cultural carriers — it deserves to be a criterion, not an afterthought.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 5 ============ -->
+  <section id="p5">
+    <div class="secnum">Part 5 · Revisiting the five directions</div>
+    <h2>Which of our worlds survive the Day-190 test</h2>
+    <p class="lead">Scored against the ten qualities that matter for a relationship measured in hundreds of days. <span style="color:var(--hi);font-weight:700;">H</span> / <span style="color:var(--med);font-weight:700;">M</span> / <span style="color:var(--lo);font-weight:700;">L</span> = high / medium / low fit.</p>
+
+    <table class="matrix">
+      <tr><th>Direction</th><th>Daily delight</th><th>Warmth</th><th>Mature play</th><th>Habit</th><th>Cultural life</th><th>Simplicity</th><th>Motion</th><th>Scalable</th><th>Ownable</th><th>Longevity</th></tr>
+      <tr><td>01 Field Notes</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="M">M</td><td class="H">H</td><td class="H">H</td><td class="M">M</td></tr>
+      <tr><td>02 Primitives</td><td class="M">M</td><td class="M">M</td><td class="M">M</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="H">H</td><td class="H">H</td><td class="M">M</td><td class="M">M</td></tr>
+      <tr><td>03 Soft Matter</td><td class="H">H</td><td class="H">H</td><td class="M">M</td><td class="M">M</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="M">M</td><td class="M">M</td><td class="L">L</td></tr>
+      <tr><td>04 Signal</td><td class="H">H</td><td class="M">M</td><td class="H">H</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="H">H</td><td class="H">H</td><td class="H">H</td><td class="H">H</td></tr>
+      <tr><td>05 Places</td><td class="H">H</td><td class="H">H</td><td class="M">M</td><td class="M">M</td><td class="H">H</td><td class="L">L</td><td class="M">M</td><td class="L">L</td><td class="M">M</td><td class="M">M</td></tr>
+    </table>
+    <p style="font-size:13px;color:var(--ink2);">The pattern is clear: <strong>Signal is the strongest structural spine</strong> (delight-in-core, clean, scalable, ownable, ages well) but it is the <em>coldest</em> and thinnest on culture. <strong>Places is the warmest and most culturally alive</strong> but the least scalable and least clean. The work ahead is not to pick one — it's to give Signal the warmth and cultural life of Places without importing its costs.</p>
+
+    <h3>01 · Field Notes <span style="font-weight:400;color:var(--ink2);font-size:14px;">— keep the respect, lose the gloss</span></h3>
+    <div class="kkm">
+      <div class="keep"><b>Keep:</b> the ink-dot-as-punctuation motif (a genuinely ownable idea); warm paper; type-as-voice; the premise of treating an adult like a reader with taste.</div>
+      <div class="kill"><b>Kill:</b> photography as the primary cultural vehicle — it doesn't scale, risks a glossy "magazine <em>about</em> them" gaze, and can feel curated from outside rather than lived.</div>
+      <div class="mod"><b>Modify:</b> pull it from "luxury magazine" toward "living zine"; it's too static day-to-day — it needs Signal's responsiveness to feel alive on repeat.</div>
+    </div>
+
+    <h3>02 · Playground Primitives <span style="font-weight:400;color:var(--ink2);font-size:14px;">— keep the kit, not the people</span></h3>
+    <div class="kkm">
+      <div class="keep"><b>Keep:</b> the ● as "the one complete circle," and the primitive shape <em>kit</em> as a scalable construction system for objects, icons and environments.</div>
+      <div class="kill"><b>Kill:</b> geometric <em>people</em> — this is the Corporate-Memphis / "Alegria" blandness the research explicitly flags, and it already reads dated.</div>
+      <div class="mod"><b>Modify:</b> use the kit for objects and wayfinding, never for depicting humans; let real voices (not shapes) carry cultural specificity so a "shape market" doesn't become any market.</div>
+    </div>
+
+    <h3>03 · Soft Matter <span style="font-weight:400;color:var(--ink2);font-size:14px;">— keep the marble's body, drop the clay</span></h3>
+    <div class="kkm">
+      <div class="keep"><b>Keep:</b> the ●'s <em>physics</em> — weight, squash, momentum, a real cast shadow. This is the most physically "alive" reading and maps perfectly onto Finch/Bean's reflected-effort attachment.</div>
+      <div class="kill"><b>Kill:</b> the all-pastel claymorphic <em>world</em> as the overall look — soft-3D dates fast ("generic startup 2021"), tips childish, and fights our light/clean/mature instincts. Its Longevity score is the lowest on the board for a reason.</div>
+      <div class="mod"><b>Modify:</b> extract the weighted-marble ● and set it in a lighter, less trend-bound world; keep the tactility in <em>haptics</em> (Things) rather than heavy rendering.</div>
+    </div>
+
+    <h3>04 · Signal <span style="font-weight:400;color:var(--ink2);font-size:14px;">— keep all of it, warm all of it</span></h3>
+    <div class="kkm">
+      <div class="keep"><b>Keep:</b> everything structural — speech-as-visual-material, the ● as acoustic heart, feedback-as-transformation, light-up-the-right-words. This is the spine, and it's the one direction that scores H on delight, simplicity, motion, scalability, ownability <em>and</em> longevity.</div>
+      <div class="kill"><b>Kill:</b> the cold "mixing-desk" veneer — timecodes, dB readouts, electric-blue techiness. It reads as an audio <em>tool</em>, not a warm place, and is the sole reason its Warmth and Cultural scores dip.</div>
+      <div class="mod"><b>Modify:</b> treat Signal as <em>behaviour, not skin</em> (see Part 7). Dress it in warmth borrowed from elsewhere: real voices, a warm palette and type voice, and the ● as a companion for affection and habit.</div>
+    </div>
+
+    <h3>05 · Places <span style="font-weight:400;color:var(--ink2);font-size:14px;">— keep the life, make it a "sometimes" layer</span></h3>
+    <div class="kkm">
+      <div class="keep"><b>Keep:</b> the cultural richness (contemporary + diaspora life, people, food, places), the companion-in-a-world attachment (Finch/Sky), and the "travel into a living language" narrative.</div>
+      <div class="kill"><b>Kill:</b> full bespoke illustration as the everyday UI for every screen — unscalable per language, costly, one-illustrator-style risk, and it competes with the cognitive load of learning (its Simplicity and Scalability are the lowest on the board).</div>
+      <div class="mod"><b>Modify:</b> reserve rich illustration for <em>special moments</em> (arrivals, story scenes, milestones) over a clean everyday UI; let real voices and everyday content carry most of the culture, reducing both the art burden and the exoticising risk.</div>
+    </div>
+  </section>
+
+  <!-- ============ PART 6 ============ -->
+  <section id="p6">
+    <div class="secnum">Part 6 · The ●, deepened</div>
+    <h2>Can you love something with no face? The research says yes</h2>
+    <p class="lead">Across Finch, Focus Friend, Headspace and Sky, <strong>the face is the least of it.</strong> A face accelerates the <em>first</em> read of a specific emotion, but durable affection is built by mechanisms that almost all work faceless — and a black sphere can deliver every one of them through motion, timing, physics, colour temperature, light, sound and behaviour.</p>
+
+    <h4>The faceless attachment kit (all proven, all available to ●)</h4>
+    <ul>
+      <li><strong>Reflected effort</strong> — the ● is brighter, fuller, steadier <em>because you showed up</em>. Loving it is loving evidence of your own progress (Finch's bird, Bean's knitting). This is the single strongest lever and needs no eyes.</li>
+      <li><strong>Reactivity / contingency</strong> — it changes state <em>because of what you did</em> (Bean saddens when you quit). Contingency reads as aliveness.</li>
+      <li><strong>Ritual &amp; rhythm</strong> — a consistent return-moment makes it a fixture.</li>
+      <li><strong>Memory / accretion</strong> — it remembers, lightly, and shifts over weeks; that makes the character feel co-authored.</li>
+      <li><strong>Invest-before-disclose</strong> — let the learner shape it (colour, motion signature, name) before asking anything of them.</li>
+      <li><strong>Reciprocity + shame-free failure</strong> — it cares back; a missed day is met with welcome, not guilt (the Finch caution).</li>
+    </ul>
+
+    <h4>Answering your questions directly</h4>
+    <p><strong>How it greets you on return:</strong> a quiet <em>wake</em> — it brightens and leans slightly toward you, warmth scaled to how long you were away and <em>how you left last time</em> (gentler and encouraging if you'd been struggling; an eager little rise if you'd nailed it). No "you're back!" fanfare. <br>
+    <strong>Does it remember?</strong> Lightly, and in service of learning, not surveillance: the sound or word you struggled with (it returns to it), that you've been consistent (it's fuller), that you named and coloured it. <br>
+    <strong>Does it change over time?</strong> Yes, but <em>not</em> as growth-stages-that-pressure you. Its resting motion can mature, its colour deepen, a faint patina of history accrue — calm and earned, never an obligation clock. <br>
+    <strong>Struggle vs. succeed:</strong> struggle → it leans in, steadies, softens, waits patiently, encourages — <em>never</em> sighs or looks disappointed (that's the Duo-guilt trap). Succeed → it brightens, hops, and at real moments splits into a little burst and re-merges. <br>
+    <strong>Excited / curious / proud / impatient / bored:</strong> excitement = fast upward timing + brightness; curiosity = a lean toward new content; pride = a slow warm swell at a milestone (no confetti); impatience and boredom used <em>very</em> rarely and only playfully, and <em>never</em> aimed at the user's absence — if it's ever "bored," it's quietly amusing itself while you're away, which is charming, not guilt-inducing. <br>
+    <strong>Tease, initiate, celebrate without confetti, respond to your voice, touch text:</strong> yes to all — gently, rarely, and mostly as the core interaction itself (it <em>is</em> the mic; it becomes punctuation; it catches a mispronounced syllable). "Help without constantly interrupting" is the governing constraint.</p>
+
+    <div class="call">
+      <div class="k">The Day-190 discipline — behaviour frequency</div>
+      <p>The failure mode you named — "if ● reacts after every tap it becomes annoying" — is solved by <strong>budgeting personality across four tiers.</strong> Most of the time, the ● is <em>quiet</em>. Attachment comes from consistency + contingency + <em>rare</em> surprise, not constant performance.</p>
+    </div>
+    <table class="freq">
+      <tr><th>Tier</th><th>Frequency</th><th>What happens</th><th>Rule</th></tr>
+      <tr><td>Everyday</td><td>every session, constantly</td><td>the functional core: deform while listening, become your waveform while speaking, a quiet "got it / try again," a calm idle, the return-wake.</td><td>Must read as <em>the interface working</em>, not a pet performing. Subtle &amp; informational — it repeats thousands of times.</td></tr>
+      <tr><td>Occasional</td><td>a few times a week</td><td>a curious lean at new content, a gentle tease when you hesitate, a warmer greeting after an absence, a small pride-swell at a finished capability.</td><td>Enough to feel noticed; never enough to predict.</td></tr>
+      <tr><td>Rare surprise</td><td>unpredictable</td><td>something you've not seen — it self-amuses, reacts to a specific word, wears a tiny seasonal object, does an unusual move.</td><td>The honest version of variable reward — tied to <em>delight</em>, never to loss. This is what keeps Day 190 alive.</td></tr>
+      <tr><td>Milestone</td><td>rarely, earned</td><td>a capability completed ("you can meet someone now") — the real celebration: split/merge, glow, a distinct sound, the world responds.</td><td>The confetti-replacement. Spent seldom so it stays meaningful.</td></tr>
+    </table>
+    <p><strong>Guardrail:</strong> do not turn ● into Duo. It stays extremely simple and ideally faceless; personality comes from the six levers, not expression. The open question isn't <em>whether</em> it can be alive — it's <em>how much</em>, and the frequency tiers are how we hold it to "a presence, not a pet."</p>
+  </section>
+
+  <!-- ============ PART 7 ============ -->
+  <section id="p7">
+    <div class="secnum">Part 7 · Signal &amp; speech as material</div>
+    <h2>Can speech itself be one of our core visual materials?</h2>
+    <p class="lead">Yes — and it's our most ownable, on-message and scalable material, because our product <em>is</em> listen → speak → respond → converse. The key reframe from the research: <strong>Signal is behaviour, not skin.</strong> It's the product's responsiveness layer, and it can live inside any warmer world we choose.</p>
+
+    <h4>The behavioural vocabulary (separate from any aesthetic)</h4>
+    <ul>
+      <li><strong>● reacts to incoming speech</strong> — when a speaker talks, it pulses and ripples <em>inward</em>: visibly listening.</li>
+      <li><strong>● is your microphone</strong> — your voice deforms it in real time; the correct parts <em>light up</em> as you go (Speak, ELSA). No giant mic button — the dot is the mic, live.</li>
+      <li><strong>Speech moves through space</strong> — a phrase travels from the other voice to you, and your reply travels back: conversation as a <em>rally</em> between two points, not an exercise in a box.</li>
+      <li><strong>Waveform as trace</strong> — your utterance leaves a visible shape; getting closer to the target is literal shape-matching (ELSA's transformation, warmed).</li>
+      <li><strong>Rhythm &amp; tone made visible</strong> — compression/stretch/ripple for prosody and melody, not just phonemes — which matters for the music of many heritage languages.</li>
+      <li><strong>Text reacts to pronunciation</strong> — a word <em>settles</em> when said well; a syllable that needs work glows gently — warm, never a red buzzer.</li>
+      <li><strong>Turn-taking made visual</strong> — the "floor" (or the ●) moves between you and the other voice, so a conversation <em>feels</em> like one.</li>
+      <li><strong>Feedback as transformation, not scoring</strong> — the red→green warmth, but kept <em>honest</em>: show what to adjust without shame, and resist Speak's over-leniency that teaches nothing.</li>
+    </ul>
+
+    <div class="call">
+      <div class="k">The discipline</div>
+      <p>Don't overdesign it. Most speech-visual should be <strong>information</strong> (Things' motion-as-information — it teaches you by showing you), a little should be <strong>reward</strong>, and almost none should be decoration. The behavioural logic is the durable asset; the styling (blue, timecodes, dB) is disposable and should be warmed or dropped. Because this layer is built from sound and motion rather than pictures, it is <strong>inherently scalable across languages</strong> — the single most important structural reason to make speech a core material.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 8 ============ -->
+  <section id="p8">
+    <div class="secnum">Part 8 · Culture &amp; "grassroots"</div>
+    <h2>"Here is an Igbo course" vs. "Come into this living language"</h2>
+    <p class="lead">The difference is present tense. A course preserves a language as heritage (past, curated, singular); a living language is spoken <em>today</em> by real, plural, funny people — including young diaspora. Design communicates the second not through motifs but through <strong>voices, people and the everyday.</strong></p>
+
+    <h4>Where culture actually enters</h4>
+    <ul>
+      <li><strong>Voices first.</strong> Real people, many of them, with real cadence, slang, humour and emotion (Memrise's "learn with locals" is the proof). Multiple generations and diaspora accents. Voice is the richest <em>and</em> most scalable cultural carrier — and it's exactly on-thesis, because culture entering through the <em>ear</em> is the same channel our product already lives in.</li>
+      <li><strong>People as themselves, contemporary.</strong> Everyday clothes, real settings, jokes — a cousin texting from Houston, a London auntie — not costumes or patterns. Diaspora life named explicitly.</li>
+      <li><strong>Content as culture.</strong> Names, food, places, objects, situations, music, family, slang — woven into the conversations you learn, not applied as decoration.</li>
+      <li><strong>A sense of community on the other side.</strong> "A person chose to help you" (Busuu) is a powerful belonging + identity signal; even lightly, the feeling that this language has living speakers you're joining.</li>
+      <li><strong>Humour &amp; expressions.</strong> The fastest route to "insider, alive" rather than "institutional." How people actually talk.</li>
+    </ul>
+
+    <div class="call warn">
+      <div class="k">The trap to avoid</div>
+      <p>Treating heritage as <em>heritage</em> — past-tense, preserved, behind glass. Avoid generic "African" visual language, museum/tourism framing, tribal motifs as identity, patterns-as-brand, and nostalgia as the only register. The antidote is <strong>present tense, plural voices, everyday life, diaspora inclusion, and humour.</strong></p>
+    </div>
+    <p><strong>The move that also solves scalability:</strong> carry culture through <em>voices + people + content + a colour/sound accent</em>, and keep the visual chrome universal and warm. This resolves the Places dilemma — we get the cultural richness from real voices and everyday content (cheap to produce, deeply specific, hard to exoticise) instead of bespoke illustration per language (expensive, and prone to the postcard gaze). Culture becomes the thing that <em>re-tunes</em> the constant system, exactly as we hoped.</p>
+  </section>
+
+  <!-- ============ PART 9 ============ -->
+  <section id="p9">
+    <div class="secnum">Part 9 · Synthesis</div>
+    <h2>The twelve answers</h2>
+
+    <p><strong>1 · The most important lessons.</strong> Durable delight lives inside the core act, not around it. Attachment does not require a face. Progress must measure the real thing. Restraint ages; novelty and cuteness curdle. And our natural advantages — strong functional value, strong identity resonance — are ones the giants lack.</p>
+
+    <p><strong>2 · What Duolingo gets right (don't be afraid to learn it).</strong> Character-as-interface makes reminders relational not corporate; every session ends on a win; the progress bar never regresses; failure is instant and non-shaming; success is one signature multi-sensory moment; the daily unit is tiny and frictionless; a grace mechanic forgives a slip.</p>
+
+    <p><strong>3 · What not to copy from Duolingo.</strong> Optimising a metric (app-opens) that drifts from the goal (fluency); weaponising streaks into anxiety; monetising manufactured friction (hearts/ads); leaderboard-driven hollow competition; and a relentlessly juvenile tone. The famous critique — "finished the tree, still can't converse" — is <em>our reason to exist</em>; we must not import the machine that causes it.</p>
+
+    <p><strong>4 · What other learning products teach.</strong> Make the learning act a <em>gesture</em> (Drops); anchor language to the learner's real life and let progress be a personal artifact (CapWords); render feedback as a warm, visible transformation (ELSA); let people touch a concept before explaining it (Brilliant); build courage with real human voices (Memrise); keep a calm, adult, anxiety-free tone (Babbel/Busuu); and make speaking <em>safe</em> — light-up-right, failure-as-fill-in, accept code-switching (Speak) — without tipping into false leniency.</p>
+
+    <p><strong>5 · What non-learning products teach.</strong> Affection can come from pure competence + haptics with zero characters (Things); typography carries voice and one system makes every screen feel like home (Airbnb); a companion earns love through reflected effort, reactivity, ritual and a world you curate — faceless (Finch, Focus Friend, Sky); serious things become approachable through restraint and metaphor, not childishness (Headspace); and delight without cuteness or budget wins awards (PBJ, Rytmos, NYT Games).</p>
+
+    <p><strong>6 · Which of our directions stay promising.</strong> <em>Signal</em> as the structural spine (delight-in-core, clean, scalable, ownable, ages well). <em>Places'</em> cultural life and companion-in-a-world warmth, demoted to a "sometimes" layer. The ●'s <em>physics</em> from Soft Matter. Field Notes' <em>respect for the adult</em> and the ink-dot motif. Primitives' <em>construction kit</em> for objects.</p>
+
+    <p><strong>7 · What to drop.</strong> Cold techy Signal styling; the all-pastel claymorphic world; geometric people (Corporate Memphis); full bespoke illustration as everyday UI; and photography as the sole cultural vehicle.</p>
+
+    <p><strong>8 · What ● needs to become capable of.</strong> Being the microphone and the feedback (core), the punctuation and the companion (character) — quiet by default, expressive through motion/timing/physics/colour/light/sound, remembering lightly, reflecting your effort, forgiving your absence, and budgeting its personality across everyday / occasional / rare / milestone tiers so it stays a presence, not a pet.</p>
+
+    <p><strong>9 · How culture should enter.</strong> Through the ear and the everyday — real plural voices, contemporary and diaspora life, names, food, humour, community — re-tuning a universal, warm, restrained system. Present tense, never museum.</p>
+
+    <p><strong>10 · How delight, habit and progress relate.</strong> Delight is the Day-1 hook but can't sustain; habit is the Day-30 scaffolding but is empty without a reason; progress is the Day-190 reason — the felt sense of <em>becoming someone who can converse</em>. They must reinforce, not substitute: delight should <em>celebrate</em> real progress (not distract from its absence), habit should be triggered by intrinsic value (not manufactured anxiety), and progress must be honest. Duolingo's trap is delight + habit substituting <em>for</em> progress. Our advantage is that our progress is real, so we can let it be the star.</p>
+
+    <h3 style="margin-top:30px;">11 · Emerging design principles</h3>
+    <div class="principles">
+      <div class="pr"><b>Put delight in the mouth, not the margins.</b><p>The joy must live in speaking and being understood. Streaks, XP and confetti are margins; they fatigue. Spend the design budget on the core act.</p></div>
+      <div class="pr"><b>The ● is the interface, not a mascot.</b><p>Most of the time it's simply the app working — the mic, the feedback, the punctuation. Personality comes from contingency and rare surprise, never constant performance.</p></div>
+      <div class="pr"><b>Warm framing, honest feedback.</b><p>Never a red buzzer on a vulnerable utterance — but never fake leniency either. Show what to adjust, kindly. This gap (warmth + truth) is the one no competitor has filled.</p></div>
+      <div class="pr"><b>Measure the real thing.</b><p>Track capability — "you can meet someone" — not app-opens. Refuse any metric that would let someone feel successful while unable to converse.</p></div>
+      <div class="pr"><b>Attachment is reflected effort.</b><p>The ● is fuller because <em>you</em> showed up; loving it is loving your own progress. Keep failure shame-free so the mirror never guilts.</p></div>
+      <div class="pr"><b>Culture enters through the ear and the everyday.</b><p>Voices, names, food, humour, diaspora life — present tense and plural. The visual chrome stays universal; the world re-tunes through content and sound, not motifs.</p></div>
+      <div class="pr"><b>Restraint ages; novelty fatigues.</b><p>Design for Day 190. Whitespace, type-as-voice, signature micro-interactions and haptics carry warmth without cuteness that curdles.</p></div>
+      <div class="pr"><b>Spend celebration rarely.</b><p>Reserve big moments for real milestones; keep everyday wins quiet and tactile. Scarcity is what keeps the big moments meaningful.</p></div>
+      <div class="pr"><b>Sound is a first-class material.</b><p>A signature success chime, haptics and real voices carry personality and belonging — and they scale across languages by nature.</p></div>
+      <div class="pr"><b>One system, many worlds.</b><p>The ●, the motion grammar and the type/sound signature stay constant; language identity comes from voices, content and accent — so we never redesign per language.</p></div>
+    </div>
+
+    <h3 style="margin-top:30px;">12 · Ingredient combinations to explore next</h3>
+    <p style="font-size:14px;color:var(--ink2);">Stated as principle-blends, not "mash directions together."</p>
+
+    <div class="combo">
+      <div class="t">A · The responsive room <span style="font-weight:400;color:var(--ink2);">(likely the spine)</span></div>
+      <div class="f">Signal's responsiveness (as behaviour) + Things-like clarity, haptics &amp; restraint + real diaspora voices as the cultural layer</div>
+      <p>A calm, light, grown-up space where the only things that really move are your speech and the ●. Warmth comes from voices and micro-interactions, not decoration. Scores high on nearly every Day-190 quality; resolves Signal's coldness with human voice rather than illustration.</p>
+    </div>
+    <div class="combo">
+      <div class="t">B · The companion that keeps your progress</div>
+      <div class="f">Finch/Sky faceless attachment (reflected effort, ritual, memory, invest-before-disclose) + capability-based progress as a personal artifact + rare, restrained milestone celebration</div>
+      <p>Delivers habit, affection and legible progress <em>without</em> streak anxiety — the ● grows subtly from your showing up, and your "record of conversations you can now have" is the progress surface.</p>
+    </div>
+    <div class="combo">
+      <div class="t">C · Living-language moments</div>
+      <div class="f">Places' cultural richness as a <em>sometimes</em> layer (arrivals, story scenes, milestones) + Memrise-style real people &amp; voices + humour and slang</div>
+      <p>Gives identity and cultural life their due — the "come into this living language" feeling — without the scaling cost or the everyday density that would compete with learning.</p>
+    </div>
+
+    <div class="call good" style="margin-top:26px;">
+      <div class="k">What our product should feel like on Day 190</div>
+      <p>Opening it feels like <strong>stepping into a warm, quiet room where a language you're becoming fluent in is spoken by real people you're starting to understand.</strong> The ● wakes to greet you, a little fuller than the day you started because you kept showing up. You speak; it listens and lights up; a voice answers and you follow more of it than last week. Nothing shouts. There's no streak to dread, no leaderboard to lose — just the quiet, true, growing evidence that you can now <em>talk to someone</em>. That's the product: not a course you complete, but a living language you've been let into — and a companion, made of almost nothing, that's been keeping your progress the whole time.</p>
+    </div>
+  </section>
+
+</div>
+<footer class="wrap col">
+  <p><strong>Sources</strong> — current-state research, 2024–2026 (product pages, reviews, design commentary, user sentiment, Apple/Google award announcements):</p>
+  <p class="src">
+  blakecrosley.com/guides/design/duolingo · blog.duolingo.com · duoplanet.com · lottiefiles.com/case-studies/duolingo · webdesignerdepot.com (Duolingo notifications) · my-senpai.com/why-people-quit-duolingo · talentandsarcasm.substack.com · investors.duolingo.com · lingtuitive.com/speak-review · languatalk.com/speak · learn.kotoenglish.com/speak · languageappguide.com (Memrise, Busuu) · copycatcafe.com/memrise · ilampadmanabhan.medium.com (Babbel) · mezzoguild.com/busuu · langoly.com/drops · kahoot.com/drops · capwords.app · medium.com/antaeus-ar/capwords · alllanguageresources.com/elsa-speak · screensdesign.com (Brilliant) · gamedeveloper.com (Sky) · apps.apple.com/finch · help.finchcare.com · retention.blog/life-of-a-birb · dishabhatia.substack.com · deconstructoroffun.com (Focus Friend) · appbot.co · nbcnews.com (Focus Friend) · raw.studio (Headspace) · itsnicethat.com (Headspace) · macstories.net (Things 3) · apple.com/newsroom (ADA 2023–25) · developer.apple.com/design/awards · blog.google (Play Best of 2024) · eyeondesign.aiga.org &amp; designsystems.one (Airbnb Cereal / DLS)
+  </p>
+  <p>Research 01 for the LLP visual laboratory · companion to Visual Lab Vol. 01. A returnable reference.</p>
+</footer>
+</body>
+</html>

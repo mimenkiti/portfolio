@@ -1,0 +1,719 @@
+/* ---------------------------------------------------------------
+   Marker + mode switch
+   --------------------------------------------------------------- */
+
+.marker {
+  position: fixed;
+  top: clamp(16px, 2.4vw, 30px);
+  left: var(--pad);
+  z-index: 20;
+  display: grid;
+  gap: 0.45rem;
+  transition: opacity 0.35s var(--e-out), transform 0.45s var(--e-out);
+}
+
+.marker.is-hidden {
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+}
+
+.marker__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.marker__home,
+.marker__title {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  transition: color 0.6s var(--e-out);
+}
+
+.marker__home {
+  color: var(--ink);
+}
+
+.marker__home:hover {
+  color: var(--live);
+}
+
+.marker__title {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.marker__progress {
+  display: block;
+  width: 7.5rem;
+  height: 1px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.marker__progress > span {
+  display: block;
+  height: 100%;
+  background: var(--live);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+html.is-dark-ground .marker__home {
+  color: var(--room-ink);
+}
+html.is-dark-ground .marker__title {
+  color: var(--room-ink-3);
+}
+html.is-dark-ground .marker__progress {
+  background: var(--room-rule);
+}
+html.is-dark-ground .marker__progress > span {
+  background: var(--room-live);
+}
+
+.topright {
+  position: fixed;
+  top: clamp(16px, 2.4vw, 30px);
+  right: var(--pad);
+  z-index: 20;
+}
+
+.modeswitch {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  transition: color 0.3s var(--e-out);
+}
+
+.modeswitch:hover {
+  color: var(--live);
+}
+
+.modeswitch__glyph {
+  display: grid;
+  gap: 2px;
+  width: 14px;
+}
+
+.modeswitch__glyph i {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+  transition: width 0.35s var(--e-out), opacity 0.3s var(--e-out);
+  width: 14px;
+}
+
+.modeswitch__glyph i:nth-child(2) {
+  width: 10px;
+}
+.modeswitch__glyph i:nth-child(3) {
+  width: 12px;
+}
+
+.modeswitch:hover .modeswitch__glyph i {
+  opacity: 1;
+  width: 14px;
+}
+
+html.is-dark-ground .modeswitch {
+  color: var(--room-ink-2);
+}
+
+@media (max-width: 40rem) {
+  .marker__progress {
+    width: 4.5rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Index
+   --------------------------------------------------------------- */
+
+.index__first {
+  min-height: 100svh;
+  align-content: space-between;
+  padding-top: clamp(5.5rem, 12vh, 9rem);
+  padding-bottom: clamp(2rem, 6vh, 4rem);
+  row-gap: clamp(3rem, 9vh, 7rem);
+}
+
+.index__id {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 34rem;
+  transition: opacity 0.8s var(--e-out);
+}
+
+.index__name {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.index__role {
+  font-size: var(--t-body-sm);
+  line-height: 1.6;
+  color: var(--ink-2);
+  font-weight: 340;
+  text-wrap: pretty;
+}
+
+.spread > .index__entry {
+  grid-column: 2 / 5;
+}
+
+.index__entry {
+  display: grid;
+  gap: 1.1rem;
+  align-content: start;
+}
+
+.index__entry .index__meta,
+.index__entry .index__prompt,
+.index__entry .index__pendingNote {
+  max-width: 41rem;
+}
+
+.index__entry--faber {
+  padding-top: clamp(6rem, 18vh, 12rem);
+  padding-bottom: clamp(4rem, 10vh, 8rem);
+}
+
+.index__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.9rem;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  color: var(--ink-3);
+  transition: opacity 0.8s var(--e-out);
+}
+
+.index__slug {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.index__desc {
+  color: var(--ink-2);
+}
+
+.index__q {
+  margin-top: 0.2rem;
+  max-width: 26ch;
+  position: relative;
+  z-index: 7;
+  transition: color 0.8s var(--e-out), opacity 0.8s var(--e-out);
+}
+
+.index__stop {
+  display: inline-block;
+  margin-left: 0.06em;
+  transform: translateY(-0.06em);
+}
+
+.index__q--pending {
+  color: var(--ink-3);
+}
+
+.index__pending {
+  font-style: italic;
+  font-weight: 200;
+  padding-right: 0.1em;
+}
+
+.index__pending::before,
+.index__pending::after {
+  color: var(--rule);
+  font-style: normal;
+}
+.index__pending::before {
+  content: '[ ';
+}
+.index__pending::after {
+  content: ' ]';
+}
+
+.index__pendingNote {
+  max-width: 38rem;
+}
+
+.index__prompt {
+  color: var(--ink-3);
+  margin-top: -0.4rem;
+  animation: fade-in 0.8s 1.4s var(--e-out) backwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.index__go {
+  justify-self: start;
+  margin-top: 0.4rem;
+}
+
+.index__artifact {
+  width: 100%;
+  height: clamp(300px, 48vh, 560px);
+  margin: clamp(1rem, 4vh, 3rem) 0;
+}
+
+/* --- the homepage micro-encounter ------------------------------- */
+
+/* Lamplight. Sits above the ground plate so the dark reads warm. */
+.index__warm {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.3s var(--e-out);
+  background: radial-gradient(
+    34% 31% at 39% 54%,
+    rgba(232, 168, 74, 0.3) 0%,
+    rgba(232, 168, 74, 0.07) 45%,
+    rgba(232, 168, 74, 0) 78%
+  );
+}
+
+.index__warm.is-on {
+  opacity: 1;
+}
+
+.index.is-hushed .index__id,
+.index.is-hushed .index__meta {
+  opacity: 0;
+}
+
+.index__qtext {
+  transition: opacity 0.8s var(--e-out);
+}
+
+/* Dim the sentence, not the Dot. Opacity on the heading would take the
+   Dot down with it, and the Dot is the one thing that must stay lit. */
+.index.is-hushed .index__q {
+  color: var(--room-ink);
+}
+
+.index.is-hushed .index__qtext {
+  opacity: 0.26;
+}
+
+.dot.is-presence {
+  transform: scale(2.5);
+  transition: transform 1s var(--e-out);
+}
+
+.enc {
+  position: relative;
+  z-index: 7;
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+  margin-top: 0.4rem;
+  min-height: 12rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s var(--e-out);
+}
+
+.enc.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.enc__who {
+  color: var(--room-ink-3);
+  opacity: 0;
+  transition: opacity 0.6s 0.3s var(--e-out);
+}
+
+.enc.is-on .enc__who {
+  opacity: 1;
+}
+
+.enc__line {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 250;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--room-ink);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s var(--e-out), transform 0.7s var(--e-out);
+}
+
+.enc__line.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.enc__replies {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s var(--e-out), transform 0.6s var(--e-out);
+  pointer-events: none;
+  margin-top: 0.3rem;
+}
+
+.enc__replies.is-on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* After the choice the row does not disappear — it becomes the record of
+   what you said, sitting under what she said back. */
+.enc__replies.is-settled {
+  opacity: 1;
+  transform: none;
+  pointer-events: none;
+}
+
+.enc__replies.is-settled .enc__reply:not(.is-picked) {
+  opacity: 0.22;
+}
+
+.enc__reply {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 2.4vw, 1.75rem);
+  font-weight: 300;
+  color: var(--room-ink);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s var(--e-out), border-color 0.25s var(--e-out);
+}
+
+.enc__reply:hover {
+  color: var(--room-ink);
+  border-color: var(--room-live);
+}
+
+.enc__reply.is-picked {
+  color: var(--room-live);
+  border-color: var(--room-live);
+}
+
+.enc__close {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.8s var(--e-out), transform 0.8s var(--e-out);
+  pointer-events: none;
+  margin-top: 0.4rem;
+}
+
+.enc__close.is-on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.enc__acts {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+/* --- footer ------------------------------------------------------ */
+
+.index__foot {
+  padding-bottom: clamp(3rem, 8vh, 6rem);
+  row-gap: 2rem;
+  transition: opacity 0.8s var(--e-out);
+}
+
+.index.is-hushed .index__foot,
+.index.is-hushed .index__entry--faber {
+  opacity: 0;
+}
+
+.index__footRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.index__footCol {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.index__footLink {
+  text-align: left;
+  font-size: var(--t-body-sm);
+  line-height: 1.35;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.2em;
+  justify-self: start;
+  transition: color 0.25s var(--e-out), border-color 0.25s var(--e-out);
+}
+
+.index__footLink:hover {
+  color: var(--live);
+  border-color: var(--live);
+}
+
+.index__links {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+}
+
+.index__links a {
+  text-decoration: none;
+  color: var(--ink-2);
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s var(--e-out), border-color 0.25s var(--e-out);
+}
+
+.index__links a:hover {
+  color: var(--live);
+  border-color: var(--live);
+}
+
+.index__colophon {
+  color: var(--ink-3);
+  margin-top: 2.5rem;
+}
+
+/* ---------------------------------------------------------------
+   About / Experiment
+   --------------------------------------------------------------- */
+
+.about .m,
+.xp .m {
+  padding-top: clamp(6rem, 16vh, 10rem);
+  padding-bottom: clamp(4rem, 12vh, 8rem);
+}
+
+.about__links {
+  gap: 0.5rem;
+}
+
+.xp__artifact {
+  margin: clamp(2rem, 6vh, 4rem) 0 clamp(1.5rem, 4vh, 3rem);
+  background: var(--ground-raised);
+  border: 1px solid var(--rule-soft);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  display: grid;
+  gap: 1.75rem;
+}
+
+.xp__stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem;
+  min-height: 3.4rem;
+}
+
+.xp__line {
+  font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+  font-weight: 300;
+  color: var(--ink-3);
+  transition: color 0.3s var(--e-out);
+}
+
+.xp__line.is-on {
+  color: var(--ink);
+}
+
+.xp__controls {
+  display: flex;
+  gap: 1.75rem;
+  align-items: baseline;
+}
+
+.xp__mark:disabled {
+  color: var(--ink-3);
+  cursor: default;
+}
+
+.xp__mark:disabled::after {
+  opacity: 0.2;
+}
+
+.xp__track {
+  position: relative;
+  height: 44px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.xp__fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  background: var(--live-wash);
+}
+
+.xp__gate {
+  position: absolute;
+  bottom: 0;
+  top: 30%;
+  border-left: 1px dashed var(--rule);
+}
+
+.xp__gate span {
+  position: absolute;
+  top: -1.35rem;
+  left: 4px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.xp__hit {
+  position: absolute;
+  bottom: -3px;
+  width: 1px;
+  top: 10%;
+  background: var(--live);
+}
+
+.xp__hit::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: -2.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+}
+
+.xp__legend {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-3);
+  margin-top: 0.5rem;
+}
+
+.xp__read {
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------
+   Generic section scaffolding (Faber, About, Experiment)
+   --------------------------------------------------------------- */
+
+.m {
+  padding-top: clamp(5rem, 16vh, 11rem);
+  padding-bottom: clamp(5rem, 16vh, 11rem);
+  row-gap: 1.5rem;
+  align-content: start;
+}
+
+.m--proposition {
+  min-height: 100svh;
+  align-content: center;
+  row-gap: clamp(2rem, 7vh, 5rem);
+  padding-top: clamp(7rem, 18vh, 11rem);
+}
+
+.m__num {
+  color: var(--ink-3);
+}
+
+.m__thesis {
+  margin-top: clamp(0.5rem, 2vh, 1.5rem);
+}
+
+.m__thesis--pending {
+  color: var(--ink-3);
+}
+
+.m__lift {
+  margin-bottom: 0.5em;
+  max-width: 32ch;
+}
+
+.m__prose {
+  margin-top: 0.5rem;
+}
+
+.m__after {
+  margin-top: clamp(2rem, 5vh, 3.5rem);
+}
+
+.m__margin {
+  align-self: start;
+  margin-top: 4.4rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.8rem;
+}
+
+/* --- homepage project blurbs and per-project links ---------------- */
+
+.index__blurb {
+  display: grid;
+  gap: 0.9em;
+  max-width: 41rem;
+  font-size: var(--t-body-sm);
+  line-height: 1.62;
+  color: var(--ink-2);
+  font-weight: 340;
+  text-wrap: pretty;
+  transition: opacity 0.8s var(--e-out);
+}
+
+.index.is-hushed .index__blurb {
+  opacity: 0;
+}
+
+.index__id {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.about__earlier {
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.about__archive {
+  gap: 0.55rem;
+  margin-top: 0.3rem;
+}
+
+.proj__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.proj__links .act {
+  text-decoration: none;
+}

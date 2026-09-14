@@ -1,0 +1,120 @@
+/* ---------------------------------------------------------------
+   V2 tokens.
+
+   The system: ONE accent (hers), THREE grounds, TWO room lights.
+   The red is constant everywhere because it is Michelle's mark. What
+   changes between projects is the temperature of the light — warm ochre
+   for LLP, cool slate for Faber — so the visitor knows where they are
+   from the colour of the page rather than from a label.
+
+   Single visual world on purpose: the page is light and rooms are dark,
+   and that difference carries narrative meaning, so there is no viewer
+   theme switch. Every colour is painted explicitly.
+   --------------------------------------------------------------- */
+
+:root {
+  /* --- global: warm grey with a faint rose cast. Plaster, not cream. */
+  --ground: #ece7e3;
+  --ground-lift: #f6f2ee;
+  --ground-2: #e3ddd8;
+  --ground-raised: #f3efeb;
+
+  /* Warm near-black. This does more for warmth than the background does. */
+  --ink: #1a1512;
+  --ink-2: #5c5450;
+  --ink-3: #928a85;
+  --rule: #d6cec8;
+  --rule-soft: #e3ddd7;
+
+  /* Madder red — proofreader's red. Still means "this responds to you",
+     but it now also carries the site's temperature. */
+  --live: #a63a22;
+  --live-2: #852c19;
+  --live-wash: rgba(166, 58, 34, 0.09);
+
+  /* Rooms. Default is the neutral warm dark used by thresholds. */
+  --room: #14100e;
+  --room-2: #1e1815;
+  --room-3: #2b2320;
+  --room-ink: #f0eae4;
+  --room-ink-2: #a79d95;
+  --room-ink-3: #6f6560;
+  --room-live: #e0654a;
+  --room-rule: rgba(240, 234, 228, 0.14);
+
+  --serif: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  /* Data only: tables, timings, readouts. Never labels. */
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --t-body: 1.1875rem;
+  --t-body-sm: 1.0625rem;
+  --t-small: 0.875rem;
+  --t-lede: clamp(1.3rem, 0.9rem + 1.5vw, 1.95rem);
+  --t-display: clamp(2.5rem, 1.1rem + 5.6vw, 5.75rem);
+  --t-display-sm: clamp(1.9rem, 1rem + 3.4vw, 3.4rem);
+  --t-data: 0.8125rem;
+
+  --pad: clamp(20px, 5vw, 76px);
+
+  /* The spread's tracks live here so a mode change can animate them. */
+  --col-main: 41rem;
+  --col-gap: clamp(1.5rem, 3.4vw, 3.5rem);
+  --col-side: 17rem;
+  --col-lead: 0rem;
+
+  --e-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --e-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* --- LLP: warmer, ochre, evening. Its room is lit like a lamp. */
+html[data-world='llp'] {
+  --ground: #efe7dd;
+  --ground-lift: #faf4ec;
+  --ground-2: #e6dcd0;
+  --ground-raised: #f6f0e8;
+  --ink: #1e1712;
+  --ink-2: #5f544a;
+  --ink-3: #968a7d;
+  --rule: #dbcfc0;
+  --rule-soft: #e8ded1;
+
+  --room: #17110c;
+  --room-2: #221a13;
+  --room-3: #31261c;
+  --room-ink: #f4e9db;
+  --room-ink-2: #b0a08c;
+  --room-ink-3: #7a6c5c;
+  --room-live: #e5a33f;
+  --room-rule: rgba(244, 233, 219, 0.15);
+}
+
+/* --- Faber: cool slate. The coldness V1 applied to the whole site now
+   belongs to exactly one project, on purpose. */
+html[data-world='faber'] {
+  --ground: #e6e9ec;
+  --ground-lift: #f2f4f6;
+  --ground-2: #dbdfe4;
+  --ground-raised: #eef1f3;
+  --ink: #12161a;
+  --ink-2: #4c545c;
+  --ink-3: #838b94;
+  --rule: #c8ced5;
+  --rule-soft: #d9dee3;
+
+  --room: #0c0f13;
+  --room-2: #141920;
+  --room-3: #1f262f;
+  --room-ink: #e2e8ee;
+  --room-ink-2: #94a0ad;
+  --room-ink-3: #616c78;
+  --room-live: #6fa6de;
+  --room-rule: rgba(226, 232, 238, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --e-out: linear;
+    --e-io: linear;
+  }
+}

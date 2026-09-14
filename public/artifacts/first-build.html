@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLP — the first build</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: white;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .close-btn:active {
+            color: #333;
+        }
+
+        .progress-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .combo-bar {
+            flex: 1;
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .combo-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffc800, #f4b71f);
+            border-radius: 6px;
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .combo-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffc800;
+            white-space: nowrap;
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 12px;
+        }
+
+        .heart-badge {
+            background: #fbe6e6;
+            border-radius: 20px;
+            padding: 4px 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        .heart-icon {
+            font-size: 16px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== HOME SCREEN ===== */
+        .screen.home-screen {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .home-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .home-subtitle {
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .lesson-card {
+            width: 100%;
+            background: #e8f8e8;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .lesson-card:active {
+            transform: scale(0.98);
+            border-color: #58cc02;
+        }
+
+        .lesson-info {
+            text-align: left;
+        }
+
+        .lesson-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .lesson-desc {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .lesson-status {
+            font-size: 28px;
+        }
+
+        /* ===== EXERCISE SCREEN ===== */
+        .screen.exercise-screen {
+            justify-content: flex-start;
+            padding-top: 16px;
+            padding-bottom: 20px;
+        }
+
+        .exercise-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exercise-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .character-block {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .character {
+            font-size: 100px;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: bounce 0.6s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .character.static {
+            animation: none;
+        }
+
+        .speech-bubble {
+            background: white;
+            border: 2px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+            max-width: 280px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 0px solid transparent;
+            border-top: 8px solid #e8e8e8;
+        }
+
+        .speech-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .audio-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .audio-btn:active {
+            transform: scale(1.2);
+        }
+
+        /* ===== ANSWER BUTTONS ===== */
+        .answer-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 50px;
+        }
+
+        .answer-btn:active {
+            border-color: #58cc02;
+            background: #f0f8e8;
+            transform: scale(0.98);
+        }
+
+        .answer-btn.selected {
+            background: #c8f0b8;
+            border-color: #58cc02;
+        }
+
+        .answer-btn.correct {
+            background: #c8f0b8;
+            border-color: #58cc02;
+        }
+
+        .answer-btn.incorrect {
+            background: #ffe0e0;
+            border-color: #e74c3c;
+        }
+
+        /* ===== WORD BANK ===== */
+        .word-bank-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .word-tile {
+            background: #c8f0b8;
+            border: 2px solid #58cc02;
+            border-radius: 24px;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .word-tile:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        .word-tile.used {
+            background: #e0e0e0;
+            border-color: #999;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .answer-area {
+            background: white;
+            border: 2px dashed #58cc02;
+            border-radius: 12px;
+            padding: 16px;
+            min-height: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+        }
+
+        .answer-word {
+            background: #c8f0b8;
+            border: 2px solid #58cc02;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .answer-word:active {
+            transform: scale(0.92);
+            opacity: 0.7;
+        }
+
+        /* ===== MATCHING PAIRS ===== */
+        .pairs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .pair-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .pair-item {
+            flex: 1;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .pair-item:active {
+            border-color: #58cc02;
+            background: #f0f8e8;
+        }
+
+        .pair-item.selected {
+            background: #c8f0b8;
+            border-color: #58cc02;
+        }
+
+        .pair-item.matched {
+            background: #c8f0b8;
+            border-color: #58cc02;
+            opacity: 0.6;
+        }
+
+        /* ===== TYPING INPUT ===== */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .text-input {
+            flex: 1;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-family: 'Lato', sans-serif;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #58cc02;
+            background: #f0f8e8;
+        }
+
+        .text-input::placeholder {
+            color: #999;
+        }
+
+        /* ===== FEEDBACK STATE ===== */
+        .feedback-area {
+            background: #e8f8e8;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        .feedback-area.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: 900;
+            color: #58cc02;
+        }
+
+        .feedback-checkmark {
+            font-size: 24px;
+        }
+
+        .feedback-message {
+            font-size: 18px;
+            font-weight: 700;
+            color: #58cc02;
+        }
+
+        .feedback-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .correct-answer {
+            background: white;
+            border: 2px solid #58cc02;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            font-style: italic;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .primary-btn {
+            background: #58cc02;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 900;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .primary-btn:active {
+            background: #48b302;
+            transform: scale(0.98);
+        }
+
+        .primary-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .secondary-btn {
+            background: white;
+            border: 2px solid #58cc02;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #58cc02;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .secondary-btn:active {
+            background: #f0f8e8;
+            transform: scale(0.98);
+        }
+
+        /* ===== NEW WORD SCREEN ===== */
+        .screen.new-word-screen {
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0e8ff 0%, #f8f0ff 100%);
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .new-word-card {
+            text-align: center;
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .new-word-decorations {
+            font-size: 32px;
+            margin-bottom: 20px;
+            letter-spacing: 20px;
+        }
+
+        .new-word-box {
+            background: rgba(196, 168, 255, 0.3);
+            border: 3px solid #b894ff;
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #7c5fc8;
+        }
+
+        .new-word-label {
+            font-size: 28px;
+            font-weight: 900;
+            color: #b894ff;
+            text-shadow: 2px 2px 0px rgba(124, 95, 200, 0.2);
+            letter-spacing: 2px;
+        }
+
+        /* ===== COMPLETION SCREEN ===== */
+        .screen.completion-screen {
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e8f8e8 0%, #f0fef0 100%);
+        }
+
+        .completion-content {
+            text-align: center;
+        }
+
+        .completion-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease infinite;
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .completion-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .learned-phrases {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .learned-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .learned-phrase {
+            font-size: 18px;
+            font-weight: 600;
+            color: #58cc02;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f0f8e8;
+            border-radius: 8px;
+        }
+
+        .learned-phrase:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== HARD EXERCISE ===== */
+        .hard-badge {
+            background: #ffcccc;
+            border-radius: 12px;
+            padding: 6px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #e74c3c;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hard-badge-icon {
+            font-size: 14px;
+        }
+
+        .speak-btn {
+            background: white;
+            border: 2px solid #1cb0f6;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1cb0f6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .speak-btn:active {
+            background: #e8f4ff;
+            transform: scale(0.98);
+        }
+
+        .mic-icon {
+            font-size: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-height: 600px) {
+            .exercise-content {
+                justify-content: flex-start;
+            }
+            .character {
+                font-size: 60px;
+            }
+            .exercise-title {
+                font-size: 18px;
+                margin-bottom: 16px;
+            }
+            .button-group {
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <button class="close-btn" onclick="app.closeLesson()">×</button>
+                <div class="progress-section">
+                    <div class="combo-bar">
+                        <div class="combo-fill" id="comboBar" style="width: 0%"></div>
+                    </div>
+                    <div class="combo-text" id="comboText">COMBO x1</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="heart-badge">
+                    <span class="heart-icon">💝</span>
+                    <span id="heartCount">17</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- HOME SCREEN -->
+            <div class="screen home-screen active">
+                <div class="home-title">Learn Igbo</div>
+                <div class="home-subtitle">Greetings Lesson</div>
+                <div class="lesson-card" onclick="app.startLesson()">
+                    <div class="lesson-info">
+                        <div class="lesson-title">Unit 1, Lesson 1</div>
+                        <div class="lesson-desc">Igbo Greetings</div>
+                    </div>
+                    <div class="lesson-status" id="lessonStatus">▶</div>
+                </div>
+            </div>
+
+            <!-- EXERCISE SCREEN -->
+            <div class="screen exercise-screen">
+                <div class="exercise-content" id="exerciseContent"></div>
+                <div class="button-group" id="buttonGroup"></div>
+            </div>
+
+            <!-- NEW WORD SCREEN -->
+            <div class="screen new-word-screen">
+                <div class="new-word-card">
+                    <div class="new-word-decorations">✨ ⭐ ✨</div>
+                    <div class="new-word-box" id="newWordBox"></div>
+                    <div class="new-word-label">NEW WORD</div>
+                </div>
+            </div>
+
+            <!-- COMPLETION SCREEN -->
+            <div class="screen completion-screen">
+                <div class="completion-content">
+                    <div class="completion-emoji">🎉</div>
+                    <div class="completion-title">Lesson Complete!</div>
+                    <div class="completion-subtitle">You've learned some useful greetings</div>
+                    <div class="learned-phrases">
+                        <div class="learned-title">Phrases Learned</div>
+                        <div class="learned-phrase">Kedụ?</div>
+                        <div class="learned-phrase">Ọ dị mma.</div>
+                        <div class="learned-phrase">Adị m mma.</div>
+                    </div>
+                    <button class="primary-btn" onclick="app.returnHome()">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            state: {
+                currentScreen: 'home',
+                currentExercise: 1,
+                completedLessons: {},
+                selectedAnswers: {},
+                matchedPairs: {},
+                wordBankAnswers: {},
+                speechAnswers: {},
+                showingFeedback: false
+            },
+
+            exercises: [
+                {
+                    type: 'audio_meaning',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    character: '👨‍💼'
+                },
+                {
+                    type: 'multiple_choice',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    options: ['How are you?', 'Where are you?', 'What are you?'],
+                    correct: 0,
+                    character: '👩‍🦰'
+                },
+                {
+                    type: 'audio_choice',
+                    phrase: 'Ọ dị mma.',
+                    meaning: 'I am fine / It is good',
+                    options: ['I am fine', 'I am tired', 'I am happy'],
+                    correct: 0,
+                    character: '👨‍🦱'
+                },
+                {
+                    type: 'meaning_context',
+                    phrase: 'Kedụ?',
+                    context: 'When greeting someone, you ask: Kedụ?',
+                    options: ['How are you?', 'Where is the bus?', 'What time is it?'],
+                    correct: 0,
+                    character: '👩‍🦳'
+                },
+                {
+                    type: 'multiple_choice',
+                    phrase: 'Adị m mma.',
+                    meaning: 'I am fine',
+                    options: ['I am fine', 'You are fine', 'He is fine'],
+                    correct: 0,
+                    character: '👨‍💼'
+                },
+                {
+                    type: 'word_bank',
+                    phrase: 'Kedụ? Ọ dị mma.',
+                    meaning: 'How are you? I am fine.',
+                    words: ['Kedụ?', 'Ọ', 'dị', 'mma.'],
+                    correct: ['Kedụ?', 'Ọ', 'dị', 'mma.'],
+                    character: '👩‍🦰'
+                },
+                {
+                    type: 'audio_choice',
+                    phrase: 'Ọ dị mma.',
+                    meaning: 'I am fine',
+                    options: ['I am fine', 'You are tired', 'We are here'],
+                    correct: 0,
+                    character: '👨‍🦱'
+                },
+                {
+                    type: 'typing',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    instruction: 'Type: Kedụ? (or kedu)',
+                    acceptableAnswers: ['kedụ', 'kedu', 'Kedụ', 'Kedu'],
+                    character: '👩‍🦳'
+                },
+                {
+                    type: 'word_bank',
+                    phrase: 'Adị m mma.',
+                    meaning: 'I am fine',
+                    words: ['Adị', 'm', 'mma.', 'na'],
+                    correct: ['Adị', 'm', 'mma.'],
+                    character: '👨‍💼'
+                },
+                {
+                    type: 'typing',
+                    phrase: 'Ọ dị mma.',
+                    meaning: 'I am fine / It is good',
+                    instruction: 'Type the response',
+                    acceptableAnswers: ['ọ dị mma', 'o di mma', 'ọ dị mma.', 'o di mma.', 'Ọ dị mma.'],
+                    character: '👩‍🦰'
+                },
+                {
+                    type: 'hard_word_bank',
+                    phrase: 'Kedụ? Ọ dị mma.',
+                    meaning: 'How are you? I am fine.',
+                    words: ['Ọ', 'dị', 'Kedụ?', 'mma.', 'na', 'bu'],
+                    correct: ['Kedụ?', 'Ọ', 'dị', 'mma.'],
+                    character: '👨‍🦱',
+                    canSpeak: true
+                },
+                {
+                    type: 'challenge',
+                    phrase: 'Greet someone in Igbo',
+                    instruction: 'Type or speak: Kedụ?',
+                    acceptableAnswers: ['kedụ', 'kedu', 'Kedụ', 'Kedu'],
+                    character: '👩‍🦳',
+                    canSpeak: true
+                }
+            ],
+
+            init() {
+                try {
+                    const saved = localStorage.getItem('igbo_lesson_state');
+                    if (saved) {
+                        this.state = JSON.parse(saved);
+                        this.updateUI();
+                    }
+                } catch (e) { /* embedded: storage may be unavailable */ }
+                if (this.state.completedLessons[1]) {
+                    document.getElementById('lessonStatus').textContent = '✓';
+                }
+            },
+
+            saveState() {
+                try {
+                    localStorage.setItem('igbo_lesson_state', JSON.stringify(this.state));
+                } catch (e) { /* embedded: storage may be unavailable */ }
+            },
+
+            closeLesson() {
+                this.returnHome();
+            },
+
+            startLesson() {
+                this.state.currentScreen = 'exercise';
+                this.state.currentExercise = 1;
+                this.state.showingFeedback = false;
+                this.renderExercise();
+                this.showScreen('exercise');
+            },
+
+            renderExercise() {
+                const exNum = this.state.currentExercise;
+                const ex = this.exercises[exNum - 1];
+
+                if (!ex) return;
+
+                // Update combo bar
+                const progress = ((exNum - 1) / 12) * 100;
+                document.getElementById('comboBar').style.width = progress + '%';
+                document.getElementById('comboText').textContent = `COMBO x${exNum}`;
+
+                const content = document.getElementById('exerciseContent');
+                const buttons = document.getElementById('buttonGroup');
+                content.innerHTML = '';
+                buttons.innerHTML = '';
+
+                const title = document.createElement('div');
+                title.className = 'exercise-title';
+
+                let exerciseHTML = '';
+
+                if (ex.type === 'audio_meaning') {
+                    title.textContent = 'Listen and read';
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    ${ex.phrase}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; color: #666; font-size: 15px; margin-top: 16px;">
+                            <strong>${ex.phrase}</strong> = ${ex.meaning}
+                        </div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">CONTINUE</button>`;
+
+                } else if (ex.type === 'multiple_choice') {
+                    title.textContent = 'Select the correct translation';
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    ${ex.phrase}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'audio_choice') {
+                    title.textContent = 'What does this mean?';
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    <span>${ex.phrase}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'meaning_context') {
+                    title.textContent = 'Select the correct translation';
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                ${ex.context}
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin: 16px 0; padding: 12px; background: #f5f5f5; border-radius: 8px; font-size: 16px; font-weight: 600;">
+                            ${ex.phrase}
+                        </div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'word_bank') {
+                    title.textContent = 'Translate this sentence';
+                    const answerKey = `wb_${exNum}`;
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    ${ex.phrase}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="word-bank-display" id="wordBank">
+                            ${ex.words.map((word, i) => `
+                                <div class="word-tile" onclick="app.addToWordBank('${answerKey}', '${word}')" id="tile_${answerKey}_${i}">
+                                    ${word}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="answer-area" id="answerArea_${answerKey}"></div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.checkWordBank(${exNum})" id="checkBtn">CHECK</button>`;
+                    document.getElementById('exerciseContent').innerHTML = title.outerHTML + exerciseHTML;
+                    return;
+
+                } else if (ex.type === 'typing') {
+                    title.textContent = 'Type the correct response';
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    ${ex.phrase}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input class="text-input" type="text" placeholder="Type here..." id="typingInput" onkeyup="app.checkTyping()">
+                        </div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.checkTyped(${exNum})" id="checkBtn">CHECK</button>`;
+                    document.getElementById('exerciseContent').innerHTML = title.outerHTML + exerciseHTML;
+                    setTimeout(() => document.getElementById('typingInput').focus(), 100);
+                    return;
+
+                } else if (ex.type === 'hard_word_bank') {
+                    title.textContent = 'Translate this sentence';
+                    const answerKey = `hwb_${exNum}`;
+                    exerciseHTML = `
+                        <div class="hard-badge">
+                            <span class="hard-badge-icon">🎙️</span>
+                            Hard Exercise
+                        </div>
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">
+                                <div class="speech-text">
+                                    <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">🔊</button>
+                                    ${ex.phrase}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="word-bank-display" id="wordBank">
+                            ${ex.words.map((word, i) => `
+                                <div class="word-tile" onclick="app.addToWordBank('${answerKey}', '${word}')" id="tile_${answerKey}_${i}">
+                                    ${word}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="answer-area" id="answerArea_${answerKey}"></div>
+                    `;
+                    buttons.innerHTML = `
+                        <button class="speak-btn" onclick="app.startSpeech(${exNum})">
+                            <span class="mic-icon">🎙️</span>
+                            Tap to Speak
+                        </button>
+                        <button class="primary-btn" onclick="app.checkWordBank(${exNum})" id="checkBtn">CHECK</button>
+                    `;
+                    document.getElementById('exerciseContent').innerHTML = title.outerHTML + exerciseHTML;
+                    return;
+
+                } else if (ex.type === 'challenge') {
+                    title.textContent = ex.instruction;
+                    exerciseHTML = `
+                        <div class="character-block">
+                            <div class="character">${ex.character}</div>
+                            <div class="speech-bubble">Challenge yourself!</div>
+                        </div>
+                        <div class="input-group">
+                            <input class="text-input" type="text" placeholder="Type or speak..." id="typingInput" onkeyup="app.checkTyping()">
+                        </div>
+                    `;
+                    buttons.innerHTML = `
+                        <button class="speak-btn" onclick="app.startSpeech(${exNum})">
+                            <span class="mic-icon">🎙️</span>
+                            Tap to Speak
+                        </button>
+                        <button class="primary-btn" onclick="app.checkTyped(${exNum})" id="checkBtn">CHECK</button>
+                    `;
+                    document.getElementById('exerciseContent').innerHTML = title.outerHTML + exerciseHTML;
+                    setTimeout(() => document.getElementById('typingInput').focus(), 100);
+                    return;
+                }
+
+                content.innerHTML = title.outerHTML + exerciseHTML;
+            },
+
+            checkAnswer(selectedIndex, correctIndex) {
+                const btns = document.querySelectorAll('.answer-btn');
+                btns[selectedIndex].classList.add('selected');
+
+                setTimeout(() => {
+                    btns.forEach(btn => btn.disabled = true);
+
+                    if (selectedIndex === correctIndex) {
+                        btns[selectedIndex].classList.remove('selected');
+                        btns[selectedIndex].classList.add('correct');
+                        this.showFeedback('Nicely done!', '');
+                    } else {
+                        btns[selectedIndex].classList.remove('selected');
+                        btns[selectedIndex].classList.add('incorrect');
+                        btns[correctIndex].classList.add('correct');
+                        this.showFeedback('Not quite!', `The correct answer is: <strong>${this.exercises[this.state.currentExercise - 1].options[correctIndex]}</strong>`);
+                    }
+
+                    const buttonGroup = document.getElementById('buttonGroup');
+                    buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">CONTINUE</button>`;
+                }, 300);
+            },
+
+            checkTyped(exNum) {
+                const input = document.getElementById('typingInput');
+                const answer = input.value.trim().toLowerCase();
+                const ex = this.exercises[exNum - 1];
+
+                const isCorrect = ex.acceptableAnswers.some(a => answer === a.toLowerCase());
+
+                input.disabled = true;
+
+                if (isCorrect) {
+                    input.style.borderColor = '#58cc02';
+                    input.style.background = '#f0f8e8';
+                    this.showFeedback('Perfect!', '');
+                } else {
+                    input.style.borderColor = '#e74c3c';
+                    input.style.background = '#ffe0e0';
+                    const suggestion = ex.acceptableAnswers[0];
+                    this.showFeedback('Not quite!', `Try: <strong>${suggestion}</strong>`);
+                }
+
+                const buttonGroup = document.getElementById('buttonGroup');
+                buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">CONTINUE</button>`;
+            },
+
+            checkWordBank(exNum) {
+                const answerKey = (exNum <= 6 && exNum !== 6) ? `wb_${exNum}` : (exNum <= 9 ? `wb_${exNum}` : `hwb_${exNum}`);
+                const answerArea = document.getElementById(`answerArea_${answerKey}`);
+                const selected = Array.from(answerArea.querySelectorAll('.answer-word')).map(el => el.textContent.trim());
+                const ex = this.exercises[exNum - 1];
+                const correct = JSON.stringify(selected) === JSON.stringify(ex.correct);
+
+                const checkBtn = document.getElementById('checkBtn');
+                checkBtn.disabled = true;
+
+                if (correct) {
+                    this.showFeedback('Amazing!', '');
+                } else {
+                    const correctStr = ex.correct.join(' ');
+                    this.showFeedback('Not quite!', `The correct order is: <strong>${correctStr}</strong>`);
+                }
+
+                const buttonGroup = document.getElementById('buttonGroup');
+                buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">CONTINUE</button>`;
+            },
+
+            addToWordBank(key, word) {
+                const answerArea = document.getElementById(`answerArea_${key}`);
+                const wordElem = document.createElement('div');
+                wordElem.className = 'answer-word';
+                wordElem.textContent = word;
+                wordElem.onclick = () => {
+                    wordElem.remove();
+                    document.getElementById(`tile_${key}_${Array.from(document.querySelectorAll(`#wordBank .word-tile`)).findIndex(el => el.textContent.trim() === word)}`).style.opacity = '1';
+                };
+                answerArea.appendChild(wordElem);
+
+                const index = Array.from(document.querySelectorAll(`#wordBank .word-tile`)).findIndex(el => el.textContent.trim() === word);
+                if (index >= 0) {
+                    document.getElementById(`tile_${key}_${index}`).style.opacity = '0.5';
+                }
+            },
+
+            showFeedback(message, details) {
+                const content = document.getElementById('exerciseContent');
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback-area active';
+                feedback.innerHTML = `
+                    <div class="feedback-header">
+                        <span class="feedback-checkmark">✓</span>
+                        <span class="feedback-message">${message}</span>
+                    </div>
+                    ${details ? `<div class="feedback-text">${details}</div>` : ''}
+                `;
+                content.appendChild(feedback);
+                this.state.showingFeedback = true;
+            },
+
+            checkTyping() {
+                // Real-time validation can go here if needed
+            },
+
+            startSpeech(exNum) {
+                const btn = event.target.closest('.speak-btn');
+                btn.textContent = '🎤 Listening...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.textContent = '✓ Recorded';
+                    this.state.speechAnswers[exNum] = true;
+                }, 2000);
+            },
+
+            nextExercise() {
+                this.state.currentExercise++;
+                this.state.showingFeedback = false;
+
+                if (this.state.currentExercise > 12) {
+                    this.completeLesson();
+                } else if ([2, 4, 6].includes(this.state.currentExercise - 1)) {
+                    this.showNewWord();
+                } else {
+                    this.renderExercise();
+                }
+            },
+
+            showNewWord() {
+                const vocab = ['Kedụ?', 'Ọ dị mma.', 'Adị m mma.'];
+                const idx = [1, 3, 5].indexOf(this.state.currentExercise - 1);
+                if (idx >= 0) {
+                    document.getElementById('newWordBox').textContent = vocab[idx];
+                    this.showScreen('new-word');
+                    setTimeout(() => this.renderExercise(), 2000);
+                } else {
+                    this.renderExercise();
+                }
+            },
+
+            completeLesson() {
+                this.state.completedLessons[1] = true;
+                document.getElementById('lessonStatus').textContent = '✓';
+                this.saveState();
+                this.showScreen('completion');
+            },
+
+            returnHome() {
+                this.state.currentScreen = 'home';
+                this.state.currentExercise = 1;
+                this.state.showingFeedback = false;
+                this.showScreen('home');
+            },
+
+            resetLesson() {
+                this.state.currentExercise = 1;
+                this.state.showingFeedback = false;
+                this.state.selectedAnswers = {};
+                this.state.matchedPairs = {};
+                this.state.wordBankAnswers = {};
+                this.state.speechAnswers = {};
+                this.saveState();
+                this.renderExercise();
+            },
+
+            resetAll() {
+                this.state = {
+                    currentScreen: 'home',
+                    currentExercise: 1,
+                    completedLessons: {},
+                    selectedAnswers: {},
+                    matchedPairs: {},
+                    wordBankAnswers: {},
+                    speechAnswers: {},
+                    showingFeedback: false
+                };
+                document.getElementById('lessonStatus').textContent = '▶';
+                this.saveState();
+                this.returnHome();
+            },
+
+            playAudio(text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ig-NG';
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            },
+
+            showScreen(screenName) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const screenMap = {
+                    'home': 'home-screen',
+                    'exercise': 'exercise-screen',
+                    'new-word': 'new-word-screen',
+                    'completion': 'completion-screen'
+                };
+                const screen = document.querySelector(`.${screenMap[screenName]}`);
+                if (screen) screen.classList.add('active');
+            },
+
+            updateUI() {
+                if (this.state.completedLessons[1]) {
+                    document.getElementById('lessonStatus').textContent = '✓';
+                }
+            }
+        };
+
+        app.init();
+    </script>
+</body>
+</html>

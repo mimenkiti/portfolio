@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Igbo App — Visual Territories: Narrowed &amp; Sketched</title>
+<style>
+  :root{
+    --ink:#241f1b; --ink-soft:#5c524a; --paper:#faf6ef; --paper-2:#f3ece0;
+    --line:#e4dccf; --card:#ffffff;
+    --accent:#b7492e;
+    --maxw:1160px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:#f4efe6; color:#241f1b;
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+  h1,h2,h3,h4{line-height:1.15; margin:0}
+  a{color:inherit}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:
+      radial-gradient(1200px 400px at 80% -10%, #ffe9cf 0%, rgba(255,233,207,0) 60%),
+      radial-gradient(900px 380px at 5% 0%, #e7 efe6 0%, rgba(231,239,230,0) 55%),
+      #faf6ef;
+    border-bottom:1px solid var(--line);
+    padding:54px 0 42px;
+  }
+  .kicker{font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-soft); font-weight:700}
+  header.hero h1{font-size:40px; letter-spacing:-.5px; margin:14px 0 10px; max-width:22ch}
+  header.hero p.lede{font-size:17.5px; color:var(--ink-soft); max-width:70ch; margin:0}
+  .ball-mark{display:inline-block; width:16px;height:16px;border-radius:50%;background:#241f1b;vertical-align:baseline;margin:0 2px}
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+  .pill{background:#fff; border:1px solid var(--line); border-radius:999px; padding:7px 13px; font-size:12.5px; font-weight:600; color:var(--ink-soft)}
+  .pill b{color:var(--ink)}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:46px 0}
+  .sec-label{font-size:12.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); font-weight:800}
+  h2.sec-title{font-size:27px; letter-spacing:-.3px; margin:8px 0 6px}
+  .sec-intro{color:var(--ink-soft); max-width:76ch; font-size:15.5px}
+
+  /* ---------- SCORECARD ---------- */
+  .grid-scores{display:grid; grid-template-columns:1fr; gap:0; margin-top:24px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff}
+  table.score{width:100%; border-collapse:collapse; font-size:14px}
+  table.score th, table.score td{padding:12px 12px; text-align:left; border-bottom:1px solid var(--line)}
+  table.score thead th{background:#f7f1e7; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:800}
+  table.score td.name{font-weight:700}
+  table.score tr:last-child td{border-bottom:none}
+  .dots{white-space:nowrap; font-size:15px; letter-spacing:1px}
+  .verdict{font-size:11.5px; font-weight:800; padding:3px 9px; border-radius:999px; display:inline-block}
+  .v-keep{background:#e4f0e4; color:#2f6a3a}
+  .v-cut{background:#f2e6e2; color:#9a4a34}
+  .row-keep{background:#fcfbf7}
+  .callout{border-left:4px solid var(--accent); background:#fff; padding:16px 18px; border-radius:0 12px 12px 0; margin-top:22px; font-size:15px}
+  .callout b{color:var(--accent)}
+
+  /* ---------- TERRITORY BLOCK ---------- */
+  .terr{border-top:1px solid var(--line)}
+  .terr-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+  .terr-no{font-size:13px; font-weight:800; color:#fff; background:var(--accent); border-radius:8px; padding:4px 10px}
+  .terr-head h3{font-size:24px; letter-spacing:-.2px}
+  .terr-head .sub{color:var(--ink-soft); font-style:italic; font-size:15px}
+  .why{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0 6px}
+  .why .cell{background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 13px}
+  .why .cell .h{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); font-weight:800; margin-bottom:4px}
+  .why .cell .b{font-size:13.5px}
+  .two-col{display:grid; grid-template-columns:1.1fr 1fr; gap:26px; margin-top:22px}
+  .panel h4{font-size:13px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:10px}
+  .panel p{font-size:14.5px; margin:0 0 10px}
+  ul.clean{margin:0; padding-left:18px; font-size:14.5px}
+  ul.clean li{margin-bottom:6px}
+  .risk{color:#9a4a34}
+  .strength{color:#2f6a3a}
+
+  /* ---------- MOODBOARD ---------- */
+  .mood{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:14px}
+  .swatch-card{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#fff}
+  .swatch-strip{display:flex; height:64px}
+  .swatch-strip span{flex:1}
+  .swatch-card .lab{padding:9px 12px; font-size:12.5px}
+  .swatch-card .lab b{display:block; font-size:13.5px; margin-bottom:2px}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
+  .chip{font-size:12px; background:#f7f1e7; border:1px solid var(--line); border-radius:999px; padding:5px 11px; font-weight:600; color:var(--ink-soft)}
+  .refs{font-size:13px; color:var(--ink-soft); margin-top:12px}
+  .refs b{color:var(--ink)}
+
+  /* ---------- PHONE ROW ---------- */
+  .phones-title{font-size:13px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); margin:26px 0 12px; font-weight:800}
+  .phones{display:flex; gap:16px; overflow-x:auto; padding:6px 2px 16px}
+  .phone-wrap{flex:0 0 auto; width:186px}
+  .phone-cap{font-size:12px; font-weight:700; color:var(--ink); margin-top:9px}
+  .phone-cap span{display:block; font-weight:500; color:var(--ink-soft); font-size:11.5px}
+  .phone{
+    width:186px; height:378px; border-radius:26px; background:#fff;
+    border:8px solid #241f1b; overflow:hidden; position:relative;
+    box-shadow:0 12px 30px -14px rgba(40,30,20,.4);
+  }
+  .phone svg{display:block; width:100%; height:100%}
+
+  .legend{font-size:13px; color:var(--ink-soft); margin-top:8px}
+
+  /* ---------- SYNTHESIS ---------- */
+  .synth{background:#241f1b; color:#f4efe6; border-radius:20px; padding:34px 30px; margin-top:10px}
+  .synth h2{color:#fff; font-size:24px}
+  .synth p{color:#d9cfc2; font-size:15.5px; max-width:80ch}
+  .synth .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px}
+  .synth .step{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:16px}
+  .synth .step .n{font-size:12px; color:#e8b98f; font-weight:800; letter-spacing:.1em}
+  .synth .step h4{color:#fff; margin:6px 0 6px; font-size:15px}
+  .synth .step p{font-size:13.5px; color:#cabfb2; margin:0}
+
+  footer{padding:34px 0 60px; color:var(--ink-soft); font-size:13px; border-top:1px solid var(--line)}
+
+  @media(max-width:900px){
+    .two-col{grid-template-columns:1fr}
+    .why{grid-template-columns:repeat(2,1fr)}
+    .mood{grid-template-columns:1fr}
+    .synth .steps{grid-template-columns:1fr}
+    header.hero h1{font-size:32px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Igbo Language App · Visual Identity Exploration</div>
+    <h1>From six territories to three &mdash; with moodboards and screen sketches</h1>
+    <p class="lede">Every language is a world, anchored by one black ball <span class="ball-mark"></span>. This deck narrows the six art directions against your stated priorities, then shows how the three survivors look as moodboards and as screens A, B1&ndash;B3 and C1.</p>
+    <div class="meta-row">
+      <span class="pill">Priorities weighed: <b>Whimsy · Cultural grounding · Simplicity · Warmth</b></span>
+      <span class="pill">Constant: <b>the black ball</b></span>
+      <span class="pill">Changes per language: <b>palette · accessory · world</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ NARROWING ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">Part 1 · The narrowing</div>
+    <h2 class="sec-title">Why these three, and why the other three fall away</h2>
+    <p class="sec-intro">You weighted four things and pointedly did <em>not</em> pick &ldquo;sophistication for its own sake.&rdquo; That single omission is decisive: it removes the directions whose main gift is design-literacy rather than warmth. Below, each territory is scored 1&ndash;5 on your four levers. The three that clear all four move forward.</p>
+
+    <div class="grid-scores">
+      <table class="score">
+        <thead>
+          <tr><th>Territory</th><th>Whimsy</th><th>Cultural grounding</th><th>Simplicity</th><th>Warmth</th><th>Verdict</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-keep">
+            <td class="name">4 · Objects &mdash; <span style="font-weight:400;font-style:italic">Curated Whimsy</span></td>
+            <td class="dots">●●●●●</td><td class="dots">●●●●○</td><td class="dots">●●●○○</td><td class="dots">●●●●●</td>
+            <td><span class="verdict v-keep">Keep · lead</span></td>
+          </tr>
+          <tr class="row-keep">
+            <td class="name">3 · Pattern &mdash; <span style="font-weight:400;font-style:italic">Uli-led Layered Stories</span></td>
+            <td class="dots">●●●○○</td><td class="dots">●●●●●</td><td class="dots">●●●●○</td><td class="dots">●●●●○</td>
+            <td><span class="verdict v-keep">Keep</span></td>
+          </tr>
+          <tr class="row-keep">
+            <td class="name">2 · Organic Blobs &mdash; <span style="font-weight:400;font-style:italic">Playful Fluidity</span></td>
+            <td class="dots">●●●●○</td><td class="dots">●●○○○</td><td class="dots">●●●●●</td><td class="dots">●●●●●</td>
+            <td><span class="verdict v-keep">Keep · base</span></td>
+          </tr>
+          <tr>
+            <td class="name">6 · Ethereal &mdash; Dreamy Atmosphere</td>
+            <td class="dots">●●●●○</td><td class="dots">●●○○○</td><td class="dots">●○○○○</td><td class="dots">●●●●●</td>
+            <td><span class="verdict v-cut">Cut</span></td>
+          </tr>
+          <tr>
+            <td class="name">1 · Geometric &mdash; Constructivist Clarity</td>
+            <td class="dots">●●○○○</td><td class="dots">●●○○○</td><td class="dots">●●●●●</td><td class="dots">●●○○○</td>
+            <td><span class="verdict v-cut">Cut</span></td>
+          </tr>
+          <tr>
+            <td class="name">5 · Typographic &mdash; Words as Worlds</td>
+            <td class="dots">●●●○○</td><td class="dots">●●●○○</td><td class="dots">●●●●○</td><td class="dots">●●○○○</td>
+            <td><span class="verdict v-cut">Cut</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>The one real tension in your brief:</b> you want cultural grounding <em>and</em> simplicity, but the most culturally-grounded directions (Pattern, Objects) are the labor-heaviest. The resolution is the reason <b>Uli</b> anchors the pattern pick &mdash; Uli is Igbo line-drawing built from single gestural strokes and negative space. It is simultaneously the most Igbo-specific and the most minimal reference available. That is a rare thing, and it&rsquo;s why this set can honour both levers at once.
+    </div>
+
+    <p class="sec-intro" style="margin-top:22px"><strong>Why the three cuts:</strong> <em>Ethereal</em> matches your warmth and whimsy but fails simplicity hardest &mdash; soft washes are the most difficult thing to build, keep legible, and iterate on in code, and it overlaps Organic on feel while being far costlier. <em>Geometric</em> and <em>Typographic</em> are the design-sophistication plays; both under-serve warmth (the lever you leaned on most) and neither carries cultural specificity without it feeling imposed. They&rsquo;re excellent directions for a different brief than the one you described.</p>
+  </div>
+</section>
+
+<!-- ============ TERRITORY 4: OBJECTS ============ -->
+<section class="terr">
+  <div class="wrap">
+    <div class="terr-head">
+      <span class="terr-no">Lead pick</span>
+      <h3>Objects &mdash; &ldquo;Curated Whimsy&rdquo;</h3>
+      <span class="sub">a small collection of hand-drawn objects builds each world around the ball</span>
+    </div>
+
+    <div class="why">
+      <div class="cell"><div class="h">Whimsy</div><div class="b">Highest of any territory. Delight comes from <em>curation</em> &mdash; objects that don&rsquo;t quite &ldquo;match&rdquo; &mdash; not from animation.</div></div>
+      <div class="cell"><div class="h">Cultural grounding</div><div class="b">Strong &amp; specific: a clay pot, kola nuts, a cowrie read as Igbo without a single stereotype.</div></div>
+      <div class="cell"><div class="h">Simplicity</div><div class="b">Managed, not free: line + flat fill, 4&ndash;6 objects per world. The discipline is in the edit.</div></div>
+      <div class="cell"><div class="h">Warmth</div><div class="b">Feels personal, like a shelf someone arranged for you. Intimate rather than systematic.</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <h4>How the world is built</h4>
+        <p>Each language is a tiny still-life. The black ball sits <em>among</em> the objects as the focal member of the group; objects lean toward it, orbit it, or shelter it. The per-language accessory is one small object that belongs to the set &mdash; so the ball reads as a character in the scene, never a logo pasted on top.</p>
+        <p>The visual unit of difference is <b>the object collection</b> (subject matter), held together by one consistent line weight, one flat-fill logic, and a shared warm-desaturated base. Add a language = draw 5 objects. That is the whole system.</p>
+      </div>
+      <div class="panel">
+        <h4>Strengths &amp; risks</h4>
+        <ul class="clean">
+          <li class="strength">Cultural specificity with zero stereotype &mdash; meaning lives in the objects.</li>
+          <li class="strength">Editorial quality; the same art works in print, social, onboarding.</li>
+          <li class="risk">Illustration quality <em>is</em> the product &mdash; weak drawing sinks it.</li>
+          <li class="risk">Can read &ldquo;museum/educational&rdquo; if objects get too reverent &mdash; keep them playful and slightly unexpected.</li>
+          <li class="risk">Hardest to scale headcount-wise: needs a steady illustrator.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phones-title">Moodboard · palette &amp; language</div>
+    <div class="mood">
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#c9873a"></span><span style="background:#a0442b"></span><span style="background:#f3e9d6"></span><span style="background:#2b2622"></span><span style="background:#2e6e6a"></span></div>
+        <div class="lab"><b>Igbo · warm ochre</b>ochre · rust · cream · charcoal + teal accent</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#d8a43a"></span><span style="background:#6e6a3a"></span><span style="background:#e8b98f"></span><span style="background:#2b2622"></span><span style="background:#8a3b2c"></span></div>
+        <div class="lab"><b>Twi · gold &amp; olive</b>gold · warm olive · peach + charcoal</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#5e7c8c"></span><span style="background:#8fa68a"></span><span style="background:#f3e9d6"></span><span style="background:#2b2622"></span><span style="background:#c9873a"></span></div>
+        <div class="lab"><b>Ga · muted blue</b>muted blue · sage · cream + ochre accent</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">line + flat fill</span><span class="chip">cabinet of curiosities</span><span class="chip">Wes Anderson symmetry</span><span class="chip">warm-desaturated</span><span class="chip">objects lean toward the ball</span><span class="chip">1 accessory = 1 object</span>
+    </div>
+    <div class="refs"><b>Gather:</b> Oliver Jeffers &amp; New Yorker editorial illustration · Wes Anderson colour-object relationships · Kunstkammer/cabinet-of-curiosities plates · Igbo material culture (clay pots, cowrie, uli-marked walls) shot as reference, not copied.</div>
+
+    <div class="phones-title">Screens · A · B1 Igbo · B2 Twi · B3 Ga · C1</div>
+    <div class="phones">
+      <!-- A -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f3e9d6"/>
+            <!-- scattered objects faint -->
+            <g opacity="0.5" fill="none" stroke="#a0442b" stroke-width="1.4">
+              <rect x="26" y="70" width="20" height="16" rx="2"/>
+              <circle cx="132" cy="96" r="9"/>
+              <path d="M120 300 q10 -14 22 0"/>
+            </g>
+            <circle cx="85" cy="176" r="26" fill="#2b2622"/>
+            <text x="85" y="240" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2b2622" font-style="italic">one language,</text>
+            <text x="85" y="258" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2b2622" font-style="italic">one world</text>
+            <rect x="45" y="300" width="80" height="30" rx="15" fill="#a0442b"/>
+            <text x="85" y="320" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="#f3e9d6" font-weight="700">begin</text>
+          </svg>
+        </div>
+        <div class="phone-cap">A · Entry<span>ball + a few faint objects</span></div>
+      </div>
+      <!-- B1 Igbo -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f3e9d6"/>
+            <text x="85" y="34" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#5c524a" letter-spacing="2">1 / 3</text>
+            <!-- still life: pot, kola, mat -->
+            <g stroke="#2b2622" stroke-width="1.6" fill="none">
+              <path d="M40 150 q-6 22 12 26 q18 4 12 -20 q-2 -8 -12 -8 q-10 0 -12 2z" fill="#a0442b"/>
+              <path d="M40 148 h24" stroke="#2b2622"/>
+            </g>
+            <circle cx="120" cy="150" r="7" fill="#6e6a3a"/><circle cx="132" cy="160" r="6" fill="#6e6a3a"/>
+            <rect x="108" y="185" width="34" height="10" rx="2" fill="#c9873a" stroke="#2b2622" stroke-width="1.2"/>
+            <!-- ball with triangle-ish cowrie accessory -->
+            <circle cx="85" cy="120" r="24" fill="#2b2622"/>
+            <path d="M85 92 l7 12 h-14 z" fill="#2e6e6a"/>
+            <text x="85" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#2b2622">Ìgbò</text>
+            <text x="85" y="274" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#a0442b" font-style="italic">Ndeewo</text>
+            <rect x="40" y="300" width="90" height="30" rx="15" fill="#2b2622"/>
+            <text x="85" y="320" text-anchor="middle" font-size="11" fill="#f3e9d6" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B1 · Igbo<span>pot · kola · cowrie accessory</span></div>
+      </div>
+      <!-- B2 Twi -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f6ecd9"/>
+            <text x="85" y="34" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">2 / 3</text>
+            <g stroke="#2b2622" stroke-width="1.5" fill="none">
+              <rect x="36" y="140" width="20" height="20" transform="rotate(45 46 150)" fill="#d8a43a"/>
+              <path d="M112 158 q14 -20 28 0" fill="#6e6a3a"/>
+              <circle cx="128" cy="140" r="6" fill="#e8b98f"/>
+            </g>
+            <circle cx="85" cy="120" r="24" fill="#2b2622"/>
+            <path d="M73 100 q12 -12 24 0 q-6 6 -12 6 q-6 0 -12 -6z" fill="#d8a43a"/>
+            <text x="85" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#2b2622">Twi</text>
+            <text x="85" y="274" text-anchor="middle" font-size="12" fill="#8a3b2c" font-style="italic">Akwaaba</text>
+            <rect x="40" y="300" width="90" height="30" rx="15" fill="#2b2622"/>
+            <text x="85" y="320" text-anchor="middle" font-size="11" fill="#f6ecd9" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B2 · Twi<span>goldweight · fabric accessory</span></div>
+      </div>
+      <!-- B3 Ga -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#eef1ee"/>
+            <text x="85" y="34" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">3 / 3</text>
+            <g stroke="#2b2622" stroke-width="1.5" fill="none">
+              <path d="M34 155 q10 -10 20 0 q10 10 20 0" stroke="#5e7c8c"/>
+              <circle cx="128" cy="150" r="8" fill="#8fa68a"/>
+            </g>
+            <circle cx="85" cy="122" r="24" fill="#2b2622"/>
+            <path d="M74 104 q11 -6 22 0 q-4 5 -11 5 q-7 0 -11 -5z" fill="#5e7c8c"/>
+            <text x="85" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#2b2622">Gã</text>
+            <text x="85" y="274" text-anchor="middle" font-size="12" fill="#5e7c8c" font-style="italic">Ojekoo</text>
+            <rect x="40" y="300" width="90" height="30" rx="15" fill="#2b2622"/>
+            <text x="85" y="320" text-anchor="middle" font-size="11" fill="#eef1ee" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B3 · Ga<span>sparser set · water accessory</span></div>
+      </div>
+      <!-- C1 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f3e9d6"/>
+            <circle cx="30" cy="34" r="10" fill="#2b2622"/><path d="M30 26 l3 5 h-6 z" fill="#2e6e6a"/>
+            <text x="50" y="38" font-size="12" fill="#2b2622" font-weight="700">Ìgbò</text>
+            <text x="20" y="76" font-family="Georgia,serif" font-size="15" fill="#2b2622">What do you</text>
+            <text x="20" y="96" font-family="Georgia,serif" font-size="15" fill="#2b2622">want to talk about?</text>
+            <g font-size="11" fill="#2b2622">
+              <rect x="20" y="120" width="60" height="26" rx="13" fill="#a0442b"/><text x="50" y="137" text-anchor="middle" fill="#f3e9d6">greetings</text>
+              <rect x="88" y="120" width="52" height="26" rx="13" fill="#fff" stroke="#2b2622"/><text x="114" y="137" text-anchor="middle">market</text>
+              <rect x="20" y="154" width="52" height="26" rx="13" fill="#fff" stroke="#2b2622"/><text x="46" y="171" text-anchor="middle">family</text>
+              <rect x="80" y="154" width="46" height="26" rx="13" fill="#fff" stroke="#2b2622"/><text x="103" y="171" text-anchor="middle">food</text>
+              <rect x="20" y="188" width="52" height="26" rx="13" fill="#fff" stroke="#2b2622"/><text x="46" y="205" text-anchor="middle">travel</text>
+            </g>
+            <rect x="20" y="300" width="130" height="32" rx="16" fill="#2b2622"/>
+            <text x="85" y="321" text-anchor="middle" font-size="12" fill="#f3e9d6" font-weight="700">start talking</text>
+          </svg>
+        </div>
+        <div class="phone-cap">C1 · Context<span>ball keeps its accessory in-header</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TERRITORY 3: PATTERN / ULI ============ -->
+<section class="terr">
+  <div class="wrap">
+    <div class="terr-head">
+      <span class="terr-no">Keep</span>
+      <h3>Pattern &mdash; &ldquo;Uli-led Layered Stories&rdquo;</h3>
+      <span class="sub">line-based Igbo Uli, Kente and Adire logic reinvented as a contemporary graphic system</span>
+    </div>
+
+    <div class="why">
+      <div class="cell"><div class="h">Whimsy</div><div class="b">Quieter, earned through pattern reveals and rhythm rather than characterful objects.</div></div>
+      <div class="cell"><div class="h">Cultural grounding</div><div class="b">The strongest of all six &mdash; grounding is <em>intrinsic</em>, not decoration laid on top.</div></div>
+      <div class="cell"><div class="h">Simplicity</div><div class="b">High <em>because</em> it leads with Uli line: single strokes, lots of negative space.</div></div>
+      <div class="cell"><div class="h">Warmth</div><div class="b">Earth tones + indigo feel hand-made and rooted, not clinical.</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <h4>How the world is built</h4>
+        <p>The black ball is the still point that Uli line-work draws itself around &mdash; the pattern appears to <em>emanate</em> from the ball rather than sit behind it. The accessory is a pattern motif that belongs to the field, not an object floated on top. When language changes, the pattern <em>logic</em> stays (line, rhythm, reveal) while the motif vocabulary swaps: Uli for Igbo, Kente geometry for Twi, Adire indigo for Ga.</p>
+        <p>The visual unit of difference is <b>the pattern system</b>. Crucially, pattern here can also carry information architecture &mdash; sections and depth &mdash; so it does double duty.</p>
+      </div>
+      <div class="panel">
+        <h4>Strengths &amp; risks</h4>
+        <ul class="clean">
+          <li class="strength">Genuinely differentiated &mdash; almost no app leads with pattern.</li>
+          <li class="strength">Uli keeps it minimal <em>and</em> deeply Igbo at once &mdash; resolves your simplicity/culture tension.</li>
+          <li class="risk">Pattern overload &rarr; busy, chaotic, or unreadable if unrestrained.</li>
+          <li class="risk">The line from &ldquo;thoughtful reference&rdquo; to &ldquo;ethnic tourism&rdquo; is real &mdash; needs consultation with Igbo/Akan/Ga makers and clear sourcing.</li>
+          <li class="risk">Legibility on small screens must be tested with pattern behind type.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phones-title">Moodboard · palette &amp; language</div>
+    <div class="mood">
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#2c3a5a"></span><span style="background:#f4efe6"></span><span style="background:#b4552f"></span><span style="background:#8a8f7a"></span></div>
+        <div class="lab"><b>Igbo · Uli</b>indigo · off-white · terracotta &mdash; line &amp; negative space</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#cfa13a"></span><span style="background:#8e2e2a"></span><span style="background:#2f5d3a"></span><span style="background:#f4efe6"></span></div>
+        <div class="lab"><b>Twi · Kente</b>gold · deep red · green &mdash; woven geometry</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#21324d"></span><span style="background:#f4efe6"></span><span style="background:#3f5a75"></span><span style="background:#c7b8a0"></span></div>
+        <div class="lab"><b>Ga · Adire</b>deep indigo · white &mdash; resist-dye depth</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">Uli single-stroke line</span><span class="chip">negative space is the design</span><span class="chip">pattern emanates from the ball</span><span class="chip">Kente woven grid</span><span class="chip">Adire indigo resist</span><span class="chip">reveal on scroll</span>
+    </div>
+    <div class="refs"><b>Gather:</b> Uche Okeke &amp; the Nsukka school (Uli) · contemporary Kente scholarship · Adire textile archives · Lagos studios doing contemporary African graphic work. Sourcing note: name the traditions and, ideally, collaborate with makers.</div>
+
+    <div class="phones-title">Screens · A · B1 Igbo · B2 Twi · B3 Ga · C1</div>
+    <div class="phones">
+      <!-- A -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f4efe6"/>
+            <g stroke="#2c3a5a" stroke-width="1.3" fill="none" opacity="0.85">
+              <path d="M85 176 m-46 0 q46 -30 92 0 q-46 30 -92 0"/>
+              <path d="M85 176 m-60 0 q60 -44 120 0 q-60 44 -120 0" opacity="0.5"/>
+              <circle cx="85" cy="120" r="3" fill="#b4552f" stroke="none"/>
+              <circle cx="40" cy="176" r="2.4" fill="#b4552f" stroke="none"/>
+              <circle cx="130" cy="176" r="2.4" fill="#b4552f" stroke="none"/>
+            </g>
+            <circle cx="85" cy="176" r="24" fill="#2b2622"/>
+            <text x="85" y="256" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c3a5a" font-style="italic">one language,</text>
+            <text x="85" y="274" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#2c3a5a" font-style="italic">one world</text>
+            <rect x="45" y="304" width="80" height="30" rx="15" fill="#2c3a5a"/>
+            <text x="85" y="324" text-anchor="middle" font-size="11" fill="#f4efe6" font-weight="700">begin</text>
+          </svg>
+        </div>
+        <div class="phone-cap">A · Entry<span>Uli lines radiate from ball</span></div>
+      </div>
+      <!-- B1 Igbo -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f4efe6"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">1 / 3</text>
+            <g stroke="#2c3a5a" stroke-width="1.4" fill="none">
+              <path d="M25 120 q40 -26 55 -6"/>
+              <path d="M145 120 q-40 -26 -55 -6"/>
+              <path d="M30 150 q20 14 40 6" opacity="0.7"/>
+              <path d="M140 150 q-20 14 -40 6" opacity="0.7"/>
+              <circle cx="45" cy="110" r="2.6" fill="#b4552f" stroke="none"/>
+              <circle cx="125" cy="110" r="2.6" fill="#b4552f" stroke="none"/>
+            </g>
+            <circle cx="85" cy="128" r="23" fill="#2b2622"/>
+            <path d="M85 104 q-8 -10 0 -16 q8 6 0 16z" fill="#b4552f"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#2c3a5a">Ìgbò</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#b4552f" font-style="italic">Ndeewo</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#2c3a5a"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#f4efe6" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B1 · Igbo<span>Uli motif accessory</span></div>
+      </div>
+      <!-- B2 Twi -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f4efe6"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">2 / 3</text>
+            <g>
+              <rect x="20" y="96" width="130" height="8" fill="#cfa13a"/>
+              <rect x="20" y="104" width="130" height="8" fill="#8e2e2a"/>
+              <rect x="20" y="112" width="130" height="8" fill="#2f5d3a"/>
+              <g fill="#f4efe6"><rect x="34" y="96" width="4" height="24"/><rect x="70" y="96" width="4" height="24"/><rect x="106" y="96" width="4" height="24"/><rect x="140" y="96" width="4" height="24"/></g>
+            </g>
+            <circle cx="85" cy="160" r="23" fill="#2b2622"/>
+            <rect x="79" y="132" width="12" height="8" fill="#cfa13a"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#8e2e2a">Twi</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#2f5d3a" font-style="italic">Akwaaba</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#8e2e2a"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#f4efe6" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B2 · Twi<span>Kente woven band</span></div>
+      </div>
+      <!-- B3 Ga -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#21324d"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#b9c4d2" letter-spacing="2">3 / 3</text>
+            <g stroke="#f4efe6" stroke-width="1.2" fill="none" opacity="0.85">
+              <circle cx="45" cy="110" r="8"/><circle cx="45" cy="110" r="3"/>
+              <circle cx="125" cy="110" r="8"/><circle cx="125" cy="110" r="3"/>
+              <circle cx="85" cy="86" r="8"/><circle cx="85" cy="86" r="3"/>
+              <path d="M30 150 h110" stroke-dasharray="3 5"/>
+            </g>
+            <circle cx="85" cy="128" r="23" fill="#0f1a2c"/>
+            <circle cx="85" cy="128" r="23" fill="none" stroke="#f4efe6" stroke-width="1" opacity="0.5"/>
+            <circle cx="85" cy="106" r="4" fill="none" stroke="#f4efe6"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#f4efe6">Gã</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#9db1c7" font-style="italic">Ojekoo</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#f4efe6"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#21324d" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B3 · Ga<span>Adire indigo resist</span></div>
+      </div>
+      <!-- C1 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f4efe6"/>
+            <path d="M0 54 q40 -20 85 0 q45 20 85 0 v-54 h-170 z" fill="#2c3a5a" opacity="0.08"/>
+            <circle cx="30" cy="32" r="10" fill="#2b2622"/><path d="M30 20 q-5 -6 0 -10 q5 4 0 10z" fill="#b4552f"/>
+            <text x="50" y="36" font-size="12" fill="#2c3a5a" font-weight="700">Ìgbò</text>
+            <text x="20" y="80" font-family="Georgia,serif" font-size="15" fill="#2c3a5a">What do you</text>
+            <text x="20" y="100" font-family="Georgia,serif" font-size="15" fill="#2c3a5a">want to talk about?</text>
+            <g font-size="11">
+              <rect x="20" y="124" width="64" height="26" rx="13" fill="#2c3a5a"/><text x="52" y="141" text-anchor="middle" fill="#f4efe6">greetings</text>
+              <rect x="92" y="124" width="50" height="26" rx="13" fill="none" stroke="#2c3a5a"/><text x="117" y="141" text-anchor="middle" fill="#2c3a5a">market</text>
+              <rect x="20" y="158" width="50" height="26" rx="13" fill="none" stroke="#2c3a5a"/><text x="45" y="175" text-anchor="middle" fill="#2c3a5a">family</text>
+              <rect x="78" y="158" width="44" height="26" rx="13" fill="none" stroke="#2c3a5a"/><text x="100" y="175" text-anchor="middle" fill="#2c3a5a">food</text>
+            </g>
+            <rect x="20" y="302" width="130" height="32" rx="16" fill="#2c3a5a"/>
+            <text x="85" y="323" text-anchor="middle" font-size="12" fill="#f4efe6" font-weight="700">start talking</text>
+          </svg>
+        </div>
+        <div class="phone-cap">C1 · Context<span>faint Uli header field</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TERRITORY 2: ORGANIC ============ -->
+<section class="terr">
+  <div class="wrap">
+    <div class="terr-head">
+      <span class="terr-no">Keep · base</span>
+      <h3>Organic Blobs &mdash; &ldquo;Playful Fluidity&rdquo;</h3>
+      <span class="sub">soft flowing shapes; the most buildable, scalable, and reliably warm option</span>
+    </div>
+
+    <div class="why">
+      <div class="cell"><div class="h">Whimsy</div><div class="b">High &mdash; bounce, morph, gentle personality in the ball&rsquo;s motion.</div></div>
+      <div class="cell"><div class="h">Cultural grounding</div><div class="b">The weak spot. Subtle at best; must be actively supplied via Uli marks / motif accessories.</div></div>
+      <div class="cell"><div class="h">Simplicity</div><div class="b">Highest. Shapes + color, no per-language illustration required. Easiest to ship.</div></div>
+      <div class="cell"><div class="h">Warmth</div><div class="b">Highest, tied with Objects &mdash; embracing, communal, alive.</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <h4>How the world is built</h4>
+        <p>The ball floats within a small cluster of soft shapes that orbit and protect it; the accessory is soft and organic (feather for Igbo, fabric for Twi, water for Ga). The visual unit of difference is <b>palette + shape personality</b> &mdash; Igbo rounded and close, Twi more energetic, Ga airy and sparse. Language changes = shapes morph into a new configuration.</p>
+        <p><b>Its real role in this set:</b> as the <em>connective tissue</em>. Organic is the cheapest, most legible, most motion-friendly base &mdash; the honest recommendation (see synthesis below) is to build the app on Organic&rsquo;s warmth and reliability, then carry cultural grounding through Objects/Uli accents so it never reads &ldquo;generic playful startup.&rdquo;</p>
+      </div>
+      <div class="panel">
+        <h4>Strengths &amp; risks</h4>
+        <ul class="clean">
+          <li class="strength">Fastest to build, scale to new languages, and animate well.</li>
+          <li class="strength">Reliably warm and friendly with minimal assets.</li>
+          <li class="risk">The blob look is very 2020s &mdash; dates fastest and risks &ldquo;every playful startup.&rdquo;</li>
+          <li class="risk">Cultural specificity is the thinnest here &mdash; must be deliberately added, or it feels applied.</li>
+          <li class="risk">Too many overlapping blobs &rarr; visual mush; discipline needed.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phones-title">Moodboard · palette &amp; language</div>
+    <div class="mood">
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#d97a4e"></span><span style="background:#b7492e"></span><span style="background:#f6ecdd"></span><span style="background:#e9a06a"></span></div>
+        <div class="lab"><b>Igbo · terracotta</b>terracotta · rust · cream · soft shadow</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#e4b15a"></span><span style="background:#7ba05b"></span><span style="background:#f2c29b"></span><span style="background:#f6ecdd"></span></div>
+        <div class="lab"><b>Twi · gold &amp; green</b>gold · warm green · peach</div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-strip"><span style="background:#86b0c9"></span><span style="background:#b6a8d6"></span><span style="background:#f6ecdd"></span><span style="background:#cfe0e6"></span></div>
+        <div class="lab"><b>Ga · soft blue</b>soft blue · lavender · cream</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">soft overlapping shapes</span><span class="chip">morph on language change</span><span class="chip">gentle bounce &amp; sway</span><span class="chip">handmade-but-digital</span><span class="chip">Uli mark tucked in for grounding</span>
+    </div>
+    <div class="refs"><b>Gather:</b> Pixar visual warmth · Spiritfarer / Journey palettes · Mailchimp &amp; early Slack identity · Lizzy Stewart / Lou Romano. Grounding add-on: Uli line marks &amp; motif accessories so it doesn&rsquo;t read generic.</div>
+
+    <div class="phones-title">Screens · A · B1 Igbo · B2 Twi · B3 Ga · C1</div>
+    <div class="phones">
+      <!-- A -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f6ecdd"/>
+            <path d="M20 150 q-6 -40 40 -42 q50 -2 46 40 q-4 34 -44 34 q-38 0 -42 -32z" fill="#e9a06a" opacity="0.55"/>
+            <path d="M96 210 q30 -6 40 26 q8 30 -24 34 q-32 4 -34 -28 q-2 -26 18 -32z" fill="#d97a4e" opacity="0.5"/>
+            <circle cx="85" cy="176" r="24" fill="#2b2622"/>
+            <text x="85" y="256" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#b7492e" font-style="italic">one language,</text>
+            <text x="85" y="274" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#b7492e" font-style="italic">one world</text>
+            <rect x="45" y="304" width="80" height="30" rx="15" fill="#b7492e"/>
+            <text x="85" y="324" text-anchor="middle" font-size="11" fill="#f6ecdd" font-weight="700">begin</text>
+          </svg>
+        </div>
+        <div class="phone-cap">A · Entry<span>ball nested in soft shapes</span></div>
+      </div>
+      <!-- B1 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f6ecdd"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">1 / 3</text>
+            <path d="M40 130 q-16 -34 30 -40 q52 -6 52 34 q0 34 -40 36 q-34 2 -42 -30z" fill="#d97a4e" opacity="0.75"/>
+            <path d="M100 90 q26 -4 30 22 q2 22 -22 24 q-24 2 -24 -22 q0 -20 16 -24z" fill="#e9a06a" opacity="0.7"/>
+            <circle cx="85" cy="128" r="22" fill="#2b2622"/>
+            <path d="M85 106 q-3 -16 4 -22 q3 12 -4 22z" fill="#b7492e"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#b7492e">Ìgbò</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#a0442b" font-style="italic">Ndeewo</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#b7492e"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#f6ecdd" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B1 · Igbo<span>warm, rounded · feather</span></div>
+      </div>
+      <!-- B2 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#fbf3e4"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">2 / 3</text>
+            <path d="M42 118 q-10 -30 32 -34 q46 -4 46 30 q0 30 -38 32 q-34 2 -40 -28z" fill="#e4b15a" opacity="0.8"/>
+            <path d="M96 150 q24 -6 28 18 q2 22 -22 22 q-22 0 -22 -20 q0 -16 16 -20z" fill="#7ba05b" opacity="0.6"/>
+            <circle cx="85" cy="126" r="22" fill="#2b2622"/>
+            <path d="M74 108 q11 -8 22 0 q-6 5 -11 5 q-6 0 -11 -5z" fill="#7ba05b"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#7ba05b">Twi</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#c98a2e" font-style="italic">Akwaaba</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#7ba05b"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#fbf3e4" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B2 · Twi<span>energetic · fabric</span></div>
+      </div>
+      <!-- B3 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f2f5f7"/>
+            <text x="85" y="30" text-anchor="middle" font-size="10" fill="#5c524a" letter-spacing="2">3 / 3</text>
+            <path d="M46 124 q-8 -26 30 -30 q42 -4 42 28 q0 28 -36 30 q-30 2 -36 -26z" fill="#86b0c9" opacity="0.55"/>
+            <path d="M104 104 q20 -2 22 18 q2 18 -18 18 q-18 0 -18 -18 q0 -14 14 -18z" fill="#b6a8d6" opacity="0.45"/>
+            <circle cx="85" cy="126" r="22" fill="#2b2622"/>
+            <path d="M74 108 q11 -5 22 0 q-8 6 -11 6 q-3 0 -11 -6z" fill="#86b0c9"/>
+            <text x="85" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#5e7c8c">Gã</text>
+            <text x="85" y="276" text-anchor="middle" font-size="12" fill="#8b7fb0" font-style="italic">Ojekoo</text>
+            <rect x="40" y="302" width="90" height="30" rx="15" fill="#5e7c8c"/>
+            <text x="85" y="322" text-anchor="middle" font-size="11" fill="#f2f5f7" font-weight="700">enter this world</text>
+          </svg>
+        </div>
+        <div class="phone-cap">B3 · Ga<span>airy · sparse · water</span></div>
+      </div>
+      <!-- C1 -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <svg viewBox="0 0 170 362">
+            <rect width="170" height="362" fill="#f6ecdd"/>
+            <path d="M0 60 q40 -14 85 -2 q45 12 85 -6 v-52 h-170z" fill="#e9a06a" opacity="0.35"/>
+            <circle cx="30" cy="32" r="10" fill="#2b2622"/><path d="M30 22 q-2 -8 3 -11 q2 8 -3 11z" fill="#b7492e"/>
+            <text x="50" y="36" font-size="12" fill="#b7492e" font-weight="700">Ìgbò</text>
+            <text x="20" y="86" font-family="Georgia,serif" font-size="15" fill="#b7492e">What do you</text>
+            <text x="20" y="106" font-family="Georgia,serif" font-size="15" fill="#b7492e">want to talk about?</text>
+            <g font-size="11">
+              <rect x="20" y="130" width="64" height="27" rx="13.5" fill="#b7492e"/><text x="52" y="147.5" text-anchor="middle" fill="#f6ecdd">greetings</text>
+              <rect x="92" y="130" width="50" height="27" rx="13.5" fill="#fff"/><text x="117" y="147.5" text-anchor="middle" fill="#b7492e">market</text>
+              <rect x="20" y="165" width="50" height="27" rx="13.5" fill="#fff"/><text x="45" y="182.5" text-anchor="middle" fill="#b7492e">family</text>
+              <rect x="78" y="165" width="44" height="27" rx="13.5" fill="#fff"/><text x="100" y="182.5" text-anchor="middle" fill="#b7492e">food</text>
+            </g>
+            <rect x="20" y="302" width="130" height="32" rx="16" fill="#b7492e"/>
+            <text x="85" y="323" text-anchor="middle" font-size="12" fill="#f6ecdd" font-weight="700">start talking</text>
+          </svg>
+        </div>
+        <div class="phone-cap">C1 · Context<span>soft header wash</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SYNTHESIS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">Part 3 · The recommendation behind the recommendation</div>
+    <h2 class="sec-title" style="margin-bottom:14px">Don&rsquo;t pick one &mdash; layer them</h2>
+    <div class="synth">
+      <h2>Organic as the chassis, Objects &amp; Uli as the soul</h2>
+      <p>These three aren&rsquo;t really competitors &mdash; they&rsquo;re a stack. Your simplicity/culture tension dissolves if you build the <em>system</em> on Organic (cheap, warm, motion-friendly, scales to any new language) and let the <em>per-language identity</em> come from a curated object or two plus Uli-family line marks. You get Organic&rsquo;s buildability, Objects&rsquo; whimsy, and Pattern&rsquo;s cultural depth &mdash; without committing to hand-illustrating a full pattern field or a full still-life for every language at launch.</p>
+      <div class="steps">
+        <div class="step"><div class="n">TEST FIRST</div><h4>Prototype Objects for Igbo</h4><p>It&rsquo;s your lead and your riskiest (illustration-dependent). Prove the drawing quality on one world before betting the system on it.</p></div>
+        <div class="step"><div class="n">DE-RISK</div><h4>Build the shell in Organic</h4><p>Ship-ready warmth with minimal assets. If Objects&rsquo; illustration proves too costly to scale, Organic is the graceful fallback that still feels on-brand.</p></div>
+        <div class="step"><div class="n">GROUND</div><h4>Layer Uli marks throughout</h4><p>Uli line as accessory + accent is the thread that keeps even the Organic screens from reading &ldquo;generic playful startup.&rdquo;</p></div>
+      </div>
+    </div>
+    <p class="sec-intro" style="margin-top:20px"><strong>If you must pick exactly one to develop next:</strong> Objects (Territory 4). It is the only direction that scored top marks on both whimsy and warmth while carrying real cultural specificity &mdash; the exact combination you asked for. Pattern is the strongest cultural statement if you can resource the illustration and consultation; Organic is the safest ship if timeline or budget tightens.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Conceptual exploration only &mdash; palettes, mockups, and motifs are directional sketches to react to, not final artwork. Cultural motifs (Uli, Kente, Adire) shown here are references to reinterpret in collaboration with makers from those traditions, not to reproduce. Black ball anchor and A&rarr;B&rarr;C flow held constant per the brief. · Prepared for the Igbo language-app visual identity exploration.
+  </div>
+</footer>
+
+</body>
+</html>

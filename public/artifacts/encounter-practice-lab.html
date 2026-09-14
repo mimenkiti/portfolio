@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encounter ↔ Practice Lab</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+        }
+
+        .lab-container {
+            width: 100%;
+            max-width: 390px;
+            height: 844px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            flex: 1;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Landing Screen */
+        .landing-screen {
+            padding: 32px 20px;
+            justify-content: flex-start;
+        }
+
+        .landing-screen h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .landing-screen .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .concept-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .concept-cell h2 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .depth-button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            color: #333;
+        }
+
+        .depth-button:hover {
+            background: #f9f9f9;
+            border-color: #bbb;
+        }
+
+        .depth-button.micro { border-left: 3px solid #4CAF50; }
+        .depth-button.quick { border-left: 3px solid #2196F3; }
+        .depth-button.deep { border-left: 3px solid #FF9800; }
+
+        .notes {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.5;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        /* Encounter Screen */
+        .encounter-screen {
+            padding: 20px;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: #eee;
+            border-radius: 1.5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2196F3;
+            transition: width 0.3s;
+        }
+
+        .encounter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .encounter-header .label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .encounter-header .depth-indicator {
+            font-size: 11px;
+            color: #999;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .encounter-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+        }
+
+        .chioma-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chioma-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFB74D 0%, #FF9800 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+        .chioma-status {
+            font-size: 12px;
+            color: #999;
+            height: 16px;
+        }
+
+        .chioma-status.waiting {
+            animation: pulse-text 1.5s infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .speech-bubble {
+            background: #f0f0f0;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+            max-width: 200px;
+        }
+
+        .radial-menu {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+            min-width: 140px;
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: #f5f5f5;
+        }
+
+        .dot-control {
+            width: 60px;
+            height: 60px;
+            background: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+            user-select: none;
+            position: relative;
+        }
+
+        .dot-control:active {
+            transform: scale(0.95);
+        }
+
+        .dot-control.holding {
+            border: 2px solid rgba(33, 150, 243, 0.5);
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.4), inset 0 0 20px rgba(33, 150, 243, 0.1);
+        }
+
+        .pressure-indicator {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid rgba(33, 150, 243, 0.3);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        /* Practice Screen */
+        .practice-screen {
+            padding: 20px;
+            justify-content: space-between;
+        }
+
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .practice-header .label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .practice-depth-indicator {
+            font-size: 12px;
+            color: #666;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .practice-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .practice-phase {
+            text-align: center;
+        }
+
+        .phase-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .igbo-phrase {
+            font-size: 32px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .phrase-english {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .audio-button {
+            padding: 12px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 12px auto;
+            display: block;
+        }
+
+        .audio-button:hover {
+            background: #1976D2;
+        }
+
+        .pronunciation-demo {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin: 12px 0;
+        }
+
+        .practice-action {
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 12px auto;
+            display: block;
+        }
+
+        .practice-action:hover {
+            background: #45a049;
+        }
+
+        .practice-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        .practice-button {
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .practice-button:hover {
+            background: #f9f9f9;
+            border-color: #bbb;
+        }
+
+        .practice-button.return {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .practice-button.return:hover {
+            background: #1976D2;
+        }
+
+        .practice-button.skip {
+            background: #f0f0f0;
+        }
+
+        /* Return Screen */
+        .return-screen {
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .return-title {
+            font-size: 14px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .return-variations {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .variation-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .variation-card:hover {
+            background: #f5f5f5;
+            border-color: #bbb;
+        }
+
+        .variation-card.selected {
+            background: #E3F2FD;
+            border-color: #2196F3;
+        }
+
+        .variation-number {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .variation-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .variation-context {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .return-button {
+            padding: 12px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .return-button:hover {
+            background: #1976D2;
+        }
+
+        /* Feedback Screen */
+        .feedback-screen {
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .feedback-section {
+            margin-bottom: 24px;
+        }
+
+        .feedback-question {
+            font-size: 14px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .feedback-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .feedback-button {
+            padding: 12px 16px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .feedback-button:hover {
+            background: #f0f0f0;
+        }
+
+        .feedback-button.selected {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .feedback-submit {
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .feedback-submit:hover {
+            background: #45a049;
+        }
+
+        .seam-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+            animation: seam-open 0.4s ease-out;
+            z-index: 50;
+        }
+
+        @keyframes seam-open {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .seam-practice-wrapper {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .encounter-blurred {
+            filter: blur(2px);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            display: none;
+            z-index: 40;
+        }
+
+        .modal-backdrop.active {
+            display: block;
+        }
+
+        .teaching-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 60;
+            max-width: 280px;
+            text-align: center;
+            animation: teaching-appear 0.3s ease-out;
+        }
+
+        @keyframes teaching-appear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, calc(-50% - 10px));
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .teaching-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .teaching-phrase {
+            font-size: 28px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .teaching-english {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .teaching-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .teaching-controls button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .teaching-controls button:hover {
+            background: #f5f5f5;
+        }
+
+        .teaching-controls button.primary {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .teaching-controls button.primary:hover {
+            background: #1976D2;
+        }
+
+        .celebration {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .celebration-emoji {
+            font-size: 60px;
+            margin-bottom: 16px;
+        }
+
+        .celebration-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .celebration-subtext {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="lab-container">
+        <!-- Landing Screen -->
+        <div class="screen landing-screen active" id="landing">
+            <h1>Encounter ↔ Practice Lab</h1>
+            <p class="subtitle">Chioma reveals something you can't yet say. Try three ways of learning it and returning to her.</p>
+
+            <div class="concept-grid">
+                <div class="concept-cell">
+                    <h2>A — In Place</h2>
+                    <button class="depth-button micro" onclick="startExperience('A', 'micro', 'system')">Micro</button>
+                    <button class="depth-button quick" onclick="startExperience('A', 'quick', 'system')">Quick</button>
+                    <button class="depth-button deep" onclick="startExperience('A', 'deep', 'system')">Deep</button>
+                </div>
+                <div class="concept-cell">
+                    <h2>B — Practice Mode</h2>
+                    <button class="depth-button micro" onclick="startExperience('B', 'micro', 'system')">Micro</button>
+                    <button class="depth-button quick" onclick="startExperience('B', 'quick', 'system')">Quick</button>
+                    <button class="depth-button deep" onclick="startExperience('B', 'deep', 'system')">Deep</button>
+                </div>
+                <div class="concept-cell">
+                    <h2>C — Seam</h2>
+                    <button class="depth-button micro" onclick="startExperience('C', 'micro', 'system')">Micro</button>
+                    <button class="depth-button quick" onclick="startExperience('C', 'quick', 'system')">Quick</button>
+                    <button class="depth-button deep" onclick="startExperience('C', 'deep', 'system')">Deep</button>
+                </div>
+            </div>
+
+            <div class="notes">
+                <strong>System-initiated:</strong> Practice is suggested automatically when you can't produce the phrase.<br><br>
+                <strong>Learner-initiated:</strong> While talking to Chioma, tap the <strong>.</strong> to see a menu with "Practice" option.<br><br>
+                <em>Each experience shows three re-entry variations so you can compare how Chioma's response affects your sense of return.</em>
+            </div>
+        </div>
+
+        <!-- Encounter Screen -->
+        <div class="screen encounter-screen" id="encounter">
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="encounter-header">
+                    <div class="label" id="conceptLabel">Concept A — In Place</div>
+                    <div class="depth-indicator" id="depthLabel">Micro</div>
+                </div>
+            </div>
+
+            <div class="encounter-content">
+                <div class="chioma-area">
+                    <div class="chioma-avatar">🧑</div>
+                    <div class="chioma-status" id="chioma-status"></div>
+                </div>
+                <div class="speech-bubble" id="speechBubble">Kedụ?</div>
+            </div>
+
+            <div id="teachingArea"></div>
+            <div id="menuArea"></div>
+
+            <div class="controls">
+                <div class="dot-control" id="dotControl" ontouchstart="handleDotTouchStart(event)" ontouchend="handleDotTouchEnd(event)" onclick="handleDotTap()">
+                    <span id="dotSymbol">·</span>
+                    <div class="pressure-indicator" id="pressureIndicator"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Screen (Concept B - Full Screen) -->
+        <div class="screen practice-screen" id="practiceB">
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFillB"></div>
+                </div>
+                <div class="practice-header">
+                    <div class="label">Practice</div>
+                    <div class="practice-depth-indicator" id="depthProgressB">Step 1/2</div>
+                </div>
+            </div>
+
+            <div class="practice-content" id="practiceContentB"></div>
+
+            <div class="practice-controls">
+                <button class="practice-button skip" onclick="skipPracticeB()">Skip</button>
+                <button class="practice-button return" onclick="completePracticeB()">Return</button>
+            </div>
+        </div>
+
+        <!-- Return Screen -->
+        <div class="screen" id="returnScreen">
+            <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <div class="return-title">Choose Chioma's Response</div>
+                <div class="return-variations" id="returnVariations"></div>
+                <button class="return-button" onclick="continueToChioma()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="screen" id="successScreen">
+            <div class="encounter-screen">
+                <div style="height: 20px;"></div>
+                <div class="encounter-content" id="successContent"></div>
+                <div class="controls">
+                    <button class="practice-button" onclick="goToFeedback()" style="width: 160px; background: #2196F3; color: white; border-color: #2196F3;">Got it</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Screen -->
+        <div class="screen" id="feedbackScreen">
+            <div style="padding: 20px; text-align: center;">
+                <h2 style="font-size: 18px; margin-bottom: 24px;">Quick Reflection</h2>
+
+                <div class="feedback-section">
+                    <div class="feedback-question">Did practice feel like part of the encounter?</div>
+                    <div class="feedback-options">
+                        <button class="feedback-button" onclick="selectFeedback('q1', 'yes')">Yes</button>
+                        <button class="feedback-button" onclick="selectFeedback('q1', 'somewhat')">Somewhat</button>
+                        <button class="feedback-button" onclick="selectFeedback('q1', 'no')">No</button>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <div class="feedback-question">Did you get enough practice?</div>
+                    <div class="feedback-options">
+                        <button class="feedback-button" onclick="selectFeedback('q2', 'too-little')">Too little</button>
+                        <button class="feedback-button" onclick="selectFeedback('q2', 'about-right')">About right</button>
+                        <button class="feedback-button" onclick="selectFeedback('q2', 'too-much')">Too much</button>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <div class="feedback-question">Did returning to Chioma feel natural?</div>
+                    <div class="feedback-options">
+                        <button class="feedback-button" onclick="selectFeedback('q3', 'yes')">Yes</button>
+                        <button class="feedback-button" onclick="selectFeedback('q3', 'somewhat')">Somewhat</button>
+                        <button class="feedback-button" onclick="selectFeedback('q3', 'no')">No</button>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <div class="feedback-question">What did you want to do next?</div>
+                    <div class="feedback-options">
+                        <button class="feedback-button" onclick="selectFeedback('q4', 'continue')">Continue talking</button>
+                        <button class="feedback-button" onclick="selectFeedback('q4', 'practice')">Practice more</button>
+                    </div>
+                </div>
+
+                <button class="feedback-submit" onclick="submitFeedback()">Submit & Compare Another</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentExperience = {
+            concept: null,
+            depth: null,
+            trigger: null,
+            returnVariation: null,
+            feedback: {}
+        };
+
+        let isHolding = false;
+        let menuOpen = false;
+
+        const depths = {
+            micro: { reps: 1, time: '~10s', steps: 2 },
+            quick: { reps: 3, time: '~30s', steps: 3 },
+            deep: { reps: '1-2 min', time: 'learner-controlled', steps: 5 }
+        };
+
+        function startExperience(concept, depth, trigger) {
+            currentExperience = {
+                concept: concept,
+                depth: depth,
+                trigger: trigger,
+                returnVariation: null,
+                feedback: {}
+            };
+            showScreen('encounter');
+            initializeEncounter();
+        }
+
+        function initializeEncounter() {
+            const labels = {
+                'A': 'Concept A — In Place',
+                'B': 'Concept B — Practice Mode',
+                'C': 'Concept C — Continuous Surface'
+            };
+            document.getElementById('conceptLabel').textContent = labels[currentExperience.concept];
+            document.getElementById('depthLabel').textContent = currentExperience.depth.charAt(0).toUpperCase() + currentExperience.depth.slice(1);
+
+            updateProgress(0.2);
+
+            setTimeout(() => {
+                if (currentExperience.trigger === 'system') {
+                    triggerSystemPractice();
+                } else {
+                    showRadialMenu();
+                }
+            }, 2000);
+        }
+
+        function showRadialMenu() {
+            const menuArea = document.getElementById('menuArea');
+            menuArea.innerHTML = `
+                <div class="radial-menu">
+                    <div class="menu-item" onclick="selectPractice()">📚 Practice this</div>
+                    <div class="menu-item" onclick="closeMenu()">💬 Keep talking</div>
+                </div>
+            `;
+        }
+
+        function closeMenu() {
+            document.getElementById('menuArea').innerHTML = '';
+            menuOpen = false;
+        }
+
+        function selectPractice() {
+            closeMenu();
+            if (currentExperience.concept === 'A') {
+                triggerInPlacePractice();
+            } else if (currentExperience.concept === 'B') {
+                triggerPracticeModeB();
+            } else if (currentExperience.concept === 'C') {
+                triggerSeamPractice();
+            }
+        }
+
+        function triggerSystemPractice() {
+            if (currentExperience.concept === 'A') {
+                triggerInPlacePractice();
+            } else if (currentExperience.concept === 'B') {
+                triggerPracticeModeB();
+            } else if (currentExperience.concept === 'C') {
+                triggerSeamPractice();
+            }
+        }
+
+        function triggerInPlacePractice() {
+            const teachingArea = document.getElementById('teachingArea');
+            const phrase = 'Ọ dị mma';
+
+            const practiceSteps = {
+                micro: [
+                    { type: 'hear', text: 'Listen to the response:' },
+                    { type: 'produce', text: 'Say it back (tap to simulate)' }
+                ],
+                quick: [
+                    { type: 'hear', text: 'Listen to the response:' },
+                    { type: 'recognize', text: 'Read it:' },
+                    { type: 'produce', text: 'Say it (tap to simulate)' }
+                ],
+                deep: [
+                    { type: 'hear', text: 'Listen:' },
+                    { type: 'recognize', text: 'What does it mean?' },
+                    { type: 'pronunciation', text: 'Break down the sounds' },
+                    { type: 'produce', text: 'Say it with feeling' },
+                    { type: 'context', text: 'Try in a sentence' }
+                ]
+            };
+
+            const steps = practiceSteps[currentExperience.depth];
+            let stepIndex = 0;
+
+            const renderStep = () => {
+                if (stepIndex >= steps.length) {
+                    completeInPlacePractice();
+                    return;
+                }
+
+                const step = steps[stepIndex];
+                let content = `
+                    <div class="modal-backdrop active"></div>
+                    <div class="teaching-overlay">
+                        <div class="teaching-label">${step.type}</div>
+                        <div class="teaching-phrase">${phrase}</div>
+                        <div class="teaching-english">"I'm good"</div>
+                        <div class="teaching-label" style="margin-top: 12px;">${step.text}</div>
+                `;
+
+                if (step.type === 'hear') {
+                    content += `
+                        <button class="practice-action" style="margin-top: 12px;" onclick="nextStep()">▶ Play audio</button>
+                    `;
+                } else if (step.type === 'pronunciation') {
+                    content += `
+                        <div class="pronunciation-demo" style="margin-top: 12px; text-align: left;">
+                            <strong>Sounds:</strong> O (oh) + dee (dh) + mma (mm-ah)<br>
+                            <strong>Stress:</strong> On first syllable (O-dee-mma)<br>
+                            <strong>Smooth:</strong> Like one flowing word
+                        </div>
+                        <button class="practice-action" onclick="nextStep()">Got it</button>
+                    `;
+                } else if (step.type === 'context' && currentExperience.depth === 'deep') {
+                    content += `
+                        <div class="pronunciation-demo" style="margin-top: 12px; text-align: left;">
+                            <strong>In conversation:</strong><br>
+                            Chioma: Kedụ?<br>
+                            You: Ọ dị mma, daalụ.
+                        </div>
+                        <button class="practice-action" onclick="nextStep()">Ready</button>
+                    `;
+                } else {
+                    content += `
+                        <button class="practice-action" onclick="nextStep()">✓ Done</button>
+                    `;
+                }
+
+                content += `</div>`;
+                teachingArea.innerHTML = content;
+            };
+
+            window.nextStep = () => {
+                stepIndex++;
+                renderStep();
+            };
+
+            renderStep();
+            document.getElementById('chioma-status').textContent = 'Waiting patiently...';
+            document.getElementById('chioma-status').classList.add('waiting');
+            updateProgress(0.5);
+        }
+
+        function completeInPlacePractice() {
+            document.getElementById('teachingArea').innerHTML = '';
+            document.getElementById('chioma-status').textContent = '';
+            document.getElementById('chioma-status').classList.remove('waiting');
+            updateProgress(0.7);
+
+            // Move to return screen
+            setTimeout(() => {
+                goToReturn();
+            }, 300);
+        }
+
+        function triggerPracticeModeB() {
+            showScreen('practiceB');
+            updateProgress(0.5);
+            renderPracticeSteps();
+        }
+
+        function renderPracticeSteps() {
+            const phrase = 'Ọ dị mma';
+            const practiceContent = document.getElementById('practiceContentB');
+
+            const steps = {
+                micro: [
+                    { type: 'hear', label: 'Listen', description: 'Play audio' },
+                    { type: 'produce', label: 'Say it', description: 'Produce the phrase' }
+                ],
+                quick: [
+                    { type: 'hear', label: 'Hear', description: 'Listen carefully' },
+                    { type: 'recognize', label: 'Recognize', description: 'What is it?' },
+                    { type: 'produce', label: 'Produce', description: 'Say it back' }
+                ],
+                deep: [
+                    { type: 'hear', label: 'Hear', description: 'Listen' },
+                    { type: 'recognize', label: 'Understand', description: 'What does it mean?' },
+                    { type: 'pronunciation', label: 'Pronunciation', description: 'How to say it right' },
+                    { type: 'produce', label: 'Produce', description: 'Say it multiple times' },
+                    { type: 'context', label: 'In Context', description: 'Use in a sentence' }
+                ]
+            };
+
+            const depthSteps = steps[currentExperience.depth];
+            let currentStep = 0;
+
+            const renderCurrentStep = () => {
+                if (currentStep >= depthSteps.length) {
+                    completePracticeB();
+                    return;
+                }
+
+                const step = depthSteps[currentStep];
+                document.getElementById('depthProgressB').textContent = `Step ${currentStep + 1}/${depthSteps.length}`;
+
+                let html = `
+                    <div class="practice-phase">
+                        <div class="phase-label">${step.label}</div>
+                `;
+
+                if (step.type === 'hear') {
+                    html += `
+                        <div class="igbo-phrase">${phrase}</div>
+                        <div class="phrase-english">"I'm good"</div>
+                        <button class="audio-button" onclick="nextStep()">▶ Play audio</button>
+                    `;
+                } else if (step.type === 'recognize') {
+                    html += `
+                        <div class="igbo-phrase">${phrase}</div>
+                        <div class="phrase-english" style="font-size: 16px;">What does this mean?</div>
+                        <button class="practice-action" onclick="nextStep()">✓ I understand</button>
+                    `;
+                } else if (step.type === 'pronunciation') {
+                    html += `
+                        <div class="igbo-phrase">${phrase}</div>
+                        <div class="pronunciation-demo">
+                            <strong>O (oh)</strong> + <strong>dee (dh)</strong> + <strong>mma (mm-ah)</strong><br><br>
+                            Stress the first syllable. One flowing word.
+                        </div>
+                        <button class="practice-action" onclick="nextStep()">✓ Got it</button>
+                    `;
+                } else if (step.type === 'produce') {
+                    html += `
+                        <div class="igbo-phrase">${phrase}</div>
+                        <div class="phrase-english">Try saying it</div>
+                        <button class="practice-action" onclick="nextStep()">✓ Said it</button>
+                    `;
+                } else if (step.type === 'context') {
+                    html += `
+                        <div class="pronunciation-demo">
+                            Chioma: <strong>Kedụ?</strong><br><br>
+                            You: <strong>${phrase}</strong>, daalụ.
+                        </div>
+                        <button class="practice-action" onclick="nextStep()">✓ Ready to use it</button>
+                    `;
+                }
+
+                html += `</div>`;
+                practiceContent.innerHTML = html;
+            };
+
+            window.nextStep = () => {
+                currentStep++;
+                renderCurrentStep();
+            };
+
+            renderCurrentStep();
+        }
+
+        function completePracticeB() {
+            updateProgress(0.7);
+            showScreen('returnScreen');
+            prepareReturnVariations();
+        }
+
+        function triggerSeamPractice() {
+            // For this prototype, Seam visually opens from bottom but content is similar to B
+            // The key difference is the encounter remains partially visible
+            showScreen('practiceB'); // Using same practice content for now
+            document.getElementById('practiceB').style.borderRadius = '20px 20px 0 0';
+            updateProgress(0.5);
+            renderPracticeSteps();
+        }
+
+        function skipPracticeB() {
+            completePracticeB();
+        }
+
+        function goToReturn() {
+            updateProgress(0.7);
+            showScreen('returnScreen');
+            prepareReturnVariations();
+        }
+
+        function prepareReturnVariations() {
+            const variations = [
+                {
+                    number: 1,
+                    text: '"So, ọ dị mma?"',
+                    context: 'Chioma rephrases supportively, validating your response.',
+                    response: 'You: Ọ dị mma, daalụ. (You lean in naturally.)'
+                },
+                {
+                    number: 2,
+                    text: 'Pause, then "Kedụ?" again',
+                    context: 'She\'s been waiting. She asks again, patient but expectant.',
+                    response: 'You: Ọ dị mma. (With more confidence this time.)'
+                },
+                {
+                    number: 3,
+                    text: '"Ọ dị mma, daalụ."',
+                    context: 'Chioma already knows what you practiced. She confirms it naturally.',
+                    response: 'You: Ọ dị mma! (Relief and recognition.)'
+                }
+            ];
+
+            let html = '';
+            variations.forEach(v => {
+                html += `
+                    <div class="variation-card" onclick="selectVariation(${v.number})">
+                        <div class="variation-number">Option ${v.number}</div>
+                        <div class="variation-text">${v.text}</div>
+                        <div class="variation-context">${v.context}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('returnVariations').innerHTML = html;
+            window.returnVariations = variations;
+        }
+
+        function selectVariation(number) {
+            currentExperience.returnVariation = number;
+            document.querySelectorAll('.variation-card').forEach((card, idx) => {
+                card.classList.toggle('selected', idx === number - 1);
+            });
+        }
+
+        function continueToChioma() {
+            if (!currentExperience.returnVariation) {
+                currentExperience.returnVariation = 1;
+            }
+
+            const variation = window.returnVariations[currentExperience.returnVariation - 1];
+            showScreen('successScreen');
+            updateProgress(0.85);
+
+            const successContent = document.getElementById('successContent');
+            successContent.innerHTML = `
+                <div class="celebration">
+                    <div class="celebration-emoji">✨</div>
+                    <div class="speech-bubble" style="max-width: 280px; margin: 0 auto 16px;">${variation.text}</div>
+                    <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Ọ dị mma, daalụ.</div>
+                    <div class="celebration-subtext">You used what you learned.</div>
+                </div>
+            `;
+        }
+
+        function goToFeedback() {
+            showScreen('feedbackScreen');
+            updateProgress(0.95);
+        }
+
+        function selectFeedback(question, answer) {
+            currentExperience.feedback[question] = answer;
+            const buttons = event.target.parentElement.querySelectorAll('.feedback-button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        function submitFeedback() {
+            console.log('Experience completed:', currentExperience);
+            updateProgress(1.0);
+
+            // Brief summary
+            alert(`✓ Recorded feedback for Concept ${currentExperience.concept} — ${currentExperience.depth.toUpperCase()}\n\nQuick recap:\n- Encounter continuity: ${currentExperience.feedback.q1 || '?'}\n- Practice depth: ${currentExperience.feedback.q2 || '?'}\n- Return naturalness: ${currentExperience.feedback.q3 || '?'}\n- Next action: ${currentExperience.feedback.q4 || '?'}\n\nTry another concept to compare.`);
+
+            showScreen('landing');
+            document.getElementById('progressFill').style.width = '0%';
+        }
+
+        function handleDotTap() {
+            if (currentExperience.depth) {
+                showRadialMenu();
+            }
+        }
+
+        function handleDotTouchStart(event) {
+            isHolding = true;
+            const dot = document.getElementById('dotControl');
+            dot.classList.add('holding');
+            document.getElementById('dotSymbol').textContent = '·';
+        }
+
+        function handleDotTouchEnd(event) {
+            isHolding = false;
+            const dot = document.getElementById('dotControl');
+            dot.classList.remove('holding');
+            document.getElementById('dotSymbol').textContent = '·';
+        }
+
+        function updateProgress(percent) {
+            document.querySelectorAll('.progress-fill').forEach(fill => {
+                fill.style.width = (percent * 100) + '%';
+            });
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

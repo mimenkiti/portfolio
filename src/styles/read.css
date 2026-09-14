@@ -1,0 +1,115 @@
+/* ---------------------------------------------------------------
+   Reading mode.
+
+   Not a stripped fallback and not a different website — the same blocks,
+   with the composition resolved into a document. The margin column
+   collapses to nothing, the reading column walks to the centre, notes
+   come inline, artifacts become figures, and the choreography stops.
+
+   Because only lengths change, the grid itself animates: the page is
+   seen to contract rather than to be replaced.
+   --------------------------------------------------------------- */
+
+.mode-read {
+  --col-main: 37rem;
+  --col-gap: 0rem;
+  --col-side: 0rem;
+  --col-lead: max(0rem, calc((100vw - var(--pad) * 2 - var(--col-main)) / 2));
+}
+
+@media (max-width: 62rem) {
+  .mode-read {
+    --col-lead: 0rem;
+  }
+}
+
+.mode-read .b {
+  margin-top: 1.35rem;
+}
+
+.mode-read .b--moment {
+  margin-top: clamp(3rem, 8vh, 5rem);
+}
+
+.mode-read .b--lede {
+  max-width: none;
+  margin-top: clamp(1.2rem, 3vh, 2rem);
+}
+
+.mode-read .b--display {
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  margin-bottom: 0.5rem;
+}
+
+.mode-read .b--figure {
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+
+.mode-read .b--questions {
+  margin-top: clamp(3rem, 8vh, 5rem);
+}
+
+.mode-read .open__q {
+  font-size: clamp(1.2rem, 0.9rem + 0.9vw, 1.55rem);
+}
+
+.mode-read .proj__draft {
+  border-left: 0;
+  padding-left: 0;
+  margin-top: 0.75rem;
+}
+
+/* A note that was in the margin becomes a note in the text. */
+.b--aside-inline {
+  border-left: 2px solid var(--rule);
+  padding: 0.1rem 0 0.1rem 1rem;
+  margin-top: 1.5rem;
+  max-width: 34rem;
+  color: var(--ink-2);
+}
+
+/* The prototype becomes a contained figure that still plays — it just
+   waits to be asked, because a document should not start talking. */
+.b__art--room {
+  border: 1px solid var(--rule);
+}
+
+.mode-read .room--embedded::before {
+  animation: none;
+  opacity: 0.85;
+}
+
+.mode-read .b__cap {
+  color: var(--ink-2);
+}
+
+/* During the switch, blocks that genuinely change form settle rather
+   than pop. Everything else is carried by the grid transition. */
+.is-morphing {
+  overflow-anchor: none;
+}
+
+.is-morphing .b--figure,
+.is-morphing .b--aside,
+.is-morphing .b--aside-inline {
+  animation: settle 0.6s var(--e-out) both;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-morphing .b--figure,
+  .is-morphing .b--aside,
+  .is-morphing .b--aside-inline {
+    animation: none;
+  }
+}

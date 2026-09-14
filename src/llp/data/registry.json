@@ -1,0 +1,1930 @@
+{
+ "meta": {
+  "architectureStatedBySystem": "Sources → Knowledge → Capabilities → Lessons → Exercises",
+  "counts": {
+   "knowledge": 44,
+   "sources": 15,
+   "capabilities": 10,
+   "lessons": 1,
+   "mechanics": 8,
+   "exerciseInstances": 24,
+   "beats": 8,
+   "runtimePatterns": 14,
+   "humanReviewQueue": 8,
+   "humanReviewQueueDecided": 0
+  },
+  "statusTallies": {
+   "note": "Knowledge tallies cover 35 of 44 rows. IGB-KNW-022 through IGB-KNW-030 are excluded because those nine rows are shifted one column left from Tone / Pronunciation Note onward, so their status cells hold a neighbouring column value.",
+   "knowledgeProductionStatus": {
+    "Candidate": 19,
+    "Approved": 9,
+    "Hold": 6,
+    "Candidate (learners understand/hear; not required to produce early)": 1
+   },
+   "knowledgeHumanValidation": {
+    "Not reviewed": 21,
+    "Approved": 4,
+    "Candidate - Needs Human Review": 3,
+    "Needs validation - pronunciation and register appropriateness": 1,
+    "Needs validation - pronunciation": 1,
+    "Needs validation - contemporary usage frequency": 1,
+    "Needs validation - contemporary usage": 1,
+    "Needs validation - contemporary usage in non-family contexts": 1,
+    "Needs validation - pronunciation and tone marking": 1,
+    "Approved (well-documented)": 1
+   },
+   "knowledgeConfidence": {
+    "High": 24,
+    "Medium": 9,
+    "Medium-High": 2
+   },
+   "capabilityStatus": {
+    "Draft": 6,
+    "Knowledge Gap": 4
+   },
+   "capabilityMvpPriority": {
+    "Future": 7,
+    "MVP Target": 3
+   },
+   "sourceTrustLevel": {
+    "High": 8,
+    "(empty)": 4,
+    "Medium": 3
+   },
+   "sourceInternalReview": {
+    "AI reviewed": 15
+   }
+  },
+  "rules": [
+   {
+    "label": "Confidence",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "Confidence in the extracted claim, not overall source trust."
+   },
+   {
+    "label": "Corroboration Status",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "Whether additional independent linguistic evidence is still required."
+   },
+   {
+    "label": "Human Validation",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "Separate from AI/source review. Native speaker/expert approval happens here."
+   },
+   {
+    "label": "Production Status",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "Candidate = usable for research; Hold = unresolved; Approved = eligible for learner-facing generation; Rejected = do not use."
+   },
+   {
+    "label": "Audio rule",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "Do not infer correct pronunciation from spelling alone. Tone/pronunciation fields remain unresolved until audio or expert evidence supports them."
+   },
+   {
+    "label": "Generation rule",
+    "source": "knowledge registry v0.1 → Schema & Rules",
+    "text": "AI may generate exercises from Approved knowledge; it should not invent new language facts while generating an exercise."
+   },
+   {
+    "label": "Publication rule",
+    "source": "knowledge registry v0.1 → Domain Scope",
+    "text": "Candidate knowledge is not learner-facing truth. Context-sensitive, dialect-sensitive, culturally editorial, or weakly corroborated items remain Hold until human/expert validation."
+   },
+   {
+    "label": "Current pass",
+    "source": "knowledge registry v0.1 → Domain Scope",
+    "text": "30 knowledge objects drafted primarily from Harvard ELIAS plus source-provenance information from the Welmers/ERIC record."
+   },
+   {
+    "label": "Trust Level",
+    "source": "source registry v0.1 → Schema & Rules",
+    "text": "Overall shorthand only. Retrieval should rank authority for the specific claim type, not blindly use overall trust."
+   },
+   {
+    "label": "Corroboration Required",
+    "source": "source registry v0.1 → Schema & Rules",
+    "text": "No = may establish suitable facts independently; Preferred = seek another source; Yes = cannot establish knowledge independently; Not for linguistic facts = technical dataset/tool only."
+   },
+   {
+    "label": "Rights principle",
+    "source": "source registry v0.1 → Schema & Rules",
+    "text": "Free access does not equal permission to store, adapt, train on, or commercially reuse. Treat websites, APIs, datasets, books and audio as separate rights objects."
+   },
+   {
+    "label": "Dialect principle",
+    "source": "source registry v0.1 → Schema & Rules",
+    "text": "Never silently normalize dialect-specific material into 'Igbo'. Preserve dialect provenance and label Standard/Central Igbo explicitly."
+   },
+   {
+    "label": "Validation principle",
+    "source": "source registry v0.1 → Schema & Rules",
+    "text": "AI reviewed means the registry entry has been researched, not that underlying language content is production-approved."
+   },
+   {
+    "label": "Required Knowledge IDs",
+    "source": "capability registry v0.1 → Schema & Rules",
+    "text": "Links the capability to grounded Knowledge Registry objects. This is the core bridge between language truth and curriculum."
+   },
+   {
+    "label": "Status",
+    "source": "capability registry v0.1 → Schema & Rules",
+    "text": "Draft = defined but not ready; Knowledge Gap = missing/weak underlying knowledge; Ready for Lesson = knowledge approved enough to design exercises; Validated = capability itself tested/approved."
+   },
+   {
+    "label": "MVP Rule",
+    "source": "capability registry v0.1 → MVP Lesson Map",
+    "text": "Every learner-facing Igbo form used in the lesson must trace to an Approved Knowledge Object."
+   },
+   {
+    "label": "Current Blocker",
+    "source": "capability registry v0.1 → MVP Lesson Map",
+    "text": "The required knowledge objects are still Candidate/Hold and need cross-source corroboration plus native-speaker/audio validation."
+   },
+   {
+    "label": "Core principle",
+    "source": "exercise system v0.1 → Overview",
+    "text": "Exercises are reusable teaching/assessment mechanics, not a fixed lesson sequence. Runtime selects the smallest useful intervention based on learner evidence."
+   },
+   {
+    "label": "Content rule",
+    "source": "exercise system v0.1 → Overview",
+    "text": "Approved knowledge can be used authoritatively. Candidate enrichment may be referenced in design but is not treated as authoritative teaching content until validated."
+   }
+  ]
+ },
+ "layers": {
+  "knowledge": [
+   {
+    "Knowledge ID": "IGB-KNW-001",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Kedụ?",
+    "English / Explanation": "How are you? / contextually a general hello or check-in",
+    "Communicative Function": "Initiate a basic greeting",
+    "Register / Context": "Informal/general; everyday encounter",
+    "Number / Audience": "Singular",
+    "Dialect / Region": "Central Igbo / broadly taught",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Ọ dị mma.",
+    "Grammar / Structure Note": "Harvard notes Kedụ is shortened from longer 'how are you/how is it' constructions.",
+    "Cultural / Usage Note": "Expected response is normally positive in casual greeting ritual, even if things are not actually good.",
+    "Tone / Pronunciation Note": "Tone not established in this pass; audio validation needed.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Harvard ELIAS uses Kedụ across informal greeting dialogues and explains its greeting function.",
+    "Confidence": "High",
+    "Corroboration Status": "Primary source found; dictionary corroboration still desirable",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Confirm tone/pronunciation and cross-check dictionary."
+   },
+   {
+    "Knowledge ID": "IGB-KNW-002",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Ọ dị mma.",
+    "English / Explanation": "Fine / good / it is alright",
+    "Communicative Function": "Respond to Kedụ?",
+    "Register / Context": "Informal/general",
+    "Number / Audience": "Singular speaker response",
+    "Dialect / Region": "Central Igbo / broadly taught",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Kedụ maka gị?",
+    "Grammar / Structure Note": "Common response to Kedụ in Harvard dialogues.",
+    "Cultural / Usage Note": "Harvard says this positive response is conventionally expected; negative responses are more typical with familiar people and explanation.",
+    "Tone / Pronunciation Note": "Tone not established in this pass.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Repeated response to Kedụ in Harvard greeting and introduction conversations.",
+    "Confidence": "High",
+    "Corroboration Status": "Primary source found; corroboration desirable",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Confirm tone and natural modern pronunciation."
+   },
+   {
+    "Knowledge ID": "IGB-KNW-003",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Kedụ maka gị?",
+    "English / Explanation": "How about you?",
+    "Communicative Function": "Return a greeting/check-in",
+    "Register / Context": "Informal/general",
+    "Number / Audience": "Singular",
+    "Dialect / Region": "Central Igbo",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Ọ dị mma.",
+    "Grammar / Structure Note": "Uses Kedụ + 'about you' construction in curriculum dialogues.",
+    "Cultural / Usage Note": "Natural follow-up after answering a greeting.",
+    "Tone / Pronunciation Note": "Tone not established.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Harvard Unit 4 and greetings material use this after Ọ dị mma.",
+    "Confidence": "High",
+    "Corroboration Status": "Single institutional curriculum source in this pass",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Corroborate lexically/grammatically."
+   },
+   {
+    "Knowledge ID": "IGB-KNW-010",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Ka emesia",
+    "English / Explanation": "Goodbye / until later",
+    "Communicative Function": "Part from someone",
+    "Register / Context": "General; any time of day",
+    "Number / Audience": "General",
+    "Dialect / Region": "Central Igbo / exact dialect scope not established",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Ka emesia",
+    "Grammar / Structure Note": "Harvard describes it as usable at any time of day when parting.",
+    "Cultural / Usage Note": "Good general-purpose beginner parting expression.",
+    "Tone / Pronunciation Note": "Tone not established.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Harvard greetings teacher notes and introduction dialogue.",
+    "Confidence": "High",
+    "Corroboration Status": "Institutional source; corroboration desirable",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Confirm spelling/tone and modern naturalness."
+   },
+   {
+    "Knowledge ID": "IGB-KNW-016",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Aha m bụ …",
+    "English / Explanation": "My name is …",
+    "Communicative Function": "Introduce oneself",
+    "Register / Context": "Initial social interaction",
+    "Number / Audience": "Singular",
+    "Dialect / Region": "Central Igbo",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Kedụ aha gị?",
+    "Grammar / Structure Note": "Basic copular/name introduction pattern.",
+    "Cultural / Usage Note": "Harvard notes an alternative self-introduction construction can also be used in some contexts.",
+    "Tone / Pronunciation Note": "Tone not established.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Harvard Unit 4 and nationality/residence dialogue.",
+    "Confidence": "High",
+    "Corroboration Status": "Institutional source; grammar corroboration desirable",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Validate exact alternative forms separately."
+   },
+   {
+    "Knowledge ID": "IGB-KNW-017",
+    "Domain ID": "DOMAIN-001",
+    "Knowledge Type": "Phrase",
+    "Igbo Form / Claim": "Kedụ aha gị?",
+    "English / Explanation": "What is your name?",
+    "Communicative Function": "Ask someone's name",
+    "Register / Context": "Initial social interaction",
+    "Number / Audience": "Singular",
+    "Dialect / Region": "Central Igbo",
+    "Standard / Central Igbo?": "Yes",
+    "Related / Expected Response": "Aha m bụ …",
+    "Grammar / Structure Note": "Interrogative greeting/introduction construction.",
+    "Cultural / Usage Note": "Natural follow-on after greeting in Harvard dialogue.",
+    "Tone / Pronunciation Note": "Tone not established.",
+    "Primary Source IDs": "IGB-SRC-001",
+    "Source Evidence Summary": "Harvard introduction and residence dialogues.",
+    "Confidence": "High",
+    "Corroboration Status": "Institutional source; grammar corroboration desirable",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate",
+    "Needs Follow-up": "Yes",
+    "Notes": "Confirm tones and plural/respect variants if needed."
+   },
+   {
+    "Knowledge ID": "KNW-029",
+    "Domain ID": "Greetings & Initial Social Interaction",
+    "Knowledge Type": "Phrase / Time-of-Day Greeting",
+    "Igbo Form / Claim": "Ụtụtụ ọma",
+    "English / Explanation": "Good morning (literally: 'morning is good')",
+    "Communicative Function": "Time-specific greeting used in early morning hours",
+    "Register / Context": "Conversational; informal to semi-formal; all relationships",
+    "Number / Audience": "Singular",
+    "Dialect / Region": "Standard/Central Igbo",
+    "Standard / Central Igbo?": null,
+    "Related / Expected Response": "Ụtụtụ ọma (reciprocal); or Kedu? (generic follow-up)",
+    "Grammar / Structure Note": "Construction: [Time period] + [ọma] (good). Follows standard Igbo time-noun + adjective pattern.",
+    "Cultural / Usage Note": "Used early in day; carries warmth. Alternative to generic Kedu? when time-awareness is appropriate. Common in daily greeting.",
+    "Tone / Pronunciation Note": "[ụ́tụ́tụ ọ́ma] — High tone on first two syllables of ụtụtụ; high tone on ọ. Should sound warm, not clipped.",
+    "Primary Source IDs": "IGB-SRC-001 (Harvard ELIAS), IGB-SRC-012 (NKENNE)",
+    "Source Evidence Summary": "Both Harvard ELIAS and NKENNE explicitly teach Ụtụtụ ọma as standard morning greeting.",
+    "Confidence": "High",
+    "Corroboration Status": "Yes (two independent sources)",
+    "Human Validation": "Needs validation - pronunciation and register appropriateness",
+    "Production Status": "Approved",
+    "Needs Follow-up": "Audio pronunciation from native speaker needed for teaching materials",
+    "Notes": null
+   },
+   {
+    "Knowledge ID": "KNW-040",
+    "Domain ID": "Greetings & Initial Social Interaction",
+    "Knowledge Type": "Phrase / Interaction Closing",
+    "Igbo Form / Claim": "Ka ọ dị",
+    "English / Explanation": "May it be well / Until we see again (natural Igbo goodbye)",
+    "Communicative Function": "Primary Igbo closing expression; conveys well-wishing and expectation of future connection",
+    "Register / Context": "Friendly, warm; appropriate across all relationships",
+    "Number / Audience": "Singular/general (applies to all)",
+    "Dialect / Region": "Standard/Central Igbo",
+    "Standard / Central Igbo?": null,
+    "Related / Expected Response": "Reciprocal Ka ọ dị",
+    "Grammar / Structure Note": "Construction: Ka (may/let) + ọ (it/one) + dị (be/remain). Subjunctive mood.",
+    "Cultural / Usage Note": "Authentic Igbo goodbye; avoids English translation 'goodbye'. Signals continuing relationship and well-wishing.",
+    "Tone / Pronunciation Note": "[kà ọ̀ dị̀]",
+    "Primary Source IDs": "IGB-SRC-001 (Harvard ELIAS), IGB-SRC-012 (NKENNE), IGB-SRC-006 (FSI course)",
+    "Source Evidence Summary": "Consistently taught across multiple established curricula as primary goodbye.",
+    "Confidence": "High",
+    "Corroboration Status": "Yes (three independent sources)",
+    "Human Validation": "Approved",
+    "Production Status": "Approved",
+    "Needs Follow-up": "Pronunciation and tone marking audio needed",
+    "Notes": null
+   }
+  ],
+  "sources": [
+   {
+    "Source ID": "IGB-SRC-001",
+    "Name": "Harvard ELIAS — Igbo Beginning Curriculum",
+    "Author / Organization": "Harvard University / ELIAS",
+    "URL / Location": "https://elias.fas.harvard.edu/languages/igbo",
+    "Publication / Last Updated": "Current web curriculum; date not clearly stated",
+    "Source Type": "Curriculum / Teaching Resource",
+    "Primary Use": "Curriculum sequencing; greetings; vocabulary; cultural context; dialogues",
+    "Coverage": "Beginning Igbo units covering alphabet, greetings, introductions, family, daily life and other topics.",
+    "Authority": "University-hosted instructional curriculum with explicit objectives, dialogues, notes and exercises.",
+    "Trust Level": "High",
+    "Trust Rationale": "Strong for pedagogy, Central Igbo teaching, contextual usage and cultural notes. Cross-check precision-sensitive entries.",
+    "Corroboration Required": "Preferred",
+    "Language / Variety": "Igbo",
+    "Dialect(s)": "Central Igbo with regional variants noted",
+    "Standard Language": "Yes — course says it focuses on Central Igbo and points out variations",
+    "Register": "Instructional; conversational; cultural",
+    "Date / Currency": "Contemporary web resource; update dates not prominent",
+    "Currency Risk": "Low",
+    "Access": "Open web access",
+    "License / Copyright": "Copyright/terms not established in this pass",
+    "Can Cite": "Yes",
+    "Can Store / Index": "Unclear",
+    "Can Use for Retrieval": "Unclear",
+    "Can Adapt / Generate Derived Material": "Unclear",
+    "Can Use for Model Training": "Unclear",
+    "Strengths": "Already organized as teachable units; rich notes on greeting variation and cultural appropriateness.",
+    "Known Gaps / Limitations": "Not a comprehensive grammar/dictionary; some page-level inconsistencies; adaptation rights need review.",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary",
+    "Rights / System Notes": "Use as teaching/curriculum evidence, not sole lexical authority. Rights review needed before copying/adapting."
+   },
+   {
+    "Source ID": "IGB-SRC-002",
+    "Name": "Igbo-English Dictionary",
+    "Author / Organization": "Michael J. C. Echeruo / Yale University Press",
+    "URL / Location": "https://yalebooks.yale.edu/book/9780300073072/igbo-english-dictionary/",
+    "Publication / Last Updated": "1998",
+    "Source Type": "Dictionary / Lexicon",
+    "Primary Use": "Definitions; tone; grammatical class; dialect variation; examples",
+    "Coverage": "~4,000 word forms plus English-Igbo index; dialect zones, variants, etymology, examples and tone.",
+    "Authority": "Published Yale reference by a native-speaker scholar; publisher describes it as comprehensive and authoritative.",
+    "Trust Level": "High",
+    "Trust Rationale": "Excellent lexical authority and unusually useful dialect metadata; older date matters less for core lexicon than contemporary usage.",
+    "Corroboration Required": "No",
+    "Language / Variety": "Igbo",
+    "Dialect(s)": "Multiple dialects, emphasizing Owerri and Onitsha",
+    "Standard Language": "Cross-dialect reference",
+    "Register": "Lexical; written; examples",
+    "Date / Currency": "1998",
+    "Currency Risk": "Medium",
+    "Access": "Paid / library access",
+    "License / Copyright": "Copyrighted, Yale University Press",
+    "Can Cite": "Yes",
+    "Can Store / Index": "No / permission likely required",
+    "Can Use for Retrieval": "Unclear",
+    "Can Adapt / Generate Derived Material": "Unclear / permission required",
+    "Can Use for Model Training": "No / permission required",
+    "Strengths": "Tone + dialect zone + variants are ideal for structured knowledge objects.",
+    "Known Gaps / Limitations": "Not contemporary media; commercial reuse/adaptation not automatically licensed.",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary",
+    "Rights / System Notes": "Use for research/citation; do not ingest/reproduce wholesale without rights review."
+   },
+   {
+    "Source ID": "IGB-SRC-003",
+    "Name": "Elements of Modern Igbo Grammar: A Descriptive Approach",
+    "Author / Organization": "E. Nọlue Emenanjọ / Oxford University Press",
+    "URL / Location": "https://books.google.com/books/about/Elements_of_Modern_Igbo_Grammar.html?id=W5MOAAAAYAAJ",
+    "Publication / Last Updated": "1978",
+    "Source Type": "Grammar",
+    "Primary Use": "Grammar; sound system; tone; morphology; syntax",
+    "Coverage": "Comprehensive descriptive grammar, especially sound and grammatical systems.",
+    "Authority": "Major published descriptive grammar by a leading Igbo linguist.",
+    "Trust Level": "High",
+    "Trust Rationale": "Foundational grammatical authority. Pair with contemporary sources for modern naturalness.",
+    "Corroboration Required": "No",
+    "Language / Variety": "Igbo",
+    "Dialect(s)": "Modern/Standard Igbo; dialectal discussion",
+    "Standard Language": "Yes / Modern Igbo focus",
+    "Register": "Academic; descriptive",
+    "Date / Currency": "1978",
+    "Currency Risk": "Medium",
+    "Access": "Paid / library / limited preview",
+    "License / Copyright": "Copyrighted, Oxford University Press",
+    "Can Cite": "Yes",
+    "Can Store / Index": "No / permission likely required",
+    "Can Use for Retrieval": "Unclear",
+    "Can Adapt / Generate Derived Material": "Unclear / permission required",
+    "Can Use for Model Training": "No / permission required",
+    "Strengths": "Deep grammatical and phonological coverage.",
+    "Known Gaps / Limitations": "Old for contemporary register; not designed as app curriculum; full digital access limited.",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary",
+    "Rights / System Notes": "Use to establish grammar rules and validate structures."
+   },
+   {
+    "Source ID": "IGB-SRC-006",
+    "Name": "FSI Igbo Basic Course",
+    "Author / Organization": "U.S. Foreign Service Institute",
+    "URL / Location": "https://www.fsi-language-courses.org/fsi-igbo-language-course/",
+    "Publication / Last Updated": "1962",
+    "Source Type": "Curriculum / Audio / Grammar",
+    "Primary Use": "Tone training; dialogues; drills; grammar; listening; pronunciation",
+    "Coverage": "30 units with dialogues, grammar explanations, drills, narratives, word list and extensive audio/tone drills.",
+    "Authority": "Created for U.S. diplomatic language training; substantial paired text/audio course.",
+    "Trust Level": "High",
+    "Trust Rationale": "Very valuable for pedagogy/audio, especially tone, but dated; secondary host should be checked against original records.",
+    "Corroboration Required": "Preferred",
+    "Language / Variety": "Igbo",
+    "Dialect(s)": "Teaching variety; exact dialect mix requires primary-text review",
+    "Standard Language": "Teaching/compromise variety — verify",
+    "Register": "Instructional; formal learner; spoken",
+    "Date / Currency": "1962",
+    "Currency Risk": "High",
+    "Access": "Free online via archival/third-party hosts",
+    "License / Copyright": "Government origin is promising, but scan/audio reuse status must be verified",
+    "Can Cite": "Yes",
+    "Can Store / Index": "Unclear",
+    "Can Use for Retrieval": "Unclear",
+    "Can Adapt / Generate Derived Material": "Unclear",
+    "Can Use for Model Training": "Unclear",
+    "Strengths": "Rare long-form curriculum plus native audio; explicit tone drills.",
+    "Known Gaps / Limitations": "Very old; some audio may be missing; cultural examples dated; hosted-copy rights need confirmation.",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary",
+    "Rights / System Notes": "Do not assume public domain until rights are confirmed."
+   },
+   {
+    "Source ID": "IGB-SRC-008",
+    "Name": "Nkọwa okwu / Igbo API",
+    "Author / Organization": "Nkọwa okwu LLC / community contributors",
+    "URL / Location": "https://nkowaokwu.com/about",
+    "Publication / Last Updated": "Active; accessed 2026",
+    "Source Type": "Dictionary / API / Audio / NLP",
+    "Primary Use": "Modern lexicon; examples; pronunciation; dialect variation; STT; translation",
+    "Coverage": "25,000+ words, 100,000 example sentences, 100,000 audio pronunciations and 17 dialectal variations claimed; community contributions supported.",
+    "Authority": "Purpose-built modern Igbo infrastructure seeded historically from Kay Williamson material and expanded by a contributor community.",
+    "Trust Level": "Medium",
+    "Trust Rationale": "Highly relevant and rich, but open contribution means individual entries should not automatically be authoritative.",
+    "Corroboration Required": "Yes",
+    "Language / Variety": "Igbo",
+    "Dialect(s)": "17 dialectal variations represented",
+    "Standard Language": "Multidialectal",
+    "Register": "Contemporary; lexical; spoken; community",
+    "Date / Currency": "Active contemporary platform",
+    "Currency Risk": "Low",
+    "Access": "Free and paid tiers / API",
+    "License / Copyright": "Terms reserve rights and prohibit automated use except as permitted; commercial use needs careful review",
+    "Can Cite": "Yes",
+    "Can Store / Index": "No without permission",
+    "Can Use for Retrieval": "Only through permitted API/terms",
+    "Can Adapt / Generate Derived Material": "Unclear / likely permission required",
+    "Can Use for Model Training": "Only according to dataset/API licenses and terms",
+    "Strengths": "Modern structured data, audio, dialect fields and APIs closely match our architecture.",
+    "Known Gaps / Limitations": "Community-generated; validation varies; website terms restrict automated/commercial uses.",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary",
+    "Rights / System Notes": "Contact Nkọwa okwu before commercial integration. Treat website, API and open datasets as separate rights objects."
+   },
+   {
+    "Source ID": "IGB-SRC-012",
+    "Name": "NKENNE - Igbo Teaching Blog",
+    "Author / Organization": "NKENNE (community-based Igbo educators)",
+    "URL / Location": "https://www.nkenne.com/blog/",
+    "Publication / Last Updated": "Active; updated regularly (2024–2026)",
+    "Source Type": "Pedagogical / Native Speaker Resource",
+    "Primary Use": "Greetings, introductions, natural variations, contemporary usage examples",
+    "Coverage": "Common greetings, greeting variations by context, introductions, closing expressions, contemporary conversational Igbo",
+    "Authority": "Medium",
+    "Trust Level": null,
+    "Trust Rationale": "Community-generated native speaker resource; consistent with established curricula (Harvard ELIAS, FSI); emphasizes actual contemporary usage rather than textbook constructions. No formal academic peer review, but content reflects practiced teaching.",
+    "Corroboration Required": null,
+    "Language / Variety": "Igbo (contemporary)",
+    "Dialect(s)": "Not explicitly specified; appears to represent general/compromise Igbo suitable for learners",
+    "Standard Language": "Yes; contemporary standard",
+    "Register": "Conversational; informal to semi-formal",
+    "Date / Currency": "Contemporary (2024–2026); current usage",
+    "Currency Risk": "Low",
+    "Access": "Open web access; free",
+    "License / Copyright": "Rights not explicitly stated on site; assumed creator-owned; citation appropriate",
+    "Can Cite": "Yes",
+    "Can Store / Index": "Yes (with attribution to NKENNE)",
+    "Can Use for Retrieval": "Yes",
+    "Can Adapt / Generate Derived Material": "Unclear; contact NKENNE for permission",
+    "Can Use for Model Training": "Unclear; treat as citation-required",
+    "Strengths": "Native speaker perspective; emphasizes naturalness over textbook accuracy; practical examples of greeting variations by context and relationship",
+    "Known Gaps / Limitations": "No formal linguistics credentials claimed; dialect representation not explicit; some claims need corroboration from academic sources",
+    "Internal Review Status": "AI reviewed",
+    "Priority": "Primary (supplementary to academic sources)",
+    "Rights / System Notes": "Use for pedagogical reference and contemporary-usage examples. Corroborate politeness strategies and greeting variations with academic sources (Ozikoro, address-terms paper)."
+   }
+  ],
+  "capabilities": [
+   {
+    "Capability ID": "CAP-001",
+    "Domain ID": "DOMAIN-001",
+    "Capability Name": "Basic Greeting Exchange",
+    "Learning Objective": "Recognize, initiate, and respond to a basic Igbo greeting exchange.",
+    "Learner Outcome": "Can participate in a short reciprocal greeting without being shown the target response.",
+    "Required Knowledge IDs": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+    "Enrichment Knowledge IDs": "KNW-029 (Ụtụtụ ọma), KNW-030 (Mgbede ọma), KNW-031 (Nne), KNW-032 (Nna), KNW-033 (Nwanna), KNW-034 (Ọ dị mma ịhụta gị)",
+    "Cultural / Pragmatic Knowledge": "Hierarchical respect protocols (younger greets first, different handshake by gender), age-based greeting modifications, status-based greeting variations, physical expression protocols",
+    "Prerequisites": null,
+    "Recognition Criteria": "Understands the intent of a basic greeting when heard or read.",
+    "Production Criteria": "Can independently produce an appropriate response and initiate the greeting.",
+    "Interaction Criteria": "Can sustain a short reciprocal greeting exchange for 2–3 turns.",
+    "Primary Modalities": "Listening; Speaking; Reading",
+    "Knowledge Readiness": "Partial — corroboration + audio/human validation needed",
+    "MVP Priority": "MVP Target",
+    "Intended Lesson": "MVP-LESSON-001 — Meet Someone",
+    "Status": "Draft",
+    "Knowledge Gaps / Research Needs": "Corroborate Kedụ?, Ọ dị mma, Kedụ maka gị?; validate tone/pronunciation and contemporary naturalness.",
+    "Notes": "Core capability for first lesson."
+   },
+   {
+    "Capability ID": "CAP-002",
+    "Domain ID": "DOMAIN-001",
+    "Capability Name": "Exchange Names",
+    "Learning Objective": "Ask someone's name and introduce yourself during a basic social interaction.",
+    "Learner Outcome": "Can exchange names naturally after greeting someone.",
+    "Required Knowledge IDs": "IGB-KNW-016; IGB-KNW-017",
+    "Enrichment Knowledge IDs": "KNW-035 (Chioma), KNW-036 (Ifeoma), KNW-037 (Chinedu), KNW-038 (Ifeanyi), KNW-039 (Aha ọ dị mma)",
+    "Cultural / Pragmatic Knowledge": "Theophoric naming patterns, name meanings as cultural values, connection between name and parental hope/circumstances",
+    "Prerequisites": "CAP-001 recommended",
+    "Recognition Criteria": "Understands a name question and recognizes a self-introduction.",
+    "Production Criteria": "Can ask another person's name and state their own name without a complete phrase prompt.",
+    "Interaction Criteria": "Can complete the name-exchange portion of a first-meeting conversation.",
+    "Primary Modalities": "Listening; Speaking; Reading; Writing",
+    "Knowledge Readiness": "Partial — corroboration + audio/human validation needed",
+    "MVP Priority": "MVP Target",
+    "Intended Lesson": "MVP-LESSON-001 — Meet Someone",
+    "Status": "Draft",
+    "Knowledge Gaps / Research Needs": "Corroborate Aha m bụ… and Kedụ aha gị?; validate tone and whether additional natural variants are needed.",
+    "Notes": "Grammar can remain implicit in MVP unless testing shows explanation is necessary."
+   },
+   {
+    "Capability ID": "CAP-003",
+    "Domain ID": "DOMAIN-001",
+    "Capability Name": "Close an Interaction",
+    "Learning Objective": "Recognize and use a basic parting expression to end a social interaction naturally.",
+    "Learner Outcome": "Can recognize that an interaction is ending and respond with or initiate an appropriate basic goodbye.",
+    "Required Knowledge IDs": "IGB-KNW-010",
+    "Enrichment Knowledge IDs": "KNW-040 (Ka ọ dị), KNW-041 (Ọ dị mma ịgbakọ na gị), KNW-042 (A ga enyụ ọnụ)",
+    "Cultural / Pragmatic Knowledge": "Time-of-day considerations for closing, status/age-based closing variations, expectation of future connection as cultural value",
+    "Prerequisites": "CAP-001 recommended",
+    "Recognition Criteria": "Recognizes Ka emesia as a parting expression in context.",
+    "Production Criteria": "Can independently use the parting expression when leaving.",
+    "Interaction Criteria": "Can close the MVP first-meeting conversation without being shown the answer.",
+    "Primary Modalities": "Listening; Speaking; Reading",
+    "Knowledge Readiness": "Partial — corroboration + audio/human validation needed",
+    "MVP Priority": "MVP Target",
+    "Intended Lesson": "MVP-LESSON-001 — Meet Someone",
+    "Status": "Draft",
+    "Knowledge Gaps / Research Needs": "Corroborate Ka emesia; determine whether one additional common parting form is needed for a robust capability.",
+    "Notes": "May be thin with one phrase; lesson-level interaction gives it context."
+   }
+  ],
+  "lesson": {
+   "Lesson ID": "MVP-LESSON-001",
+   "Working Name": "Meet Someone",
+   "Lesson Outcome": "By the end of this lesson, the learner can have a simple first encounter in Igbo: greet someone, exchange names, and close the interaction.",
+   "Capabilities": "CAP-001 Basic Greeting Exchange; CAP-002 Exchange Names; CAP-003 Close an Interaction",
+   "Final Assessment Concept": "Learner meets an AI character with minimal scaffolding and completes a short interaction: greeting → reciprocal response → name exchange → parting.",
+   "MVP Rule": "Every learner-facing Igbo form used in the lesson must trace to an Approved Knowledge Object.",
+   "Current Blocker": "The required knowledge objects are still Candidate/Hold and need cross-source corroboration plus native-speaker/audio validation.",
+   "Not in MVP Lesson": "Origin, residence, plural/group greetings, welcomes, time-of-day/regional greetings, and respectful greeting scenarios are intentionally deferred."
+  },
+  "teaching": {
+   "mechanics": [
+    {
+     "Code": "ENC",
+     "Mechanic": "Natural Encounter",
+     "Core Purpose": "Challenge + diagnose in a realistic interaction",
+     "Typical Input": "Context + approved audio/visual",
+     "Typical Output": "Usually speech; may include natural nonverbal behavior",
+     "Default Scaffold": "None",
+     "Runtime Role": "Retrieve/parameterize + AI evaluate",
+     "Notes": "Default entry point for a new capability; learner behavior is the diagnostic."
+    },
+    {
+     "Code": "OBS",
+     "Mechanic": "Observe Interaction",
+     "Core Purpose": "Teach through contextualized examples",
+     "Typical Input": "Approved dialogue + audio/visual",
+     "Typical Output": "Observation / inference",
+     "Default Scaffold": "High",
+     "Runtime Role": "Retrieve",
+     "Notes": "Instructional; does not by itself prove mastery."
+    },
+    {
+     "Code": "REC",
+     "Mechanic": "Recognize Function",
+     "Core Purpose": "Establish comprehension of communicative intent",
+     "Typical Input": "Approved spoken/written form",
+     "Typical Output": "Selection / classification",
+     "Default Scaffold": "High",
+     "Runtime Role": "Retrieve + AI evaluate",
+     "Notes": "Use only when comprehension is uncertain or missing."
+    },
+    {
+     "Code": "DISC",
+     "Mechanic": "Discriminate / Select",
+     "Core Purpose": "Identify an appropriate response/form among approved options",
+     "Typical Input": "Approved prompt + options",
+     "Typical Output": "Selection",
+     "Default Scaffold": "Medium",
+     "Runtime Role": "Retrieve + AI evaluate",
+     "Notes": "Useful bridge between recognition and independent retrieval."
+    },
+    {
+     "Code": "IMI",
+     "Mechanic": "Hear + Imitate",
+     "Core Purpose": "Support intelligible oral production",
+     "Typical Input": "Approved audio asset",
+     "Typical Output": "Speech",
+     "Default Scaffold": "High",
+     "Runtime Role": "Retrieve + AI evaluate",
+     "Notes": "Target pronunciation/production gaps; do not require perfect accent."
+    },
+    {
+     "Code": "RCL",
+     "Mechanic": "Independent Recall",
+     "Core Purpose": "Retrieve an appropriate response without being shown it",
+     "Typical Input": "Approved prompt/audio",
+     "Typical Output": "Speech or text as appropriate",
+     "Default Scaffold": "Low",
+     "Runtime Role": "Retrieve + AI evaluate",
+     "Notes": "Tests recall after support is removed."
+    },
+    {
+     "Code": "PROD",
+     "Mechanic": "Independent Production",
+     "Core Purpose": "Initiate/perform the communicative function from context",
+     "Typical Input": "Scenario/context",
+     "Typical Output": "Speech",
+     "Default Scaffold": "None",
+     "Runtime Role": "Parameterize + AI evaluate",
+     "Notes": "Stronger evidence when prompt describes context rather than tells learner exactly what to say."
+    },
+    {
+     "Code": "INT",
+     "Mechanic": "Functional Interaction",
+     "Core Purpose": "Integrate the capability inside a natural multi-turn exchange",
+     "Typical Input": "Conversation context + approved assets",
+     "Typical Output": "Listening ↔ speaking",
+     "Default Scaffold": "None / adaptive",
+     "Runtime Role": "Retrieve/parameterize + AI evaluate",
+     "Notes": "Conversation continuing is the primary success signal where possible."
+    }
+   ],
+   "exercises": [
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-ENC",
+     "Mechanic": "ENC",
+     "Learner Experience": "Character naturally says Kedụ?; learner responds by voice.",
+     "Purpose": "Challenge + diagnostic",
+     "Modality": "Listen → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Everyone / first encounter",
+     "Evidence Produced": "Comprehension; response recall; oral production",
+     "Required Knowledge": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+     "Enrichment Use": "Validated enrichment may vary time/context/address later",
+     "Asset Type": "Approved audio + character/context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-OBS",
+     "Mechanic": "OBS",
+     "Learner Experience": "Learner observes two characters complete a basic greeting exchange.",
+     "Purpose": "Contextual teaching",
+     "Modality": "Listen + Visual",
+     "Scaffold": "High",
+     "Best Used When": "Little/no comprehension",
+     "Evidence Produced": "Contextual understanding; instructional evidence",
+     "Required Knowledge": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+     "Enrichment Use": "Optional validated warmth/respect can appear as context",
+     "Asset Type": "Approved dialogue/audio + visual",
+     "Runtime Behavior": "Retrieve"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-REC",
+     "Mechanic": "REC",
+     "Learner Experience": "Hear Kedụ? and identify its communicative function.",
+     "Purpose": "Comprehension",
+     "Modality": "Listen → Select",
+     "Scaffold": "High",
+     "Best Used When": "Meaning gap",
+     "Evidence Produced": "Spoken recognition",
+     "Required Knowledge": "IGB-KNW-001",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + response options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-DISC",
+     "Mechanic": "DISC",
+     "Learner Experience": "Hear Kedụ? and select an appropriate approved response.",
+     "Purpose": "Response understanding",
+     "Modality": "Listen → Select",
+     "Scaffold": "Medium",
+     "Best Used When": "Greeting understood; response uncertain",
+     "Evidence Produced": "Response discrimination",
+     "Required Knowledge": "IGB-KNW-001; IGB-KNW-002",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-IMI",
+     "Mechanic": "IMI",
+     "Learner Experience": "Hear approved pronunciation of the target response and reproduce it.",
+     "Purpose": "Pronunciation / guided production",
+     "Modality": "Listen → Speak",
+     "Scaffold": "High",
+     "Best Used When": "Production/pronunciation gap",
+     "Evidence Produced": "Intelligible reproduction",
+     "Required Knowledge": "IGB-KNW-002; IGB-KNW-003",
+     "Enrichment Use": null,
+     "Asset Type": "Approved AI-generated audio after validation",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-RCL",
+     "Mechanic": "RCL",
+     "Learner Experience": "Hear Kedụ? and respond without choices or a model.",
+     "Purpose": "Independent retrieval",
+     "Modality": "Listen → Speak",
+     "Scaffold": "Low",
+     "Best Used When": "Meaning known; recall uncertain",
+     "Evidence Produced": "Independent response",
+     "Required Knowledge": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-PROD",
+     "Mechanic": "PROD",
+     "Learner Experience": "A person/context appears; learner must initiate an appropriate greeting without being told 'say hello'.",
+     "Purpose": "Independent initiation",
+     "Modality": "Context → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Initiation unknown",
+     "Evidence Produced": "Independent initiation; contextual appropriateness",
+     "Required Knowledge": "IGB-KNW-001",
+     "Enrichment Use": null,
+     "Asset Type": "Character/context + approved audio if response follows",
+     "Runtime Behavior": "Parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-001",
+     "Exercise": "CAP001-INT",
+     "Mechanic": "INT",
+     "Learner Experience": "Learner participates in a short reciprocal greeting exchange; successful communication continues naturally.",
+     "Purpose": "Functional use",
+     "Modality": "Listen ↔ Speak",
+     "Scaffold": "None / adaptive",
+     "Best Used When": "Integration / verification",
+     "Evidence Produced": "Recognition; response; initiation; functional use",
+     "Required Knowledge": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+     "Enrichment Use": "Validated enrichment can add warmth/variation without becoming required",
+     "Asset Type": "Approved dialogue components + character/context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-ENC",
+     "Mechanic": "ENC",
+     "Learner Experience": "During conversation, character asks Kedụ aha gị?; learner responds.",
+     "Purpose": "Challenge + diagnostic",
+     "Modality": "Listen → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Everyone / first encounter",
+     "Evidence Produced": "Comprehension; response formation; oral production",
+     "Required Knowledge": "IGB-KNW-016; IGB-KNW-017",
+     "Enrichment Use": "Validated name-reaction enrichment may follow the learner's answer",
+     "Asset Type": "Approved audio + character/context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-OBS",
+     "Mechanic": "OBS",
+     "Learner Experience": "Learner observes two characters ask and answer names.",
+     "Purpose": "Contextual teaching",
+     "Modality": "Listen + Visual",
+     "Scaffold": "High",
+     "Best Used When": "Little/no comprehension",
+     "Evidence Produced": "Understanding of name-exchange structure",
+     "Required Knowledge": "IGB-KNW-016; IGB-KNW-017",
+     "Enrichment Use": "Approved Igbo character names may add cultural texture",
+     "Asset Type": "Approved dialogue/audio + visual",
+     "Runtime Behavior": "Retrieve"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-REC",
+     "Mechanic": "REC",
+     "Learner Experience": "Hear the name question and identify what the speaker wants to know.",
+     "Purpose": "Comprehension",
+     "Modality": "Listen → Select",
+     "Scaffold": "High",
+     "Best Used When": "Meaning gap",
+     "Evidence Produced": "Spoken recognition",
+     "Required Knowledge": "IGB-KNW-016",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-DISC",
+     "Mechanic": "DISC",
+     "Learner Experience": "Hear the name question and identify the response pattern that fits.",
+     "Purpose": "Response understanding",
+     "Modality": "Listen → Select",
+     "Scaffold": "Medium",
+     "Best Used When": "Question understood; response uncertain",
+     "Evidence Produced": "Response discrimination",
+     "Required Knowledge": "IGB-KNW-016; IGB-KNW-017",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-IMI",
+     "Mechanic": "IMI",
+     "Learner Experience": "Hear Aha m bụ [name] and practice the construction with the learner's own name.",
+     "Purpose": "Guided production",
+     "Modality": "Listen → Speak",
+     "Scaffold": "High",
+     "Best Used When": "Production/pronunciation/formulation gap",
+     "Evidence Produced": "Ability to form/intelligibly produce self-introduction",
+     "Required Knowledge": "IGB-KNW-017",
+     "Enrichment Use": "Character names may be parameterized from approved name objects",
+     "Asset Type": "Approved phrase audio + name parameter",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-RCL",
+     "Mechanic": "RCL",
+     "Learner Experience": "Hear the name question and independently introduce self without a full phrase prompt.",
+     "Purpose": "Independent retrieval",
+     "Modality": "Listen → Speak",
+     "Scaffold": "Low",
+     "Best Used When": "Meaning known; recall uncertain",
+     "Evidence Produced": "Independent self-introduction",
+     "Required Knowledge": "IGB-KNW-016; IGB-KNW-017",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-PROD",
+     "Mechanic": "PROD",
+     "Learner Experience": "Learner meets a character and must independently ask the character's name.",
+     "Purpose": "Independent question production",
+     "Modality": "Context → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Ability to answer known; ability to ask unknown",
+     "Evidence Produced": "Independent name-question formation",
+     "Required Knowledge": "IGB-KNW-016",
+     "Enrichment Use": null,
+     "Asset Type": "Character/context",
+     "Runtime Behavior": "Parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-002",
+     "Exercise": "CAP002-INT",
+     "Mechanic": "INT",
+     "Learner Experience": "Learner and character naturally exchange names within the ongoing first-meeting conversation.",
+     "Purpose": "Functional use",
+     "Modality": "Listen ↔ Speak",
+     "Scaffold": "None / adaptive",
+     "Best Used When": "Integration / verification",
+     "Evidence Produced": "Understands question; introduces self; asks other's name; functional exchange",
+     "Required Knowledge": "IGB-KNW-016; IGB-KNW-017",
+     "Enrichment Use": "After successful answer, validated 'nice name' enrichment can appear as exposure only",
+     "Asset Type": "Approved dialogue components + character/context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-ENC",
+     "Mechanic": "ENC",
+     "Learner Experience": "Conversation reaches a natural end; character uses Ka emesia and learner responds.",
+     "Purpose": "Challenge + diagnostic",
+     "Modality": "Listen → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Everyone / first encounter",
+     "Evidence Produced": "Closing recognition; response; contextual understanding",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": "Validated richer closings may appear later as exposure",
+     "Asset Type": "Approved audio + interaction context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-OBS",
+     "Mechanic": "OBS",
+     "Learner Experience": "Learner observes two characters naturally close an interaction.",
+     "Purpose": "Contextual teaching",
+     "Modality": "Listen + Visual",
+     "Scaffold": "High",
+     "Best Used When": "Closing not recognized",
+     "Evidence Produced": "Understanding of closing function",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": "Validated time/status/future-connection context can vary scenario",
+     "Asset Type": "Approved dialogue/audio + visual",
+     "Runtime Behavior": "Retrieve"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-REC",
+     "Mechanic": "REC",
+     "Learner Experience": "Hear Ka emesia and identify that the interaction is ending.",
+     "Purpose": "Comprehension",
+     "Modality": "Listen → Select",
+     "Scaffold": "High",
+     "Best Used When": "Meaning/function gap",
+     "Evidence Produced": "Spoken recognition",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-DISC",
+     "Mechanic": "DISC",
+     "Learner Experience": "Character closes the interaction; learner selects an appropriate response.",
+     "Purpose": "Response understanding",
+     "Modality": "Listen → Select",
+     "Scaffold": "Medium",
+     "Best Used When": "Closing recognized; response uncertain",
+     "Evidence Produced": "Response discrimination",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio + options",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-IMI",
+     "Mechanic": "IMI",
+     "Learner Experience": "Hear approved closing pronunciation and reproduce it.",
+     "Purpose": "Pronunciation / guided production",
+     "Modality": "Listen → Speak",
+     "Scaffold": "High",
+     "Best Used When": "Production/pronunciation gap",
+     "Evidence Produced": "Intelligible production",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": null,
+     "Asset Type": "Approved AI-generated audio after validation",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-RCL",
+     "Mechanic": "RCL",
+     "Learner Experience": "Character closes; learner responds without choices/model.",
+     "Purpose": "Independent retrieval",
+     "Modality": "Listen → Speak",
+     "Scaffold": "Low",
+     "Best Used When": "Meaning known; recall uncertain",
+     "Evidence Produced": "Independent response",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": null,
+     "Asset Type": "Approved audio",
+     "Runtime Behavior": "Retrieve + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-PROD",
+     "Mechanic": "PROD",
+     "Learner Experience": "Context signals that the learner needs to leave/end the interaction; learner closes it without an explicit 'say goodbye' instruction.",
+     "Purpose": "Independent closing",
+     "Modality": "Context → Speak",
+     "Scaffold": "None",
+     "Best Used When": "Initiation/context use unknown",
+     "Evidence Produced": "Independent initiation; contextual appropriateness",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": "Validated well-wishes/future-connection forms may later broaden choices",
+     "Asset Type": "Character/context",
+     "Runtime Behavior": "Parameterize + evaluate"
+    },
+    {
+     "Capability": "CAP-003",
+     "Exercise": "CAP003-INT",
+     "Mechanic": "INT",
+     "Learner Experience": "Learner and character finish a short interaction naturally without a dedicated final-test screen.",
+     "Purpose": "Functional use",
+     "Modality": "Listen ↔ Speak",
+     "Scaffold": "None / adaptive",
+     "Best Used When": "Integration / verification",
+     "Evidence Produced": "Recognition; response; initiation; appropriate closing",
+     "Required Knowledge": "IGB-KNW-010",
+     "Enrichment Use": "Validated enrichment can make the ending warmer without changing completion criteria",
+     "Asset Type": "Approved dialogue components + character/context",
+     "Runtime Behavior": "Retrieve/parameterize + evaluate"
+    }
+   ],
+   "routing": [
+    {
+     "Routing State": "KNOW",
+     "What It Means": "Learner can already perform most/all of the capability.",
+     "Typical Evidence Pattern": "Strong comprehension + independent production; some dimensions may still be unknown.",
+     "Router Goal": "Verify missing dimensions with minimal friction, then advance.",
+     "Example Path": "ENC → PROD → INT",
+     "Important Rule": "Never reteach what the learner can demonstrate.",
+     "Learner Model Note": "KNOW is a routing summary, not a stored mastery label."
+    },
+    {
+     "Routing State": "PARTIAL",
+     "What It Means": "Learner has meaningful prior exposure but a specific gap.",
+     "Typical Evidence Pattern": "Examples: understands but answers in English; can respond but cannot initiate; intelligible wording but pronunciation weak.",
+     "Router Goal": "Identify the precise gap and retrieve the smallest targeted intervention.",
+     "Example Path": "ENC → targeted DISC/IMI/RCL → PROD/INT",
+     "Important Rule": "Do not restart the capability from the beginning.",
+     "Learner Model Note": "Track dimensions separately: comprehension, recall, initiation, pronunciation, etc."
+    },
+    {
+     "Routing State": "DON'T KNOW",
+     "What It Means": "Learner shows little/no understanding of the capability.",
+     "Typical Evidence Pattern": "No functional comprehension/production evidence.",
+     "Router Goal": "Provide contextual observation + light instruction, then return to communication quickly.",
+     "Example Path": "ENC → OBS → REC → DISC/IMI → RCL → PROD → INT",
+     "Important Rule": "More support is allowed, but still avoid unnecessary exercises.",
+     "Learner Model Note": "State should update continuously as evidence arrives."
+    }
+   ],
+   "evidence": [
+    {
+     "Capability": "CAP-001",
+     "Evidence Dimension": "Recognition / comprehension",
+     "Demonstrated When": "Learner appropriately interprets an encountered spoken greeting.",
+     "Strongest Exercise Sources": "ENC; REC; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Behavioral response can itself be evidence; explicit recognition question is not always necessary."
+    },
+    {
+     "Capability": "CAP-001",
+     "Evidence Dimension": "Response",
+     "Demonstrated When": "Learner responds appropriately without being given the full answer.",
+     "Strongest Exercise Sources": "ENC; RCL; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Independent functional response > selection."
+    },
+    {
+     "Capability": "CAP-001",
+     "Evidence Dimension": "Initiation",
+     "Demonstrated When": "Learner independently initiates a greeting in an appropriate context.",
+     "Strongest Exercise Sources": "PROD; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Prompt should provide context, not the target linguistic function."
+    },
+    {
+     "Capability": "CAP-001",
+     "Evidence Dimension": "Functional use",
+     "Demonstrated When": "Learner sustains a short reciprocal greeting exchange.",
+     "Strongest Exercise Sources": "INT; combined evidence",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "No separate final exam required."
+    },
+    {
+     "Capability": "CAP-002",
+     "Evidence Dimension": "Name-question comprehension",
+     "Demonstrated When": "Learner understands when someone asks their name.",
+     "Strongest Exercise Sources": "ENC; REC; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "A correct self-introduction can implicitly demonstrate comprehension."
+    },
+    {
+     "Capability": "CAP-002",
+     "Evidence Dimension": "Self-introduction",
+     "Demonstrated When": "Learner states their own name without a complete phrase prompt.",
+     "Strongest Exercise Sources": "ENC; RCL; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Use learner's actual name where technically feasible."
+    },
+    {
+     "Capability": "CAP-002",
+     "Evidence Dimension": "Ask other's name",
+     "Demonstrated When": "Learner independently asks another person's name.",
+     "Strongest Exercise Sources": "PROD; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Two-direction capability: answering alone is insufficient."
+    },
+    {
+     "Capability": "CAP-002",
+     "Evidence Dimension": "Functional exchange",
+     "Demonstrated When": "Learner completes the name-exchange portion of a first-meeting conversation.",
+     "Strongest Exercise Sources": "INT; combined evidence",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Enrichment reactions to names are not required."
+    },
+    {
+     "Capability": "CAP-003",
+     "Evidence Dimension": "Closing recognition",
+     "Demonstrated When": "Learner recognizes that an interaction is ending.",
+     "Strongest Exercise Sources": "ENC; REC; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Contextual recognition matters, not only translation."
+    },
+    {
+     "Capability": "CAP-003",
+     "Evidence Dimension": "Response",
+     "Demonstrated When": "Learner appropriately responds to a basic closing.",
+     "Strongest Exercise Sources": "ENC; RCL; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Independent response preferred."
+    },
+    {
+     "Capability": "CAP-003",
+     "Evidence Dimension": "Initiation",
+     "Demonstrated When": "Learner independently closes an interaction when context calls for it.",
+     "Strongest Exercise Sources": "PROD; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Avoid explicit 'say goodbye' prompt for strongest evidence."
+    },
+    {
+     "Capability": "CAP-003",
+     "Evidence Dimension": "Contextual appropriateness",
+     "Demonstrated When": "Learner uses the closing in an appropriate social situation.",
+     "Strongest Exercise Sources": "PROD; INT",
+     "Required for DEMONSTRATED?": "Yes",
+     "Notes": "Pragmatic variation can expand later as knowledge is validated."
+    }
+   ],
+   "openQuestions": [
+    {
+     "Area": "Runtime routing",
+     "Question": "Exact thresholds/rules for classifying evidence and choosing the next mechanic?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Keep logic conceptual until prototype data exists."
+    },
+    {
+     "Area": "Speech recognition",
+     "Question": "How reliably can speech be transcribed/evaluated for Igbo?",
+     "Blocking Exercise System V0?": "No for design; yes for production",
+     "Current Approach": "Prototype separately; allow manual/lenient fallback in early build."
+    },
+    {
+     "Area": "Pronunciation",
+     "Question": "How should tone/intelligibility be scored?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Use validated AI audio assets; avoid precise scoring until capability is proven."
+    },
+    {
+     "Area": "Enrichment",
+     "Question": "Which Candidate KNW-029–042 survive native-speaker validation?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Do not use Candidate items as authoritative content until approved."
+    },
+    {
+     "Area": "Reading/writing",
+     "Question": "When should secondary modalities be introduced for conversational CAPs?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Optional exposure now; not required for CAP-001–003 demonstration."
+    },
+    {
+     "Area": "Reinforcement",
+     "Question": "When/how should demonstrated capabilities reappear?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Future spaced-repetition/reinforcement workstream."
+    },
+    {
+     "Area": "Generation",
+     "Question": "Where does runtime generation create enough value to justify cost/risk?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Retrieval + parameterization first; generation only when necessary."
+    },
+    {
+     "Area": "Expert review",
+     "Question": "What reviewer UI/workflow best scales validation?",
+     "Blocking Exercise System V0?": "No",
+     "Current Approach": "Use current spreadsheet queue first; build console from observed reviewer behavior later."
+    }
+   ],
+   "beats": [
+    {
+     "Beat": "01 — Encounter",
+     "Beat Type": "Experience",
+     "Social Purpose": "Establish a believable social situation and mutual attention.",
+     "Capability Opportunity": "Sets context for CAP-001.",
+     "Learner Opportunity": "Attend/listen.",
+     "Success Continuation": "Other person acknowledges/greet learner.",
+     "Allowed Intervention Families": "Replay; contextual support if needed.",
+     "Return Point": "Same encounter before greeting.",
+     "Notes": "No lesson-objective preamble required."
+    },
+    {
+     "Beat": "02 — Greeting",
+     "Beat Type": "Assessment",
+     "Social Purpose": "Begin the social interaction.",
+     "Capability Opportunity": "CAP-001: recognize/respond to greeting.",
+     "Learner Opportunity": "Understand + respond naturally.",
+     "Success Continuation": "NPC reacts as if understood and conversation remains open.",
+     "Allowed Intervention Families": "Replay; slower audio; hint; model; observe; focused practice.",
+     "Return Point": "NPC repeats/recreates the greeting naturally.",
+     "Notes": "Primary CAP-001 evidence opportunity."
+    },
+    {
+     "Beat": "03 — Greeting Continuation",
+     "Beat Type": "Assessment + Experience",
+     "Social Purpose": "Allow greeting to feel reciprocal rather than transactional.",
+     "Capability Opportunity": "CAP-001: initiate/reciprocate when appropriate.",
+     "Learner Opportunity": "Extend/return greeting if socially natural.",
+     "Success Continuation": "NPC answers and transitions toward introduction.",
+     "Allowed Intervention Families": "Hint; partial phrase; model; retry-in-context.",
+     "Return Point": "Same open conversational turn.",
+     "Notes": "Do not force this if it creates awkward double-greeting; evidence can be gathered later."
+    },
+    {
+     "Beat": "04 — Name Exchange",
+     "Beat Type": "Assessment",
+     "Social Purpose": "Two people who have just met establish who they are.",
+     "Capability Opportunity": "CAP-002: understand name prompt + introduce self.",
+     "Learner Opportunity": "Understand and give own name.",
+     "Success Continuation": "NPC acknowledges learner's name; may use approved enrichment.",
+     "Allowed Intervention Families": "Contextual cue; translation; partial phrase; model; observe.",
+     "Return Point": "NPC reopens/repeats the name prompt naturally.",
+     "Notes": "Name reaction/enrichment is exposure unless separately targeted."
+    },
+    {
+     "Beat": "05 — Ask Back",
+     "Beat Type": "Assessment",
+     "Social Purpose": "Give learner the social turn to reciprocate interest.",
+     "Capability Opportunity": "CAP-002: ask another person's name.",
+     "Learner Opportunity": "Initiate name question.",
+     "Success Continuation": "NPC gives their name and interaction continues.",
+     "Allowed Intervention Families": "Hint; partial phrase; model; brief observation; retry-in-context.",
+     "Return Point": "Same pause/opportunity to ask.",
+     "Notes": "Do not display a blunt 'Now ask their name' unless needed as strong support."
+    },
+    {
+     "Beat": "06 — Social Texture",
+     "Beat Type": "Experience",
+     "Social Purpose": "Give the interaction air and make the world richer than the assessment.",
+     "Capability Opportunity": "Optional exposure/reinforcement only.",
+     "Learner Opportunity": "Listen/observe; optional response.",
+     "Success Continuation": "Conversation naturally winds toward departure.",
+     "Allowed Intervention Families": "Replay/help only if learner requests or meaning is necessary.",
+     "Return Point": "Same social moment.",
+     "Notes": "Nothing important has to be tested here."
+    },
+    {
+     "Beat": "07 — Wind Down / Closing",
+     "Beat Type": "Assessment",
+     "Social Purpose": "Signal that the encounter is ending.",
+     "Capability Opportunity": "CAP-003: recognize/respond to and/or initiate closing.",
+     "Learner Opportunity": "Interpret social cue and close appropriately.",
+     "Success Continuation": "NPC acknowledges and departs.",
+     "Allowed Intervention Families": "Contextual cue; model; hint; focused practice; retry-in-context.",
+     "Return Point": "Same departure moment.",
+     "Notes": "Do not keep NPC 'hostage' to force every CAP-003 dimension."
+    },
+    {
+     "Beat": "08 — Reflection",
+     "Beat Type": "Experience",
+     "Social Purpose": "Translate invisible evidence into meaningful learner-facing progress.",
+     "Capability Opportunity": "Summarize evidence across CAP-001–003.",
+     "Learner Opportunity": "Review what they actually did/learned.",
+     "Success Continuation": "Lesson ends; learner model persists.",
+     "Allowed Intervention Families": "No remediation here by default.",
+     "Return Point": "N/A",
+     "Notes": "Avoid score-only feedback; emphasize actual communicative ability."
+    }
+   ],
+   "stressTest": [
+    {
+     "Beat": "01 Encounter",
+     "Learner A — already knows": "Enters scene; no support.",
+     "Learner B — partial / heritage exposure": "Same.",
+     "Learner C — genuinely new": "Same.",
+     "Reconvergence / invariant": "Same social setup."
+    },
+    {
+     "Beat": "02 Greeting",
+     "Learner A — already knows": "Responds in Igbo independently; conversation continues.",
+     "Learner B — partial / heritage exposure": "Responds appropriately in English → evaluator identifies recall/production gap → tiny model/practice → return → responds in Igbo.",
+     "Learner C — genuinely new": "Doesn't understand → observation/context + light explanation + supported practice → return → attempts response.",
+     "Reconvergence / invariant": "All return to the same greeting moment and continue with the same NPC."
+    },
+    {
+     "Beat": "03 Greeting Continuation",
+     "Learner A — already knows": "May reciprocate/initiate independently; CAP-001 may be demonstrated.",
+     "Learner B — partial / heritage exposure": "May need hint/partial cue; target only missing initiation/recall evidence.",
+     "Learner C — genuinely new": "May not be required to master initiation now; CAP-001 can remain LEARNING.",
+     "Reconvergence / invariant": "Conversation can progress even when CAP state differs."
+    },
+    {
+     "Beat": "04 Name Exchange",
+     "Learner A — already knows": "Understands and introduces self independently.",
+     "Learner B — partial / heritage exposure": "May answer with name only/English → comprehension positive; target phrase support only.",
+     "Learner C — genuinely new": "Context/gesture can carry meaning; model 'my name is...' as needed.",
+     "Reconvergence / invariant": "NPC acknowledges learner's name; enrichment can appear for all."
+    },
+    {
+     "Beat": "05 Ask Back",
+     "Learner A — already knows": "Asks NPC's name independently.",
+     "Learner B — partial / heritage exposure": "May need partial cue/model, then retry in same pause.",
+     "Learner C — genuinely new": "May receive stronger support or experience the exchange without independent mastery.",
+     "Reconvergence / invariant": "Same NPC reveals name; CAP-002 state may differ."
+    },
+    {
+     "Beat": "06 Social Texture",
+     "Learner A — already knows": "Receives unassessed exposure.",
+     "Learner B — partial / heritage exposure": "Same.",
+     "Learner C — genuinely new": "Same; especially valuable as cognitive breathing room.",
+     "Reconvergence / invariant": "No hidden requirement to test every utterance."
+    },
+    {
+     "Beat": "07 Closing",
+     "Learner A — already knows": "Recognizes/initiates/responds naturally.",
+     "Learner B — partial / heritage exposure": "May say 'bye' in English → closing comprehension positive, Igbo recall gap → small support → return.",
+     "Learner C — genuinely new": "Context signals departure; model an appropriate closing if needed.",
+     "Reconvergence / invariant": "NPC departs; lesson is allowed to end."
+    },
+    {
+     "Beat": "08 Reflection",
+     "Learner A — already knows": "Emphasize independent capability demonstrated.",
+     "Learner B — partial / heritage exposure": "Reflect asymmetry: understood more than could initially say; show what became independent.",
+     "Learner C — genuinely new": "Emphasize participation and newly learned abilities; remaining CAPs can stay EMERGING.",
+     "Reconvergence / invariant": "All successfully finish Meet Someone; learner model persists."
+    }
+   ],
+   "runtimeRules": [
+    {
+     "Rule": "Conversation before curriculum display",
+     "Meaning": "The learner should experience a social need before the product exposes teaching mechanics whenever practical."
+    },
+    {
+     "Rule": "Smallest useful intervention",
+     "Meaning": "Use learner evidence to target the actual gap; do not restart from meaning if comprehension is already demonstrated."
+    },
+    {
+     "Rule": "Progressive help",
+     "Meaning": "Allow time and optional help; expand from light cue → stronger cue/model → micro-practice only as needed."
+    },
+    {
+     "Rule": "Return after help",
+     "Meaning": "Every intervention must restore the learner to the original social opportunity so new knowledge is immediately used."
+    },
+    {
+     "Rule": "Vary intervention depth",
+     "Meaning": "Unknown material does not always require OBS → infer → explain → imitate. Context may make a lighter intervention sufficient."
+    },
+    {
+     "Rule": "Experience budget",
+     "Meaning": "The Router must consider both learner need and how much remediation the current encounter can absorb without becoming unpleasant."
+    },
+    {
+     "Rule": "Defer mastery when needed",
+     "Meaning": "If further remediation would damage pacing, let the narrative progress and gather missing CAP evidence later."
+    },
+    {
+     "Rule": "Exposure can stay exposure",
+     "Meaning": "Language may appear for richness/culture/context without being assessed, explained, or added to mastery requirements."
+    },
+    {
+     "Rule": "Implicit feedback by default",
+     "Meaning": "Successful communication is often confirmed by natural NPC continuation rather than explicit 'correct' UI."
+    },
+    {
+     "Rule": "Explicit feedback when useful",
+     "Meaning": "Use correction/explanation when misunderstanding would compound, the learner requests it, or communication cannot continue."
+    },
+    {
+     "Rule": "Uncertain evaluation",
+     "Meaning": "If speech/evidence is ambiguous, gather another attempt or provide graceful support rather than penalizing."
+    },
+    {
+     "Rule": "No endless remediation",
+     "Meaning": "Repeated struggle should eventually trigger enough support to complete the social moment and move on."
+    }
+   ],
+   "patterns": [
+    {
+     "ID": "RXP-001",
+     "Pattern": "Continue",
+     "Primary Job": "Confirm successful communication without interrupting it.",
+     "Typical Trigger": "Response is communicatively successful with sufficient confidence.",
+     "Learner Sees/Experiences": "NPC naturally reacts/continues; no explicit correctness screen.",
+     "Evidence Effect": "Positive evidence already captured by Evaluator.",
+     "Return Behavior": "No detour; next beat or natural continuation.",
+     "AI / Deterministic": "Mostly deterministic expression of Router decision.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Do not add praise/checkmarks after every successful turn."
+    },
+    {
+     "ID": "RXP-002",
+     "Pattern": "Replay",
+     "Primary Job": "Let learner hear the same input again.",
+     "Typical Trigger": "Learner requests replay or listening evidence is uncertain.",
+     "Learner Sees/Experiences": "Same audio repeats; conversation visually remains in place.",
+     "Evidence Effect": "Replay itself is assistance metadata; later response is evaluated with that support known.",
+     "Return Behavior": "Same prompt remains active.",
+     "AI / Deterministic": "Deterministic.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Do not interpret replay request as failure."
+    },
+    {
+     "ID": "RXP-003",
+     "Pattern": "Slow / Clarify Audio",
+     "Primary Job": "Reduce perceptual difficulty without revealing the answer.",
+     "Typical Trigger": "Learner requests it or repeated listening suggests parsing difficulty.",
+     "Learner Sees/Experiences": "Slower/clearer approved audio variant.",
+     "Evidence Effect": "Counts as listening support; may weaken independence evidence.",
+     "Return Behavior": "Return to same input/response opportunity.",
+     "AI / Deterministic": "Selection may be Router-driven; asset is pre-approved.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Do not synthesize arbitrary pronunciation variants at runtime."
+    },
+    {
+     "ID": "RXP-004",
+     "Pattern": "Contextual Hint",
+     "Primary Job": "Nudge meaning/action without supplying target language.",
+     "Typical Trigger": "Learner appears close but needs situational cue.",
+     "Learner Sees/Experiences": "Short visual/social cue or non-answer prompt.",
+     "Evidence Effect": "Light assistance; can still yield meaningful evidence depending on dimension.",
+     "Return Behavior": "Same opportunity stays open.",
+     "AI / Deterministic": "Router selects from authored hint types.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Hint must not accidentally contain the answer."
+    },
+    {
+     "ID": "RXP-005",
+     "Pattern": "Partial Phrase",
+     "Primary Job": "Support retrieval while preserving some learner production.",
+     "Typical Trigger": "Recall/production gap after lighter help is insufficient.",
+     "Learner Sees/Experiences": "Beginning/structure of approved phrase, leaving learner to complete it.",
+     "Evidence Effect": "Supported production; recall independence not demonstrated.",
+     "Return Behavior": "Retry same social turn, then later seek S0 evidence.",
+     "AI / Deterministic": "Router selects approved partial cue.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Do not count completion as independent recall."
+    },
+    {
+     "ID": "RXP-006",
+     "Pattern": "Model",
+     "Primary Job": "Give the learner the exact approved language they need.",
+     "Typical Trigger": "Learner does not know target form or repeated attempts fail.",
+     "Learner Sees/Experiences": "●/NPC plays or displays approved target response; replay available.",
+     "Evidence Effect": "Teaching evidence / supported production, not independent recall.",
+     "Return Behavior": "Recreate original social prompt and ask learner to use it.",
+     "AI / Deterministic": "Router selects approved model asset.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Model only trusted Knowledge/asset content."
+    },
+    {
+     "ID": "RXP-007",
+     "Pattern": "Observe",
+     "Primary Job": "Teach communicative function through a tiny example interaction.",
+     "Typical Trigger": "Learner lacks comprehension/function knowledge and context alone is insufficient.",
+     "Learner Sees/Experiences": "Brief exchange between speakers or NPC demonstration; optional inference prompt.",
+     "Evidence Effect": "Primarily teaching/recognition evidence.",
+     "Return Behavior": "Return to original encounter after observation.",
+     "AI / Deterministic": "Router chooses authored observation asset.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Keep brief; do not automatically turn into a quiz."
+    },
+    {
+     "ID": "RXP-008",
+     "Pattern": "Focused Practice",
+     "Primary Job": "Temporarily isolate one specific gap.",
+     "Typical Trigger": "Learner needs more than a cue/model to proceed.",
+     "Learner Sees/Experiences": "1–3 tightly scoped practice attempts using approved exercise inventory.",
+     "Evidence Effect": "Produces supported/independent evidence according to scaffold.",
+     "Return Behavior": "Must end by returning to the triggering conversation beat.",
+     "AI / Deterministic": "Router selects exercises; bounded by choreography.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Never become an open-ended remediation loop."
+    },
+    {
+     "ID": "RXP-009",
+     "Pattern": "Retry in Context",
+     "Primary Job": "Convert teaching into immediate communicative use.",
+     "Typical Trigger": "Any intervention supplied meaningful support.",
+     "Learner Sees/Experiences": "Original NPC/social prompt is naturally recreated.",
+     "Evidence Effect": "Fresh evidence, with current scaffold level tracked.",
+     "Return Behavior": "This IS the return point.",
+     "AI / Deterministic": "Deterministic after intervention.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Do not jump to a new exercise before the learner uses the new knowledge."
+    },
+    {
+     "ID": "RXP-010",
+     "Pattern": "Accept + Recast",
+     "Primary Job": "Preserve communication when meaning succeeds but form is imperfect.",
+     "Typical Trigger": "Learner is understandable/appropriate but uses imperfect or non-target form.",
+     "Learner Sees/Experiences": "NPC responds to meaning and naturally models stronger approved form.",
+     "Evidence Effect": "Positive functional evidence; form-specific gap may remain.",
+     "Return Behavior": "Conversation continues; recast can be reinforced later.",
+     "AI / Deterministic": "Evaluator identifies communicative success + form gap; runtime uses approved recast.",
+     "MVP?": "Yes, cautiously",
+     "Key Guardrail": "Do not silently validate materially wrong meaning; recast only when communication truly succeeded."
+    },
+    {
+     "ID": "RXP-011",
+     "Pattern": "Explicit Correction",
+     "Primary Job": "Prevent a misunderstanding from compounding.",
+     "Typical Trigger": "Meaning is wrong, response is socially inappropriate, or learner asks why.",
+     "Learner Sees/Experiences": "Brief direct correction/explanation, then target form.",
+     "Evidence Effect": "Negative/inconclusive evidence already captured; subsequent attempts tracked separately.",
+     "Return Behavior": "Return to same or safely reconstructed moment.",
+     "AI / Deterministic": "Router-triggered; explanation constrained to approved knowledge.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Use when necessary, not as default feedback."
+    },
+    {
+     "ID": "RXP-012",
+     "Pattern": "Translation / Meaning Reveal",
+     "Primary Job": "Resolve meaning when inference is insufficient or learner requests it.",
+     "Typical Trigger": "Comprehension gap persists or explicit help requested.",
+     "Learner Sees/Experiences": "Concise translation/meaning; audio remains available.",
+     "Evidence Effect": "Strong semantic assistance; does not demonstrate independent comprehension.",
+     "Return Behavior": "Return to original prompt for supported then later independent use.",
+     "AI / Deterministic": "Deterministic/Router-selected from approved knowledge.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Translation is a tool, not a failure state."
+    },
+    {
+     "ID": "RXP-013",
+     "Pattern": "Graceful Exit",
+     "Primary Job": "Protect pacing and learner dignity after repeated struggle.",
+     "Typical Trigger": "Experience budget is exhausted or repeated attempts are not productive.",
+     "Learner Sees/Experiences": "System supplies enough language/support to complete the social moment and moves on.",
+     "Evidence Effect": "CAP may remain EMERGING/UNKNOWN; no fake mastery.",
+     "Return Behavior": "Narrative continues/ends naturally; gap persists in learner model.",
+     "AI / Deterministic": "Choreography constraint + Router.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Never trap learner until mastery."
+    },
+    {
+     "ID": "RXP-014",
+     "Pattern": "Ask for Help",
+     "Primary Job": "Give learner agency over support depth.",
+     "Typical Trigger": "Learner proactively requests help.",
+     "Learner Sees/Experiences": "Compact help affordance expands to relevant options: replay, hint, meaning, model.",
+     "Evidence Effect": "Assistance type is recorded; request itself is not negative evidence.",
+     "Return Behavior": "Stay in current beat.",
+     "AI / Deterministic": "Deterministic menu, context-aware options.",
+     "MVP?": "Yes",
+     "Key Guardrail": "Help should be available without making the UI feel permanently instructional."
+    }
+   ],
+   "helpLadder": [
+    {
+     "Level": "0 — Natural attempt",
+     "Runtime Pattern(s)": "Continue / Ask for Help available",
+     "What changes": "Nothing is revealed; learner acts in context.",
+     "Use when": "Default first attempt.",
+     "Evidence / scaffold implication": "S0 if no assistance."
+    },
+    {
+     "Level": "1 — Perceptual / contextual support",
+     "Runtime Pattern(s)": "Replay; Slow Audio; Contextual Hint",
+     "What changes": "Makes the situation/input easier to perceive without giving target response.",
+     "Use when": "Learner may understand/know it but needs a nudge.",
+     "Evidence / scaffold implication": "S1–S2 depending on assistance type."
+    },
+    {
+     "Level": "2 — Retrieval support",
+     "Runtime Pattern(s)": "Partial Phrase",
+     "What changes": "Supplies part of linguistic form.",
+     "Use when": "Meaning seems known; retrieval/production is the gap.",
+     "Evidence / scaffold implication": "Supported evidence; not independent recall."
+    },
+    {
+     "Level": "3 — Direct teaching",
+     "Runtime Pattern(s)": "Model; Translation; Observe",
+     "What changes": "Reveals meaning/form or demonstrates function.",
+     "Use when": "Learner genuinely lacks necessary knowledge.",
+     "Evidence / scaffold implication": "S2–S3 teaching evidence."
+    },
+    {
+     "Level": "4 — Focused remediation",
+     "Runtime Pattern(s)": "Focused Practice",
+     "What changes": "Briefly isolates one gap for practice.",
+     "Use when": "Direct teaching alone is insufficient.",
+     "Evidence / scaffold implication": "Mixed scaffold levels; bounded attempts."
+    },
+    {
+     "Level": "5 — Re-entry",
+     "Runtime Pattern(s)": "Retry in Context",
+     "What changes": "Restores original communicative need.",
+     "Use when": "After any meaningful intervention.",
+     "Evidence / scaffold implication": "Fresh attempt; strongest evidence when support has been removed."
+    },
+    {
+     "Level": "6 — Protect experience",
+     "Runtime Pattern(s)": "Graceful Exit",
+     "What changes": "Supplies enough support to finish and defers remaining mastery.",
+     "Use when": "Further remediation would harm pacing or confidence.",
+     "Evidence / scaffold implication": "Capability remains incomplete; lesson can continue/end."
+    }
+   ],
+   "mvpBoundaries": [
+    {
+     "Define Now": "Pattern inventory and behavioral contracts",
+     "Defer / Research Later": "Exact animation, layout, colors, typography, ● visual behavior"
+    },
+    {
+     "Define Now": "Progressive help principle",
+     "Defer / Research Later": "Fixed hesitation timers / seconds before help appears"
+    },
+    {
+     "Define Now": "Return-point state preservation",
+     "Defer / Research Later": "Production implementation details of state persistence"
+    },
+    {
+     "Define Now": "Implicit vs explicit feedback rules",
+     "Defer / Research Later": "Personalized praise style / motivational copy system"
+    },
+    {
+     "Define Now": "Experience-budget principle",
+     "Defer / Research Later": "Numerical remediation budgets learned from usage data"
+    },
+    {
+     "Define Now": "Accept + Recast conditions",
+     "Defer / Research Later": "Sophisticated grammar-error taxonomy"
+    },
+    {
+     "Define Now": "Graceful Exit behavior",
+     "Defer / Research Later": "Long-term remediation scheduling optimization"
+    },
+    {
+     "Define Now": "Approved asset retrieval before generation",
+     "Defer / Research Later": "Open-ended runtime content generation"
+    },
+    {
+     "Define Now": "AI voice assets may be used only through a validated pipeline",
+     "Defer / Research Later": "Final Igbo TTS/voice vendor/model choice and tone-quality validation"
+    },
+    {
+     "Define Now": "Pronunciation uncertainty handling",
+     "Defer / Research Later": "Tone-aware pronunciation grading until technically credible"
+    }
+   ],
+   "returnContract": [
+    {
+     "Field": "Trigger Beat",
+     "Runtime requirement": "Store beat ID and social state before intervention.",
+     "Example for CAP-001 greeting": "Beat 02 — Greeting."
+    },
+    {
+     "Field": "Trigger Utterance / Opportunity",
+     "Runtime requirement": "Store the exact approved prompt or opportunity that caused the need.",
+     "Example for CAP-001 greeting": "Chioma says Kedụ?"
+    },
+    {
+     "Field": "Gap Target",
+     "Runtime requirement": "Store the specific gap the intervention is addressing.",
+     "Example for CAP-001 greeting": "Igbo response recall/production; comprehension already positive."
+    },
+    {
+     "Field": "Intervention Used",
+     "Runtime requirement": "Record pattern + assistance type.",
+     "Example for CAP-001 greeting": "Model: approved Ọ dị mma audio."
+    },
+    {
+     "Field": "World State",
+     "Runtime requirement": "Preserve NPC, location, narrative reason, and relevant visual context.",
+     "Example for CAP-001 greeting": "Chioma remains the person waiting for a response."
+    },
+    {
+     "Field": "Re-entry Action",
+     "Runtime requirement": "Define how the social moment is naturally recreated.",
+     "Example for CAP-001 greeting": "Chioma repeats/rephrases the greeting rather than UI saying 'retry'."
+    },
+    {
+     "Field": "Post-return Evidence",
+     "Runtime requirement": "Evaluate the new attempt separately with updated scaffold metadata.",
+     "Example for CAP-001 greeting": "Learner says Ọ dị mma independently after model removed."
+    },
+    {
+     "Field": "Failure after Return",
+     "Runtime requirement": "Escalate only the unresolved gap or use Graceful Exit if experience budget is reached.",
+     "Example for CAP-001 greeting": "Focused practice or enough support to continue."
+    }
+   ]
+  },
+  "humanReviewQueue": [
+   {
+    "Knowledge ID": "IGB-KNW-001",
+    "Review Question": "Would you naturally say Kedụ? in this situation, and how would you pronounce it?",
+    "Why Human Review Matters": "Core greeting + tone",
+    "Suggested Reviewer": "Native speaker from 2+ regions",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-006",
+    "Review Question": "How do you use Ndewo/Ndeewo today? Which spelling/pronunciation feels natural, and where?",
+    "Why Human Review Matters": "Meaning/spelling varies by context/region",
+    "Suggested Reviewer": "Native speakers + linguist",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-007",
+    "Review Question": "When would you use Daalụ as 'hello' versus 'thank you'?",
+    "Why Human Review Matters": "Contextual polysemy",
+    "Suggested Reviewer": "Anambra/Onitsha + other-region speakers",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-012",
+    "Review Question": "Would you teach Ụtụtụ ọma as a beginner 'good morning'? What would you personally say?",
+    "Why Human Review Matters": "Potential mismatch between teaching form and lived usage",
+    "Suggested Reviewer": "Speakers across regions/ages",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-022",
+    "Review Question": "How accurate is the age/gender greeting etiquette today, including diaspora contexts?",
+    "Why Human Review Matters": "Cultural rules change over time",
+    "Suggested Reviewer": "Nigeria-based + diaspora speakers across generations",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-025",
+    "Review Question": "Which regional morning greetings are actually current/common today?",
+    "Why Human Review Matters": "Dialect and currency",
+    "Suggested Reviewer": "Regional speakers / linguist",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-027",
+    "Review Question": "How should we explain -nụ to beginners without overgeneralizing?",
+    "Why Human Review Matters": "Grammar rule needs expert precision",
+    "Suggested Reviewer": "Igbo linguist / teacher",
+    "Decision": null,
+    "Reviewer Notes": null
+   },
+   {
+    "Knowledge ID": "IGB-KNW-028",
+    "Review Question": "What audio/tone representation should the product store for beginner phrases?",
+    "Why Human Review Matters": "Core technical requirement for speech",
+    "Suggested Reviewer": "Linguist + native speaker",
+    "Decision": null,
+    "Reviewer Notes": null
+   }
+  ]
+ },
+ "trace": [
+  {
+   "layer": "source",
+   "id": "IGB-SRC-001",
+   "artifact": "igbo_source_registry_v0_2.xlsx",
+   "sheet": "Sources",
+   "fields": {
+    "Name": "Harvard ELIAS — Igbo Beginning Curriculum",
+    "Trust Level": "High",
+    "Corroboration Required": "Preferred",
+    "Internal Review Status": "AI reviewed",
+    "Rights / System Notes": "Use as teaching/curriculum evidence, not sole lexical authority. Rights review needed before copying/adapting."
+   }
+  },
+  {
+   "layer": "knowledge",
+   "id": "IGB-KNW-001",
+   "artifact": "igbo_knowledge_registry_v0_2.xlsx",
+   "sheet": "Knowledge",
+   "fields": {
+    "Igbo Form / Claim": "Kedụ?",
+    "English / Explanation": "How are you? / contextually a general hello or check-in",
+    "Related / Expected Response": "Ọ dị mma.",
+    "Tone / Pronunciation Note": "Tone not established in this pass; audio validation needed.",
+    "Confidence": "High",
+    "Human Validation": "Not reviewed",
+    "Production Status": "Candidate"
+   }
+  },
+  {
+   "layer": "curriculum",
+   "id": "CAP-001",
+   "artifact": "igbo_capability_registry_v0_2.xlsx",
+   "sheet": "Capabilities",
+   "fields": {
+    "Capability Name": "Basic Greeting Exchange",
+    "Required Knowledge IDs": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003",
+    "Interaction Criteria": "Can sustain a short reciprocal greeting exchange for 2–3 turns.",
+    "Knowledge Readiness": "Partial — corroboration + audio/human validation needed",
+    "Status": "Draft"
+   }
+  },
+  {
+   "layer": "lesson",
+   "id": "MVP-LESSON-001",
+   "artifact": "igbo_capability_registry_v0_1.xlsx",
+   "sheet": "MVP Lesson Map",
+   "fields": {
+    "Working Name": "Meet Someone",
+    "Lesson Outcome": "By the end of this lesson, the learner can have a simple first encounter in Igbo: greet someone, exchange names, and close the interaction.",
+    "Capabilities": "CAP-001 Basic Greeting Exchange; CAP-002 Exchange Names; CAP-003 Close an Interaction",
+    "MVP Rule": "Every learner-facing Igbo form used in the lesson must trace to an Approved Knowledge Object.",
+    "Current Blocker": "The required knowledge objects are still Candidate/Hold and need cross-source corroboration plus native-speaker/audio validation."
+   }
+  },
+  {
+   "layer": "exercise",
+   "id": "CAP001-ENC",
+   "artifact": "igbo_exercise_system_v0_1.xlsx",
+   "sheet": "MVP CAP Inventories",
+   "fields": {
+    "Mechanic": "ENC",
+    "Learner Experience": "Character naturally says Kedụ?; learner responds by voice.",
+    "Scaffold": "None",
+    "Evidence Produced": "Comprehension; response recall; oral production",
+    "Required Knowledge": "IGB-KNW-001; IGB-KNW-002; IGB-KNW-003"
+   }
+  },
+  {
+   "layer": "choreography",
+   "id": "02 — Greeting",
+   "artifact": "meet_someone_experience_choreography_v0_1.xlsx",
+   "sheet": "Canonical Beats",
+   "fields": {
+    "Beat Type": "Assessment",
+    "Capability Opportunity": "CAP-001: recognize/respond to greeting.",
+    "Success Continuation": "NPC reacts as if understood and conversation remains open.",
+    "Allowed Intervention Families": "Replay; slower audio; hint; model; observe; focused practice.",
+    "Return Point": "NPC repeats/recreates the greeting naturally."
+   }
+  },
+  {
+   "layer": "pattern",
+   "id": "RXP-006",
+   "artifact": "runtime_experience_patterns_v0_1.xlsx",
+   "sheet": "Pattern Inventory",
+   "fields": {
+    "Pattern": "Model",
+    "Primary Job": "Give the learner the exact approved language they need.",
+    "Learner Sees/Experiences": "●/NPC plays or displays approved target response; replay available.",
+    "Return Behavior": "Recreate original social prompt and ask learner to use it.",
+    "Key Guardrail": "Model only trusted Knowledge/asset content."
+   }
+  }
+ ],
+ "knownDefects": [
+  {
+   "what": "Two ID schemes in one sheet, with a numeric collision.",
+   "where": "igbo_knowledge_registry_v0_2.xlsx → Knowledge",
+   "evidence": "Rows 2–31 use IGB-KNW-001…030 with Domain ID DOMAIN-001. Rows 32–45 use KNW-029…042 with Domain ID \"Greetings & Initial Social Interaction\". IGB-KNW-029 (a source/standardization rule) and KNW-029 (the phrase Ụtụtụ ọma) are different rows sharing a suffix."
+  },
+  {
+   "what": "The same phrase appears twice with contradictory status.",
+   "where": "igbo_knowledge_registry_v0_2.xlsx → Knowledge",
+   "evidence": "IGB-KNW-012: Ụtụtụ ọma — Confidence Medium, Production Status Hold; KNW-029: Ụtụtụ ọma — Confidence High, Production Status Approved"
+  },
+  {
+   "what": "Nine rows are shifted one column left from Tone / Pronunciation Note onward, so those cells cannot be read literally.",
+   "where": "igbo_knowledge_registry_v0_2.xlsx → Knowledge, IGB-KNW-022…030",
+   "evidence": "IGB-KNW-022 reads Tone / Pronunciation Note = \"IGB-SRC-001\" and Confidence = \"Must be human/community validated; culturally variable\"."
+  },
+  {
+   "what": "IGB-KNW-016 and IGB-KNW-017 are swapped in three exercise rows.",
+   "where": "igbo_exercise_system_v0_1.xlsx → MVP CAP Inventories",
+   "evidence": "CAP002-REC (\"Hear the name question and identify what the speaker wants to know\") cites IGB-KNW-016, which is \"Aha m bụ …\" — the answer, not the question."
+  }
+ ]
+}

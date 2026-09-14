@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>● Visual Laboratory 01 — Igbo-first language product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&family=Nunito:wght@400..900&family=Bricolage+Grotesque:opsz,wght@10..48,300..800&family=Sora:wght@300..800&family=Instrument+Sans:wght@400..700&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#e9e6e0;      /* studio backdrop */
+    --card:#ffffff;
+    --ink0:#16150f;
+    --ink1:#3a382f;
+    --ink2:#6d6a5e;
+    --line:#d8d4cb;
+    --lab-accent:#d94f2a;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--page);color:var(--ink0);
+    font-family:"Instrument Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+  /* ---------- masthead ---------- */
+  .mast{padding:70px 0 34px;}
+  .mast .kicker{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);}
+  .mast h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(38px,6vw,74px);line-height:1.02;letter-spacing:-.02em;margin:.28em 0 .1em;}
+  .mast h1 .dot{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:radial-gradient(circle at 34% 30%,#57534a,#0a0a08 66%);vertical-align:.02em;margin-left:.06em;box-shadow:0 6px 18px rgba(0,0,0,.28);}
+  .mast p.lede{font-size:18px;max-width:64ch;color:var(--ink1);margin:14px 0 0;}
+  .metarow{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .chip{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--ink1);}
+
+  /* ---------- reading guide ---------- */
+  .guide{background:#1c1b16;color:#efece4;border-radius:22px;padding:30px 34px;margin:22px 0 8px;}
+  .guide h2{font-family:"Space Grotesk",sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 14px;color:#c9c4b6;}
+  .guide .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;}
+  .guide h3{font-family:"Fraunces",serif;font-weight:500;font-size:20px;margin:0 0 6px;}
+  .guide p{margin:0;font-size:14.5px;color:#bdb9ad;}
+
+  /* nav index */
+  .index{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:28px 0 10px;}
+  .index a{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;transition:transform .1s;}
+  .index a:hover{transform:translateY(-2px);}
+  .index .n{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink2);}
+  .index .t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15px;margin-top:2px;}
+
+  /* ---------- board (one direction) ---------- */
+  .board{margin:64px 0;scroll-margin-top:20px;}
+  .board-head{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;margin-bottom:26px;}
+  .board-num{font-family:"Fraunces",serif;font-weight:300;font-size:64px;line-height:.8;color:var(--ink0);}
+  .board-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,38px);letter-spacing:-.01em;margin:0;}
+  .board-head .aka{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lab-accent);margin:2px 0 10px;}
+  .board-head .thesis{font-size:16.5px;max-width:75ch;color:var(--ink1);}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;margin-bottom:16px;}
+  .panel h3{font-family:"Space Mono",monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px;font-weight:700;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr;}}
+
+  /* palette */
+  .swatches{display:flex;flex-wrap:wrap;gap:0;border-radius:14px;overflow:hidden;border:1px solid var(--line);}
+  .swatch{flex:1 1 90px;min-width:90px;height:118px;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;position:relative;}
+  .swatch span{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.03em;}
+  .swatch .nm{font-weight:700;display:block;}
+  .swatch.lite span{color:#1b1a15;}
+  .swatch.dark span{color:#fff;}
+
+  /* type specimen */
+  .spec .big{line-height:.98;letter-spacing:-.02em;margin:0 0 6px;}
+  .spec .row{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:9px 0;font-size:13px;color:var(--ink2);}
+  .spec .row b{color:var(--ink0);font-weight:600;}
+  .spec .sample{font-size:15px;color:var(--ink1);margin-top:8px;}
+
+  /* screens row */
+  .screens{display:flex;gap:20px;flex-wrap:wrap;justify-content:flex-start;margin-top:4px;}
+  .screencol{width:270px;}
+  .screencap{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.05em;color:var(--ink2);text-transform:uppercase;margin:12px 2px 0;text-align:center;}
+
+  /* phone */
+  .phone{width:270px;height:560px;border-radius:40px;background:#0e0e0c;padding:9px;box-shadow:0 22px 44px -18px rgba(0,0,0,.45),0 4px 10px rgba(0,0,0,.18);position:relative;}
+  .screen{width:100%;height:100%;border-radius:32px;overflow:hidden;position:relative;background:var(--paper,#fff);color:var(--sink,#16150f);font-family:var(--fui,"Instrument Sans"),sans-serif;}
+  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:78px;height:20px;background:#0e0e0c;border-radius:0 0 14px 14px;z-index:40;}
+  .statusbar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:600;z-index:30;color:var(--sink,#16150f);opacity:.7;font-family:var(--fui,"Instrument Sans");}
+  .sb-time{font-variant-numeric:tabular-nums;}
+  .screenpad{position:absolute;inset:34px 0 0 0;padding:16px 18px 18px;display:flex;flex-direction:column;}
+
+  /* sphere primitive */
+  .sph{border-radius:50%;background:radial-gradient(circle at 34% 30%,#5c584e 0%,#1c1b16 46%,#050504 100%);box-shadow:0 8px 20px -6px rgba(0,0,0,.5);position:relative;}
+  .sph.flat{background:#111;}
+  .sph.ghost{opacity:.16;box-shadow:none;}
+  .sph.ring{background:none;border:3px solid var(--sink,#111);box-shadow:none;}
+  .sph-shadow{background:radial-gradient(ellipse at center,rgba(0,0,0,.22),transparent 70%);border-radius:50%;}
+
+  /* motion notation */
+  .arc{position:absolute;border:1.5px dashed var(--ink2);border-color:var(--sink,#6d6a5e);opacity:.5;border-radius:50%;}
+  .speed{position:absolute;height:2px;border-radius:2px;background:var(--sink,#6d6a5e);opacity:.35;}
+
+  /* generic screen bits */
+  .pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;}
+  .softcard{border-radius:18px;padding:14px;}
+  .ph{display:inline-block;border-radius:4px;background:currentColor;opacity:.16;height:.7em;vertical-align:middle;}
+  .glyphrow{display:flex;gap:6px;align-items:center;}
+  .barwave{display:flex;align-items:center;gap:3px;height:26px;}
+  .barwave i{width:3px;border-radius:3px;background:currentColor;display:block;}
+
+  /* sphere study */
+  .studygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+  .cell{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;}
+  .cell .stage{height:126px;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fbfaf7,#f3f1ea);}
+  .cell .lab{padding:9px 12px 11px;border-top:1px solid var(--line);}
+  .cell .lab b{font-family:"Space Grotesk",sans-serif;font-size:12.5px;display:block;}
+  .cell .lab span{font-size:11px;color:var(--ink2);line-height:1.35;display:block;margin-top:2px;}
+
+  /* risk / note lists */
+  .noteflex{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:820px){.noteflex{grid-template-columns:1fr;}}
+  .note h4,.risk h4{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;}
+  .note h4{color:#2f7d5b;} .risk h4{color:#b0472e;}
+  .note ul,.risk ul{margin:0;padding-left:18px;} .note li,.risk li{font-size:14px;margin-bottom:6px;color:var(--ink1);}
+
+  .kv{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;font-size:14px;}
+  .kv dt{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);padding-top:2px;}
+  .kv dd{margin:0;color:var(--ink1);}
+
+  .divider{height:1px;background:var(--line);margin:0;border:0;}
+  footer.labfoot{padding:60px 0 90px;color:var(--ink2);font-size:14px;}
+  .synth{background:#1c1b16;color:#efece4;border-radius:24px;padding:34px;}
+  .synth h2{font-family:"Fraunces",serif;font-weight:500;font-size:30px;margin:0 0 8px;}
+  .synth .qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px;}
+  .synth .q{background:#26241d;border-radius:16px;padding:18px;}
+  .synth .q b{font-family:"Space Grotesk",sans-serif;display:block;margin-bottom:6px;font-size:15px;color:#fff;}
+  .synth .q p{margin:0;font-size:13.5px;color:#b9b4a8;}
+  .cmp{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:16px;overflow:hidden;}
+  .cmp th,.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .cmp th{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);background:#faf9f6;}
+  .cmp td b{font-family:"Space Grotesk",sans-serif;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="kicker">Visual Laboratory · Vol. 01 · Art-direction sandbox</div>
+    <h1>What could this feel like?<span class="dot"></span></h1>
+    <p class="lede">Five substantially different visual worlds for a conversational language product — Igbo first, built to hold many languages later. Each is shown as real product moments, not moodboards. Nothing here is a decision. It's a spread to react to.</p>
+    <div class="metarow">
+      <span class="chip">Igbo-first, multi-language</span>
+      <span class="chip">Conversational comfort</span>
+      <span class="chip">Light · warm · alive</span>
+      <span class="chip">The ● as recurring element</span>
+      <span class="chip">Static comps — motion is notated, not animated</span>
+    </div>
+  </header>
+
+  <section class="guide">
+    <h2>How to read this</h2>
+    <div class="cols">
+      <div><h3>It's a spread, not a pitch</h3><p>Five directions sit at deliberately different points: editorial, geometric, tactile, sonic, illustrated. Contrast is the point. Expect some to feel wrong — that's information.</p></div>
+      <div><h3>Same three screens each</h3><p>Every direction renders the <em>Opening</em>, the <em>Home / Today</em>, and the hardest one — <em>Speaking</em>. Same content, so you compare worlds, not layouts.</p></div>
+      <div><h3>Motion is drawn, not played</h3><p>These are stills by your call. Where the ● moves, I notate it — ghost frames, dashed arcs, speed lines — the way an animator sheets a shot.</p></div>
+      <div><h3>‹ › means placeholder language</h3><p>No invented Igbo. Anywhere real language would go, you'll see ‹greeting›, ‹reply›, greeked bars, or 🔊. UI chrome stays in English.</p></div>
+    </div>
+  </section>
+
+  <nav class="index">
+    <a href="#d1"><span class="n">01</span><div class="t">Field Notes</div></a>
+    <a href="#d2"><span class="n">02</span><div class="t">Playground Primitives</div></a>
+    <a href="#d3"><span class="n">03</span><div class="t">Soft Matter</div></a>
+    <a href="#d4"><span class="n">04</span><div class="t">Signal</div></a>
+    <a href="#d5"><span class="n">05</span><div class="t">Places</div></a>
+    <a href="#study"><span class="n">✦</span><div class="t">The ● Study</div></a>
+  </nav>
+</div>
+
+<!-- ================= BOARDS ================= -->
+
+<!-- ============ DIRECTION 1 · FIELD NOTES ============ -->
+<div class="wrap">
+<section class="board" id="d1" style="--lab-accent:#d94f2a;--paper:#f7f2e8;--sink:#1b1712;--facc:#d94f2a;--facc2:#25506f;--fui:'Instrument Sans';">
+  <div class="board-head">
+    <div class="board-num">01</div>
+    <div>
+      <h2>Field Notes</h2>
+      <div class="aka">Warm-paper editorial · a magazine of real life</div>
+      <p class="thesis">The app feels like a beautifully art-directed contemporary magazine about living in the language — generous ecru paper, confident editorial type, spot illustration and photography of actual food, people and places. Playfulness comes from the <b>●</b> and micro-interactions, never from cartoon faces. The premise: treat an adult learner like a reader with taste, and let the ● be the one mischievous thing on an otherwise composed page — an ink dot with a mind of its own.</p>
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>Palette — ink on warm paper, one hot accent</h3>
+      <div class="swatches">
+        <div class="swatch lite" style="background:#f7f2e8;"><span class="nm">Paper</span><span>#F7F2E8</span></div>
+        <div class="swatch lite" style="background:#e7ddca;"><span class="nm">Ecru</span><span>#E7DDCA</span></div>
+        <div class="swatch dark" style="background:#1b1712;"><span class="nm">Ink ●</span><span>#1B1712</span></div>
+        <div class="swatch dark" style="background:#d94f2a;"><span class="nm">Tomato</span><span>#D94F2A</span></div>
+        <div class="swatch dark" style="background:#25506f;"><span class="nm">Ink-blue</span><span>#25506F</span></div>
+        <div class="swatch lite" style="background:#e8b04b;"><span class="nm">Marigold</span><span>#E8B04B</span></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);margin:12px 0 0;">Restraint is the identity: mostly paper + ink, colour used like a magazine uses it — one spread, one hot note. Language worlds re-tune the single accent (Igbo = tomato/marigold warmth) rather than repainting everything.</p>
+    </div>
+    <div class="spec" style="font-family:'Instrument Sans';">
+      <h3>Type — characterful serif display + quiet grotesque</h3>
+      <div class="big" style="font-family:'Fraunces';font-weight:500;font-size:52px;">Meet<br>someone<span style="color:#d94f2a;">.</span></div>
+      <div class="row"><span>Display</span><b style="font-family:'Fraunces';font-size:16px;">Fraunces — high-contrast, warm, opinionated</b></div>
+      <div class="row"><span>UI / text</span><b style="font-family:'Instrument Sans';">Instrument Sans — calm, legible</b></div>
+      <div class="row"><span>Labels</span><b style="font-family:'Space Mono';font-size:12px;">Space Mono — field-note captions</b></div>
+      <div class="sample" style="font-family:'Fraunces';font-style:italic;">“The dot is the period at the end of every sentence — until it wanders off.”</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Product moments</h3>
+    <div class="screens">
+
+      <!-- OPENING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;text-align:center;">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8a8474;margin-top:8px;">a magazine you can speak</div>
+            <!-- globe → dot sequence -->
+            <div style="display:flex;align-items:center;gap:8px;margin:38px 0 6px;">
+              <span style="font-size:26px;filter:saturate(.85);">🌍</span>
+              <span style="font-family:'Space Mono';color:#c3bca9;">→</span>
+              <span style="width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6b6656,#1b1712);opacity:.5;"></span>
+              <span style="font-family:'Space Mono';color:#c3bca9;">→</span>
+              <span class="sph" style="width:22px;height:22px;"></span>
+            </div>
+            <div class="sph" style="width:104px;height:104px;margin:26px 0 6px;"></div>
+            <div class="sph-shadow" style="width:78px;height:14px;margin-top:2px;"></div>
+            <div style="font-family:'Fraunces';font-weight:400;font-size:34px;letter-spacing:-.01em;margin-top:30px;">say<span style="color:#d94f2a;">.</span></div>
+            <div style="font-family:'Space Mono';font-size:10px;color:#8a8474;margin-top:2px;">‹working name›</div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#1b1712;color:#f7f2e8;align-self:stretch;justify-content:center;">Hold to begin</div>
+            <div style="font-family:'Space Mono';font-size:10px;color:#a29c8b;margin-top:12px;">Already speak a little? ‹sign in›</div>
+          </div>
+        </div></div>
+        <div class="screencap">01 · Opening</div>
+      </div>
+
+      <!-- HOME / TODAY -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8a8474;">Mon · Today</div>
+              <span class="sph" style="width:16px;height:16px;"></span>
+            </div>
+            <div style="font-family:'Fraunces';font-weight:400;font-size:30px;line-height:1.05;margin:10px 0 4px;">Let's meet<br>someone<span style="color:#d94f2a;">.</span></div>
+            <div style="font-family:'Space Mono';font-size:11px;color:#8a8474;margin-bottom:14px;">Capability 01 — the first thing you'll be able to do</div>
+
+            <div class="softcard" style="background:#efe7d6;border:1px solid #e2d7bf;">
+              <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9a7a3a;">Progress toward this</div>
+              <!-- ledger dots -->
+              <div style="display:flex;gap:6px;margin:12px 0 8px;align-items:center;">
+                <span class="sph" style="width:14px;height:14px;"></span>
+                <span class="sph" style="width:14px;height:14px;"></span>
+                <span class="sph" style="width:14px;height:14px;"></span>
+                <span class="sph ring" style="width:14px;height:14px;"></span>
+                <span class="sph ghost" style="width:14px;height:14px;"></span>
+                <span class="sph ghost" style="width:14px;height:14px;"></span>
+                <span style="font-family:'Space Mono';font-size:11px;color:#9a7a3a;margin-left:auto;">3 / 6</span>
+              </div>
+              <div style="font-size:13px;color:#5a5344;">You can already <i>greet</i> and <i>say your name</i>. Next: <b>ask someone theirs.</b></div>
+            </div>
+
+            <div style="margin-top:14px;font-family:'Space Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8a8474;">Today's scene</div>
+            <div class="softcard" style="background:#fff;border:1px solid #e6ddca;margin-top:8px;display:flex;gap:12px;align-items:center;">
+              <div style="width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#e8b04b,#d94f2a);flex:none;"></div>
+              <div><div style="font-family:'Fraunces';font-size:16px;">At the ‹market›</div><div style="font-size:12px;color:#8a8474;">2 min · listen + 1 reply</div></div>
+            </div>
+
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#d94f2a;color:#fff;justify-content:center;align-self:stretch;">Start ‹●›</div>
+          </div>
+        </div></div>
+        <div class="screencap">03 · Home / Today</div>
+      </div>
+
+      <!-- SPEAKING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8a8474;">Your turn</div>
+            <div style="font-family:'Fraunces';font-size:22px;line-height:1.15;margin:8px 0 4px;">They asked your name.<br>Say it back<span style="color:#d94f2a;">.</span></div>
+
+            <!-- speaker line -->
+            <div class="softcard" style="background:#efe7d6;margin-top:14px;">
+              <div style="font-family:'Space Mono';font-size:10px;color:#9a7a3a;margin-bottom:6px;">◍ ‹speaker› said</div>
+              <div style="font-family:'Fraunces';font-size:17px;color:#3a352a;">‹Kèdú áhà gị›<span style="opacity:.4;">?</span></div>
+              <div class="glyphrow" style="margin-top:6px;"><span class="ph" style="width:40px;"></span><span class="ph" style="width:26px;"></span><span class="ph" style="width:52px;"></span></div>
+            </div>
+
+            <!-- speaking / listening treatment: the ink dot as period on your baseline -->
+            <div style="margin-top:22px;font-family:'Space Mono';font-size:10px;color:#8a8474;">You — speak on the line</div>
+            <div style="position:relative;margin-top:16px;padding-bottom:14px;border-bottom:2px solid #1b1712;">
+              <span style="font-family:'Fraunces';font-size:20px;color:#c3bca9;">‹M</span>
+              <!-- ink dot mid-motion, notated -->
+              <span class="sph ghost" style="width:18px;height:18px;position:absolute;left:64px;bottom:12px;"></span>
+              <span class="sph ghost" style="width:20px;height:20px;position:absolute;left:96px;bottom:11px;opacity:.28;"></span>
+              <span class="sph" style="width:26px;height:26px;position:absolute;right:0;bottom:8px;"></span>
+              <span class="speed" style="width:16px;right:30px;bottom:19px;"></span>
+              <span class="speed" style="width:10px;right:30px;bottom:14px;"></span>
+            </div>
+            <div style="font-family:'Space Mono';font-size:10px;color:#d94f2a;margin-top:10px;">● listening — it swells with your voice, rides your baseline like a full stop</div>
+
+            <div style="flex:1;"></div>
+            <div style="display:flex;gap:10px;">
+              <div class="pill" style="border:1.5px solid #cdbf9f;color:#8a8474;flex:1;justify-content:center;">Hear it again</div>
+              <div class="pill" style="background:#1b1712;color:#f7f2e8;flex:1;justify-content:center;">Hold to speak</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="screencap">05 · Speaking</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>How the ● behaves here</h3>
+      <dl class="kv">
+        <dt>Identity</dt><dd>An ink dot — the period at the end of the display serif. It <i>belongs</i> to the typography.</dd>
+        <dt>Aliveness</dt><dd>Ink physics, not a face: it rolls off the end of a sentence, blots, wicks, sits in the counter of an <i>a</i>, swells when you speak.</dd>
+        <dt>Listening</dt><dd>Rests on your baseline and pulses with input level, like the cursor is breathing.</dd>
+        <dt>Restraint</dt><dd>Never more than one hot accent + the dot moving on a still page. The page stays composed; the dot misbehaves.</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>How culture enters</h3>
+      <p style="font-size:14.5px;color:var(--ink1);margin:0;">Through editorial content, not surface pattern. Named people, photographed ‹market› food, real places and diaspora life shot like a lifestyle magazine. The system stays universal; Igbo enters as <i>subject matter and warmth</i> — the tomato/marigold accent, the scenes, the names — so switching languages re-photographs the magazine rather than reskinning a UI.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="noteflex">
+      <div class="note"><h4>What makes it recognizable</h4><ul>
+        <li>The ink-dot-as-punctuation motif carried across every screen.</li>
+        <li>Warm paper + one hot accent — instantly not-a-tech-app, not-Duolingo.</li>
+        <li>Fraunces display voice with the coloured full stop as a signature.</li>
+      </ul></div>
+      <div class="risk"><h4>Risks / failure modes</h4><ul>
+        <li>Editorial can tip cold or “luxury-brand,” reading adult-serious rather than playful.</li>
+        <li>Serif + paper can feel dated or precious if under-animated — the dot's mischief has to carry the fun.</li>
+        <li>Photography is expensive and hard to keep authentic/non-exotic across many languages.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ DIRECTION 2 · PLAYGROUND PRIMITIVES ============ -->
+<div class="wrap">
+<section class="board" id="d2" style="--lab-accent:#e0603a;--paper:#fffdf6;--sink:#17150f;--fui:'DM Sans';">
+  <div class="board-head">
+    <div class="board-num">02</div>
+    <div>
+      <h2>Playground Primitives</h2>
+      <div class="aka">Bold flat geometry · the ● is the hero of a shape family</div>
+      <p class="thesis">Everything is built from a small kit of flat primitives — circles, arcs, semicircles, quarter-rounds — in a confident, slightly earthy palette on bright white. People, buses, market stalls, food are all assembled from the same vocabulary the ● belongs to. This is the “sophisticated museum-graphics for kids that adults love” lane: MoMA / Cooper-Hewitt energy, big rounded type, lots of air. The ● isn't decorated — it's simply the one <i>complete</i> circle, the protagonist among shapes that need it to finish their compositions.</p>
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>Palette — earthy-saturated kit on white</h3>
+      <div class="swatches">
+        <div class="swatch lite" style="background:#fffdf6;"><span class="nm">White</span><span>#FFFDF6</span></div>
+        <div class="swatch dark" style="background:#e0603a;"><span class="nm">Terracotta</span><span>#E0603A</span></div>
+        <div class="swatch lite" style="background:#f2b134;"><span class="nm">Marigold</span><span>#F2B134</span></div>
+        <div class="swatch dark" style="background:#12776b;"><span class="nm">Teal</span><span>#12776B</span></div>
+        <div class="swatch dark" style="background:#7a6cd6;"><span class="nm">Violet</span><span>#7A6CD6</span></div>
+        <div class="swatch dark" style="background:#17150f;"><span class="nm">Ink ●</span><span>#17150F</span></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);margin:12px 0 0;">A curated five-plus-black, tuned earthy so it reads adult, not primary-school. Each language world claims a different pair from the kit as its lead (Igbo = terracotta + marigold) while the whole family stays available.</p>
+    </div>
+    <div class="spec" style="font-family:'DM Sans';">
+      <h3>Type — big rounded grotesque, high confidence</h3>
+      <div class="big" style="font-family:'Bricolage Grotesque';font-weight:800;font-size:50px;">meet<br>someone</div>
+      <div class="row"><span>Display</span><b style="font-family:'Bricolage Grotesque';font-size:16px;">Bricolage Grotesque — chunky, characterful</b></div>
+      <div class="row"><span>UI / text</span><b style="font-family:'DM Sans';">DM Sans — round, neutral, friendly</b></div>
+      <div class="row"><span>Numerals</span><b style="font-family:'Space Grotesk';">Space Grotesk — tabular, techy-warm</b></div>
+      <div class="sample">Type is set big and tight; the ● frequently replaces the dot on an <b>i</b> or the hole of an <b>o</b>.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Product moments</h3>
+    <div class="screens">
+
+      <!-- OPENING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#fffdf6;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;">
+            <!-- composition of primitives, dot completes it -->
+            <div style="position:relative;width:100%;height:150px;margin-top:18px;">
+              <div style="position:absolute;left:10px;top:20px;width:60px;height:60px;background:#f2b134;border-radius:50% 50% 50% 0;"></div>
+              <div style="position:absolute;right:6px;top:8px;width:70px;height:35px;background:#12776b;border-radius:0 0 70px 70px;"></div>
+              <div style="position:absolute;left:70px;bottom:0;width:80px;height:40px;background:#7a6cd6;border-radius:80px 80px 0 0;"></div>
+              <div style="position:absolute;right:20px;bottom:6px;width:44px;height:44px;background:#e0603a;border-radius:50%;"></div>
+              <!-- globe→dot micro -->
+              <div style="position:absolute;left:50%;top:44px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;">
+                <span style="font-size:20px;">🌍</span><span style="color:#bdb7a6;">→</span><span class="sph" style="width:24px;height:24px;"></span>
+              </div>
+            </div>
+            <div class="sph" style="width:96px;height:96px;margin:6px 0;"></div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:40px;letter-spacing:-.02em;margin-top:20px;">say<span style="color:#e0603a;">●</span></div>
+            <div style="font-family:'Space Grotesk';font-size:11px;color:#8f8a78;margin-top:2px;">say anything, out loud</div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#17150f;color:#fffdf6;align-self:stretch;justify-content:center;font-size:15px;padding:13px;">Let's go</div>
+          </div>
+        </div></div>
+        <div class="screencap">01 · Opening</div>
+      </div>
+
+      <!-- HOME / TODAY -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#fffdf6;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:'Space Grotesk';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8f8a78;">Today</div>
+              <div style="width:30px;height:30px;border-radius:50%;background:#f2b134;display:flex;align-items:center;justify-content:center;"><span class="sph" style="width:14px;height:14px;"></span></div>
+            </div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:33px;line-height:1;margin:12px 0 2px;">Meet<br>someone</div>
+            <div style="font-family:'Space Grotesk';font-size:11px;color:#8f8a78;">your goal right now</div>
+
+            <!-- big shape progress -->
+            <div class="softcard" style="background:#12776b;color:#eafffb;margin-top:16px;position:relative;overflow:hidden;">
+              <div style="position:absolute;right:-18px;bottom:-18px;width:90px;height:90px;background:#0e5e55;border-radius:50%;"></div>
+              <div style="position:relative;">
+                <div style="font-family:'Space Grotesk';font-size:11px;opacity:.8;">halfway there</div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:30px;">3<span style="opacity:.5;">/6</span></div>
+                <!-- arc gauge from primitives -->
+                <div style="display:flex;gap:5px;margin-top:8px;">
+                  <span style="width:22px;height:11px;background:#f2b134;border-radius:22px 22px 0 0;"></span>
+                  <span style="width:22px;height:11px;background:#f2b134;border-radius:22px 22px 0 0;"></span>
+                  <span style="width:22px;height:11px;background:#f2b134;border-radius:22px 22px 0 0;"></span>
+                  <span style="width:22px;height:11px;background:#0e5e55;border-radius:22px 22px 0 0;"></span>
+                  <span style="width:22px;height:11px;background:#0e5e55;border-radius:22px 22px 0 0;"></span>
+                  <span style="width:22px;height:11px;background:#0e5e55;border-radius:22px 22px 0 0;"></span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <div class="softcard" style="background:#fff;border:1.5px solid #efe7d2;flex:1;">
+                <div style="width:34px;height:34px;border-radius:50% 50% 50% 0;background:#e0603a;margin-bottom:8px;"></div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:14px;">Ask a name</div>
+                <div style="font-size:11px;color:#8f8a78;">2 min</div>
+              </div>
+              <div class="softcard" style="background:#fff;border:1.5px solid #efe7d2;flex:1;">
+                <div style="width:34px;height:34px;border-radius:50%;background:#7a6cd6;margin-bottom:8px;"></div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:14px;">Say hello</div>
+                <div style="font-size:11px;color:#8f8a78;">done ✓</div>
+              </div>
+            </div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#e0603a;color:#fff;align-self:stretch;justify-content:center;font-size:15px;padding:13px;">Start ●</div>
+          </div>
+        </div></div>
+        <div class="screencap">03 · Home / Today</div>
+      </div>
+
+      <!-- SPEAKING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#fffdf6;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;">
+            <div style="align-self:flex-start;font-family:'Space Grotesk';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8f8a78;">your turn</div>
+            <!-- character built from primitives asks -->
+            <div class="softcard" style="background:#f2b134;align-self:stretch;margin-top:10px;display:flex;gap:12px;align-items:center;">
+              <div style="position:relative;width:40px;height:40px;flex:none;">
+                <div style="position:absolute;inset:0;background:#e0603a;border-radius:50%;"></div>
+                <div style="position:absolute;left:8px;bottom:0;width:24px;height:12px;background:#17150f;border-radius:24px 24px 0 0;"></div>
+              </div>
+              <div><div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:15px;color:#5a3a12;">‹Kèdú áhà gị?›</div><div style="font-size:11px;color:#8a6a24;">they asked your name</div></div>
+            </div>
+
+            <!-- the sphere IS the record affordance -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;width:100%;">
+              <!-- concentric arcs = shapes reacting to the hero circle -->
+              <span class="arc" style="width:150px;height:150px;left:50%;top:50%;transform:translate(-50%,-50%);border-color:#e0603a;opacity:.35;"></span>
+              <span class="arc" style="width:110px;height:110px;left:50%;top:50%;transform:translate(-50%,-50%);border-color:#e0603a;opacity:.5;"></span>
+              <div class="sph" style="width:78px;height:78px;"></div>
+              <div style="position:absolute;bottom:2px;font-family:'Space Grotesk';font-size:11px;color:#e0603a;">● is listening — the ring shapes breathe out with your volume</div>
+            </div>
+
+            <div style="font-family:'DM Sans';font-size:13px;color:#8f8a78;">no giant mic — you just talk to the dot</div>
+            <div class="pill" style="background:#17150f;color:#fffdf6;align-self:stretch;justify-content:center;margin-top:10px;font-size:15px;padding:13px;">Hold ● to speak</div>
+          </div>
+        </div></div>
+        <div class="screencap">05 · Speaking</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>How the ● behaves here</h3>
+      <dl class="kv">
+        <dt>Identity</dt><dd>The one complete circle in a world of arcs and half-shapes — the piece that finishes compositions.</dd>
+        <dt>Aliveness</dt><dd>Squash on landing, rolls between shapes, nudges primitives aside, snaps into a socket where a circle was “missing”.</dd>
+        <dt>Listening</dt><dd>Surrounding arcs pulse outward from it like ripples in the shape kit; the ● itself stays solid and calm.</dd>
+        <dt>Play</dt><dd>Can momentarily <i>become</i> a character by borrowing a primitive (a little semicircle mouth) then drop it — face is temporary, never default.</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>How culture enters</h3>
+      <p style="font-size:14.5px;color:var(--ink1);margin:0;">Environments are <i>built</i> from the primitive kit — a ‹danfo› bus, a ‹market› stall, a family compound, jollof on a plate — all in the same geometric language, so contemporary Igbo life is depicted specifically without a single “traditional pattern.” A language world = a different scene set + accent pair drawn from the shared kit.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="noteflex">
+      <div class="note"><h4>What makes it recognizable</h4><ul>
+        <li>A single primitive-shape vocabulary from logo to illustration to progress meter.</li>
+        <li>The ● as “the complete circle” — a strong ownable idea.</li>
+        <li>Chunky Bricolage headers + earthy-saturated kit — bold but grown-up.</li>
+      </ul></div>
+      <div class="risk"><h4>Risks / failure modes</h4><ul>
+        <li>Geometric people can slide into Corporate-Memphis / “Alegria” blandness — biggest danger here.</li>
+        <li>Primary-ish colour risks reading as a kids' toy if not held earthy.</li>
+        <li>Bauhaus-primitive is a well-worn look; needs the ● and motion to feel ownable, not generic-startup.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ DIRECTION 3 · SOFT MATTER ============ -->
+<div class="wrap">
+<section class="board" id="d3" style="--lab-accent:#e08a5c;--paper:#f2eee7;--sink:#2a2620;--fui:'Nunito';">
+  <div class="board-head">
+    <div class="board-num">03</div>
+    <div>
+      <h2>Soft Matter</h2>
+      <div class="aka">Tactile & dimensional · the ● as a matte-black marble with weight</div>
+      <p class="thesis">A soft, huggable, gently 3-D world — matte putty surfaces, pillowy shadows, rounded everything — rendered with restraint so it reads premium, not cute (Apple's soft depth, high-end claymation). The trick: everything is pastel and soft <i>except</i> the ●, which is the only pure-black, perfectly-simple, physically-real object on screen. It stands out as <b>the character precisely because it refuses to be soft</b> — a heavy little marble rolling through a world made of clay.</p>
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>Palette — putty pastels, one true black</h3>
+      <div class="swatches">
+        <div class="swatch lite" style="background:#f2eee7;"><span class="nm">Putty</span><span>#F2EEE7</span></div>
+        <div class="swatch lite" style="background:#f5c9b0;"><span class="nm">Peach</span><span>#F5C9B0</span></div>
+        <div class="swatch lite" style="background:#bfe0cf;"><span class="nm">Mint</span><span>#BFE0CF</span></div>
+        <div class="swatch lite" style="background:#bcd6e6;"><span class="nm">Sky</span><span>#BCD6E6</span></div>
+        <div class="swatch lite" style="background:#f3e2a9;"><span class="nm">Butter</span><span>#F3E2A9</span></div>
+        <div class="swatch dark" style="background:#0a0a0a;"><span class="nm">Marble ●</span><span>#0A0A0A</span></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);margin:12px 0 0;">Soft shadows do the work; colour stays low-saturation and warm. Language worlds shift the pastel <i>temperature</i> (Igbo = peach/butter warmth; a cooler language = sky/mint) while the marble stays constant — the fixed point across every world.</p>
+    </div>
+    <div class="spec" style="font-family:'Nunito';">
+      <h3>Type — rounded, soft-weight, friendly-clean</h3>
+      <div class="big" style="font-family:'Nunito';font-weight:800;font-size:48px;">meet<br>someone</div>
+      <div class="row"><span>Display + UI</span><b style="font-family:'Nunito';">Nunito — rounded terminals, warm</b></div>
+      <div class="row"><span>Weight</span><b style="font-family:'Nunito';font-weight:900;">One face, many weights (300–900)</b></div>
+      <div class="row"><span>Numerals</span><b style="font-family:'Nunito';">soft tabular, embossed on cards</b></div>
+      <div class="sample">Type looks slightly embossed / debossed into the clay — 1px light-top, dark-bottom shadow.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Product moments</h3>
+    <div class="screens">
+
+      <!-- OPENING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f2eee7;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;background:radial-gradient(120% 80% at 50% 20%,#f8dfc9,#f2eee7 60%);">
+            <div style="font-family:'Nunito';font-weight:700;font-size:11px;letter-spacing:.06em;color:#a08a76;margin-top:10px;">soft landing</div>
+            <!-- globe(clay)→marble -->
+            <div style="display:flex;align-items:center;gap:8px;margin-top:26px;">
+              <div style="width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#cfe4c6,#8fbfa6);box-shadow:inset -3px -4px 6px rgba(0,0,0,.15),0 4px 8px rgba(0,0,0,.12);"></div>
+              <span style="color:#c3b6a4;">→</span>
+              <div class="sph flat" style="width:26px;height:26px;background:radial-gradient(circle at 36% 30%,#3a3a3a,#050505);"></div>
+            </div>
+            <!-- hero marble + big soft shadow -->
+            <div style="margin-top:44px;position:relative;">
+              <div class="sph flat" style="width:104px;height:104px;background:radial-gradient(circle at 36% 28%,#454545,#080808 62%);box-shadow:0 22px 30px -10px rgba(0,0,0,.5);"></div>
+            </div>
+            <div class="sph-shadow" style="width:96px;height:20px;margin-top:12px;filter:blur(1px);"></div>
+            <div style="font-family:'Nunito';font-weight:900;font-size:38px;margin-top:26px;letter-spacing:-.01em;">say</div>
+            <div style="font-family:'Nunito';font-weight:600;font-size:12px;color:#a08a76;">roll into a conversation</div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#0a0a0a;color:#fff;align-self:stretch;justify-content:center;font-weight:800;box-shadow:0 8px 16px -4px rgba(0,0,0,.4);">Begin</div>
+          </div>
+        </div></div>
+        <div class="screencap">01 · Opening</div>
+      </div>
+
+      <!-- HOME / TODAY -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f2eee7;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:'Nunito';font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#a08a76;">Today</div>
+              <div class="sph flat" style="width:22px;height:22px;background:radial-gradient(circle at 36% 30%,#444,#070707);box-shadow:0 4px 8px -2px rgba(0,0,0,.4);"></div>
+            </div>
+            <div style="font-family:'Nunito';font-weight:900;font-size:32px;line-height:1;margin:10px 0 2px;">Meet<br>someone</div>
+            <div style="font-family:'Nunito';font-weight:600;font-size:12px;color:#a08a76;">your goal this week</div>
+
+            <!-- soft embossed progress dish -->
+            <div class="softcard" style="background:#f5c9b0;margin-top:16px;box-shadow:inset 2px 3px 6px rgba(255,255,255,.5),inset -3px -4px 8px rgba(180,120,90,.25),0 6px 14px -6px rgba(0,0,0,.2);">
+              <div style="font-family:'Nunito';font-weight:700;font-size:11px;color:#9a5c3a;">rolling toward it</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                <div style="flex:1;height:14px;border-radius:14px;background:#e9b295;box-shadow:inset 1px 2px 3px rgba(150,90,60,.35);position:relative;overflow:hidden;">
+                  <div style="position:absolute;left:0;top:0;bottom:0;width:52%;background:#0a0a0a;border-radius:14px;"></div>
+                  <div class="sph flat" style="width:20px;height:20px;position:absolute;left:44%;top:-3px;background:radial-gradient(circle at 36% 30%,#444,#070707);box-shadow:0 3px 6px rgba(0,0,0,.4);"></div>
+                </div>
+                <span style="font-family:'Nunito';font-weight:800;font-size:14px;color:#9a5c3a;">3/6</span>
+              </div>
+              <div style="font-family:'Nunito';font-size:12.5px;color:#7a4a2e;margin-top:8px;">the marble literally rolls along your progress track</div>
+            </div>
+
+            <div class="softcard" style="background:#bfe0cf;margin-top:12px;box-shadow:inset 2px 3px 6px rgba(255,255,255,.5),inset -3px -4px 8px rgba(90,150,120,.22),0 6px 14px -6px rgba(0,0,0,.2);display:flex;gap:12px;align-items:center;">
+              <div style="width:40px;height:40px;border-radius:14px;background:radial-gradient(circle at 35% 30%,#8fd0ae,#5fae87);box-shadow:inset -2px -3px 5px rgba(0,0,0,.15);"></div>
+              <div><div style="font-family:'Nunito';font-weight:800;font-size:15px;color:#2f5e46;">At the ‹market›</div><div style="font-family:'Nunito';font-size:12px;color:#4a7a60;">listen + reply · 3 min</div></div>
+            </div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#0a0a0a;color:#fff;align-self:stretch;justify-content:center;font-weight:800;box-shadow:0 8px 16px -4px rgba(0,0,0,.4);">Start</div>
+          </div>
+        </div></div>
+        <div class="screencap">03 · Home / Today</div>
+      </div>
+
+      <!-- SPEAKING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f2eee7;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;background:radial-gradient(120% 70% at 50% 78%,#f8e7cf,#f2eee7 62%);">
+            <div style="align-self:flex-start;font-family:'Nunito';font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#a08a76;">your turn</div>
+            <div class="softcard" style="background:#f3e2a9;align-self:stretch;margin-top:10px;box-shadow:inset 2px 3px 6px rgba(255,255,255,.5),0 5px 12px -6px rgba(0,0,0,.2);">
+              <div style="font-family:'Nunito';font-weight:800;font-size:15px;color:#7a6320;">‹Kèdú áhà gị?›</div>
+              <div style="font-family:'Nunito';font-size:11.5px;color:#9a8340;">they asked your name</div>
+            </div>
+
+            <!-- listening marble squashes; soft shadow spreads -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div class="sph flat" style="width:118px;height:92px;border-radius:50%;background:radial-gradient(circle at 38% 28%,#484848,#060606 64%);box-shadow:0 20px 26px -10px rgba(0,0,0,.5);"></div>
+              <div class="sph-shadow" style="width:126px;height:22px;margin-top:14px;filter:blur(2px);"></div>
+              <div style="font-family:'Nunito';font-weight:700;font-size:12px;color:#c07a4a;margin-top:14px;">● squashes as it leans in to listen —</div>
+              <div style="font-family:'Nunito';font-size:11.5px;color:#a08a76;">wider = hearing you louder</div>
+            </div>
+
+            <div class="pill" style="background:#0a0a0a;color:#fff;align-self:stretch;justify-content:center;font-weight:800;box-shadow:0 8px 16px -4px rgba(0,0,0,.4);">Hold &amp; speak</div>
+            <div style="font-family:'Nunito';font-size:11px;color:#a08a76;margin-top:8px;">press the marble, not a mic icon</div>
+          </div>
+        </div></div>
+        <div class="screencap">05 · Speaking</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>How the ● behaves here</h3>
+      <dl class="kv">
+        <dt>Identity</dt><dd>A heavy matte marble — the only hard, black, physical object in a clay world.</dd>
+        <dt>Aliveness</dt><dd>Pure physics: momentum, squash/stretch on impact, a soft cast shadow that tells you its height and weight. Most “alive” of the five because it obeys real gravity.</dd>
+        <dt>Listening</dt><dd>Squashes wider and lower as it leans in; shadow spreads. Volume = deformation.</dd>
+        <dt>Emotion</dt><dd>Shown by <i>how</i> it moves — a hesitant wobble, an eager bounce, a slow sad roll — not by features.</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>How culture enters</h3>
+      <p style="font-size:14.5px;color:var(--ink1);margin:0;">Through soft-rendered objects and places of contemporary life — ‹market› produce, a plate of food, a doorway, a radio — all as tactile clay props. Culture is in <i>what's modelled</i>, not in pattern. A language world re-tempers the pastel palette and swaps the prop set; the marble is the constant thread.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="noteflex">
+      <div class="note"><h4>What makes it recognizable</h4><ul>
+        <li>The single hard black marble against an all-soft pastel world — a strong, ownable contrast.</li>
+        <li>Physical honesty: weight, shadow, momentum make it feel alive with zero face.</li>
+        <li>Embossed/debossed clay UI that invites touch.</li>
+      </ul></div>
+      <div class="risk"><h4>Risks / failure modes</h4><ul>
+        <li>Soft-3-D / blob aesthetics date fast and can read “generic startup 2021.”</li>
+        <li>Heavy rendering fights your “light / graphic / simple” instinct — needs discipline.</li>
+        <li>Claymation can tip childish; pastels can feel saccharine without the black anchor holding it.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ DIRECTION 4 · SIGNAL ============ -->
+<div class="wrap">
+<section class="board" id="d4" style="--lab-accent:#3b5bff;--paper:#f8f8f4;--sink:#14161a;--fui:'Space Grotesk';">
+  <div class="board-head">
+    <div class="board-num">04</div>
+    <div>
+      <h2>Signal</h2>
+      <div class="aka">Sound made visible · the ● is the acoustic heart</div>
+      <p class="thesis">Since the product is fundamentally about <i>listening and speaking</i>, the whole visual language is built from sound: ripples, concentric fields, resonance, waveform. It looks like a beautiful audio instrument — precise, bright, contemporary, a little scientific — but tuned warm so it never feels like a meditation app. The ● is where this pays off hardest: it's the source and the ear. It pulses when a speaker talks, ripples outward, becomes a waveform when it speaks, contracts to listen, and vibrates on <i>your</i> voice. No other direction justifies the sphere as fully.</p>
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>Palette — near-white, a signal that lights up with sound</h3>
+      <div class="swatches">
+        <div class="swatch lite" style="background:#f8f8f4;"><span class="nm">Paper</span><span>#F8F8F4</span></div>
+        <div class="swatch lite" style="background:#e7e7e0;"><span class="nm">Fog</span><span>#E7E7E0</span></div>
+        <div class="swatch dark" style="background:#14161a;"><span class="nm">Ink ●</span><span>#14161A</span></div>
+        <div class="swatch dark" style="background:#3b5bff;"><span class="nm">Signal</span><span>#3B5BFF</span></div>
+        <div class="swatch dark" style="background:#ff7a45;"><span class="nm">Warm-sig</span><span>#FF7A45</span></div>
+        <div class="swatch lite" style="background:#c9ec4b;"><span class="nm">Live</span><span>#C9EC4B</span></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);margin:12px 0 0;">Mostly monochrome + paper; the accent is an <i>active</i> colour that only appears where sound is happening — a speaker line, your voice, a live ripple. The signal hue is the per-language dial: Igbo could own the warm-signal orange; another language, the electric blue.</p>
+    </div>
+    <div class="spec" style="font-family:'Space Grotesk';">
+      <h3>Type — precise grotesque + mono for signal labels</h3>
+      <div class="big" style="font-family:'Space Grotesk';font-weight:600;font-size:48px;letter-spacing:-.02em;">meet<br>someone</div>
+      <div class="row"><span>Display / UI</span><b style="font-family:'Space Grotesk';">Space Grotesk — technical, warm-ish</b></div>
+      <div class="row"><span>Signal labels</span><b style="font-family:'Space Mono';font-size:12px;">Space Mono — 00:04 · LISTENING · −12dB</b></div>
+      <div class="row"><span>Text</span><b style="font-family:'Instrument Sans';">Instrument Sans — quiet body</b></div>
+      <div class="sample" style="font-family:'Space Mono';font-size:12px;">everything is timecoded and levelled, like a mixing desk you can talk to.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Product moments</h3>
+    <div class="screens">
+
+      <!-- OPENING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f8f8f4;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.16em;color:#9aa0a8;margin-top:8px;">◦ INPUT · READY</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:24px;">
+              <span style="font-size:20px;">🌍</span><span style="color:#c3c3bc;font-family:'Space Mono';">→</span><span class="sph" style="width:22px;height:22px;"></span>
+            </div>
+            <!-- source emitting ripples -->
+            <div style="position:relative;width:180px;height:180px;margin-top:26px;display:flex;align-items:center;justify-content:center;">
+              <span class="arc" style="width:176px;height:176px;border-color:#3b5bff;opacity:.18;"></span>
+              <span class="arc" style="width:134px;height:134px;border-color:#3b5bff;opacity:.32;"></span>
+              <span class="arc" style="width:96px;height:96px;border-color:#3b5bff;opacity:.5;"></span>
+              <div class="sph" style="width:60px;height:60px;"></div>
+            </div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:36px;letter-spacing:-.02em;margin-top:22px;">say<span style="color:#3b5bff;">)))</span></div>
+            <div style="font-family:'Space Mono';font-size:10px;color:#9aa0a8;">a sound you can learn</div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#14161a;color:#f8f8f4;align-self:stretch;justify-content:center;">Tap to listen ▶</div>
+          </div>
+        </div></div>
+        <div class="screencap">01 · Opening</div>
+      </div>
+
+      <!-- HOME / TODAY -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f8f8f4;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.16em;color:#9aa0a8;">TODAY · MON</div>
+              <div class="barwave" style="color:#14161a;height:18px;">
+                <i style="height:6px;"></i><i style="height:14px;"></i><i style="height:9px;"></i><i style="height:17px;"></i><i style="height:7px;"></i>
+              </div>
+            </div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:31px;line-height:1.02;margin:12px 0 2px;letter-spacing:-.02em;">Meet someone</div>
+            <div style="font-family:'Space Mono';font-size:10px;color:#9aa0a8;">CAPABILITY 01 · 3 OF 6 DONE</div>
+
+            <!-- waveform progress -->
+            <div class="softcard" style="background:#14161a;color:#f2f2ee;margin-top:16px;">
+              <div style="font-family:'Space Mono';font-size:10px;color:#8a90a0;letter-spacing:.1em;">PROGRESS · WAVEFORM</div>
+              <div class="barwave" style="height:40px;margin-top:12px;gap:2px;">
+                <i style="height:20px;background:#3b5bff;"></i><i style="height:34px;background:#3b5bff;"></i><i style="height:12px;background:#3b5bff;"></i><i style="height:28px;background:#3b5bff;"></i><i style="height:40px;background:#3b5bff;"></i><i style="height:16px;background:#3b5bff;"></i>
+                <i style="height:24px;background:#3a3f4a;"></i><i style="height:10px;background:#3a3f4a;"></i><i style="height:30px;background:#3a3f4a;"></i><i style="height:14px;background:#3a3f4a;"></i><i style="height:22px;background:#3a3f4a;"></i><i style="height:8px;background:#3a3f4a;"></i>
+              </div>
+              <div style="font-family:'Space Mono';font-size:10px;color:#8a90a0;margin-top:10px;">the lit part is what you can already say</div>
+            </div>
+
+            <div class="softcard" style="background:#fff;border:1px solid #e4e4dc;margin-top:12px;display:flex;gap:12px;align-items:center;">
+              <div style="width:40px;height:40px;border-radius:50%;background:#f8f8f4;border:1px solid #e4e4dc;display:flex;align-items:center;justify-content:center;font-size:16px;">🔊</div>
+              <div><div style="font-family:'Space Grotesk';font-weight:600;font-size:15px;">Next: catch a name</div><div style="font-family:'Space Mono';font-size:10px;color:#9aa0a8;">LISTEN 0:20 · SPEAK ×1</div></div>
+            </div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#3b5bff;color:#fff;align-self:stretch;justify-content:center;">Start ▶</div>
+          </div>
+        </div></div>
+        <div class="screencap">03 · Home / Today</div>
+      </div>
+
+      <!-- SPEAKING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f8f8f4;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad" style="align-items:center;">
+            <div style="align-self:flex-start;font-family:'Space Mono';font-size:10px;letter-spacing:.14em;color:#9aa0a8;">◦ REC · 00:03 · −9dB</div>
+            <div class="softcard" style="background:#eef0ff;align-self:stretch;margin-top:10px;border:1px solid #dfe3ff;">
+              <div style="font-family:'Space Mono';font-size:9.5px;color:#3b5bff;letter-spacing:.1em;">◍ SPEAKER · 00:00</div>
+              <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-top:4px;">‹Kèdú áhà gị?›</div>
+            </div>
+
+            <!-- the sphere becomes a live waveform of YOUR voice -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;position:relative;">
+              <span class="arc" style="width:170px;height:170px;border-color:#ff7a45;opacity:.2;"></span>
+              <span class="arc" style="width:128px;height:128px;border-color:#ff7a45;opacity:.35;"></span>
+              <!-- ● morphing to waveform -->
+              <div style="display:flex;align-items:center;gap:3px;height:70px;">
+                <div class="barwave" style="color:#14161a;height:70px;gap:3px;align-items:center;">
+                  <i style="height:14px;"></i><i style="height:30px;"></i><i style="height:54px;"></i>
+                </div>
+                <div class="sph" style="width:52px;height:52px;"></div>
+                <div class="barwave" style="color:#14161a;height:70px;gap:3px;align-items:center;">
+                  <i style="height:54px;"></i><i style="height:30px;"></i><i style="height:14px;"></i>
+                </div>
+              </div>
+              <div style="font-family:'Space Mono';font-size:10px;color:#ff7a45;margin-top:18px;">● unspools into your waveform as you speak</div>
+            </div>
+
+            <div style="font-family:'Space Grotesk';font-size:13px;color:#9aa0a8;">no mic button — the dot <i>is</i> the mic, live</div>
+            <div class="pill" style="background:#14161a;color:#f8f8f4;align-self:stretch;justify-content:center;margin-top:10px;">Hold ● · speaking</div>
+          </div>
+        </div></div>
+        <div class="screencap">05 · Speaking</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>How the ● behaves here</h3>
+      <dl class="kv">
+        <dt>Identity</dt><dd>The acoustic heart — both the mouth that speaks and the ear that listens.</dd>
+        <dt>Aliveness</dt><dd>It's <i>audio-reactive</i>: pulses on incoming speech, emits ripples, unspools into a live waveform of your voice, contracts tight to “listen hard.”</dd>
+        <dt>Speaking vs listening</dt><dd>Speaking = ripples radiate outward from it. Listening = ripples travel <i>inward</i> toward it; it shrinks and steadies.</dd>
+        <dt>Feedback</dt><dd>Your waveform overlaid on the target waveform — closeness is literally shape-matching.</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>How culture enters</h3>
+      <p style="font-size:14.5px;color:var(--ink1);margin:0;">Primarily through <i>sound</i> — music, the rhythm and melody of speech, names spoken aloud — and through the signal colour, which each language owns. Visually sparse and diagrammatic, so “world” is thinner here: culture lives in the audio and in occasional restrained imagery rather than rich scenes. That's the tension to weigh.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="noteflex">
+      <div class="note"><h4>What makes it recognizable</h4><ul>
+        <li>The ripple / resonance system — sound is literally the graphic language.</li>
+        <li>Most honest fit for a listen-and-speak product; the ● finally has a real job.</li>
+        <li>Timecoded, levelled, instrument-like UI feels genuinely different from every language app.</li>
+      </ul></div>
+      <div class="risk"><h4>Risks / failure modes</h4><ul>
+        <li>Can read cold, techy, austere — the opposite of “warm, whimsical.”</li>
+        <li>Thin on “world / people / place” — culture may feel under-served.</li>
+        <li>Risks looking like a podcast / meditation / audio tool rather than a joyful place to learn.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ DIRECTION 5 · PLACES ============ -->
+<div class="wrap">
+<section class="board" id="d5" style="--lab-accent:#d67a2e;--paper:#f6efe1;--sink:#241c14;--fui:'Instrument Sans';">
+  <div class="board-head">
+    <div class="board-num">05</div>
+    <div>
+      <h2>Places</h2>
+      <div class="aka">Richly illustrated contemporary worlds · the ● is your travelling companion</div>
+      <p class="thesis">Every capability and conversation happens somewhere real and specific — a lively but sophisticated illustrated place (the picture-book-adults-love lane: <i>Monument Valley</i> / <i>Alto's</i> / a great New-Yorker-cover illustrator, painterly-flat with depth). Warm, human, full of contemporary Igbo and diaspora life. The ● is your small companion: it rolls into each scene, perches on a stall or a shoulder, reacts to the people you meet. Personality comes from its <i>relationship to a world</i> rather than its own features.</p>
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>Palette — warm base, scenes tuned per place</h3>
+      <div class="swatches">
+        <div class="swatch lite" style="background:#f6efe1;"><span class="nm">Warm base</span><span>#F6EFE1</span></div>
+        <div class="swatch dark" style="background:#d67a2e;"><span class="nm">Golden</span><span>#D67A2E</span></div>
+        <div class="swatch dark" style="background:#a83b2b;"><span class="nm">Clay-red</span><span>#A83B2B</span></div>
+        <div class="swatch dark" style="background:#3f6b57;"><span class="nm">Palm</span><span>#3F6B57</span></div>
+        <div class="swatch dark" style="background:#3a4a72;"><span class="nm">Dusk</span><span>#3A4A72</span></div>
+        <div class="swatch dark" style="background:#241c14;"><span class="nm">Ink ●</span><span>#241C14</span></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);margin:12px 0 0;">The base UI stays warm-neutral and universal; each <i>scene</i> carries its own rich, slightly desaturated palette (golden-hour market, cool evening street). A language world = a new set of illustrated places, so switching languages is genuinely travelling somewhere new.</p>
+    </div>
+    <div class="spec" style="font-family:'Instrument Sans';">
+      <h3>Type — warm humanist + a little display character</h3>
+      <div class="big" style="font-family:'Sora';font-weight:700;font-size:46px;letter-spacing:-.02em;">meet<br>someone</div>
+      <div class="row"><span>Display</span><b style="font-family:'Sora';">Sora — geometric-humanist, modern</b></div>
+      <div class="row"><span>UI / text</span><b style="font-family:'Instrument Sans';">Instrument Sans — warm, readable</b></div>
+      <div class="row"><span>Place labels</span><b style="font-family:'Fraunces';font-style:italic;font-size:15px;">Fraunces italic — “at the market”</b></div>
+      <div class="sample">Type sits lightly over illustration; place names get the italic serif for a storybook touch.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Product moments</h3>
+    <div class="screens">
+
+      <!-- OPENING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f6efe1;">
+          <div class="statusbar" style="color:#fff;opacity:.85;"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <!-- illustrated golden scene -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#f2b45a 0%,#e88f3e 42%,#c96a2e 72%,#a8531f 100%);"></div>
+          <div style="position:absolute;left:50%;top:88px;transform:translateX(-50%);width:70px;height:70px;border-radius:50%;background:#ffdf9e;box-shadow:0 0 50px 20px rgba(255,220,150,.6);"></div>
+          <!-- stalls silhouettes -->
+          <div style="position:absolute;left:0;right:0;bottom:150px;height:60px;">
+            <div style="position:absolute;left:14px;bottom:0;width:56px;height:38px;background:#8a3f1e;border-radius:6px 6px 0 0;"></div>
+            <div style="position:absolute;left:8px;bottom:34px;width:68px;height:12px;background:#7a3418;border-radius:4px;"></div>
+            <div style="position:absolute;right:20px;bottom:0;width:50px;height:48px;background:#7a3418;border-radius:6px 6px 0 0;"></div>
+            <div style="position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:14px;height:56px;background:#5e2913;"></div>
+            <div style="position:absolute;left:50%;bottom:44px;transform:translateX(-50%);width:44px;height:24px;background:#3f6b57;border-radius:50%;"></div>
+          </div>
+          <!-- foreground ground -->
+          <div style="position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(180deg,#a8531f,#7a3a16);"></div>
+          <!-- companion rolls in with globe→dot cue -->
+          <div style="position:absolute;left:50%;bottom:96px;transform:translateX(-50%);text-align:center;">
+            <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:8px;">
+              <span style="font-size:16px;">🌍</span><span style="color:#ffe6bd;">→</span><span class="sph" style="width:20px;height:20px;box-shadow:0 6px 10px rgba(0,0,0,.4);"></span>
+            </div>
+            <span class="speed" style="position:static;display:inline-block;width:26px;background:#ffe6bd;opacity:.6;margin-right:4px;"></span>
+            <div class="sph" style="width:44px;height:44px;display:inline-block;box-shadow:0 8px 14px rgba(0,0,0,.45);"></div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:34px;text-align:center;color:#fff;">
+            <div style="font-family:'Sora';font-weight:700;font-size:30px;">say</div>
+            <div style="font-family:'Fraunces';font-style:italic;font-size:13px;opacity:.9;">somewhere worth talking</div>
+          </div>
+        </div></div>
+        <div class="screencap">01 · Opening</div>
+      </div>
+
+      <!-- HOME / TODAY -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f6efe1;">
+          <div class="statusbar"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <div class="screenpad">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:'Fraunces';font-style:italic;font-size:14px;color:#a86a2e;">Today</div>
+              <span class="sph" style="width:18px;height:18px;"></span>
+            </div>
+            <div style="font-family:'Sora';font-weight:700;font-size:26px;line-height:1.05;margin:8px 0 2px;">Meet someone<br>at the ‹market›</div>
+            <div style="font-family:'Instrument Sans';font-size:12px;color:#8a7a62;">a place on your journey</div>
+
+            <!-- journey map of illustrated places -->
+            <div class="softcard" style="background:linear-gradient(160deg,#f4d79a,#e8a95c);margin-top:14px;position:relative;height:150px;overflow:hidden;">
+              <div style="position:absolute;left:0;right:0;bottom:0;height:56px;background:#c46a2c;"></div>
+              <!-- dotted path -->
+              <svg width="100%" height="150" style="position:absolute;inset:0;"><path d="M20 120 C 70 70, 120 130, 170 80 S 240 60, 230 30" stroke="#7a3a16" stroke-width="2.5" fill="none" stroke-dasharray="3 7" stroke-linecap="round"/></svg>
+              <!-- place nodes -->
+              <div style="position:absolute;left:14px;bottom:26px;width:16px;height:16px;border-radius:50%;background:#3f6b57;border:2px solid #fff;"></div>
+              <div style="position:absolute;left:80px;top:56px;width:16px;height:16px;border-radius:50%;background:#a83b2b;border:2px solid #fff;"></div>
+              <!-- current place + companion -->
+              <div style="position:absolute;left:150px;top:64px;">
+                <div style="width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #d67a2e;"></div>
+                <div class="sph" style="width:18px;height:18px;position:absolute;left:-4px;top:-14px;"></div>
+              </div>
+              <div style="position:absolute;right:14px;top:20px;width:14px;height:14px;border-radius:50%;background:#fff;opacity:.5;border:2px dashed #a86a2e;"></div>
+              <div style="position:absolute;left:12px;bottom:4px;font-family:'Fraunces';font-style:italic;font-size:11px;color:#5e2913;">your route, 3 places in</div>
+            </div>
+
+            <div class="softcard" style="background:#fff;border:1px solid #e8ddc6;margin-top:12px;display:flex;gap:12px;align-items:center;">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#e8a95c,#a83b2b);flex:none;position:relative;overflow:hidden;"><div style="position:absolute;left:8px;bottom:0;width:8px;height:20px;background:#3f6b57;"></div><div style="position:absolute;right:8px;bottom:0;width:8px;height:28px;background:#f4d79a;"></div></div>
+              <div><div style="font-family:'Sora';font-weight:600;font-size:15px;">The ‹market› stall</div><div style="font-family:'Fraunces';font-style:italic;font-size:12px;color:#8a7a62;">meet the seller · 3 min</div></div>
+            </div>
+            <div style="flex:1;"></div>
+            <div class="pill" style="background:#a83b2b;color:#fff;align-self:stretch;justify-content:center;">Go to the ‹market›</div>
+          </div>
+        </div></div>
+        <div class="screencap">03 · Home / Today</div>
+      </div>
+
+      <!-- SPEAKING -->
+      <div class="screencol">
+        <div class="phone"><div class="notch"></div><div class="screen" style="--paper:#f6efe1;">
+          <div class="statusbar" style="color:#fff;opacity:.9;"><span class="sb-time">9:41</span><span>●●● ▮</span></div>
+          <!-- scene: market stall, a seller character, companion perched -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#e8c98a,#d99a52 60%,#c46a2c);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:190px;background:#b35e26;"></div>
+          <!-- stall canopy -->
+          <div style="position:absolute;left:20px;right:20px;top:70px;height:20px;background:repeating-linear-gradient(90deg,#a83b2b 0 14px,#f6efe1 14px 28px);border-radius:4px;"></div>
+          <div style="position:absolute;left:34px;top:90px;width:8px;height:70px;background:#5e2913;"></div>
+          <div style="position:absolute;right:34px;top:90px;width:8px;height:70px;background:#5e2913;"></div>
+          <!-- produce -->
+          <div style="position:absolute;left:60px;top:150px;display:flex;gap:5px;">
+            <span style="width:16px;height:16px;border-radius:50%;background:#d64;"></span><span style="width:16px;height:16px;border-radius:50%;background:#3f6b57;"></span><span style="width:16px;height:16px;border-radius:50%;background:#e8b04b;"></span>
+          </div>
+          <!-- seller figure (flat) -->
+          <div style="position:absolute;right:56px;bottom:90px;text-align:center;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#6a3a22;margin:0 auto;"></div>
+            <div style="width:44px;height:46px;background:#3f6b57;border-radius:22px 22px 8px 8px;margin-top:-2px;"></div>
+          </div>
+          <!-- speech from seller -->
+          <div style="position:absolute;left:16px;top:104px;background:#fff;border-radius:14px 14px 14px 4px;padding:9px 12px;box-shadow:0 6px 14px rgba(0,0,0,.2);max-width:150px;">
+            <div style="font-family:'Sora';font-weight:600;font-size:13px;color:#241c14;">‹Kèdú áhà gị?›</div>
+            <div style="font-family:'Fraunces';font-style:italic;font-size:10px;color:#8a7a62;">the seller asks your name</div>
+          </div>
+          <!-- companion perched on stall post, listening -->
+          <div style="position:absolute;left:30px;top:150px;">
+            <div class="sph" style="width:30px;height:30px;box-shadow:0 6px 10px rgba(0,0,0,.4);"></div>
+            <span class="speed" style="position:absolute;right:-16px;top:8px;width:12px;background:#fff;opacity:.7;"></span>
+            <span class="speed" style="position:absolute;right:-16px;top:14px;width:8px;background:#fff;opacity:.7;"></span>
+          </div>
+          <!-- your response affordance, integrated in scene -->
+          <div style="position:absolute;left:14px;right:14px;bottom:16px;">
+            <div style="font-family:'Fraunces';font-style:italic;font-size:11px;color:#fff;opacity:.9;margin-bottom:8px;text-align:center;">your ● leans out from the post when it's your turn</div>
+            <div class="pill" style="background:#241c14;color:#fff;justify-content:center;width:100%;">Answer the seller ●</div>
+          </div>
+        </div></div>
+        <div class="screencap">05 · Speaking</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel grid2">
+    <div>
+      <h3>How the ● behaves here</h3>
+      <dl class="kv">
+        <dt>Identity</dt><dd>A small travelling companion that lives <i>inside</i> the illustrated worlds with you.</dd>
+        <dt>Aliveness</dt><dd>Through relationship: it perches on a stall post, rolls ahead down the path, hides behind a character, leans out to cue your turn, reacts to who you meet.</dd>
+        <dt>Listening</dt><dd>Perches near the speaker and tilts / emits little attention lines toward them; nudges you when it's your turn.</dd>
+        <dt>Scale</dt><dd>Small on purpose — it's a companion in a big world, not the whole interface. Grows only in system moments (transitions, success).</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>How culture enters</h3>
+      <p style="font-size:14.5px;color:var(--ink1);margin:0;">Most deeply of the five — through richly drawn contemporary places, people, food, and daily life across Nigeria <i>and</i> the diaspora. Specificity is the whole point: a real ‹market›, a real kitchen, a real street. Danger to manage: keep it <b>everyday and insider</b>, never postcard-exotic. A language = a new set of places to travel to.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="noteflex">
+      <div class="note"><h4>What makes it recognizable</h4><ul>
+        <li>Illustrated worlds you travel through + a companion ● — emotionally the warmest of the five.</li>
+        <li>Places, not lessons: strongest sense of “learning by living somewhere.”</li>
+        <li>Richest cultural payload with the least reliance on pattern/motif.</li>
+      </ul></div>
+      <div class="risk"><h4>Risks / failure modes</h4><ul>
+        <li>Heavy illustration is costly and hard to scale across many languages — the core scaling risk.</li>
+        <li>Can tip into children's-picture-book (childish) or one-illustrator's-style that doesn't systematize.</li>
+        <li>Ever-present danger of exoticising/othering if scenes lean “traditional” instead of everyday-contemporary.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ THE ● STUDY ============ -->
+<div class="wrap">
+<section class="board" id="study" style="--lab-accent:#16150f;">
+  <div class="board-head">
+    <div class="board-num" style="font-size:52px;">✦</div>
+    <div>
+      <h2>The ● Study</h2>
+      <div class="aka">Character-animation research · how much personality from almost nothing</div>
+      <p class="thesis">A contact sheet of the sphere in states. These are stills, so motion is <b>notated</b> — ghost frames show where it was, dashed arcs show its path, speed lines show velocity, and its silhouette (squash, stretch, lean, split) shows intent. The whole thesis: a featureless black circle can carry a full emotional range through <i>motion, timing, scale, position, physics and relationship</i> alone. Read each cell as one key frame of a short move.</p>
+    </div>
+  </div>
+
+  <!-- grammar of motion -->
+  <div class="panel" style="background:#1c1b16;color:#efece4;border:none;">
+    <h3 style="color:#c9c4b6;">The six levers — everything below is built from these</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;">
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Squash / stretch</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">Deformation = softness, effort, impact, breath.</p></div>
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Timing</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">Snappy = alert/happy. Slow = tired/thinking/sad.</p></div>
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Scale</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">Big = confident/celebrating. Small = shy/listening hard.</p></div>
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Position</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">Where it sits (edge, center, on a word) = attention.</p></div>
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Physics</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">Weight, bounce, momentum, follow-through, anticipation.</p></div>
+      <div><b style="font-family:'Space Grotesk';font-size:15px;">Relationship</b><p style="margin:4px 0 0;font-size:13px;color:#b9b4a8;">How it treats text, people, objects, other dots.</p></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>States — read each as one key frame</h3>
+    <div class="studygrid">
+
+      <!-- IDLE -->
+      <div class="cell"><div class="stage">
+        <span class="sph ghost" style="width:44px;height:40px;"></span>
+        <span class="sph" style="width:42px;height:42px;position:absolute;"></span>
+        <span class="sph-shadow" style="width:40px;height:8px;position:absolute;bottom:18px;"></span>
+      </div><div class="lab"><b>Idle</b><span>Slow breath — subtle scale + shadow pulse. Alive but resting.</span></div></div>
+
+      <!-- CURIOUS -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:46px;height:44px;transform:rotate(-14deg) translateX(-6px);position:relative;top:-4px;"></span>
+        <span class="arc" style="width:22px;height:22px;right:44px;top:40px;border-color:#b0a794;opacity:.7;"></span>
+        <span style="position:absolute;right:38px;top:50px;font-family:'Space Mono';font-size:14px;color:#b0a794;">?</span>
+      </div><div class="lab"><b>Curious</b><span>Leans toward a thing, top-heavy tilt. Attention has a direction.</span></div></div>
+
+      <!-- WAITING -->
+      <div class="cell"><div class="stage">
+        <span class="sph ghost" style="width:38px;height:38px;position:absolute;bottom:44px;"></span>
+        <span class="sph" style="width:40px;height:34px;position:absolute;bottom:24px;"></span>
+        <span class="sph-shadow" style="width:38px;height:7px;position:absolute;bottom:18px;"></span>
+      </div><div class="lab"><b>Waiting</b><span>Small idle bounce loop — patient, not frozen. Ghost marks the top of the hop.</span></div></div>
+
+      <!-- LISTENING -->
+      <div class="cell"><div class="stage">
+        <span class="arc" style="width:100px;height:100px;border-color:#3b5bff;opacity:.2;"></span>
+        <span class="arc" style="width:74px;height:74px;border-color:#3b5bff;opacity:.35;"></span>
+        <span class="sph" style="width:34px;height:34px;position:absolute;"></span>
+      </div><div class="lab"><b>Listening</b><span>Shrinks &amp; steadies; ripples travel <i>inward</i>. Leaning in to hear.</span></div></div>
+
+      <!-- SPEAKING -->
+      <div class="cell"><div class="stage">
+        <span class="arc" style="width:78px;height:78px;border-color:#d67a2e;opacity:.35;"></span>
+        <span class="arc" style="width:104px;height:104px;border-color:#d67a2e;opacity:.2;"></span>
+        <span class="sph" style="width:40px;height:40px;position:absolute;"></span>
+      </div><div class="lab"><b>Speaking</b><span>Ripples radiate <i>outward</i>; a gentle pulse on each syllable.</span></div></div>
+
+      <!-- RECORDING -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:42px;height:42px;"></span>
+        <span style="position:absolute;top:34px;right:44px;width:12px;height:12px;border-radius:50%;background:#e0342a;box-shadow:0 0 0 5px rgba(224,52,42,.25);"></span>
+      </div><div class="lab"><b>Recording</b><span>Live-red halo tag; the ● itself stays calm and holds your voice.</span></div></div>
+
+      <!-- PROCESSING -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:38px;height:38px;"></span>
+        <span class="arc" style="width:60px;height:60px;border-style:dashed;border-color:#8a8474;opacity:.8;"></span>
+        <span style="position:absolute;left:calc(50% + 26px);top:calc(50% - 4px);width:9px;height:9px;border-radius:50%;background:#16150f;"></span>
+      </div><div class="lab"><b>Processing</b><span>A small satellite dot orbits on a dashed track — thinking, not spinning-wheel.</span></div></div>
+
+      <!-- CORRECT -->
+      <div class="cell"><div class="stage">
+        <span class="sph ghost" style="width:32px;height:32px;position:absolute;bottom:70px;"></span>
+        <span class="sph ghost" style="width:36px;height:34px;position:absolute;bottom:48px;opacity:.28;"></span>
+        <span class="sph" style="width:40px;height:44px;position:absolute;bottom:22px;"></span>
+        <span style="position:absolute;top:20px;right:40px;color:#2f7d5b;font-weight:800;font-size:16px;">✓</span>
+      </div><div class="lab"><b>Correct</b><span>An eager stretch-and-hop; trail shows the leap. Joy = upward snap.</span></div></div>
+
+      <!-- INCORRECT -->
+      <div class="cell"><div class="stage">
+        <span class="sph ghost" style="width:38px;height:38px;position:absolute;transform:translateX(-9px);"></span>
+        <span class="sph ghost" style="width:38px;height:38px;position:absolute;transform:translateX(9px);opacity:.28;"></span>
+        <span class="sph" style="width:40px;height:38px;position:absolute;"></span>
+      </div><div class="lab"><b>Not yet</b><span>Soft side-to-side wobble — a headshake, never a buzzer. Kind, not punishing.</span></div></div>
+
+      <!-- ENCOURAGING -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:38px;height:40px;transform:rotate(8deg) translateY(-4px);"></span>
+        <span style="position:absolute;bottom:30px;left:calc(50% + 4px);width:34px;height:8px;background:#e8b04b;border-radius:8px;"></span>
+        <span class="speed" style="width:14px;left:calc(50% - 30px);top:44px;background:#b0a794;"></span>
+      </div><div class="lab"><b>Encouraging</b><span>Nudges a bar / you forward, leaning in. “Go on — try.”</span></div></div>
+
+      <!-- CELEBRATING -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:26px;height:26px;position:absolute;"></span>
+        <span class="sph" style="width:12px;height:12px;position:absolute;transform:translate(-34px,-24px);"></span>
+        <span class="sph" style="width:10px;height:10px;position:absolute;transform:translate(30px,-28px);"></span>
+        <span class="sph" style="width:9px;height:9px;position:absolute;transform:translate(38px,18px);"></span>
+        <span class="sph" style="width:11px;height:11px;position:absolute;transform:translate(-32px,22px);"></span>
+        <span class="sph" style="width:7px;height:7px;position:absolute;transform:translate(0,-40px);"></span>
+      </div><div class="lab"><b>Celebrating</b><span>Splits into a little burst, then re-merges. Multiplicity = delight.</span></div></div>
+
+      <!-- CONFUSED -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:40px;height:42px;transform:rotate(12deg);"></span>
+        <span style="position:absolute;top:30px;right:40px;font-family:'Space Mono';color:#b0a794;font-size:13px;">～</span>
+        <span class="sph-shadow" style="width:30px;height:7px;position:absolute;bottom:24px;transform:translateX(6px);"></span>
+      </div><div class="lab"><b>Confused</b><span>Off-balance tilt, shadow offset from body — a little unsure of its feet.</span></div></div>
+
+      <!-- PEEKING -->
+      <div class="cell"><div class="stage" style="overflow:hidden;">
+        <span class="sph" style="width:46px;height:46px;position:absolute;left:-16px;"></span>
+        <span style="position:absolute;right:40px;top:52px;font-family:'Space Mono';font-size:11px;color:#b0a794;">…hi</span>
+      </div><div class="lab"><b>Peeking</b><span>Half-hidden past the screen edge — shy, or about to enter. Absence as personality.</span></div></div>
+
+      <!-- TRANSITIONING -->
+      <div class="cell"><div class="stage" style="overflow:hidden;">
+        <span class="sph" style="width:100px;height:30px;border-radius:50%;transform:skewX(-18deg);"></span>
+        <span class="speed" style="width:40px;left:14px;top:44px;"></span>
+        <span class="speed" style="width:28px;left:14px;top:76px;"></span>
+      </div><div class="lab"><b>Transitioning</b><span>Stretches into a streak and slingshots between screens — it carries you across.</span></div></div>
+
+      <!-- GUIDING -->
+      <div class="cell"><div class="stage">
+        <span class="sph ghost" style="width:26px;height:26px;position:absolute;left:34px;"></span>
+        <span class="sph" style="width:34px;height:30px;position:absolute;left:70px;"></span>
+        <span class="speed" style="width:22px;left:40px;top:60px;"></span>
+        <span style="position:absolute;right:24px;top:50px;width:16px;height:16px;border-radius:4px;border:2px solid #d67a2e;"></span>
+      </div><div class="lab"><b>Guiding attention</b><span>Rolls toward the thing you should look at, trail pointing the way.</span></div></div>
+
+      <!-- WITH TEXT -->
+      <div class="cell"><div class="stage">
+        <span style="font-family:'Fraunces';font-size:30px;color:#16150f;">say</span>
+        <span class="sph" style="width:16px;height:16px;position:absolute;left:calc(50% + 22px);top:44px;"></span>
+      </div><div class="lab"><b>With text</b><span>Becomes the full stop / the dot on an i; can push or roll a word aside.</span></div></div>
+
+      <!-- WITH PEOPLE -->
+      <div class="cell"><div class="stage">
+        <span style="position:absolute;right:44px;bottom:24px;"><span style="display:block;width:22px;height:22px;border-radius:50%;background:#6a3a22;margin:0 auto;"></span><span style="display:block;width:32px;height:30px;background:#3f6b57;border-radius:16px 16px 4px 4px;"></span></span>
+        <span class="sph" style="width:24px;height:24px;position:absolute;right:78px;bottom:44px;"></span>
+        <span class="speed" style="width:10px;right:70px;bottom:52px;background:#b0a794;"></span>
+      </div><div class="lab"><b>With people</b><span>Perches near a speaker, tilts toward them, throws little attention lines.</span></div></div>
+
+      <!-- WITH OBJECTS -->
+      <div class="cell"><div class="stage">
+        <span style="position:absolute;bottom:24px;width:46px;height:14px;background:#d67a2e;border-radius:4px;"></span>
+        <span class="sph" style="width:30px;height:26px;position:absolute;bottom:36px;"></span>
+        <span class="sph-shadow" style="width:26px;height:6px;position:absolute;bottom:34px;"></span>
+      </div><div class="lab"><b>With objects</b><span>Balances on, rolls, or absorbs props — obeys the world's physics.</span></div></div>
+
+      <!-- BETWEEN WORLDS -->
+      <div class="cell"><div class="stage" style="background:linear-gradient(90deg,#f5c9b0 0 50%,#bcd6e6 50% 100%);overflow:hidden;">
+        <span style="position:absolute;left:50%;top:0;bottom:0;width:2px;background:#fff;opacity:.7;"></span>
+        <span class="sph ghost" style="width:30px;height:30px;position:absolute;left:34px;"></span>
+        <span class="sph" style="width:36px;height:32px;position:absolute;left:calc(50% + 6px);"></span>
+        <span class="speed" style="width:26px;left:40px;top:60px;background:#fff;opacity:.8;"></span>
+      </div><div class="lab"><b>Between worlds</b><span>Rolls through the seam from one language's palette into another — the constant thread across worlds.</span></div></div>
+
+      <!-- DISTRACTED -->
+      <div class="cell"><div class="stage">
+        <span class="sph" style="width:40px;height:40px;transform:rotate(-18deg);"></span>
+        <span style="position:absolute;right:34px;top:36px;width:8px;height:8px;border-radius:50%;background:#e8b04b;"></span>
+        <span class="arc" style="width:18px;height:18px;right:30px;top:32px;border-color:#e8b04b;opacity:.7;"></span>
+      </div><div class="lab"><b>Distracted</b><span>Drifts to look at something off-task, then catches itself. A flash of will.</span></div></div>
+
+    </div>
+  </div>
+
+  <div class="panel" style="background:#faf7f0;">
+    <h3>What the study argues</h3>
+    <p style="font-size:15px;color:var(--ink1);margin:0;max-width:78ch;">A face would cap the sphere at “cute mascot.” Motion doesn't cap it — the same black circle can be a period, a microphone, a companion, a progress token and a transition device without ever contradicting itself, because we only ever change <i>how it moves and what it relates to</i>. That's also why it scales across languages: the ● stays identical while the world around it re-tunes. The open question isn't whether it can be alive — it's <i>how much</i> personality to allow before it starts to feel like a pet rather than a tool.</p>
+  </div>
+</section>
+</div>
+
+<!-- ============ SYNTHESIS ============ -->
+<div class="wrap">
+<section class="board" style="margin-top:20px;">
+  <div class="synth">
+    <h2>Where the five stand — and what to react to</h2>
+    <p style="color:#c9c4b6;max-width:80ch;margin:0;">No winner. The useful move now is to notice which <i>tensions</i> pull at you, because the eventual system will likely borrow across columns — e.g. Signal's honest sphere behaviour inside Places' illustrated worlds, on Field Notes' warm paper.</p>
+
+    <div style="overflow-x:auto;margin-top:22px;">
+      <table class="cmp">
+        <tr><th>Direction</th><th>Feels like</th><th>The ●'s job</th><th>Culture via</th><th>Biggest risk</th><th>Scales?</th></tr>
+        <tr><td><b>01 Field Notes</b></td><td>A magazine you can speak</td><td>Ink dot / punctuation</td><td>Editorial content + photography</td><td>Cold / precious</td><td>Easy — reshoot content</td></tr>
+        <tr><td><b>02 Primitives</b></td><td>Sophisticated museum graphics</td><td>The one complete circle</td><td>Scenes built from shape kit</td><td>Corporate-Memphis blandness</td><td>Easy — recolour + rekit</td></tr>
+        <tr><td><b>03 Soft Matter</b></td><td>A world of clay + one marble</td><td>Heavy physical marble</td><td>Tactile props / objects</td><td>Dates fast; fights “light”</td><td>Medium — retemper pastels</td></tr>
+        <tr><td><b>04 Signal</b></td><td>A warm audio instrument</td><td>Acoustic heart (best fit)</td><td>Sound + accent colour</td><td>Cold; thin on “world”</td><td>Very easy — swap signal hue</td></tr>
+        <tr><td><b>05 Places</b></td><td>Travelling somewhere real</td><td>Companion in the world</td><td>Illustrated contemporary life</td><td>Costly; can exoticise</td><td>Hard — new art per language</td></tr>
+      </table>
+    </div>
+
+    <div class="qs">
+      <div class="q"><b>How alive is too alive?</b><p>The ● Study shows we can go very far with motion. Do you want a restrained “tool with a pulse” or a genuine companion with moods?</p></div>
+      <div class="q"><b>Warmth vs. honesty</b><p>Signal fits a listen-speak product best but risks feeling cold; Places is warmest but hardest to scale. Where do you want to sit on that line?</p></div>
+      <div class="q"><b>How much changes per language?</b><p>Every direction can hold Igbo, Twi, Yoruba… but they change <i>different</i> amounts — a hue (Signal) vs. a whole illustrated place-set (Places). Which feels right?</p></div>
+      <div class="q"><b>Where does culture live?</b><p>All five deliberately avoid motif-as-identity. Content, objects, sound, or place — which carries the cultural weight for you?</p></div>
+    </div>
+
+    <p style="color:#8f8a7e;font-size:13px;margin:22px 0 0;">Next volumes this sandbox can run: deepen one world across all 8 screens · cross-breed two (e.g. 04×05) · pressure-test a language switch (Igbo → Twi) in a chosen world · push the ● into a real animated study.</p>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+<footer class="labfoot">
+  Visual Laboratory Vol. 01 — a returnable sandbox. Directions are intentionally un-reconciled. Next volumes can deepen a chosen world, cross-breed two, or test a language-switch.
+</footer>
+</div>
+
+</body>
+</html>

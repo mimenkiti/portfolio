@@ -1,0 +1,124 @@
+.dot {
+  --d: 14px;
+  --lvl: 0;
+  position: relative;
+  display: inline-block;
+  width: var(--d);
+  height: var(--d);
+  vertical-align: baseline;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.dot__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--live);
+  transform: scale(calc(1 + var(--lvl) * 0.34));
+  transition: background 0.4s var(--e-out);
+  will-change: transform;
+}
+
+.dot--dark .dot__core {
+  background: var(--room-live);
+}
+
+.dot__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--live);
+  opacity: 0;
+  transform: scale(1);
+}
+
+.dot--dark .dot__ring {
+  border-color: var(--room-live);
+}
+
+/* As punctuation it is dead still — it is a full stop, nothing more,
+   until you touch it. */
+.dot--punctuation .dot__core {
+  animation: dot-breathe 5.5s ease-in-out infinite;
+}
+
+.dot--idle .dot__core {
+  animation: dot-breathe 5.5s ease-in-out infinite;
+}
+
+@keyframes dot-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.dot--speaking .dot__core {
+  animation: none;
+  transform: scale(calc(1 + var(--lvl) * 0.55));
+}
+
+.dot--speaking .dot__ring {
+  animation: none;
+  opacity: calc(var(--lvl) * 0.5);
+  transform: scale(calc(1.5 + var(--lvl) * 1.5));
+}
+
+.dot--listening .dot__core {
+  animation: none;
+  transform: scale(0.72);
+}
+
+.dot--listening .dot__ring {
+  animation: dot-listen 1.8s ease-out infinite;
+}
+
+@keyframes dot-listen {
+  0% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.9);
+  }
+}
+
+.dot--held .dot__core {
+  animation: none;
+  transform: scale(1);
+}
+
+button.dot {
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+button.dot::before {
+  /* generous hit area without visual chrome */
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+}
+
+button.dot:hover .dot__ring {
+  opacity: 0.5;
+  transform: scale(1.9);
+  transition: all 0.4s var(--e-out);
+}
+
+button.dot:focus-visible {
+  outline: none;
+}
+
+button.dot:focus-visible .dot__ring {
+  opacity: 1;
+  transform: scale(2.1);
+}

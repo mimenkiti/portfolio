@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching Approaches — Greeting Experiment</title>
+<style>
+  * { box-sizing: border-box; }
+  :root{
+    --ink:#111;
+    --gray:#666;
+    --line:#bbb;
+    --line-strong:#333;
+    --fill:#eee;
+    --bg:#f4f4f4;
+  }
+  html,body{ margin:0; background:var(--bg); color:var(--ink);
+    font-family: -apple-system, Helvetica, Arial, sans-serif; font-size:15px; }
+
+  /* ---- Toolbar ---- */
+  .toolbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    padding:10px 14px; background:#fff; border-bottom:2px solid var(--line-strong);
+  }
+  .toolbar .title{ font-weight:700; margin-right:8px; font-size:14px; }
+  .toolbar .spacer{ flex:1; }
+  .toolbar .tabs{ display:flex; gap:4px; }
+  .btn{
+    border:1.5px solid var(--line-strong); background:#fff; color:var(--ink);
+    padding:6px 12px; border-radius:6px; cursor:pointer; font-size:14px;
+  }
+  .btn:hover{ background:var(--fill); }
+  .btn.active{ background:var(--ink); color:#fff; }
+  .btn:disabled{ opacity:.4; cursor:default; }
+
+  /* ---- Layout ---- */
+  .stage{ display:flex; justify-content:center; padding:24px 12px 60px; }
+
+  /* ---- Phone frame ---- */
+  .phone{
+    width:340px; min-height:600px; background:#fff;
+    border:2px solid var(--line-strong); border-radius:22px;
+    padding:14px 14px 18px; display:flex; flex-direction:column;
+    box-shadow:0 2px 0 #ddd;
+  }
+  .phone .statusbar{
+    display:flex; justify-content:space-between; font-size:11px; color:var(--gray);
+    padding:0 4px 8px; border-bottom:1px dashed var(--line);
+  }
+  .screen{ flex:1; display:flex; flex-direction:column; padding:14px 6px; overflow-y:auto; }
+  .screen-tag{ font-size:11px; letter-spacing:.08em; color:var(--gray); text-transform:uppercase; margin-bottom:12px; }
+  .prompt{ font-size:19px; font-weight:600; line-height:1.35; margin:0 0 6px; }
+  .sub{ color:var(--gray); font-size:13px; margin:0 0 16px; line-height:1.4; }
+
+  /* ---- Interaction elements ---- */
+  .interaction{ border:1.5px dashed var(--line); border-radius:10px; padding:16px 14px;
+    text-align:center; margin:12px 0; }
+  .interaction .speaker{ display:inline-block; margin:8px 3px; }
+  .speaker-name{ font-size:12px; color:var(--gray); font-weight:600; margin-bottom:3px; }
+  .speaker-line{ font-size:14px; margin:4px 0; }
+  .placeholder{ font-style:italic; color:var(--gray); }
+  .icon{ font-size:48px; text-align:center; margin:10px 0; }
+
+  .opt{
+    display:block; width:100%; text-align:left; margin:0 0 10px;
+    border:1.5px solid var(--line); background:#fff; color:var(--ink);
+    padding:12px 14px; border-radius:8px; cursor:pointer; font-size:14.5px; line-height:1.35;
+  }
+  .opt:hover{ border-color:var(--line-strong); background:#fafafa; }
+  .opt.selected{ border-color:var(--ink); border-width:2px; background:#f0f0f0; font-weight:600; }
+  .opt.selected::after{ content:" ●"; }
+
+  .cta{
+    margin-top:auto; width:100%; border:2px solid var(--ink); background:var(--ink); color:#fff;
+    padding:13px; border-radius:9px; cursor:pointer; font-size:15px; font-weight:600;
+  }
+  .cta:hover{ background:#333; }
+  .cta.ghost{ background:#fff; color:var(--ink); border-color:var(--ink); }
+  .cta.ghost:hover{ background:var(--fill); }
+  .skip{ align-self:center; margin-top:12px; color:var(--gray); background:none; border:none;
+    text-decoration:underline; cursor:pointer; font-size:13px; }
+
+  /* ---- Recording state ---- */
+  .rec-state{ text-align:center; font-size:13px; color:var(--gray); margin:10px 0; }
+  .rec-dot{ color:#c00; font-weight:bold; }
+  .pulsing{ animation:pulse 1s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  /* ---- Index / landing ---- */
+  .index-container{ max-width:700px; margin:0 auto; padding:30px 20px; }
+  .index-title{ font-size:28px; font-weight:700; margin:0 0 10px; }
+  .index-sub{ color:var(--gray); font-size:15px; margin:0 0 30px; line-height:1.5; }
+  .card-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+  .card{
+    border:1.5px solid var(--line-strong); border-radius:10px; padding:18px;
+    background:#fff; cursor:pointer;
+  }
+  .card:hover{ border-color:var(--ink); background:var(--fill); }
+  .card .label{ font-weight:700; font-size:16px; margin-bottom:8px; }
+  .card .desc{ font-size:13px; color:var(--gray); line-height:1.4; }
+  .card .arrow{ display:inline-block; margin-top:12px; }
+
+  /* ---- Comparison / overview ---- */
+  .comparison{ padding:30px 20px; max-width:1000px; margin:0 auto; }
+  .comp-h2{ font-size:22px; font-weight:700; margin-bottom:20px; }
+  .comp-flows{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
+  .flow-column{ border:1.5px solid var(--line); border-radius:10px; padding:16px; background:#fff; }
+  .flow-title{ font-weight:700; font-size:14px; color:var(--ink); margin-bottom:14px; }
+  .flow-steps{ font-size:13px; line-height:1.6; }
+  .flow-step{ margin:10px 0; }
+  .flow-step .num{ font-weight:600; }
+  .flow-step .action{ color:var(--gray); }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="title">Teaching Approaches — First Greeting</span>
+  <span class="spacer"></span>
+  <button class="btn" id="modeProto" onclick="setMode('proto')">Prototype</button>
+  <button class="btn" id="modeComp" onclick="setMode('comparison')">Comparison</button>
+  <button class="btn" id="backBtn" onclick="back()">← Back</button>
+  <button class="btn" onclick="restart()">⟲ Restart</button>
+</div>
+
+<div id="app"></div>
+
+<script>
+/* ================================================================
+   IN-MEMORY STATE
+   ================================================================ */
+var state = {
+  approach: null,
+  currentScreen: null
+};
+var navStack = [];
+var mode = 'proto';
+
+/* ================================================================
+   TEACHING APPROACHES DEFINITIONS
+   ================================================================ */
+var approaches = {
+  a: {
+    name: 'Guided Learning',
+    tagline: 'Teach → Practice → Use',
+    screens: ['a_intro','a_encounter','a_understand','a_imitate','a_recognize','a_retrieve','a_speak','a_test','a_end']
+  },
+  b: {
+    name: 'Challenge First',
+    tagline: 'Try → Identify Gap → Learn → Retry',
+    screens: ['b_intro','b_immediate','b_attempt','b_help','b_practice','b_return','b_variation','b_end']
+  },
+  c: {
+    name: 'Immersive',
+    tagline: 'Observe → Infer → Imitate → Participate',
+    screens: ['c_intro','c_observe1','c_observe2','c_infer','c_reveal','c_imitate','c_participate','c_second','c_end']
+  },
+  d: {
+    name: 'Adaptive Immersive',
+    tagline: 'Challenge → Branch → Converse',
+    screens: ['d_intro','d_challenge','d_knows_verify','d_knows_end','d_dont_observe1','d_dont_observe2','d_dont_infer','d_dont_reveal','d_dont_speak','d_dont_return','d_dont_converse','d_dont_variation','d_dont_end']
+  }
+};
+
+/* ================================================================
+   SCREEN DEFINITIONS
+   ================================================================ */
+var screens = {
+  /* INDEX */
+  index: function(){
+    return '<div class="index-container">'
+      + '<h1 class="index-title">First Greeting</h1>'
+      + '<p class="index-sub">Compare four ways of teaching someone to greet in Igbo. Each teaches the same thing, but takes a different path. Click one to begin.</p>'
+      + '<div class="card-grid">'
+      + '<div class="card" onclick="chooseApproach(\'a\')">'
+      + '<div class="label">A. Guided</div>'
+      + '<div class="desc">Teach first, then practice. Lots of scaffolding.</div>'
+      + '<div class="arrow">→</div>'
+      + '</div>'
+      + '<div class="card" onclick="chooseApproach(\'b\')">'
+      + '<div class="label">B. Challenge</div>'
+      + '<div class="desc">Try first. Discover what you need to learn.</div>'
+      + '<div class="arrow">→</div>'
+      + '</div>'
+      + '<div class="card" onclick="chooseApproach(\'c\')">'
+      + '<div class="label">C. Immersive</div>'
+      + '<div class="desc">Observe patterns. Infer meaning. Then participate.</div>'
+      + '<div class="arrow">→</div>'
+      + '</div>'
+      + '<div class="card" onclick="chooseApproach(\'d\')">'
+      + '<div class="label">D. Adaptive</div>'
+      + '<div class="desc">Test first. Teach only if needed. Converse quickly.</div>'
+      + '<div class="arrow">→</div>'
+      + '</div>'
+      + '</div>'
+      + '</div>';
+  },
+
+  /* APPROACH A: GUIDED */
+  a_intro: function(){
+    return phone('Approach A — Guided', ''
+      + '<p class="prompt">Teach → Practice → Use</p>'
+      + '<p class="sub">You will learn the greeting step by step, with lots of examples and help.</p>'
+      + '<button class="cta" onclick="nextScreen()">Begin</button>'
+    );
+  },
+  a_encounter: function(){
+    return phone('Step 1: Encounter', ''
+      + '<p class="prompt">Listen to a greeting</p>'
+      + '<p class="sub">Watch two people meet.</p>'
+      + '<div class="interaction">'
+      + '<div class="speaker"><div class="speaker-name">Person A 👤</div><div class="speaker-line">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '</div>'
+      + '<div class="interaction">'
+      + '<div class="speaker"><div class="speaker-name">Person B 👤</div><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE]</span></div></div>'
+      + '</div>'
+      + '<button class="cta" onclick="nextScreen()">I heard it</button>'
+    );
+  },
+  a_understand: function(){
+    return phone('Step 2: Understand', ''
+      + '<p class="prompt">What does it mean?</p>'
+      + '<div class="interaction">'
+      + '<div class="speaker-line"><span class="placeholder">[GREETING]</span></div>'
+      + '<div style="margin:8px 0;color:#666;font-size:13px">→ <span class="placeholder">[MEANING: a common way to greet someone]</span></div>'
+      + '</div>'
+      + '<button class="opt" onclick="nextScreen()">🔊 Hear again</button>'
+      + '<button class="opt" onclick="nextScreen()">🐢 Hear slowly</button>'
+      + '<button class="cta" onclick="nextScreen()">I understand</button>'
+    );
+  },
+  a_imitate: function(){
+    return phone('Step 3: Imitate', ''
+      + '<p class="prompt">Try saying it</p>'
+      + '<p class="sub">Record yourself saying the greeting.</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordA3()">Tap to record</button>'
+      + (state.a3Recorded ? '<div class="rec-state">✓ Good pronunciation.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  a_recognize: function(){
+    return phone('Step 4: Recognize', ''
+      + '<p class="prompt">Listen &amp; identify</p>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p class="sub">What did you hear?</p>'
+      + '<button class="opt" onclick="pickOpt(\'correct\')">A greeting</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">A question</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">A command</button>'
+    );
+  },
+  a_retrieve: function(){
+    return phone('Step 5: Retrieve', ''
+      + '<p class="prompt">Greet this person</p>'
+      + '<p class="sub">Some scaffolding provided.</p>'
+      + '<div class="icon">👤</div>'
+      + '<p style="text-align:center;color:#666;font-size:13px">Hint: Use the greeting you just learned</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordA5()">Tap to record</button>'
+      + (state.a5Recorded ? '<div class="rec-state">✓ Good job.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  a_speak: function(){
+    return phone('Step 6: Speak', ''
+      + '<p class="prompt">Greet them</p>'
+      + '<p class="sub">No hints this time.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordA6()">Tap to record</button>'
+      + (state.a6Recorded ? '<div class="rec-state">✓ Good response.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  a_test: function(){
+    return phone('Step 7: Conversation', ''
+      + '<p class="prompt">Have a conversation</p>'
+      + '<p class="sub">No prompt. Just your turn.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordA7()">Record response</button>'
+      + (state.a7Recorded ? '<div class="rec-state">✓ Success!</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  a_end: function(){
+    return phone('Approach A: Complete', ''
+      + '<div style="text-align:center;margin-top:30px">'
+      + '<div class="icon">✓</div>'
+      + '<p class="prompt">You can greet someone</p>'
+      + '<p class="sub">You learned step by step with lots of help. What did you think?</p>'
+      + '</div>'
+      + '<button class="cta" onclick="backToIndex()">← Back to index</button>'
+      + '<button class="skip" onclick="setMode(\'comparison\')">Compare all four →</button>'
+    );
+  },
+
+  /* APPROACH B: CHALLENGE FIRST */
+  b_intro: function(){
+    return phone('Approach B — Challenge', ''
+      + '<p class="prompt">Try → Learn → Retry</p>'
+      + '<p class="sub">Jump in. You will discover what you need to learn along the way.</p>'
+      + '<button class="cta" onclick="nextScreen()">Begin</button>'
+    );
+  },
+  b_immediate: function(){
+    return phone('Step 1: Immediate', ''
+      + '<p class="prompt">Someone greets you</p>'
+      + '<p class="sub">What do you do?</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<button class="cta" onclick="nextScreen()">Try anyway (record)</button>'
+      + '<button class="cta ghost" onclick="nextScreen()">I do not know</button>'
+    );
+  },
+  b_attempt: function(){
+    return phone('Step 2: Your attempt', ''
+      + '<p class="prompt">Go ahead</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordB2()">Record your response</button>'
+      + (state.b2Recorded ? '<div class="rec-state">You tried something. Let us learn what to say.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  b_help: function(){
+    return phone('Step 3: Learn', ''
+      + '<p class="prompt">Here is what they said</p>'
+      + '<div class="interaction">'
+      + '<div class="speaker-line"><span class="placeholder">[GREETING]</span></div>'
+      + '<div style="margin:8px 0;color:#666;font-size:13px">→ <span class="placeholder">[MEANING]</span></div>'
+      + '</div>'
+      + '<button class="opt" onclick="nextScreen()">🔊 Hear</button>'
+      + '<button class="opt" onclick="nextScreen()">🐢 Slow</button>'
+      + '<button class="cta" onclick="nextScreen()">Learn it</button>'
+    );
+  },
+  b_practice: function(){
+    return phone('Step 4: Practice', ''
+      + '<p class="prompt">Say it</p>'
+      + '<p class="sub">Now you know what it means. Try saying it correctly.</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordB4()">Record</button>'
+      + (state.b4Recorded ? '<div class="rec-state">✓ Better!</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  b_return: function(){
+    return phone('Step 5: Return', ''
+      + '<p class="prompt">Same situation. Go again.</p>'
+      + '<p class="sub">Remember: they just greeted you.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordB5()">Record response</button>'
+      + (state.b5Recorded ? '<div class="rec-state">✓ You got it!</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  b_variation: function(){
+    return phone('Step 6: Variation', ''
+      + '<p class="prompt">Different person, same greeting</p>'
+      + '<p class="sub">Can you do it again?</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordB6()">Record</button>'
+      + (state.b6Recorded ? '<div class="rec-state">✓ Got it.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  b_end: function(){
+    return phone('Approach B: Complete', ''
+      + '<div style="text-align:center;margin-top:30px">'
+      + '<div class="icon">✓</div>'
+      + '<p class="prompt">You figured it out</p>'
+      + '<p class="sub">You tried first, then learned what you needed. What did you think?</p>'
+      + '</div>'
+      + '<button class="cta" onclick="backToIndex()">← Back to index</button>'
+      + '<button class="skip" onclick="setMode(\'comparison\')">Compare all four →</button>'
+    );
+  },
+
+  /* APPROACH C: IMMERSIVE */
+  c_intro: function(){
+    return phone('Approach C — Immersive', ''
+      + '<p class="prompt">Observe → Infer → Participate</p>'
+      + '<p class="sub">Watch people interact. Figure out what is happening. Then join in.</p>'
+      + '<button class="cta" onclick="nextScreen()">Begin</button>'
+    );
+  },
+  c_observe1: function(){
+    return phone('Step 1: Observe', ''
+      + '<p class="prompt">Watch an interaction</p>'
+      + '<div class="icon">👤 ↔ 👤</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person A 👤</div><div class="speaker-line">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person B 👤</div><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE]</span></div></div>'
+      + '</div>'
+      + '<button class="cta" onclick="nextScreen()">Watch again</button>'
+    );
+  },
+  c_observe2: function(){
+    return phone('Step 2: Another exchange', ''
+      + '<p class="prompt">Different people. Same pattern.</p>'
+      + '<div class="icon">👤 ↔ 👤</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person C 👤</div><div class="speaker-line">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person D 👤</div><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE]</span></div></div>'
+      + '</div>'
+      + '<button class="cta" onclick="nextScreen()">I see a pattern</button>'
+    );
+  },
+  c_infer: function(){
+    return phone('Step 3: Infer', ''
+      + '<p class="prompt">What is happening?</p>'
+      + '<p class="sub">No translations yet. What do you think?</p>'
+      + '<button class="opt" onclick="pickOpt(\'correct\')">They are greeting each other</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">They are ordering food</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">They are saying goodbye</button>'
+    );
+  },
+  c_reveal: function(){
+    return phone('Step 4: Reveal', ''
+      + '<p class="prompt">Here is what it means</p>'
+      + '<div class="interaction">'
+      + '<div class="speaker-line"><span class="placeholder">[GREETING]</span></div>'
+      + '<div style="margin:8px 0;color:#666;font-size:13px">→ <span class="placeholder">[MEANING]</span></div>'
+      + '</div>'
+      + '<button class="opt" onclick="nextScreen()">🔊 Person A</button>'
+      + '<button class="opt" onclick="nextScreen()">🔊 Person C</button>'
+      + '<button class="opt" onclick="nextScreen()">🐢 Slowly</button>'
+      + '<button class="cta" onclick="nextScreen()">Next</button>'
+    );
+  },
+  c_imitate: function(){
+    return phone('Step 5: Imitate', ''
+      + '<p class="prompt">Try it yourself</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordC5()">Record</button>'
+      + (state.c5Recorded ? '<div class="rec-state">✓ You have got the sound.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  c_participate: function(){
+    return phone('Step 6: Participate', ''
+      + '<p class="prompt">Join the conversation</p>'
+      + '<p class="sub">A new person approaches.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordC6()">Respond</button>'
+      + (state.c6Recorded ? '<div class="rec-state">✓ You joined!</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  c_second: function(){
+    return phone('Step 7: Another', ''
+      + '<p class="prompt">One more time</p>'
+      + '<p class="sub">Different person.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordC7()">Respond</button>'
+      + (state.c7Recorded ? '<div class="rec-state">✓ You are in the conversation.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  c_end: function(){
+    return phone('Approach C: Complete', ''
+      + '<div style="text-align:center;margin-top:30px">'
+      + '<div class="icon">✓</div>'
+      + '<p class="prompt">You joined the conversation</p>'
+      + '<p class="sub">You figured it out by watching and inferring. What did you think?</p>'
+      + '</div>'
+      + '<button class="cta" onclick="backToIndex()">← Back to index</button>'
+      + '<button class="skip" onclick="setMode(\'comparison\')">Compare all four →</button>'
+    );
+  },
+
+  /* APPROACH D: ADAPTIVE IMMERSIVE */
+  d_intro: function(){
+    return phone('Approach D — Adaptive', ''
+      + '<p class="prompt">Challenge → Branch → Converse</p>'
+      + '<p class="sub">Start inside a conversation. We will teach only what you need.</p>'
+      + '<button class="cta" onclick="nextScreen()">Begin</button>'
+    );
+  },
+  d_challenge: function(){
+    return phone('Step 1: Challenge', ''
+      + '<p class="prompt">Someone approaches and greets you</p>'
+      + '<p class="sub">You are inside an interaction right now.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordD1()">Record your response</button>'
+      + (state.d1Recorded ? '<div class="rec-state">You attempted a response.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">I do not know</button>'
+      + '<div style="margin-top:16px;padding:12px;border:1px solid #ddd;border-radius:6px;background:#f9f9f9;font-size:12px;color:#666">'
+      + '<strong>Dev test:</strong> '
+      + '<button class="opt" onclick="simulateKnows()" style="padding:4px 8px;font-size:11px">Simulate correct</button> '
+      + '<button class="opt" onclick="simulateNeedsHelp()" style="padding:4px 8px;font-size:11px">Simulate needs help</button>'
+      + '</div>'
+    );
+  },
+  d_knows_verify: function(){
+    return phone('Branch A: You Know It', ''
+      + '<p class="prompt">Your response was understood</p>'
+      + '<p class="sub">The conversation continued naturally.</p>'
+      + '<div class="icon">✓</div>'
+      + '<div class="interaction"><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE / CONTINUATION]</span></div></div>'
+      + '<p class="sub" style="margin-top:16px">Let us try once more with someone different.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordD2()">Respond</button>'
+      + (state.d2Recorded ? '<div class="rec-state">✓ Got it.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  d_knows_end: function(){
+    return phone('Approach D: Complete', ''
+      + '<div style="text-align:center;margin-top:30px">'
+      + '<div class="icon">✓</div>'
+      + '<p class="prompt">Looks like you already know this</p>'
+      + '<p class="sub">You greeted someone and the conversation continued. Nice work.</p>'
+      + '</div>'
+      + '<button class="cta" onclick="backToIndex()">← Back to index</button>'
+      + '<button class="skip" onclick="setMode(\'comparison\')">Compare all four →</button>'
+    );
+  },
+  d_dont_observe1: function(){
+    return phone('Branch B: Let us Learn', ''
+      + '<p class="prompt">Observe how it is done</p>'
+      + '<p class="sub">Watch two people interact. No explanation yet.</p>'
+      + '<div class="icon">👤 ↔ 👤</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person A 👤</div><div class="speaker-line">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person B 👤</div><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE]</span></div></div>'
+      + '</div>'
+      + '<button class="cta" onclick="nextScreen()">I watched</button>'
+    );
+  },
+  d_dont_observe2: function(){
+    return phone('Step 3: Another Exchange', ''
+      + '<p class="prompt">Different people. Same pattern.</p>'
+      + '<div class="icon">👤 ↔ 👤</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person C 👤</div><div class="speaker-line">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '</div>'
+      + '<div class="interaction">'
+      + '<div><div class="speaker-name">Person D 👤</div><div class="speaker-line">🔊 <span class="placeholder">[RESPONSE]</span></div></div>'
+      + '</div>'
+      + '<button class="cta" onclick="nextScreen()">I see it</button>'
+    );
+  },
+  d_dont_infer: function(){
+    return phone('Step 4: Infer', ''
+      + '<p class="prompt">What is happening?</p>'
+      + '<p class="sub">No translations yet. What do you think?</p>'
+      + '<button class="opt" onclick="pickOpt(\'correct\')">They are greeting each other</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">They are ordering food</button>'
+      + '<button class="opt" onclick="pickOpt(\'wrong\')">They are saying goodbye</button>'
+    );
+  },
+  d_dont_reveal: function(){
+    return phone('Step 5: Reveal', ''
+      + '<p class="prompt">Here is what it means</p>'
+      + '<p class="sub">Minimal explanation. The essentials.</p>'
+      + '<div class="interaction">'
+      + '<div class="speaker-line"><span class="placeholder">[GREETING]</span></div>'
+      + '<div style="margin:8px 0;color:#666;font-size:13px">→ <span class="placeholder">[MEANING]</span></div>'
+      + '</div>'
+      + '<button class="opt" onclick="nextScreen()">🔊 Hear</button>'
+      + '<button class="opt" onclick="nextScreen()">🐢 Slowly</button>'
+      + '<button class="cta" onclick="nextScreen()">Next</button>'
+    );
+  },
+  d_dont_speak: function(){
+    return phone('Step 6: Speak', ''
+      + '<p class="prompt">Try it yourself</p>'
+      + '<p class="sub">Say the response.</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordD3()">Record</button>'
+      + (state.d3Recorded ? '<div class="rec-state">✓ Good.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  d_dont_return: function(){
+    return phone('Step 7: Return', ''
+      + '<p class="prompt">Back to the beginning</p>'
+      + '<p class="sub">Same person who greeted you before. Try again.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordD4()">Respond</button>'
+      + (state.d4Recorded ? '<div class="rec-state">You tried.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  d_dont_converse: function(){
+    return phone('Step 8: Conversation', ''
+      + '<p class="prompt">The person understood you</p>'
+      + '<p class="sub">No interruption. The conversation continues.</p>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[RESPONSE / CONTINUATION]</span></div></div>'
+      + '<p class="sub" style="margin-top:16px">That is how you know you were understood.</p>'
+      + '<button class="cta" onclick="nextScreen()">Continue</button>'
+    );
+  },
+  d_dont_variation: function(){
+    return phone('Step 9: Variation', ''
+      + '<p class="prompt">One more time</p>'
+      + '<p class="sub">Different person.</p>'
+      + '<div class="icon">👤</div>'
+      + '<div class="interaction"><div class="icon">🔊 <span class="placeholder">[GREETING]</span></div></div>'
+      + '<p style="text-align:center;margin:16px 0;font-size:28px">●</p>'
+      + '<div class="icon">🎙️</div>'
+      + '<button class="cta" onclick="recordD5()">Respond</button>'
+      + (state.d5Recorded ? '<div class="rec-state">✓ You have got it.</div>' : '')
+      + '<button class="cta ghost" onclick="nextScreen()" style="margin-top:10px">Next</button>'
+    );
+  },
+  d_dont_end: function(){
+    return phone('Approach D: Complete', ''
+      + '<div style="text-align:center;margin-top:30px">'
+      + '<div class="icon">✓</div>'
+      + '<p class="prompt">You can greet someone</p>'
+      + '<p class="sub">You learned by observing. Then the conversation taught you the rest.</p>'
+      + '</div>'
+      + '<button class="cta" onclick="backToIndex()">← Back to index</button>'
+      + '<button class="skip" onclick="setMode(\'comparison\')">Compare all four →</button>'
+    );
+  }
+};
+
+/* ================================================================
+   COMPARISON VIEW
+   ================================================================ */
+function renderComparison(){
+  var html = '<div class="comparison">'
+    + '<h2 class="comp-h2">Teaching Approaches — Side by Side</h2>'
+    + '<div class="comp-flows">'
+    + comparisonCard('A', 'Guided', [
+        '1. Encounter: Watch exchange',
+        '2. Understand: Learn meaning',
+        '3. Imitate: Say the greeting',
+        '4. Recognize: Identify what you hear',
+        '5. Retrieve: Greet (with hint)',
+        '6. Speak: Greet (no hint)',
+        '7. Conversation: Real attempt'
+      ], 'a')
+    + comparisonCard('B', 'Challenge', [
+        '1. Immediate: Someone greets you',
+        '2. Attempt: Your first try',
+        '3. Learn: Discover meaning',
+        '4. Practice: Say it correctly',
+        '5. Return: Same situation again',
+        '6. Variation: Different person'
+      ], 'b')
+    + comparisonCard('C', 'Immersive', [
+        '1. Observe #1: First exchange',
+        '2. Observe #2: Another exchange',
+        '3. Infer: What is happening?',
+        '4. Reveal: Learn meaning',
+        '5. Imitate: Say it yourself',
+        '6. Participate: Join conversation',
+        '7. Another: Repeat with new person'
+      ], 'c')
+    + comparisonCard('D', 'Adaptive', [
+        '1. Challenge: Try first',
+        '→ Branch if you know it:',
+        '2a. Verify: Second person',
+        '→ Branch if you need help:',
+        '2b. Observe: Two exchanges',
+        '3b. Infer: What is it?',
+        '4b. Reveal: Light explanation',
+        '5b. Speak: You try',
+        '6b. Return: Original situation',
+        '7b. Converse: They understand',
+        '8b. Variation: New person'
+      ], 'd')
+    + '</div>'
+    + '<div style="margin-top:30px;color:var(--gray);font-size:13px;line-height:1.6">'
+    + '<p><strong>What to notice:</strong> When do you first try? When do you learn the meaning? How much scaffolding is provided? Does it feel like preparation for a real conversation?</p>'
+    + '<p><strong>Note:</strong> All four teach the same thing. They just sequence the learning differently. Approach D assumes you might already know it and branches based on what you need.</p>'
+    + '</div>'
+    + '</div>';
+  document.getElementById('app').innerHTML = html;
+}
+
+function comparisonCard(letter, name, steps, key){
+  var stepsHtml = steps.map(function(s){
+    return '<div class="flow-step"><span class="num">'+s.substring(0,1)+'.</span> '+s.substring(2)+'</div>';
+  }).join('');
+  return '<div class="flow-column">'
+    + '<div class="flow-title">' + letter + '. ' + name + '</div>'
+    + '<div class="flow-steps">' + stepsHtml + '</div>'
+    + '<button class="opt" style="margin-top:14px;border-radius:6px" onclick="chooseApproach(\''+key+'\')">Try this →</button>'
+    + '</div>';
+}
+
+/* ================================================================
+   HELPERS
+   ================================================================ */
+function phone(tag, inner){
+  return '<div class="stage"><div class="phone">'
+    + '<div class="statusbar"><span>9:41</span><span>▮▮▮ ◺ ▊</span></div>'
+    + '<div class="screen"><div class="screen-tag">'+tag+'</div>'+inner+'</div>'
+    + '</div></div>';
+}
+
+function chooseApproach(key){
+  state.approach = key;
+  state.currentScreen = 0;
+  navStack = [approaches[key].screens[0]];
+  render();
+}
+
+function backToIndex(){
+  state.approach = null;
+  state.currentScreen = null;
+  navStack = ['index'];
+  render();
+}
+
+function nextScreen(){
+  if(!state.approach) return;
+  var screens = approaches[state.approach].screens;
+  var idx = screens.indexOf(navStack[navStack.length-1]);
+  if(idx >= 0 && idx < screens.length - 1){
+    navStack.push(screens[idx + 1]);
+  }
+  render();
+}
+
+function back(){
+  if(navStack.length > 1){ navStack.pop(); }
+  render();
+}
+
+function restart(){
+  state = {approach: null, currentScreen: null};
+  navStack = ['index'];
+  mode = 'proto';
+  render();
+}
+
+function render(){
+  if(mode === 'comparison'){ renderComparison(); syncToolbar(); return; }
+  var cur = navStack[navStack.length - 1] || 'index';
+  var screenFn = screens[cur];
+  document.getElementById('app').innerHTML = screenFn ? screenFn() : '(missing)';
+  syncToolbar();
+}
+
+function syncToolbar(){
+  document.getElementById('modeProto').classList.toggle('active', mode === 'proto');
+  document.getElementById('modeComp').classList.toggle('active', mode === 'comparison');
+  document.getElementById('backBtn').disabled = (mode !== 'proto' || navStack.length <= 1);
+}
+
+function setMode(m){
+  mode = m;
+  if(mode === 'proto' && navStack[0] === 'index'){ render(); }
+  else { render(); }
+}
+
+/* Recording & interaction fakes */
+function recordA3(){ state.a3Recorded = true; render(); }
+function recordA5(){ state.a5Recorded = true; render(); }
+function recordA6(){ state.a6Recorded = true; render(); }
+function recordA7(){ state.a7Recorded = true; render(); }
+function recordB2(){ state.b2Recorded = true; render(); }
+function recordB4(){ state.b4Recorded = true; render(); }
+function recordB5(){ state.b5Recorded = true; render(); }
+function recordB6(){ state.b6Recorded = true; render(); }
+function recordC5(){ state.c5Recorded = true; render(); }
+function recordC6(){ state.c6Recorded = true; render(); }
+function recordC7(){ state.c7Recorded = true; render(); }
+
+/* Approach D recording & branching */
+function recordD1(){ state.d1Recorded = true; render(); }
+function recordD2(){ state.d2Recorded = true; render(); }
+function recordD3(){ state.d3Recorded = true; render(); }
+function recordD4(){ state.d4Recorded = true; render(); }
+function recordD5(){ state.d5Recorded = true; render(); }
+
+function simulateKnows(){
+  state.d1Path = 'knows';
+  navStack.push('d_knows_verify');
+  render();
+}
+
+function simulateNeedsHelp(){
+  state.d1Path = 'needs_help';
+  navStack.push('d_dont_observe1');
+  render();
+}
+
+function pickOpt(result){
+  if(result === 'correct'){ nextScreen(); }
+  else { alert('Try again'); }
+}
+
+/* Boot */
+restart();
+</script>
+</body>
+</html>

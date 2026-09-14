@@ -1,0 +1,386 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--ground);
+  transition: background-color 0.9s var(--e-out);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--t-body);
+  font-weight: 380;
+  line-height: 1.68;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  /* Light in the page. A flat fill reads as a swatch; a very low-contrast
+     gradient reads as a lit surface. 3% of lightness, no more. */
+  background-color: var(--ground);
+  background-image: radial-gradient(
+    118% 82% at 12% -6%,
+    var(--ground-lift) 0%,
+    transparent 62%
+  );
+  background-attachment: fixed;
+  transition: background-color 0.9s var(--e-out), color 0.9s var(--e-out);
+}
+
+body.is-room-open {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+ul,
+ol,
+blockquote {
+  margin: 0;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--live);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+::selection {
+  background: var(--live);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------
+   The spread. Tracks are variables so a mode change can animate the
+   composition contracting into a document.
+   --------------------------------------------------------------- */
+
+.spread {
+  display: grid;
+  grid-template-columns:
+    calc(var(--pad) + var(--col-lead))
+    minmax(0, var(--col-main))
+    var(--col-gap)
+    minmax(0, var(--col-side))
+    1fr
+    var(--pad);
+  transition: grid-template-columns 0.75s var(--e-io);
+}
+
+.spread > * {
+  grid-column: 2 / 3;
+  min-width: 0;
+}
+
+.spread > .side {
+  grid-column: 4 / 5;
+}
+
+.spread > .wide {
+  grid-column: 2 / 5;
+}
+
+.spread > .bleed {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 62rem) {
+  .spread {
+    grid-template-columns: var(--pad) minmax(0, 1fr) var(--pad);
+  }
+  .spread > *,
+  .spread > .side,
+  .spread > .wide {
+    grid-column: 2 / 3;
+  }
+  .spread > .bleed {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Type roles.
+   Serif reads. Sans labels and annotates. Mono is for data and nothing
+   else — no captions, no navigation, no eyebrows.
+   --------------------------------------------------------------- */
+
+.display {
+  font-family: var(--serif);
+  font-size: var(--t-display);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+  font-variation-settings: 'opsz' 60;
+}
+
+.display-sm {
+  font-family: var(--serif);
+  font-size: var(--t-display-sm);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+  font-variation-settings: 'opsz' 40;
+}
+
+.lede {
+  font-size: var(--t-lede);
+  font-weight: 300;
+  line-height: 1.38;
+  letter-spacing: -0.008em;
+  text-wrap: pretty;
+}
+
+.prose {
+  max-width: 41rem;
+  text-wrap: pretty;
+}
+
+.prose p + p {
+  margin-top: 1.05em;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose strong {
+  font-weight: 560;
+}
+
+/* Sentence case, no tracking. The uppercase tracked-out label was the
+   single loudest institutional signal in V1. */
+.label {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+.caption {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.note {
+  font-size: var(--t-body-sm);
+  line-height: 1.55;
+  color: var(--ink-2);
+  font-weight: 340;
+}
+
+/* Data. Tables, timings, readouts. */
+.data {
+  font-family: var(--mono);
+  font-size: var(--t-data);
+  font-weight: 400;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.ig {
+  font-feature-settings: 'kern' 1;
+}
+
+/* ---------------------------------------------------------------
+   Controls
+   --------------------------------------------------------------- */
+
+.act {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--live);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.4em 0;
+  position: relative;
+  transition: color 0.25s var(--e-out), gap 0.25s var(--e-out);
+}
+
+.act::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.2em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: left;
+  transition: opacity 0.25s var(--e-out);
+}
+
+.act:hover {
+  gap: 0.75em;
+}
+
+.act:hover::after {
+  opacity: 1;
+}
+
+.act--room {
+  color: var(--room-live);
+}
+
+.act--quiet {
+  color: var(--ink-2);
+}
+
+.act--quiet.act--room {
+  color: var(--room-ink-2);
+}
+
+.rule {
+  height: 1px;
+  background: var(--rule);
+  border: 0;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------
+   Ground plate — the threshold between page and room
+   --------------------------------------------------------------- */
+
+.ground-shift {
+  position: fixed;
+  inset: 0;
+  background: var(--room);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  will-change: opacity;
+  transition: background-color 0.9s var(--e-out);
+}
+
+/* No z-index: the page must not form a stacking context, so sticky
+   threshold content can rise above the plate while the page sinks. */
+.above-shift {
+  position: relative;
+}
+
+/* ---------------------------------------------------------------
+   Route + world entrances.
+   LLP wakes. Faber is drawn. Different verbs for different projects.
+   --------------------------------------------------------------- */
+
+.route {
+  animation: route-in 0.5s var(--e-out);
+}
+
+@keyframes route-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.world-in {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* LLP: a warm bloom passes once, like a lamp being turned up. */
+.world-in--llp {
+  background: radial-gradient(
+    70% 55% at 22% 42%,
+    rgba(229, 163, 63, 0.5) 0%,
+    rgba(229, 163, 63, 0) 65%
+  );
+  animation: bloom 1.5s var(--e-out) forwards;
+}
+
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+/* Faber: a drafting grid constructs and fades. */
+.world-in--faber {
+  background-image: linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size: 5.5rem 5.5rem;
+  animation: draft 1.25s var(--e-io) forwards;
+}
+
+@keyframes draft {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 100% 0);
+  }
+  45% {
+    opacity: 0.85;
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The route still has to be on the page. Only the entrance goes. */
+  .route {
+    animation: none;
+  }
+  .world-in {
+    animation: none;
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

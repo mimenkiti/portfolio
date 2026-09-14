@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>· Interaction Lab</title>
+<style>
+:root{
+  --paper:#F3EFE8; --paper2:#EAE4DA; --ink:#171310; --ink2:#5C534B;
+  --mute:#938A80; --line:#DAD2C6; --accent:#B4472B; --warm:#E8DCCB;
+  --ok:#3E6B4F;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;background:#211E1A;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#frame{
+  width:390px;height:844px;background:var(--paper);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.5);
+  touch-action:none;user-select:none;
+}
+@media (max-width:420px),(max-height:880px){
+  body{align-items:stretch;justify-content:stretch}
+  #frame{width:100vw;height:100dvh;box-shadow:none}
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Helvetica Neue",Arial,sans-serif;}
+
+/* ---------- lab chrome ---------- */
+#labbar{height:44px;flex:none;display:flex;align-items:center;gap:8px;padding:0 14px;
+  border-bottom:1px solid var(--line);background:var(--paper);}
+#labbar .dotmark{width:9px;height:9px;border-radius:50%;background:var(--ink);}
+#labbar h1{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0;font-weight:400;color:var(--ink2);
+  font-family:ui-sans-serif,-apple-system,sans-serif;}
+#labbar .sp{flex:1}
+.chip{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;
+  padding:4px 8px;background:transparent;cursor:pointer;}
+.chip.on{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+
+#tabs{height:42px;flex:none;display:flex;border-bottom:1px solid var(--line);background:var(--paper);}
+#tabs button{flex:1;border:0;background:none;font-family:ui-sans-serif,-apple-system,sans-serif;
+  font-size:10px;letter-spacing:.06em;color:var(--mute);cursor:pointer;padding:0;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+#tabs button b{font-size:13px;font-weight:600;letter-spacing:0;}
+#tabs button.on{color:var(--ink);}
+#tabs button.on::after{content:"";position:absolute;bottom:-1px;left:22%;right:22%;height:2px;background:var(--ink);}
+
+#conceptbar{height:38px;flex:none;display:flex;align-items:center;gap:6px;padding:0 12px;
+  border-bottom:1px solid var(--line);background:var(--paper2);overflow-x:auto;scrollbar-width:none;}
+#conceptbar::-webkit-scrollbar{display:none}
+#conceptbar .cbtn{white-space:nowrap;font-family:ui-sans-serif,-apple-system,sans-serif;font-size:11px;
+  padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);cursor:pointer;}
+#conceptbar .cbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+#conceptbar .gest{margin-left:auto;display:flex;gap:4px;padding-left:8px;}
+#conceptbar .g{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mute);border:1px dashed var(--line);border-radius:4px;padding:3px 5px;}
+#conceptbar .g.on{color:var(--ink);border-style:solid;border-color:var(--ink);}
+
+#stagewrap{flex:1;position:relative;overflow:hidden;}
+#stage{position:absolute;inset:0;overflow:hidden;}
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+#props{position:absolute;inset:0;pointer-events:none;}
+#props *{pointer-events:none}
+#props .tappable{pointer-events:auto}
+
+#foot{flex:none;min-height:78px;border-top:1px solid var(--line);background:var(--paper2);
+  padding:9px 14px 10px;display:flex;flex-direction:column;gap:5px;}
+#foot .ttl{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mute);}
+#foot .note{font-size:12.5px;line-height:1.36;color:var(--ink2);}
+#foot .note b{color:var(--ink);font-weight:600}
+#foot .flag{color:var(--accent);}
+
+/* ---------- shared stage props ---------- */
+.igbo{font-size:26px;color:var(--ink);letter-spacing:.01em;}
+.eng{font-size:13px;color:var(--mute);font-style:italic;}
+.lbl{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mute);}
+.pill{position:absolute;font-family:ui-sans-serif,-apple-system,sans-serif;font-size:12px;
+  background:var(--paper);border:1px solid var(--ink);color:var(--ink);border-radius:999px;
+  padding:7px 12px;white-space:nowrap;transform:translate(-50%,-50%);opacity:0;pointer-events:auto;
+  box-shadow:0 2px 10px rgba(23,19,16,.10);}
+.pill.ghost{border-color:var(--line);color:var(--ink2);background:rgba(243,239,232,.9);box-shadow:none}
+.chioma{position:absolute;left:0;right:0;}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(160deg,#C98A5B,#8E5A34);
+  position:relative;overflow:hidden;flex:none;}
+.avatar::after{content:"";position:absolute;left:50%;top:56%;width:34px;height:34px;border-radius:50%;
+  background:rgba(23,19,16,.16);transform:translate(-50%,0);}
+.bubble{background:var(--warm);border-radius:14px 14px 14px 4px;padding:11px 14px;display:inline-block;}
+.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;background:var(--ink);color:var(--paper);
+  font-family:ui-sans-serif,-apple-system,sans-serif;font-size:12px;padding:8px 14px;border-radius:999px;
+  opacity:0;transition:opacity .18s;}
+.toast.on{opacity:1}
+.track{position:absolute;height:1px;background:var(--line);}
+.hint{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:10.5px;color:var(--mute);letter-spacing:.04em;}
+.card{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 10px 34px rgba(23,19,16,.13);}
+.tri{display:flex;gap:6px;}
+.tri .t{font-family:ui-sans-serif,-apple-system,sans-serif;font-size:10.5px;border:1px solid var(--line);
+  background:var(--paper);border-radius:999px;padding:5px 9px;color:var(--ink2);}
+.tri .t.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.notes{position:absolute;inset:0;overflow-y:auto;padding:16px 18px 40px;background:var(--paper);pointer-events:auto;}
+.notes h2{font-size:15px;margin:18px 0 6px;color:var(--ink);font-weight:600}
+.notes h2:first-child{margin-top:0}
+.notes p,.notes li{font-size:13px;line-height:1.5;color:var(--ink2);margin:5px 0}
+.notes li{margin-left:-6px}
+.notes ul{padding-left:18px;margin:4px 0}
+.notes .k{color:var(--ink);font-weight:600}
+.notes .tag{font-family:ui-sans-serif,sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:3px;padding:2px 5px;color:var(--mute);margin-right:6px}
+.notes .core{border-color:var(--ok);color:var(--ok)}
+.notes .cut{border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="frame">
+  <header id="labbar">
+    <div class="dotmark"></div>
+    <h1>Interaction Lab &middot; 02A</h1>
+    <div class="sp"></div>
+    <button class="chip on" id="sndBtn">Sound</button>
+  </header>
+  <nav id="tabs"></nav>
+  <div id="conceptbar"></div>
+  <div id="stagewrap"><div id="stage">
+    <canvas id="fx"></canvas>
+    <div id="props"></div>
+  </div></div>
+  <footer id="foot">
+    <div class="ttl" id="noteTtl">—</div>
+    <div class="note" id="noteBody">—</div>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   0 · helpers
+   ============================================================ */
+const TAU = Math.PI*2;
+const clamp=(v,a,b)=>v<a?a:(v>b?b:v);
+const lerp=(a,b,t)=>a+(b-a)*t;
+const smooth=t=>t*t*(3-2*t);
+const easeOut=t=>1-Math.pow(1-t,3);
+const easeIn=t=>t*t*t;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const now=()=>performance.now()/1000;
+const INK='#171310', MUTE='#938A80', ACC='#B4472B';
+
+function hz(v){ if(navigator.vibrate) navigator.vibrate(v); }
+
+class Spring{
+  constructor(v,k=170,d=20){this.v=v;this.t=v;this.vel=0;this.k=k;this.d=d;}
+  set(v){this.v=v;this.t=v;this.vel=0;}
+  step(dt){
+    dt=Math.min(dt,0.033);
+    const a=(this.t-this.v)*this.k - this.vel*this.d;
+    this.vel+=a*dt; this.v+=this.vel*dt; return this.v;
+  }
+  kick(f){this.vel+=f;}
+}
+
+/* ---- the dot renderer: one object, six levers ---- */
+function paintDot(ctx,d){
+  const r=d.r, N=80;
+  ctx.save();
+  ctx.translate(d.x,d.y);
+  if(d.rot) ctx.rotate(d.rot);
+  ctx.scale(d.sx||1, d.sy||1);
+  ctx.beginPath();
+  for(let i=0;i<=N;i++){
+    const a=i/N*TAU;
+    let rr=r;
+    if(d.harm) for(const h of d.harm) rr += r*h.a*Math.cos(h.n*a + (h.p||0));
+    const x=Math.cos(a)*rr, y=Math.sin(a)*rr;
+    if(i) ctx.lineTo(x,y); else ctx.moveTo(x,y);
+  }
+  ctx.closePath();
+  ctx.globalAlpha = d.alpha==null?1:d.alpha;
+  if(d.stroke){ ctx.strokeStyle=d.color||INK; ctx.lineWidth=d.lw||1.5; ctx.stroke(); }
+  else { ctx.fillStyle=d.color||INK; ctx.fill(); }
+  ctx.globalAlpha=1;
+  ctx.restore();
+}
+function ring(ctx,x,y,r,alpha,lw,col){
+  ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=col||INK;ctx.lineWidth=lw||1;
+  ctx.beginPath();ctx.arc(x,y,Math.max(0.1,r),0,TAU);ctx.stroke();ctx.restore();
+}
+function line(ctx,x1,y1,x2,y2,alpha,lw,col,dash){
+  ctx.save();ctx.globalAlpha=alpha==null?1:alpha;ctx.strokeStyle=col||INK;ctx.lineWidth=lw||1;
+  if(dash)ctx.setLineDash(dash);
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore();
+}
+
+/* ============================================================
+   1 · audio — prosody sketch only (never real pronunciation)
+   ============================================================ */
+const A = {
+  on:true, ctx:null,
+  ensure(){ if(!this.ctx){ try{ this.ctx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+    if(this.ctx&&this.ctx.state==='suspended') this.ctx.resume(); return this.ctx; },
+  /* a syllable: sawtooth through two bandpass "formants" + envelope */
+  syl(s, t0, dur, rate, gain){
+    const c=this.ensure(); if(!c||!this.on) return;
+    dur = dur*(1/(rate||1));
+    const t=c.currentTime+Math.max(0,t0);
+    const g=c.createGain(); g.connect(c.destination);
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime((gain==null?.16:gain),t+0.035);
+    g.gain.setValueAtTime((gain==null?.16:gain)*.9,t+dur*0.65);
+    g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+    const o=c.createOscillator(); o.type='sawtooth';
+    o.frequency.setValueAtTime(s.f0[0],t);
+    o.frequency.linearRampToValueAtTime(s.f0[1],t+dur);
+    const b1=c.createBiquadFilter(); b1.type='bandpass'; b1.Q.value=7; b1.frequency.value=s.F[0];
+    const b2=c.createBiquadFilter(); b2.type='bandpass'; b2.Q.value=9; b2.frequency.value=s.F[1];
+    const mix=c.createGain(); mix.gain.value=.9;
+    o.connect(b1); b1.connect(mix); o.connect(b2); b2.connect(mix); mix.connect(g);
+    o.start(t); o.stop(t+dur+0.02);
+    if(s.nasal){ const n=c.createOscillator(); n.type='sine'; n.frequency.value=s.F[0]*0.5;
+      const ng=c.createGain(); ng.gain.setValueAtTime(0.05,t); ng.gain.exponentialRampToValueAtTime(.001,t+dur*.5);
+      n.connect(ng); ng.connect(c.destination); n.start(t); n.stop(t+dur*.5+.02); }
+  },
+  phrase(sylls,{rate=1,gain=.16,from=0}={}){
+    let t=from;
+    sylls.forEach(s=>{ this.syl(s,t,s.d,rate,gain); t += (s.d/rate)*1.06; });
+    return t;
+  },
+  blip(f=760,dur=.07,g=.09,type='sine'){
+    const c=this.ensure(); if(!c||!this.on)return;
+    const t=c.currentTime; const o=c.createOscillator(),gg=c.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,t);
+    gg.gain.setValueAtTime(g,t);gg.gain.exponentialRampToValueAtTime(.0006,t+dur);
+    o.connect(gg);gg.connect(c.destination);o.start(t);o.stop(t+dur+.01);
+  },
+  chime(strong){
+    const c=this.ensure(); if(!c||!this.on)return;
+    const f=strong?[523.25,783.99,1046.5]:[587.33,880];
+    f.forEach((fr,i)=>{ const t=c.currentTime+i*0.045;
+      const o=c.createOscillator(),g=c.createGain();
+      o.type='sine';o.frequency.value=fr;
+      g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(strong?.11:.075,t+.012);
+      g.gain.exponentialRampToValueAtTime(.0005,t+(strong?.85:.5));
+      o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.9);});
+  },
+  thunk(){ this.blip(150,.09,.10,'triangle'); }
+};
+/* syllable definitions — abstract prosody, NOT a pronunciation guide */
+const SY = {
+  'Ọ'  :{d:.26,f0:[196,188],F:[560, 900]},
+  'dị' :{d:.22,f0:[188,178],F:[360,2050]},
+  'mma':{d:.36,f0:[178,164],F:[700,1250],nasal:true},
+  'Ke' :{d:.20,f0:[196,205],F:[500,1900]},
+  'dụ' :{d:.28,f0:[205,236],F:[400, 880]},
+  'A'  :{d:.20,f0:[200,190],F:[720,1200]},
+  'ha' :{d:.20,f0:[190,186],F:[700,1300]},
+  'gị' :{d:.24,f0:[186,178],F:[350,2100]},
+};
+const PHRASE_OD = ['Ọ','dị','mma'];
+
+/* ============================================================
+   2 · stage + gesture recognizer
+   ============================================================ */
+const stageEl=document.getElementById('stage');
+const propsEl=document.getElementById('props');
+const cv=document.getElementById('fx');
+const ctx=cv.getContext('2d');
+const S={w:390,h:600,ctx:ctx,props:propsEl,el:stageEl};
+
+function resize(){
+  const r=stageEl.getBoundingClientRect();
+  S.w=r.width; S.h=r.height;
+  const dpr=Math.min(window.devicePixelRatio||1,2.5);
+  cv.width=r.width*dpr; cv.height=r.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  if(CUR&&CUR.layout) CUR.layout(S);
+}
+window.addEventListener('resize',resize);
+
+let CUR=null, CURDEF=null;
+const G={mode:'idle',p0:null,p:null,t0:0,timer:null,onDot:false,last:null,vx:0,vy:0};
+function pt(e){ const r=stageEl.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+const HOLD_MS=190, MOVE_TOL=9;
+
+stageEl.addEventListener('pointerdown',e=>{
+  if(!CUR) return;
+  if(e.target&&e.target.closest&&e.target.closest('.tappable')){ G.mode='idle'; return; }
+  A.ensure();
+  const p=pt(e); G.p0=p; G.p=p; G.last=p; G.t0=performance.now(); G.mode='press';
+  G.onDot = CUR.hit? !!CUR.hit(p): false;
+  stageEl.setPointerCapture(e.pointerId);
+  if(CUR.down) CUR.down(p,G.onDot);
+  const g=CURDEF.gestures||[];
+  if(g.includes('hold') && G.onDot){
+    G.timer=setTimeout(()=>{ if(G.mode==='press'){ G.mode='hold'; hz(12); if(CUR.holdStart)CUR.holdStart(G.p); } },HOLD_MS);
+  }
+},{passive:true});
+
+stageEl.addEventListener('pointermove',e=>{
+  if(!CUR||G.mode==='idle')return;
+  const p=pt(e);
+  G.vx=p.x-G.last.x; G.vy=p.y-G.last.y; G.last=p; G.p=p;
+  const d=Math.hypot(p.x-G.p0.x,p.y-G.p0.y);
+  const g=CURDEF.gestures||[];
+  if(G.mode==='press' && d>MOVE_TOL){
+    if(g.includes('drag') && (G.onDot|| CUR.dragAnywhere)){
+      clearTimeout(G.timer); G.mode='drag'; if(CUR.dragStart)CUR.dragStart(G.p0);
+    } else if(!g.includes('hold')) { G.mode='void'; }
+  }
+  if(G.mode==='drag'&&CUR.dragMove) CUR.dragMove(p,{vx:G.vx,vy:G.vy});
+  if(G.mode==='hold'&&CUR.holdMove) CUR.holdMove(p);
+},{passive:true});
+
+function endGesture(e){
+  if(!CUR||G.mode==='idle')return;
+  clearTimeout(G.timer);
+  const p=G.p||G.p0;
+  const g=CURDEF.gestures||[];
+  if(G.mode==='press'){ if(g.includes('tap')&&CUR.tap) CUR.tap(p,G.onDot); }
+  else if(G.mode==='hold'){ if(CUR.holdEnd)CUR.holdEnd(p); }
+  else if(G.mode==='drag'){ if(CUR.dragEnd)CUR.dragEnd(p,{vx:G.vx,vy:G.vy}); }
+  G.mode='idle';
+}
+stageEl.addEventListener('pointerup',endGesture,{passive:true});
+stageEl.addEventListener('pointercancel',endGesture,{passive:true});
+
+/* ============================================================
+   3 · lab shell
+   ============================================================ */
+const EXPERIMENTS=[]; // filled below
+let curEx=0, curCo=0;
+
+function buildTabs(){
+  const t=document.getElementById('tabs'); t.innerHTML='';
+  EXPERIMENTS.forEach((ex,i)=>{
+    const b=document.createElement('button');
+    b.innerHTML='<b>'+ex.id+'</b><span>'+ex.name+'</span>';
+    b.onclick=()=>select(i,0);
+    t.appendChild(b);
+  });
+}
+function buildConceptBar(){
+  const cb=document.getElementById('conceptbar'); cb.innerHTML='';
+  const ex=EXPERIMENTS[curEx];
+  ex.concepts.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='cbtn'+(i===curCo?' on':'');
+    b.textContent=c.title;
+    b.onclick=()=>select(curEx,i);
+    cb.appendChild(b);
+  });
+  const gd=document.createElement('div'); gd.className='gest';
+  const def=ex.concepts[curCo];
+  ['tap','hold','drag'].forEach(g=>{
+    const s=document.createElement('span');
+    s.className='g'+((def.gestures||[]).includes(g)?' on':'');
+    s.textContent=g; gd.appendChild(s);
+  });
+  cb.appendChild(gd);
+  document.querySelectorAll('#tabs button').forEach((b,i)=>b.classList.toggle('on',i===curEx));
+}
+function select(i,j){
+  if(CUR&&CUR.cleanup) CUR.cleanup();
+  curEx=i; curCo=j;
+  const def=EXPERIMENTS[i].concepts[j];
+  CURDEF=def;
+  propsEl.innerHTML=def.props||'';
+  buildConceptBar();
+  document.getElementById('noteTtl').textContent=EXPERIMENTS[i].id+' · '+def.title;
+  document.getElementById('noteBody').innerHTML=def.note||'';
+  CUR=def.make(S);
+  resize();
+  if(CUR.layout)CUR.layout(S);
+}
+document.getElementById('sndBtn').onclick=function(){ A.on=!A.on; this.classList.toggle('on',A.on); A.ensure(); };
+
+/* main loop */
+let last=performance.now();
+function loop(t){
+  const dt=Math.min((t-last)/1000,0.05); last=t;
+  ctx.clearRect(0,0,S.w,S.h);
+  if(CUR&&CUR.draw) CUR.draw(ctx,t/1000,dt,S);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* small prop helpers */
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function q(sel){ return propsEl.querySelector(sel); }
+function qa(sel){ return Array.from(propsEl.querySelectorAll(sel)); }
+function toast(msg,ms){
+  let t=q('.toast'); if(!t){ t=el('<div class="toast"></div>'); propsEl.appendChild(t); }
+  t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'), ms||1100);
+}
+/* fake speech amplitude envelope — reads as syllabic speech */
+function VoiceSim(){
+  let t=0, tgt=0, amp=0, nextAt=0, syl=0;
+  return {
+    reset(){t=0;tgt=0;amp=0;nextAt=0;syl=0;},
+    get syllable(){return syl;},
+    step(dt){
+      t+=dt;
+      if(t>nextAt){
+        nextAt = t + rnd(0.16,0.28);
+        tgt = rnd(0.35,1.0);
+        if(Math.random()<0.18) tgt=rnd(0.05,0.2);
+        syl++;
+      }
+      const k = tgt>amp? 14:8;
+      amp += (tgt-amp)*Math.min(1,k*dt);
+      const trem = 1 + 0.08*Math.sin(t*23);
+      return clamp(amp*trem,0,1.2);
+    },
+    get time(){return t;}
+  };
+}
+/* ============================================================
+   4 · experiments
+   ============================================================ */
+/* ---------- shared prop fragments ---------- */
+function chiomaHTML(top,line,eng){
+  return '<div style="position:absolute;left:20px;top:'+top+'px;display:flex;gap:12px;align-items:flex-start">'
+    +'<div class="avatar"></div><div><div class="bubble"><span class="igbo">'+line+'</span></div>'
+    +'<div class="eng" style="margin-top:6px">Chioma &middot; '+eng+'</div></div></div>';
+}
+function mkPill(text,cls){
+  const p=el('<button class="pill tappable'+(cls?' '+cls:'')+'">'+text+'</button>');
+  propsEl.appendChild(p); return p;
+}
+/* packet flight + processing + resolution, shared by B */
+function flyDraw(ctx,st,S){
+  if(!st.packet)return;
+  const p=st.packet, t=clamp(p.t/p.dur,0,1), e=easeOut(t);
+  const cx=lerp(p.x0,p.x1,.5), cy=Math.min(p.y0,p.y1)-90;
+  const x=(1-e)*(1-e)*p.x0+2*(1-e)*e*cx+e*e*p.x1;
+  const y=(1-e)*(1-e)*p.y0+2*(1-e)*e*cy+e*e*p.y1;
+  paintDot(ctx,{x:x,y:y,r:lerp(9,5,e),sx:1+0.5*(1-e),sy:1-0.2*(1-e)});
+  for(let i=1;i<5;i++){
+    const e2=clamp(e-i*0.045,0,1);
+    const x2=(1-e2)*(1-e2)*p.x0+2*(1-e2)*e2*cx+e2*e2*p.x1;
+    const y2=(1-e2)*(1-e2)*p.y0+2*(1-e2)*e2*cy+e2*e2*p.y1;
+    paintDot(ctx,{x:x2,y:y2,r:lerp(7,2,e),alpha:.16*(1-i/5)});
+  }
+}
+
+/* ============================================================
+   A · NAVIGATION
+   ============================================================ */
+const NAV={
+  encounter:['Practice this','Help me answer','What am I learning?','Skip ahead','Pause / leave'],
+  practice :['Back to encounter','Hear it again','Why this answer?','Skip practice','Pause / leave']
+};
+const STAGES=['Greet','Names','Talk','Part'];
+function navProps(extra){
+  return '<div id="rail"></div>'
+  +'<div id="encblock">'
+  +'<div style="position:absolute;left:20px;top:104px;display:flex;gap:12px;align-items:flex-start">'
+  +'<div class="avatar"></div><div class="bubble"><span class="igbo">Kedụ?</span></div></div>'
+  +'<div style="position:absolute;left:20px;right:20px;top:232px"><div class="lbl">Your turn</div>'
+  +'<div style="height:1px;background:var(--line);margin-top:9px"></div></div></div>'
+  +'<div id="prablock" style="display:none"><div style="position:absolute;left:20px;right:20px;top:104px" class="card">'
+  +'<div style="padding:20px 18px"><div class="lbl">Say it</div>'
+  +'<div class="igbo" style="margin-top:10px">Ọ dị mma.</div>'
+  +'<div class="hint" style="margin-top:16px">2 of 3</div></div></div></div>'
+  +'<div class="tri" style="position:absolute;left:20px;bottom:46px">'
+  +'<button class="t on tappable" data-m="encounter">Encounter</button>'
+  +'<button class="t tappable" data-m="practice">Practice</button></div>'
+  +(extra||'');
+}
+function navBase(S){
+  const st={mode:'encounter',open:false,a:new Spring(0,180,23),pills:[],home:{x:0,y:0},
+    r:new Spring(13),flash:0,items:NAV.encounter.slice()};
+  st.rebuild=function(){
+    st.pills.forEach(p=>p.remove()); st.pills=[];
+    st.items=NAV[st.mode].slice();
+    st.items.forEach((t,i)=>{
+      const p=mkPill(t);
+      p.onclick=()=>{ toast('→ '+t); A.blip(880,.06,.07); hz(8); st.a.t=0; st.open=false; };
+      st.pills.push(p);
+    });
+  };
+  st.setMode=function(m){
+    st.mode=m; st.a.t=0; st.open=false;
+    q('#encblock').style.display = m==='encounter'?'':'none';
+    q('#prablock').style.display = m==='practice'?'':'none';
+    qa('.tri .t').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+    st.rebuild();
+  };
+  qa('.tri .t').forEach(b=>b.onclick=()=>st.setMode(b.dataset.m));
+  st.rebuild();
+  st.railX=function(i,S){ return lerp(42,S.w-42,i/3); };
+  st.railY=34;
+  st.layout=function(S){
+    st.home.x=S.w/2; st.home.y=S.h-96;
+    const r=q('#rail'); if(!r) return;
+    if(!r.childElementCount) STAGES.forEach(s=>{
+      const d=el('<div class="lbl" style="position:absolute;top:44px;transform:translateX(-50%);font-size:9px"></div>');
+      d.textContent=s; r.appendChild(d); });
+    Array.from(r.children).forEach((c,i)=>{ c.style.left=st.railX(i,S)+'px'; c.style.opacity=i===0?'1':'.4'; });
+  };
+  st.drawRail=function(ctx,S){
+    line(ctx,42,st.railY,S.w-42,st.railY,.18,1);
+    STAGES.forEach((s,i)=>ring(ctx,st.railX(i,S),st.railY,3.2,i===0?.5:.2,1));
+  };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.home.y)<34; };
+  st.cleanup=function(){ st.pills.forEach(p=>p.remove()); };
+  return st;
+}
+
+/* A1 — radial bloom */
+function A1(S){
+  const st=navBase(S);
+  st.tap=function(p,onDot){
+    if(onDot){ st.open=!st.open; st.a.t=st.open?1:0; A.blip(st.open?620:420,.06,.06); hz(8); }
+    else if(st.open){ st.open=false; st.a.t=0; }
+  };
+  st.draw=function(ctx,t,dt,S){
+    st.drawRail(ctx,S);
+    const a=st.a.step(dt);
+    const n=st.items.length, R=118;
+    st.pills.forEach((pill,i)=>{
+      const ang=(-168+ i*(156/(n-1)))*Math.PI/180;
+      const ai=clamp((a-i*0.05)/0.8,0,1.15);
+      const rr=R*easeOut(clamp(ai,0,1));
+      let x=st.home.x+Math.cos(ang)*rr, y=st.home.y+Math.sin(ang)*rr*0.92;
+      const op=clamp((ai-0.45)/0.4,0,1);
+      // satellite
+      if(ai>0.02) paintDot(ctx,{x:x,y:y,r:lerp(11,4,clamp(ai,0,1)),alpha:1-op*0.85});
+      if(ai>0.02) line(ctx,st.home.x,st.home.y,x,y,0.10*clamp(ai,0,1),1);
+      x=clamp(x,66,S.w-66);
+      pill.style.left=x+'px'; pill.style.top=y+'px';
+      pill.style.opacity=op; pill.style.pointerEvents=op>0.6?'auto':'none';
+      pill.style.transform='translate(-50%,-50%) scale('+lerp(.86,1,op)+')';
+    });
+    const br=1+0.035*Math.sin(t*1.7);
+    paintDot(ctx,{x:st.home.x,y:st.home.y,r:st.r.step(dt)*br*lerp(1,0.78,clamp(a,0,1)),
+      sy:1+0.05*Math.sin(t*1.7)});
+    if(a<0.02){ ring(ctx,st.home.x,st.home.y,20+3*Math.sin(t*1.7),.10,1); }
+  };
+  return st;
+}
+/* A2 — unfurl / the dot pours out a path */
+function A2(S){
+  const st=navBase(S);
+  st.tap=function(p,onDot){
+    if(onDot){ st.open=!st.open; st.a.t=st.open?1:0; A.blip(st.open?520:400,.07,.06); hz(8); }
+    else if(st.open){ st.open=false; st.a.t=0; }
+  };
+  st.draw=function(ctx,t,dt,S){
+    st.drawRail(ctx,S);
+    const a=clamp(st.a.step(dt),0,1.08);
+    const n=st.items.length, gap=54, len=(n)*gap;
+    const x=st.home.x-96, top=st.home.y-len*a;
+    // the stalk: dot literally extruded upward
+    if(a>0.01){
+      ctx.save(); ctx.fillStyle=INK; ctx.globalAlpha=.9;
+      ctx.beginPath();
+      const w=lerp(13,4.5,clamp(a,0,1));
+      ctx.moveTo(x-w,st.home.y); ctx.lineTo(x-w,top+8);
+      ctx.quadraticCurveTo(x,top-4,x+w,top+8); ctx.lineTo(x+w,st.home.y);
+      ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+    st.pills.forEach((pill,i)=>{
+      const ai=clamp((a-0.18-i*0.11)/0.5,0,1);
+      const y=st.home.y-(gap*(i+1))*clamp(a,0,1);
+      if(ai>0.02) paintDot(ctx,{x:x,y:y,r:lerp(3,6.5,ai)});
+      pill.style.left=(x+22)+'px'; pill.style.top=y+'px';
+      pill.style.transform='translate(0,-50%) translateX('+lerp(-14,0,easeOut(ai))+'px)';
+      pill.style.opacity=ai; pill.style.pointerEvents=ai>0.6?'auto':'none';
+    });
+    const sq=1+0.05*Math.sin(t*1.7);
+    const dx=lerp(st.home.x,x,clamp(a,0,1));
+    paintDot(ctx,{x:dx,y:st.home.y,r:st.r.step(dt)*sq,sy:1/sq,
+      sx:lerp(1,1.3,clamp(a,0,1)),alpha:1});
+    if(a<0.02) ring(ctx,st.home.x,st.home.y,20+3*Math.sin(t*1.7),.10,1);
+  };
+  return st;
+}
+/* A3 — dispersal: the dot splits and lands on the things it can act on */
+function A3(S){
+  const st=navBase(S);
+  st.targets=[];
+  st.scrub=-1; st.sylHit=-1;
+  const baseLayout=st.layout;
+  st.layout=function(S){
+    baseLayout(S);
+    st.targets = st.mode==='encounter'
+      ? [{x:158,y:130,t:'Practice this',ly:46,la:'c'},
+         {x:S.w/2,y:264,t:'Help me answer',ly:34,la:'c'},
+         {x:st.railX(0,S),y:st.railY,t:'What am I learning?',ly:32,lx:-16,la:'l'},
+         {x:st.railX(1,S),y:st.railY,t:'Skip ahead',ly:32,lx:12,la:'l'},
+         {x:26,y:S.h-152,t:'Pause / leave',ly:0,lx:16,la:'l'}]
+      : [{x:S.w/2,y:S.h-170,t:'Back to encounter',ly:34,la:'c'},
+         {x:S.w-58,y:130,t:'Hear it again',ly:34,lx:-12,la:'r'},
+         {x:70,y:186,t:'Why this answer?',ly:34,lx:-16,la:'l'},
+         {x:st.railX(1,S),y:st.railY,t:'Skip practice',ly:32,lx:12,la:'l'},
+         {x:26,y:S.h-152,t:'Pause / leave',ly:0,lx:16,la:'l'}];
+  };
+  const oldSet=st.setMode;
+  st.setMode=function(m){ oldSet(m); st.layout(S); };
+  st.pos=function(i,a){
+    const g=st.targets[i]||{x:st.home.x,y:st.home.y};
+    const ai=clamp((a-i*0.055)/0.75,0,1);
+    const e=easeOut(ai);
+    return {x:lerp(st.home.x,g.x,e), y:lerp(st.home.y,g.y,e), e:e, ai:ai};
+  };
+  st.tap=function(p,onDot){
+    if(onDot && !st.open){ st.open=true; st.a.t=1; A.blip(560,.06,.06); hz(8); return; }
+    if(st.open){
+      const a=clamp(st.a.v,0,1);
+      for(let i=0;i<st.targets.length;i++){
+        const q2=st.pos(i,a);
+        if(Math.hypot(p.x-q2.x,p.y-q2.y)<30){ toast('→ '+st.targets[i].t); A.blip(880,.06,.07); hz(8);
+          st.open=false; st.a.t=0; return; }
+      }
+      st.open=false; st.a.t=0;
+    }
+  };
+  st.dragStart=function(p){
+    if(!st.open) return;
+    const q2=st.pos(0,clamp(st.a.v,0,1));
+    if(Math.hypot(p.x-q2.x,p.y-q2.y)<44 && st.mode==='encounter') st.scrub=clamp((p.x-104)/116,0,1);
+  };
+  st.dragMove=function(p){
+    if(st.scrub<0)return;
+    const v=clamp((p.x-104)/116,0,1); const seg=Math.min(1,Math.floor(v*2));
+    if(seg!==st.sylHit){ st.sylHit=seg; A.syl(seg? SY['dụ']:SY['Ke'],0,seg?.28:.20,1,.14); hz(6); }
+    st.scrub=v;
+  };
+  st.dragEnd=function(){ st.scrub=-1; st.sylHit=-1; };
+  st.hit=function(p){
+    if(Math.hypot(p.x-st.home.x,p.y-st.home.y)<34) return true;
+    if(st.open){ const q2=st.pos(0,clamp(st.a.v,0,1));
+      return Math.hypot(p.x-q2.x,p.y-q2.y)<40; }
+    return false;
+  };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.targets.length) st.layout(S);
+    st.drawRail(ctx,S);
+    const a=clamp(st.a.step(dt),0,1.05);
+    const rl=q('#rail'); if(rl) rl.style.opacity=String(1-clamp(a,0,1)*0.9);
+    st.pills.forEach((pill,i)=>{
+      const g=st.targets[i]; if(!g){pill.style.opacity=0;return;}
+      let q2=st.pos(i,a);
+      if(i===0&&st.scrub>=0) q2.x=104+st.scrub*116;
+      const op=clamp((q2.ai-0.5)/0.4,0,1);
+      if(q2.ai>0.02){
+        paintDot(ctx,{x:q2.x,y:q2.y,r:lerp(11,7,q2.e),
+          sx:1+0.25*(1-q2.e),sy:1-0.15*(1-q2.e)});
+        if(op>0) ring(ctx,q2.x,q2.y,11+7*op,0.22*op,1);
+      }
+      const lx=q2.x+(g.lx||0), ly=q2.y+(g.ly||0);
+      pill.className='pill tappable ghost';
+      pill.style.left=lx+'px'; pill.style.top=ly+'px';
+      pill.style.transform='translate('+(g.la==='l'?'0':(g.la==='r'?'-100%':'-50%'))+',-50%)';
+      pill.style.opacity=op*0.98; pill.style.pointerEvents=op>0.6?'auto':'none';
+      if(op>0.1&&Math.abs(g.ly||0)>10) line(ctx,q2.x,q2.y+9,q2.x,ly-11,.16*op,1);
+    });
+    // home dot shrinks to a residue while dispersed
+    const rr=lerp(13,5,clamp(a,0,1));
+    paintDot(ctx,{x:st.home.x,y:st.home.y,r:rr*(1+0.03*Math.sin(t*1.7)),alpha:lerp(1,.35,clamp(a,0,1))});
+    if(a<0.02) ring(ctx,st.home.x,st.home.y,20+3*Math.sin(t*1.7),.10,1);
+    if(st.scrub>=0){ line(ctx,104,146,220,146,.20,1); }
+  };
+  return st;
+}
+EXPERIMENTS.push({id:'A',name:'Nav',concepts:[
+ {title:'A1 · Radial bloom',gestures:['tap'],props:navProps(
+   '<div class="hint" style="position:absolute;left:0;right:0;bottom:22px;text-align:center">tap ● &middot; tap away to close</div>'),
+  note:'Options <b>emerge from</b> the dot on an arc. Fast and physical, but five word-labels do not fit a 390px arc — the outer two are clamped, and it reads closest to a conventional menu. <span class="flag">Finding: radial caps at ~4 short labels.</span>',make:A1},
+ {title:'A2 · Unfurl',gestures:['tap'],props:navProps(
+   '<div class="hint" style="position:absolute;left:0;right:0;bottom:22px;text-align:center">tap ● &middot; the list is extruded from it</div>'),
+  note:'The dot <b>stretches into a spine</b> and buds the actions off it. Legible, scales to any number of items, keeps ● as the anchor you came from — but is one step away from being a hamburger menu with better manners.',make:A2},
+ {title:'A3 · Dispersal',gestures:['tap','drag'],props:navProps(
+   '<div class="hint" style="position:absolute;left:0;right:0;bottom:22px;text-align:center">tap ● &middot; it lands on what it can act on</div>'),
+  note:'The dot <b>splits and attaches to the things themselves</b> — the phrase, your answer line, the stage. Navigation becomes pointing, not listing. Try dragging the dot sitting on <span class="igbo" style="font-size:13px">Kedụ?</span>: because it is attached, horizontal drag now means something.',make:A3},
+]});
+
+/* ============================================================
+   B · VOICE
+   ============================================================ */
+function voiceProps(hint){
+  return '<div class="lbl" style="position:absolute;left:20px;top:16px">Encounter &middot; Greet</div>'
+  +chiomaHTML(46,'Kedụ?','How are you?')
+  +'<div class="reply" style="position:absolute;left:84px;top:160px;opacity:0;transition:opacity .35s">'
+  +'<div class="bubble" style="border-radius:14px 14px 14px 4px"><span class="igbo">Aa! Ị nụrụ m.</span></div>'
+  +'<div class="eng" style="margin-top:6px">Ah — you heard me.</div></div>'
+  +'<div class="lbl phase" style="position:absolute;left:0;right:0;bottom:212px;text-align:center">rest</div>'
+  +'<div class="hint" style="position:absolute;left:0;right:0;bottom:22px;text-align:center">'+(hint||'hold ● to speak')+'</div>';
+}
+function voiceBase(S){
+  const st={phase:'ready',pt:0,vs:VoiceSim(),amp:0,packet:null,home:{x:0,y:0},r:new Spring(14,200,20)};
+  st.layout=function(S){ st.home.x=S.w/2; st.home.y=S.h-92; st.bub={x:120,y:86}; };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.home.y)<40; };
+  st.setPhase=function(p){ st.phase=p; st.pt=0; const l=q('.phase'); if(l) l.textContent=
+    ({ready:'ready · your turn',hold:'listening',release:'',fly:'',process:'interpreting',resolve:'understood'})[p]||''; };
+  st.holdStart=function(){ st.vs.reset(); st.setPhase('hold'); q('.reply').style.opacity=0; A.blip(300,.05,.05,'sine'); };
+  st.holdEnd=function(){ st.setPhase('release'); hz(10); };
+  st.launch=function(x,y){
+    st.packet={x0:x,y0:y,x1:st.bub.x,y1:st.bub.y,t:0,dur:.52}; st.setPhase('fly');
+  };
+  st.advance=function(dt,ctx,S){
+    st.pt+=dt;
+    if(st.phase==='fly'){
+      st.packet.t+=dt; flyDraw(ctx,st,S);
+      if(st.packet.t>=st.packet.dur){ st.packet=null; st.setPhase('process'); A.blip(200,.05,.04,'triangle'); }
+    }
+    if(st.phase==='process'&&st.pt>0.44){ st.setPhase('resolve'); A.chime(false); hz([8,40,14]);
+      q('.reply').style.opacity=1; A.phrase([SY['A'],SY['ha']],{from:.12,gain:.10}); }
+    if(st.phase==='resolve'&&st.pt>2.0){ st.setPhase('ready'); q('.reply').style.opacity=0; }
+  };
+  st.processDraw=function(ctx,t){
+    // brief calm interpretation — a compression, never a spinner
+    const k=clamp(st.pt/0.44,0,1);
+    const sy=1-0.42*Math.sin(k*Math.PI);
+    paintDot(ctx,{x:st.home.x,y:st.home.y,r:14,sy:sy,sx:1+0.30*Math.sin(k*Math.PI)});
+    ring(ctx,st.home.x,st.home.y,20+14*k,0.16*(1-k),1);
+  };
+  st.resolveDraw=function(ctx,t){
+    const k=clamp(st.pt/0.5,0,1);
+    const pop=1+0.45*Math.sin(clamp(k*2.2,0,1)*Math.PI)*(1-k*0.5);
+    paintDot(ctx,{x:st.home.x,y:st.home.y,r:14*pop,sy:1/Math.max(.6,pop*0.9)});
+    if(k<1) ring(ctx,st.home.x,st.home.y,18+60*easeOut(k),0.30*(1-k),1.4);
+  };
+  st.readyDraw=function(ctx,t,receptive){
+    const br=1+0.05*Math.sin(t*1.6);
+    paintDot(ctx,{x:st.home.x,y:st.home.y,r:st.r.step(1/60)*br,sy:1/br});
+    if(receptive){
+      const k=(t*0.55)%1;
+      ring(ctx,st.home.x,st.home.y,lerp(52,20,easeOut(k)),0.22*(1-Math.abs(k-.5)*1.4),1);
+    }
+  };
+  return st;
+}
+/* B1 — pressure: the voice inflates and deforms the dot itself */
+function B1(S){
+  const st=voiceBase(S); st.rings=[]; st.lastSyl=0;
+  st.draw=function(ctx,t,dt,S){
+    if(st.phase==='hold'){
+      const a=st.vs.step(dt); st.amp=a;
+      if(st.vs.syllable!==st.lastSyl){ st.lastSyl=st.vs.syllable; st.rings.push({r:30,a:.35}); }
+      const R=lerp(30,52,clamp(a,0,1));
+      const harm=[
+        {n:2,a:0.10*a,p:t*3.1},{n:3,a:0.07*a,p:-t*2.3},
+        {n:5,a:0.05*a,p:t*4.7},{n:7,a:0.03*a,p:-t*6.1}
+      ];
+      paintDot(ctx,{x:st.home.x,y:st.home.y,r:R,harm:harm,sy:1+0.06*Math.sin(t*9)});
+      st.rings.forEach(r=>{r.r+=dt*120;r.a-=dt*0.55;});
+      st.rings=st.rings.filter(r=>r.a>0);
+      st.rings.forEach(r=>ring(ctx,st.home.x,st.home.y,r.r,Math.max(0,r.a),1));
+      ring(ctx,st.home.x,st.home.y,R+18+6*a,0.10,1);
+    } else if(st.phase==='release'){
+      const k=clamp(st.pt/0.16,0,1);
+      const R=lerp(46,11,easeOut(k));
+      paintDot(ctx,{x:st.home.x,y:st.home.y,r:R,sy:lerp(1,0.7,k),sx:lerp(1,1.3,k)});
+      if(k>=1) st.launch(st.home.x,st.home.y);
+    } else if(st.phase==='fly'){ paintDot(ctx,{x:st.home.x,y:st.home.y,r:9,alpha:.35}); }
+    else if(st.phase==='process'){ st.processDraw(ctx,t); }
+    else if(st.phase==='resolve'){ st.resolveDraw(ctx,t); }
+    else { st.readyDraw(ctx,t,true); }
+    st.advance(dt,ctx,S);
+  };
+  return st;
+}
+/* B2 — trace: the dot is a pen; the voice spools out of it as material */
+function B2(S){
+  const st=voiceBase(S); st.buf=[]; st.collapse=0;
+  st.draw=function(ctx,t,dt,S){
+    const H=st.home;
+    if(st.phase==='hold'){
+      const a=st.vs.step(dt); st.amp=a;
+      st.buf.push(a); if(st.buf.length>124) st.buf.shift();
+    }
+    // ribbon lies to the left of the dot, spooling out of the pen tip
+    if(st.buf.length>1 && (st.phase==='hold'||st.phase==='release')){
+      const step=2.5, shrink=st.phase==='release'? easeOut(clamp(st.pt/0.34,0,1)):0;
+      const gap=20;
+      ctx.save(); ctx.fillStyle=INK; ctx.globalAlpha=.9;
+      ctx.beginPath();
+      const n=st.buf.length, count=Math.max(2,Math.floor(n*(1-shrink)));
+      for(let i=0;i<count;i++){
+        const x=H.x-gap-(count-1-i)*step*(1-shrink*0.6);
+        const y=H.y-(1.5+st.buf[i]*26)*(1-shrink);
+        if(i)ctx.lineTo(x,y); else ctx.moveTo(x,y);
+      }
+      for(let i=count-1;i>=0;i--){
+        const x=H.x-gap-(count-1-i)*step*(1-shrink*0.6);
+        const y=H.y+(1.5+st.buf[i]*26)*(1-shrink);
+        ctx.lineTo(x,y);
+      }
+      ctx.closePath(); ctx.fill(); ctx.restore();
+      line(ctx,H.x-gap,H.y,H.x-8,H.y,.5,1.5);
+    }
+    if(st.phase==='hold'){
+      const R=lerp(13,17,clamp(st.amp,0,1));
+      paintDot(ctx,{x:H.x,y:H.y,r:R,sx:1.12,sy:0.94});
+      ring(ctx,H.x,H.y,R+9+4*st.amp,.16,1);
+    } else if(st.phase==='release'){
+      const k=clamp(st.pt/0.34,0,1);
+      paintDot(ctx,{x:H.x,y:H.y,r:lerp(13,19,Math.sin(k*Math.PI)),sy:lerp(1,1.1,Math.sin(k*Math.PI))});
+      if(k>=1){ st.buf=[]; st.launch(H.x,H.y); }
+    } else if(st.phase==='fly'){ paintDot(ctx,{x:H.x,y:H.y,r:10,alpha:.3}); }
+    else if(st.phase==='process'){ st.processDraw(ctx,t); }
+    else if(st.phase==='resolve'){ st.resolveDraw(ctx,t); }
+    else { st.buf=[]; st.readyDraw(ctx,t,true); }
+    st.advance(dt,ctx,S);
+  };
+  return st;
+}
+/* B3 — displacement: the voice is a force; it moves the dot and the field */
+function B3(S){
+  const st=voiceBase(S); st.waves=[]; st.lastSyl=0; st.off=new Spring(0,220,14); st.field=[];
+  const baseLayout=st.layout;
+  st.layout=function(S){ baseLayout(S); st.field=[];
+    for(let y=st.home.y-190;y<st.home.y+52;y+=34)
+      for(let x=26;x<S.w-14;x+=34) st.field.push({x:x,y:y});
+  };
+  st.draw=function(ctx,t,dt,S){
+    const H=st.home;
+    if(!st.field.length) st.layout(S);
+    if(st.phase==='hold'){
+      const a=st.vs.step(dt); st.amp=a;
+      if(st.vs.syllable!==st.lastSyl){ st.lastSyl=st.vs.syllable; st.waves.push({r:8,a:1,p:a}); hz(4); }
+      st.off.t=-a*26;
+    } else st.off.t=0;
+    st.off.step(dt);
+    st.waves.forEach(w=>{ w.r+=dt*260; w.a-=dt*0.85; });
+    st.waves=st.waves.filter(w=>w.a>0);
+    // field disturbed by the utterance
+    ctx.save();
+    st.field.forEach(f=>{
+      let dx=0,dy=0,em=0;
+      st.waves.forEach(w=>{
+        const d=Math.hypot(f.x-H.x,f.y-(H.y+st.off.v));
+        const g=Math.exp(-Math.pow((d-w.r)/34,2))*w.a*w.p;
+        const ang=Math.atan2(f.y-(H.y+st.off.v),f.x-H.x);
+        dx+=Math.cos(ang)*g*13; dy+=Math.sin(ang)*g*13; em=Math.max(em,g);
+      });
+      ctx.globalAlpha=0.14+em*0.7;
+      ctx.fillStyle=INK; ctx.beginPath();
+      ctx.arc(f.x+dx,f.y+dy,1.3+em*2.2,0,TAU); ctx.fill();
+    });
+    ctx.restore();
+    const y=H.y+st.off.v;
+    if(st.phase==='hold'){
+      const a=st.amp;
+      paintDot(ctx,{x:H.x+Math.sin(t*31)*a*1.6,y:y,r:lerp(14,20,a),
+        sy:lerp(1,1.35,a),sx:lerp(1,0.82,a)});
+    } else if(st.phase==='release'){
+      const k=clamp(st.pt/0.22,0,1);
+      if(st.pt<dt*1.5){ st.waves.push({r:10,a:1.3,p:1}); }
+      paintDot(ctx,{x:H.x,y:y,r:lerp(20,13,easeOut(k)),sy:lerp(1.3,0.8,k),sx:lerp(0.85,1.25,k)});
+      if(k>=1) st.launch(H.x,H.y);
+    } else if(st.phase==='fly'){ paintDot(ctx,{x:H.x,y:H.y,r:10,alpha:.3}); }
+    else if(st.phase==='process'){ st.processDraw(ctx,t); }
+    else if(st.phase==='resolve'){ st.resolveDraw(ctx,t); }
+    else { st.readyDraw(ctx,t,true); }
+    st.advance(dt,ctx,S);
+  };
+  return st;
+}
+EXPERIMENTS.push({id:'B',name:'Voice',concepts:[
+ {title:'B1 · Pressure',gestures:['hold'],props:voiceProps('press and hold ● &middot; speak &middot; release'),
+  note:'Voice as <b>internal pressure</b>. The dot inflates and its surface is deformed by amplitude — the dot <i>is</i> the visualisation. Release collapses it into a packet that travels to Chioma. Watch the four-beat: <b>collapse → travel → compress → pop</b>.',make:B1},
+ {title:'B2 · Trace',gestures:['hold'],props:voiceProps('hold ● &middot; the dot is the pen tip'),
+  note:'Voice as <b>material you make</b>. The dot stays a dot; speech spools out of it as a ribbon lying on the page, then is swallowed back and sent. Strongest "I produced something" feeling; weakest at conveying <i>being received</i>.',make:B2},
+ {title:'B3 · Displacement',gestures:['hold'],props:voiceProps('hold ● &middot; your voice pushes it'),
+  note:'Voice as <b>force in a medium</b>. Amplitude physically displaces the dot; each syllable throws a wave through the field around it. Most convincing "sound is real" reading — and the only one where the room, not just the dot, registers that you spoke.',make:B3},
+]});
+
+/* ============================================================
+   C · SPEECH INSPECTION
+   ============================================================ */
+const CSYL=[{s:'Ọ',k:'Ọ',d:.26},{s:'dị',k:'dị',d:.22},{s:'mma',k:'mma',d:.36}];
+const CTOT=CSYL.reduce((a,b)=>a+b.d,0);
+function cProps(hint){
+  return '<div class="lbl" style="position:absolute;left:20px;top:16px">Inspect &middot; she said</div>'
+  +'<div class="eng" style="position:absolute;left:20px;top:210px">It is good. / I\'m fine.</div>'
+  +'<div class="hint" style="position:absolute;left:20px;right:20px;bottom:20px;text-align:center">'+hint+'</div>';
+}
+function drawPhrase(ctx,S,opts){
+  // returns syllable boxes; drawn on canvas so we can stretch/space it physically
+  const o=opts||{}, y=o.y||160, spread=o.spread||0, act=o.act==null?-1:o.act, glow=o.glow||[];
+  ctx.save();
+  ctx.textBaseline='alphabetic';
+  const sizes=CSYL.map((s,i)=> (o.size||34)*(i===act?1.14:1));
+  let widths=[], total=0;
+  CSYL.forEach((s,i)=>{ ctx.font=sizes[i]+'px "Iowan Old Style", Georgia, serif';
+    const w=ctx.measureText(s.s).width; widths.push(w); total+=w; });
+  const gaps=(CSYL.length-1)*(10+spread);
+  let x=(S.w-(total+gaps))/2, boxes=[];
+  CSYL.forEach((s,i)=>{
+    ctx.font=sizes[i]+'px "Iowan Old Style", Georgia, serif';
+    const on=(i===act)||glow[i];
+    ctx.globalAlpha=on?1:(o.dim==null?0.34:o.dim);
+    ctx.fillStyle=INK;
+    ctx.fillText(s.s,x,y);
+    if(glow[i]) { ctx.globalAlpha=glow[i]*0.5; ctx.fillRect(x,y+9,widths[i],1.5); }
+    boxes.push({x:x,w:widths[i],cx:x+widths[i]/2});
+    x+=widths[i]+10+spread;
+  });
+  ctx.globalAlpha=1; ctx.restore();
+  return boxes;
+}
+/* C1 — playhead across the phrase */
+function C1(S){
+  const st={p:new Spring(0,200,26),drag:false,act:-1,glow:[0,0,0],x0:40,x1:350,y:300,auto:-1,speed:1};
+  st.layout=function(S){ st.x0=44; st.x1=S.w-44; st.y=S.h-150; };
+  st.px=function(v){ return lerp(st.x0,st.x1,v); };
+  st.hit=function(p){ return Math.abs(p.x-st.px(st.p.v))<44 && Math.abs(p.y-st.y)<48; };
+  st.seg=function(v){ let acc=0; for(let i=0;i<CSYL.length;i++){ const w=CSYL[i].d/CTOT;
+    if(v<acc+w) return i; acc+=w; } return CSYL.length-1; };
+  st.play=function(i,rate){ A.syl(SY[CSYL[i].k],0,CSYL[i].d,clamp(rate,.35,1.8),.17); st.glow[i]=1; hz(6); };
+  st.dragStart=function(){ st.drag=true; st.auto=-1; };
+  st.dragMove=function(p,v){
+    const val=clamp((p.x-st.x0)/(st.x1-st.x0),0,1);
+    st.p.set(val);
+    const s=st.seg(val);
+    st.speed=clamp(Math.abs(v.vx)/6,0.35,1.8);
+    if(s!==st.act){ st.act=s; st.play(s,st.speed); }
+  };
+  st.dragEnd=function(){ st.drag=false; st.p.t=0; st.act=-1; };
+  st.tap=function(p,onDot){
+    st.auto=0; st.p.set(0); st.act=-1;
+    A.phrase(CSYL.map(s=>SY[s.k]),{gain:.17});
+  };
+  st.draw=function(ctx,t,dt,S){
+    if(st.auto>=0){ st.auto+=dt; const v=clamp(st.auto/(CTOT*1.06),0,1);
+      st.p.set(v); const s=st.seg(v);
+      if(s!==st.act){ st.act=s; st.glow[s]=1; }
+      if(v>=1){ st.auto=-1; st.act=-1; st.p.t=0; } }
+    else if(!st.drag) st.p.step(dt);
+    const v=st.p.v;
+    const boxes=drawPhrase(ctx,S,{y:160,act:st.act,glow:st.glow,dim:.3});
+    st.glow=st.glow.map(g=>Math.max(0,g-dt*1.1));
+    // the track, with syllable extents mapped onto it
+    line(ctx,st.x0,st.y,st.x1,st.y,.28,1);
+    let acc=0;
+    CSYL.forEach((s,i)=>{
+      const a=st.x0+(st.x1-st.x0)*acc, b=st.x0+(st.x1-st.x0)*(acc+s.d/CTOT);
+      line(ctx,a,st.y-7,a,st.y+7,.28,1);
+      if(i===st.act){ ctx.save(); ctx.globalAlpha=.10; ctx.fillStyle=INK;
+        ctx.fillRect(a,st.y-7,b-a,14); ctx.restore(); }
+      // tether from the syllable on the line to the syllable in the phrase
+      if(i===st.act&&boxes[i]) line(ctx,(a+b)/2,st.y-8,boxes[i].cx,178,.16,1,INK,[2,4]);
+      acc+=s.d/CTOT;
+    });
+    line(ctx,st.x1,st.y-7,st.x1,st.y+7,.28,1);
+    const x=st.px(v);
+    const sq=st.drag? clamp(1+Math.abs(st.speed-1)*0.18,1,1.3):1;
+    paintDot(ctx,{x:x,y:st.y,r:13,sx:sq,sy:1/sq});
+    if(!st.drag&&st.auto<0) ring(ctx,x,st.y,19+3*Math.sin(t*1.7),.13,1);
+  };
+  return st;
+}
+/* C2 — pull to slow: the phrase is elastic */
+function C2(S){
+  const st={pull:{x:0,y:0},dragging:false,home:{x:0,y:0},d:0,loop:0,glow:[0,0,0],sp:new Spring(0,190,17)};
+  st.layout=function(S){ st.home.x=S.w/2; st.home.y=260; st.pull.x=st.home.x; st.pull.y=st.home.y; };
+  st.hit=function(p){ return Math.hypot(p.x-st.pull.x,p.y-st.pull.y)<44; };
+  st.dragStart=function(p){ st.dragging=true; st.loop=0; };
+  st.dragMove=function(p){ st.pull.x=p.x; st.pull.y=clamp(p.y,st.home.y-40,st.home.y+230); };
+  st.dragEnd=function(){ st.dragging=false; st.loop=0;
+    A.phrase(CSYL.map(s=>SY[s.k]),{gain:.17}); st.glow=[1,1,1]; hz(10); };
+  st.tap=function(){ A.phrase(CSYL.map(s=>SY[s.k]),{gain:.17}); st.glow=[1,1,1]; };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.dragging){ st.pull.x=lerp(st.pull.x,st.home.x,1-Math.pow(0.001,dt));
+      st.pull.y=lerp(st.pull.y,st.home.y,1-Math.pow(0.001,dt)); }
+    st.d=Math.hypot(st.pull.x-st.home.x,st.pull.y-st.home.y);
+    const stretch=clamp(st.d/150,0,1.6);
+    const rate=1/(1+stretch*1.1);
+    if(st.dragging&&stretch>0.12){
+      st.loop-=dt;
+      if(st.loop<=0){
+        let tt=0; CSYL.forEach((s,i)=>{ A.syl(SY[s.k],tt,s.d,rate,.16); tt+=(s.d/rate)*1.15; });
+        st.loop=tt+0.28; st.glow=[1,1,1];
+      }
+    }
+    st.glow=st.glow.map(g=>Math.max(0,g-dt*0.9));
+    const boxes=drawPhrase(ctx,S,{y:158,spread:stretch*26,glow:st.glow,dim:.6,size:34});
+    // elastic tether from phrase to dot
+    ctx.save(); ctx.strokeStyle=INK; ctx.globalAlpha=.5;
+    ctx.lineWidth=clamp(3.4-stretch*1.6,1,3.4);
+    ctx.beginPath(); ctx.moveTo(S.w/2,176);
+    ctx.quadraticCurveTo(lerp(S.w/2,st.pull.x,.5)+ (st.pull.x-S.w/2)*0.06, lerp(176,st.pull.y,.55), st.pull.x,st.pull.y);
+    ctx.stroke(); ctx.restore();
+    boxes.forEach((b,i)=>{ if(st.glow[i]>0.05) ring(ctx,b.cx,150,6+14*(1-st.glow[i]),st.glow[i]*.3,1); });
+    const el2=clamp(stretch,0,1.6);
+    paintDot(ctx,{x:st.pull.x,y:st.pull.y,r:lerp(15,11,clamp(el2/1.6,0,1)),
+      sy:1+el2*0.22,sx:1-el2*0.12,
+      rot:Math.atan2(st.pull.y-176,st.pull.x-S.w/2)-Math.PI/2});
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='11px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(stretch>0.12? (rate).toFixed(2)+'× speed':'pull down to slow it', S.w/2, S.h-56);
+    ctx.restore();
+    if(!st.dragging&&st.d<3) ring(ctx,st.pull.x,st.pull.y,21+3*Math.sin(t*1.7),.12,1);
+  };
+  return st;
+}
+/* C3 — the phrase has a shape; the dot rides it */
+function C3(S){
+  const st={v:new Spring(0,200,26),drag:false,act:-1,glow:[0,0,0],pts:[],x0:40,x1:350,base:300};
+  st.layout=function(S){
+    st.x0=40; st.x1=S.w-40; st.base=S.h-210; st.pts=[];
+    // contour: a well per syllable, width ∝ duration. derived from the placeholder synth.
+    const N=200;
+    for(let i=0;i<=N;i++){
+      const u=i/N; let acc=0, y=0;
+      CSYL.forEach((s,k)=>{
+        const w=s.d/CTOT, c=acc+w/2;
+        y += Math.exp(-Math.pow((u-c)/(w*0.42),2)) * (26+ (SY[s.k].f0[0]-160)*0.12);
+        acc+=w;
+      });
+      st.pts.push({u:u,x:lerp(st.x0,st.x1,u),y:st.base - y*0.0 + 30 - y*0.0});
+      st.pts[i].h=y;
+    }
+  };
+  st.yAt=function(u){
+    const i=clamp(Math.round(u*(st.pts.length-1)),0,st.pts.length-1);
+    return st.base + st.pts[i].h*1.25;   // syllables are wells: the dot falls into them
+  };
+  st.seg=function(v){ let acc=0; for(let i=0;i<CSYL.length;i++){ const w=CSYL[i].d/CTOT;
+    if(v<acc+w) return i; acc+=w; } return CSYL.length-1; };
+  st.hit=function(p){ const u=st.v.v; return Math.hypot(p.x-lerp(st.x0,st.x1,u),p.y-st.yAt(u))<48; };
+  st.dragStart=function(){ st.drag=true; };
+  st.dragMove=function(p,vv){
+    const u=clamp((p.x-st.x0)/(st.x1-st.x0),0,1); st.v.set(u);
+    const s=st.seg(u);
+    const depth=st.pts[clamp(Math.round(u*(st.pts.length-1)),0,st.pts.length-1)].h;
+    if(depth>18 && s!==st.act){ st.act=s; st.glow[s]=1;
+      A.syl(SY[CSYL[s].k],0,CSYL[s].d,clamp(Math.abs(vv.vx)/6,.4,1.7),.17); hz(7); }
+    if(depth<=12) st.act=-1;
+  };
+  st.dragEnd=function(){ st.drag=false; st.v.t=0; st.act=-1; };
+  st.tap=function(){ A.phrase(CSYL.map(s=>SY[s.k]),{gain:.17}); st.glow=[1,1,1]; };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.pts.length) st.layout(S);
+    if(!st.drag) st.v.step(dt);
+    drawPhrase(ctx,S,{y:150,act:st.act,glow:st.glow,dim:.3});
+    st.glow=st.glow.map(g=>Math.max(0,g-dt*1.0));
+    ctx.save(); ctx.strokeStyle=INK; ctx.globalAlpha=.32; ctx.lineWidth=1.4;
+    ctx.beginPath();
+    st.pts.forEach((p,i)=>{ const y=st.yAt(p.u); i?ctx.lineTo(p.x,y):ctx.moveTo(p.x,y); });
+    ctx.stroke(); ctx.restore();
+    // syllable wells labelled by their own text
+    let acc=0;
+    CSYL.forEach((s,i)=>{
+      const c=acc+ (s.d/CTOT)/2; acc+=s.d/CTOT;
+      const x=lerp(st.x0,st.x1,c), y=st.yAt(c);
+      ring(ctx,x,y,7+(st.glow[i]*16),0.14+st.glow[i]*0.4,1);
+      ctx.save(); ctx.globalAlpha=.30+st.glow[i]*.6; ctx.fillStyle=INK;
+      ctx.font='12px "Iowan Old Style", Georgia, serif'; ctx.textAlign='center';
+      ctx.fillText(s.s,x,y+26); ctx.restore();
+    });
+    const u=st.v.v, x=lerp(st.x0,st.x1,u), y=st.yAt(u);
+    const inWell=st.act>=0;
+    paintDot(ctx,{x:x,y:y,r:13,sy:inWell?0.88:1.06,sx:inWell?1.14:0.96});
+    if(!st.drag) ring(ctx,x,y,19+3*Math.sin(t*1.7),.12,1);
+  };
+  return st;
+}
+EXPERIMENTS.push({id:'C',name:'Speech',concepts:[
+ {title:'C1 · Playhead',gestures:['tap','drag'],props:cProps('drag ● along the track &middot; tap to hear it whole'),
+  note:'Literal scrub. Syllables light as you cross them and <b>drag speed sets articulation speed</b>. Honest and learnable — but the track is a second object, so the dot is only borrowing an affordance a slider already had.',make:C1},
+ {title:'C2 · Pull to slow',gestures:['tap','drag'],props:cProps('grab ● and pull away from the phrase'),
+  note:'The phrase is <b>elastic</b>: distance = slowness, and the words physically spread as the sound stretches. No track, no scale, no controls — one continuous gesture. <span class="flag">Best candidate for a signature interaction in C.</span>',make:C2},
+ {title:'C3 · Ride the shape',gestures:['tap','drag'],props:cProps('drag ● across &middot; feel it fall into each syllable'),
+  note:'The phrase has a <b>shape you can feel</b> — a well per syllable, width ∝ duration, so rhythm arrives through resistance rather than through a diagram. <span class="flag">Contours here are derived from the placeholder synth; real recordings must drive them.</span>',make:C3},
+]});
+
+/* ============================================================
+   D · HELP / SCAFFOLDING
+   ============================================================ */
+function dProps(hint,extra){
+  return '<div class="lbl" style="position:absolute;left:20px;top:14px">Encounter &middot; Greet</div>'
+  +chiomaHTML(40,'Kedụ?','How are you?')
+  +'<div id="sup" style="position:absolute;left:20px;right:20px;top:172px;height:130px">'
+  +'<div class="l1" style="position:absolute;left:0;top:0;opacity:0"><div class="eng" style="font-style:normal;color:var(--ink2)">She is asking how you are.</div></div>'
+  +'<div class="l2" style="position:absolute;left:0;top:32px;opacity:0"><span class="igbo">Ọ dị …</span></div>'
+  +'<div class="l3" style="position:absolute;left:0;top:74px;opacity:0"><span class="igbo">Ọ dị mma.</span>'
+  +'<span class="hint" style="margin-left:10px">▸ hear it</span></div></div>'
+  +(extra||'')
+  +'<div class="hint" style="position:absolute;left:0;right:0;bottom:16px;text-align:center">'+hint+'</div>';
+}
+function supUpdate(lv,played){
+  for(let i=1;i<=3;i++){
+    const e=q('.l'+i); if(!e)continue;
+    const op=clamp(lv-(i-1),0,1);
+    e.style.opacity=op;
+    e.style.transform='translateY('+((1-op)*10)+'px)';
+  }
+}
+/* D1 — the support continuum */
+function D1(S){
+  const st={v:new Spring(0,190,24),drag:false,x0:44,x1:340,y:0,lv:0,last:0,played:false};
+  st.layout=function(S){ st.x0=54; st.x1=S.w-54; st.y=S.h-86; };
+  st.px=function(){ return lerp(st.x0,st.x1,st.v.v); };
+  st.hit=function(p){ return Math.hypot(p.x-st.px(),p.y-st.y)<42; };
+  st.dragStart=function(){ st.drag=true; };
+  st.dragMove=function(p){
+    st.v.set(clamp((p.x-st.x0)/(st.x1-st.x0),0,1));
+    const step=Math.floor(st.v.v*3+0.001);
+    if(step!==st.last){ st.last=step; hz(7); A.blip(420+step*90,.05,.05);
+      if(step===3&&!st.played){ st.played=true; A.phrase(CSYL.map(s=>SY[s.k]),{from:.1,gain:.16}); } }
+    if(st.v.v<0.98) st.played=false;
+  };
+  st.dragEnd=function(){ st.drag=false;
+    const snap=Math.round(st.v.v*3)/3; st.v.t=snap; hz(9); };
+  st.tap=function(p,onDot){ if(!onDot&&p.y<300&&st.v.v>0.95){ A.phrase(CSYL.map(s=>SY[s.k]),{gain:.16}); } };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.drag) st.v.step(dt);
+    supUpdate(clamp(st.v.v*3,0,3));
+    const y=st.y;
+    line(ctx,st.x0,y,st.x1,y,.25,1);
+    for(let i=0;i<4;i++){ const x=lerp(st.x0,st.x1,i/3);
+      ring(ctx,x,y,3.2,i/3<=st.v.v+0.02?.5:.22,1); }
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='10.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='left'; ctx.fillText("I'll try",st.x0-12,y+26);
+    ctx.textAlign='right'; ctx.fillText('Show me',st.x1+12,y+26);
+    ctx.textAlign='center'; ctx.globalAlpha=.9;
+    const names=['','hint','phrase','model'];
+    const lv=clamp(st.v.v*3,0,3);
+    if(lv>0.15) ctx.fillText(names[Math.round(lv)]||'',lerp(st.x0,st.x1,st.v.v),y-22);
+    ctx.restore();
+    // the dot is visibly ON the continuum → drag is legible
+    const x=st.px();
+    const sq=st.drag?1.14:1;
+    paintDot(ctx,{x:x,y:y,r:14,sx:sq,sy:1/sq});
+    if(!st.drag&&st.v.v<0.02) ring(ctx,x,y,20+3*Math.sin(t*1.7),.12,1);
+    // it carries the support with it: a filament back to what is revealed
+    if(st.v.v>0.04) line(ctx,x,y-14,S.w/2,314,.10*clamp(st.v.v*2,0,1),1,INK,[2,5]);
+  };
+  return st;
+}
+/* D2 — draw help out: spring-loaded, reversible */
+function D2(S){
+  const st={d:new Spring(0,180,20),drag:false,home:{x:0,y:0},latched:0,played:false,last:0};
+  st.layout=function(S){ st.home.x=S.w/2; st.home.y=S.h-232; };
+  st.y=function(){ return st.home.y+st.d.v; };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.y())<44; };
+  st.dragStart=function(){ st.drag=true; };
+  st.dragMove=function(p){
+    const d=clamp(p.y-st.home.y,0,200); st.d.set(d);
+    const step=Math.floor(clamp(d/60,0,3));
+    if(step!==st.last){ st.last=step; hz(7); A.blip(400+step*95,.05,.05);
+      if(step>=3&&!st.played){ st.played=true; A.phrase(CSYL.map(s=>SY[s.k]),{from:.08,gain:.16}); } }
+    if(d<170) st.played=false;
+  };
+  st.dragEnd=function(){
+    st.drag=false;
+    const d=st.d.v;
+    if(d>44){ st.latched=Math.min(3,Math.round(d/60)); st.d.t=st.latched*60; hz(11); A.blip(300,.07,.06,'triangle'); }
+    else { st.latched=0; st.d.t=0; }
+  };
+  st.tap=function(p,onDot){ if(onDot){ st.latched=0; st.d.t=0; st.played=false; hz(6);} };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.drag) st.d.step(dt);
+    const lv=clamp(st.d.v/60,0,3);
+    supUpdate(lv);
+    const y=st.y();
+    // support "rises" as a field behind the dot
+    ctx.save();
+    const g=ctx.createLinearGradient(0,st.home.y-10,0,st.home.y+210);
+    g.addColorStop(0,'rgba(23,19,16,0.10)'); g.addColorStop(1,'rgba(23,19,16,0)');
+    ctx.globalAlpha=clamp(lv/3,0,1); ctx.fillStyle=g;
+    ctx.fillRect(24,st.home.y-16,S.w-48,st.d.v+18); ctx.restore();
+    line(ctx,24,st.home.y-16,S.w-24,st.home.y-16,.18,1,INK,[3,5]);
+    // elastic stem: it is attached to the place help comes from
+    ctx.save(); ctx.strokeStyle=INK; ctx.globalAlpha=.45;
+    ctx.lineWidth=clamp(4-st.d.v/70,1.2,4);
+    ctx.beginPath(); ctx.moveTo(st.home.x,st.home.y-16); ctx.lineTo(st.home.x,y); ctx.stroke(); ctx.restore();
+    const stretch=clamp(st.d.v/200,0,1);
+    paintDot(ctx,{x:st.home.x,y:y,r:14,sy:1+stretch*0.35,sx:1-stretch*0.16});
+    if(st.d.v<3) ring(ctx,st.home.x,y,20+3*Math.sin(t*1.7),.12,1);
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='10.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(st.latched?'tap ● to give it back':'pull ● down for more support',S.w/2,S.h-54);
+    ctx.restore();
+  };
+  return st;
+}
+/* D3 — stepped taps (deliberate conventional control) */
+function D3(S){
+  const st={lv:0,a:new Spring(0,170,20),home:{x:0,y:0}};
+  st.layout=function(S){ st.home.x=S.w/2; st.home.y=S.h-92; };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.home.y)<40; };
+  st.tap=function(p,onDot){
+    if(onDot){ if(st.lv<3){ st.lv++; st.a.t=st.lv; hz(8); A.blip(430+st.lv*90,.06,.06);
+        if(st.lv===3) A.phrase(CSYL.map(s=>SY[s.k]),{from:.12,gain:.16}); }
+      else { st.lv=0; st.a.t=0; hz(6); } }
+  };
+  st.draw=function(ctx,t,dt,S){
+    st.a.step(dt); supUpdate(clamp(st.a.v,0,3));
+    const H=st.home;
+    for(let i=1;i<=3;i++){
+      const on=clamp(st.a.v-(i-1),0,1);
+      if(on>0.01) line(ctx,H.x,H.y-14,H.x-40+ i*0, 320-(3-i)*42, .10*on,1,INK,[2,5]);
+    }
+    const pop=1+0.25*Math.exp(-Math.pow((st.a.v-st.lv)*6,2))*(st.a.vel!==0?1:0);
+    paintDot(ctx,{x:H.x,y:H.y,r:14*clamp(pop,1,1.3),sy:1/clamp(pop,1,1.2)});
+    ring(ctx,H.x,H.y,20+3*Math.sin(t*1.7),.12,1);
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='10.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(st.lv>=3?'tap ● to clear':'tap ● for more support ('+st.lv+'/3)',S.w/2,S.h-54);
+    ctx.restore();
+  };
+  return st;
+}
+EXPERIMENTS.push({id:'D',name:'Help',concepts:[
+ {title:'D1 · Continuum',gestures:['tap','drag'],props:dProps('drag ● from <i>I\'ll try</i> toward <i>Show me</i>'),
+  note:'A graded support axis the learner holds. It reads as <b>reversible</b> — dragging back takes the help away again — which is what stops it feeling like a settings slider. Risk: it is a slider, and it sits where the mic lives.',make:D1},
+ {title:'D2 · Draw it out',gestures:['tap','drag'],props:dProps('pull ● down &middot; release under the line to take it back'),
+  note:'Help is <b>spring-loaded</b>: you physically pull support out of the system and it retracts unless you commit. Peeking costs nothing. Closest to the felt experience of "let me just see a bit".',make:D2},
+ {title:'D3 · Stepped',gestures:['tap'],props:dProps('tap ● for one more step of support'),
+  note:'The conventional control, kept as a baseline. Discoverable, accessible, zero learning cost — but the learner cannot feel <i>how much</i> help exists, and asking four times feels like four admissions.',make:D3},
+]});
+
+/* ============================================================
+   E · ENCOUNTER ↔ PRACTICE
+   ============================================================ */
+function eProps(hint){
+  return '<div id="enc" style="position:absolute;inset:0;transition:none">'
+  +'<div class="lbl" style="position:absolute;left:20px;top:14px">Encounter &middot; Greet</div>'
+  +chiomaHTML(40,'Kedụ?','How are you?')
+  +'<div id="encAfter" style="position:absolute;left:20px;right:20px;top:168px;opacity:0">'
+  +'<div class="bubble" style="background:#E4EBDF"><span class="igbo">Ọ dị mma.</span></div>'
+  +'<div class="eng" style="margin-top:6px">you &middot; and she nods</div></div></div>'
+  +'<div id="prac" class="card" style="left:22px;right:22px;top:120px;opacity:0;padding:22px 20px">'
+  +'<div class="lbl">Practice &middot; say it</div>'
+  +'<div class="igbo" id="pracPhrase" style="margin-top:12px">Ọ dị mma.</div>'
+  +'<div class="eng" style="margin-top:6px">I\'m fine.</div>'
+  +'<div class="hint" id="pracCount" style="margin-top:18px">0 of 3 &middot; tap the card</div></div>'
+  +'<div class="hint" style="position:absolute;left:0;right:0;bottom:16px;text-align:center">'+hint+'</div>';
+}
+function eBase(S){
+  const st={w:new Spring(0,160,21),reps:0,done:false,glow:[0,0,0]};
+  st.rep=function(){
+    if(st.w.v<0.6) return;
+    st.reps=Math.min(3,st.reps+1);
+    A.phrase(CSYL.map(s=>SY[s.k]),{gain:.16}); st.glow=[1,1,1]; hz(8);
+    const c=q('#pracCount');
+    if(st.reps>=3){ c.textContent='ready — bring it back'; st.done=true; A.chime(false); }
+    else c.textContent=st.reps+' of 3 · tap the card';
+  };
+  st.side=0;
+  st.enter=function(){ st.side=1; st.w.t=1; st.reps=0; st.done=false; q('#pracCount').textContent='0 of 3 · tap the card'; };
+  st.exit=function(){
+    st.side=0; st.w.t=0;
+    if(st.done){ setTimeout(()=>{ const a=q('#encAfter'); if(a){a.style.transition='opacity .5s';a.style.opacity=1;}
+      A.phrase(CSYL.map(s=>SY[s.k]),{gain:.15}); A.chime(false); },420); }
+  };
+  st.paintScene=function(w){
+    const enc=q('#enc'), pr=q('#prac');
+    if(enc){ enc.style.opacity=String(lerp(1,0.22,w)); }
+    if(pr){ pr.style.opacity=String(clamp((w-0.12)/0.5,0,1)); }
+  };
+  return st;
+}
+/* E1 — the seam: the dot IS the boundary between the two, and drags it */
+function E1(S){
+  const st=eBase(S); st.drag=false; st.seamY=0; st.home={x:0,y:0};
+  st.layout=function(S){ st.seamY=S.h-118; st.home.x=S.w/2; };
+  st.dotY=function(){ return lerp(st.seamY, 126, clamp(st.w.v,0,1.05)); };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.dotY())<46; };
+  st.dragStart=function(){ st.drag=true; };
+  st.dragMove=function(p){
+    const v=clamp((st.seamY-p.y)/(st.seamY-126),0,1); st.w.set(v);
+  };
+  st.dragEnd=function(){ st.drag=false;
+    if(st.w.v>0.45){ if(st.side!==1) st.enter(); st.w.t=1; }
+    else { if(st.side!==0) st.exit(); st.w.t=0; }
+    hz(9); };
+  st.tap=function(p,onDot){
+    if(st.w.v>0.6){ st.rep(); }
+    else if(onDot){ st.enter(); }
+  };
+  st.draw=function(ctx,t,dt,S){
+    if(!st.drag) st.w.step(dt);
+    const w=clamp(st.w.v,0,1.05);
+    st.paintScene(w);
+    // the seam travels with the dot — one room, one moving boundary
+    const y=st.dotY();
+    const enc=q('#enc'), pr=q('#prac');
+    if(enc) enc.style.transform='translateY('+(-w*26)+'px)';
+    if(pr) pr.style.top=(y+26)+'px';
+    line(ctx,0,y,st.home.x-24,y,.22,1,INK,[4,6]);
+    line(ctx,st.home.x+24,y,S.w,y,.22,1,INK,[4,6]);
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='9.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='right'; ctx.globalAlpha=1-w*0.45; ctx.fillText('ENCOUNTER',S.w-20,y-12);
+    ctx.globalAlpha=0.25+w*0.75; ctx.fillText('PRACTICE',S.w-20,y+20); ctx.restore();
+    const stretch=st.drag?clamp(Math.abs(st.w.vel)/40,0,.4):0;
+    paintDot(ctx,{x:st.home.x,y:y,r:14,sy:1+stretch*0.5,sx:1-stretch*0.25});
+    if(w<0.05) ring(ctx,st.home.x,y,20+3*Math.sin(t*1.7),.12,1);
+    if(st.done&&w>0.6) ring(ctx,st.home.x,y,22+8*Math.sin(t*3),.25,1.4);
+  };
+  return st;
+}
+/* E2 — zoom: practice is the same phrase, closer */
+function E2(S){
+  const st=eBase(S); st.home={x:0,y:0};
+  st.layout=function(S){ st.home.x=S.w/2; };
+  st.dotPos=function(){ const w=clamp(st.w.v,0,1);
+    return {x:lerp(150,st.home.x,w), y:lerp(96,S.h-104,w)}; };
+  st.hit=function(p){ const d=st.dotPos(); return Math.hypot(p.x-d.x,p.y-d.y)<44; };
+  st.tap=function(p,onDot){
+    if(onDot){ if(st.side<0.5){ st.enter(); A.blip(560,.07,.06);} else { st.exit(); A.blip(400,.07,.06);} hz(9); return; }
+    if(st.w.v>0.7) st.rep();
+  };
+  st.draw=function(ctx,t,dt,S){
+    st.w.step(dt); const w=clamp(st.w.v,0,1.06);
+    const enc=q('#enc'), pr=q('#prac');
+    if(enc){ enc.style.opacity=String(lerp(1,0.16,clamp(w,0,1)));
+      enc.style.transform='scale('+lerp(1,1.5,w)+')'; enc.style.transformOrigin='150px 96px'; }
+    if(pr){ pr.style.opacity=String(clamp((w-0.25)/0.5,0,1));
+      pr.style.transform='scale('+lerp(0.72,1,clamp(w,0,1))+')'; pr.style.transformOrigin='150px 96px'; }
+    const d=st.dotPos();
+    paintDot(ctx,{x:d.x,y:d.y,r:lerp(10,14,w)});
+    if(w<0.1){ ring(ctx,d.x,d.y,15+3*Math.sin(t*1.8),.30,1); }
+    if(st.done&&w>0.6) ring(ctx,d.x,d.y,22+8*Math.sin(t*3),.25,1.4);
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='10.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(w>0.5?'tap ● to come back out':'tap the ● on her phrase to go closer',S.w/2,S.h-54);
+    ctx.restore();
+  };
+  return st;
+}
+/* E3 — the dot carries practice in front of the conversation */
+function E3(S){
+  const st=eBase(S); st.home={x:0,y:0};
+  st.layout=function(S){ st.home.x=S.w/2; };
+  st.dotY=function(){ return lerp(S.h-92, 96, clamp(st.w.v,0,1)); };
+  st.hit=function(p){ return Math.hypot(p.x-st.home.x,p.y-st.dotY())<44; };
+  st.tap=function(p,onDot){
+    if(onDot){ if(st.side<0.5){ st.enter(); A.blip(540,.07,.06);} else { st.exit(); A.blip(380,.07,.06);} hz(9); return; }
+    if(st.w.v>0.7) st.rep();
+  };
+  st.draw=function(ctx,t,dt,S){
+    st.w.step(dt); const w=clamp(st.w.v,0,1.06);
+    const enc=q('#enc'), pr=q('#prac');
+    if(enc) enc.style.opacity=String(lerp(1,0.30,clamp(w,0,1)));
+    if(pr){ pr.style.opacity=String(clamp((w-0.1)/0.45,0,1));
+      pr.style.transform='translateY('+lerp(260,0,easeOut(clamp(w,0,1)))+'px) rotate('+lerp(-3,0,clamp(w,0,1))+'deg)'; }
+    const y=st.dotY();
+    // the dot holds the card — visibly attached, so it can also take it away
+    if(w>0.05) line(ctx,st.home.x,y,st.home.x,y+26,.35,2);
+    paintDot(ctx,{x:st.home.x,y:y,r:14,sy:1+0.05*Math.sin(t*1.7)});
+    if(w<0.05) ring(ctx,st.home.x,y,20+3*Math.sin(t*1.7),.12,1);
+    if(st.done&&w>0.6) ring(ctx,st.home.x,y,22+8*Math.sin(t*3),.25,1.4);
+    ctx.save(); ctx.fillStyle=MUTE; ctx.font='10.5px ui-sans-serif,-apple-system,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(w>0.5?'tap ● to put it down':'tap ● to bring practice in front',S.w/2,S.h-54);
+    ctx.restore();
+  };
+  return st;
+}
+EXPERIMENTS.push({id:'E',name:'Enc↔Prac',concepts:[
+ {title:'E1 · Seam',gestures:['tap','drag'],props:eProps('drag ● up across the seam &middot; tap the card to rehearse'),
+  note:'One room with a seam in it. The transition is <b>scrubbable</b> — halfway shows both — so practice never feels like a different product. Do three reps, drag back down, and watch her line get used.',make:E1},
+ {title:'E2 · Closer',gestures:['tap'],props:eProps('tap the ● sitting on her phrase'),
+  note:'Practice as <b>magnification</b>, not travel: the same phrase, closer. Nothing is left, so nothing has to be returned to. The weakest sense of "a place to work", the strongest sense of continuity.',make:E2},
+ {title:'E3 · Carried',gestures:['tap'],props:eProps('tap ● &middot; it brings the card in front of her'),
+  note:'The dot <b>carries</b> practice in front of a conversation that is still visibly there, and can put it down again. Cheapest to enter and leave; closest to "hold on, let me get this right".',make:E3},
+]});
+
+/* ============================================================
+   F · REACTION + PROGRESS
+   ============================================================ */
+const F_STAGES=['Greet','Names','Talk','Part'];
+function fProps(){
+  return '<div class="lbl" style="position:absolute;left:20px;top:14px">Session</div>'
+  +'<div style="position:absolute;left:16px;right:16px;top:40px;display:flex;flex-wrap:wrap;gap:6px">'
+  +['Ready','Listening','Processing','Success','Momentum','Milestone','Uncertain'].map(x=>
+     '<button class="t tappable" data-a="'+x.toLowerCase()+'" style="font-family:ui-sans-serif,sans-serif;font-size:10.5px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 10px;color:var(--ink2)">'+x+'</button>').join('')
+  +'<button class="t tappable" data-a="run" style="font-family:ui-sans-serif,sans-serif;font-size:10.5px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 10px">Run turn ▸</button>'
+  +'</div>'
+  +'<div style="position:absolute;left:16px;right:16px;top:146px">'
+  +'<div class="bubble" style="background:var(--warm)"><span class="igbo">Kedụ?</span></div>'
+  +'<div class="eng" style="margin-top:6px">the turn you just took</div></div>'
+  +'<div style="position:absolute;left:16px;right:16px;top:232px" class="tri">'
+  +'<button class="t on tappable" data-ev="ind">independent</button>'
+  +'<button class="t tappable" data-ev="sup">after support</button></div>'
+  +'<div class="hint" style="position:absolute;left:16px;right:16px;top:272px">Evidence-strength difference is deliberately near-invisible — flag if you can see it.</div>'
+  +'<div class="hint" style="position:absolute;left:16px;right:16px;bottom:150px;line-height:1.6">'
+  +'<b style="color:var(--ink)">you move ●</b> → manipulation. On the rail it resists you.<br>'
+  +'<b style="color:var(--ink)">the system moves ●</b> → something happened. That is the whole distinction.</div>'
+  +'<div class="lbl fstate" style="position:absolute;left:0;right:0;bottom:108px;text-align:center">ready</div>'
+  +'<div class="hint" style="position:absolute;left:0;right:0;bottom:14px;text-align:center">the rail is where ● lives &middot; try dragging it forward</div>';
+}
+function fBase(S,P){
+  const st={mode:'ready',mt:0,prog:0,x:new Spring(0,150,18),y:new Spring(0,220,17),
+    rot:0,vs:VoiceSim(),amp:0,rings:[],drag:false,dragX:0,ev:'ind',split:0,P:P,run:-1,hopT:0};
+  st.layout=function(S){ st.x0=40; st.x1=S.w-40; st.railY=S.h-56;
+    if(st.x.v===0&&st.prog===0) st.x.set(st.nodeX(0)); st.x.t=st.nodeX(st.prog); };
+  st.nodeX=function(i){ return lerp(st.x0,st.x1,i/(F_STAGES.length-1)); };
+  st.set=function(m){ st.mode=m; st.mt=0; const l=q('.fstate'); if(l)l.textContent=m; };
+  st.advance=function(){
+    st.prog=Math.min(F_STAGES.length-1,st.prog+1);
+    st.x.t=st.nodeX(st.prog);
+    st.x.kick(P.kick); st.y.kick(-P.lift);
+    hz(P.hap); A.blip(P.tone,.08,.07,'sine');
+  };
+  st.trigger=function(a){
+    if(a==='ready') st.set('ready');
+    else if(a==='listening'){ st.vs.reset(); st.set('listening'); }
+    else if(a==='processing') st.set('processing');
+    else if(a==='success'){ st.set('success'); st.rings.push({r:16,a:P.ringA}); A.chime(false);
+      hz(P.hap); st.y.kick(-P.pop*(st.ev==='ind'?1:0.93)); }
+    else if(a==='momentum'){ st.set('momentum'); st.advance(); }
+    else if(a==='milestone'){ st.set('milestone'); st.split=1; A.chime(true); hz([10,50,16,50,20]);
+      st.rings.push({r:16,a:.5}); st.y.kick(-P.pop*1.5); }
+    else if(a==='uncertain') st.set('uncertain');
+    else if(a==='run'){ st.run=0; }
+  };
+  qa('[data-a]').forEach(b=>b.onclick=()=>st.trigger(b.dataset.a));
+  qa('[data-ev]').forEach(b=>b.onclick=()=>{ st.ev=b.dataset.ev;
+    qa('[data-ev]').forEach(x=>x.classList.toggle('on',x===b)); });
+  st.hit=function(p){ return Math.hypot(p.x-st.x.v,p.y-st.railY-st.y.v)<44; };
+  st.dragStart=function(p){ st.drag=true; st.dragX=st.x.v; };
+  st.dragMove=function(p){
+    // system owns progress: the rail resists you
+    const want=p.x, anchor=st.nodeX(st.prog);
+    const over=want-anchor;
+    st.x.set(anchor + Math.sign(over)*Math.pow(Math.abs(over),0.62)*P.rubber);
+  };
+  st.dragEnd=function(){ st.drag=false; st.x.t=st.nodeX(st.prog); st.x.kick(P.snapKick); hz(6);
+    toast('progress is the system’s to move',900); };
+  st.drawRail=function(ctx,S){
+    line(ctx,st.x0,st.railY,st.x1,st.railY,.22,1);
+    F_STAGES.forEach((s,i)=>{
+      const x=st.nodeX(i), done=i<st.prog, cur=i===st.prog;
+      ring(ctx,x,st.railY,3.4,done?.55:(cur?.4:.20),1);
+      ctx.save(); ctx.fillStyle=MUTE; ctx.globalAlpha=done||cur?.95:.5;
+      ctx.font='9.5px ui-sans-serif,-apple-system,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(s,x,st.railY+20); ctx.restore();
+    });
+    if(st.prog>0) line(ctx,st.x0,st.railY,st.nodeX(st.prog),st.railY,.5,1.6);
+  };
+  st.runTick=function(dt){
+    if(st.run<0)return;
+    const p=st.run; st.run+=dt;
+    const marks=[[0,'listening'],[1.5,'processing'],[2.0,'success'],[2.9,'momentum'],[3.9,'ready']];
+    marks.forEach(m=>{ if(p<m[0]&&st.run>=m[0]) st.trigger(m[1]); });
+    if(st.run>4.2) st.run=-1;
+  };
+  return st;
+}
+function fMake(P){
+  return function(S){
+    const st=fBase(S,P);
+    st.draw=function(ctx,t,dt,S){
+      st.runTick(dt);
+      st.mt+=dt;
+      if(!st.drag) st.x.step(dt);
+      st.y.step(dt);
+      st.drawRail(ctx,S);
+      st.rings.forEach(r=>{ r.r+=dt*P.ringV; r.a-=dt*0.9; });
+      st.rings=st.rings.filter(r=>r.a>0);
+      const bx=st.x.v; let by=st.railY+st.y.v;
+      let sx=1,sy=1,r=14,rot=0,alpha=1;
+      const vel=st.x.vel;
+      // squash/stretch from travel — the amount is the personality dial
+      const sk=clamp(Math.abs(vel)/900,0,1)*P.squash;
+      sx=1+sk; sy=1-sk*0.75;
+      if(P.roll) rot=(st.x.v-st.x0)/26;
+      if(P.hop&&Math.abs(vel)>40){ by -= Math.abs(Math.sin((st.x.v-st.x0)/34))*14; }
+      if(st.mode==='ready'){
+        const br=1+P.breathe*Math.sin(t*1.55);
+        sx*=br; sy*=1/br;
+        if(P.lean&&st.prog<F_STAGES.length-1) sx*=1+0.05*Math.sin(t*0.7);
+      }
+      if(st.mode==='listening'){
+        const a=st.vs.step(dt); st.amp=a;
+        r=lerp(14,P.listenR,clamp(a,0,1));
+        var harm=[{n:2,a:0.09*a*P.deform,p:t*3.2},{n:3,a:0.06*a*P.deform,p:-t*2.4},{n:5,a:0.04*a*P.deform,p:t*5}];
+      }
+      if(st.mode==='processing'){
+        const k=(st.mt%0.9)/0.9;
+        sy*=1-0.30*Math.sin(k*Math.PI)*P.proc; sx*=1+0.22*Math.sin(k*Math.PI)*P.proc;
+        ring(ctx,bx,by,20+16*k,0.14*(1-k),1);
+      }
+      if(st.mode==='success'){
+        const k=clamp(st.mt/0.42,0,1);
+        const pop=1+P.pop2*Math.sin(clamp(k*2.4,0,1)*Math.PI)*(1-k*0.4)*(st.ev==='ind'?1:0.92);
+        r*=pop; sy*=1/Math.max(.7,pop*0.92);
+        if(st.mt>1.1) st.set('ready');
+      }
+      if(st.mode==='uncertain'){
+        // neutral, never disappointed: it hesitates, it does not sag
+        bx+=Math.sin(t*3.1)*P.unc; sy*=1+0.02*Math.sin(t*6);
+        alpha=0.55+0.2*Math.sin(t*2.2);
+      }
+      if(st.mode==='milestone'&&P.multiply){
+        const k=clamp(st.mt/1.4,0,1);
+        st.split=1-k;
+        for(let i=0;i<3;i++){
+          const ang=t*2.4+i*TAU/3;
+          const rad=Math.sin(k*Math.PI)*34;
+          paintDot(ctx,{x:bx+Math.cos(ang)*rad,y:by+Math.sin(ang)*rad*0.5,r:9,alpha:.85});
+        }
+        if(st.mt>1.5) st.set('ready');
+      } else if(st.mode==='milestone'){
+        const k=clamp(st.mt/1.1,0,1);
+        ring(ctx,bx,by,18+70*easeOut(k),0.34*(1-k),1.5);
+        ring(ctx,bx,by,18+42*easeOut(clamp(k*1.4,0,1)),0.22*(1-k),1);
+        r*=1+0.22*Math.sin(k*Math.PI);
+        if(st.mt>1.4) st.set('ready');
+      }
+      st.rings.forEach(rr=>ring(ctx,bx,by,rr.r,Math.max(0,rr.a),1.2));
+      paintDot(ctx,{x:bx,y:by,r:r,sx:sx,sy:sy,rot:rot,alpha:alpha,harm:typeof harm!=='undefined'?harm:null});
+      if(st.mode==='ready') ring(ctx,bx,by,20+3*Math.sin(t*1.55),.10,1);
+    };
+    return st;
+  };
+}
+const F1P={breathe:.018,squash:.10,pop:120,pop2:.16,listenR:26,deform:.5,proc:.6,ringA:.22,ringV:150,
+  kick:0,lift:0,rubber:.35,snapKick:0,hap:8,tone:660,unc:.6,roll:0,hop:0,multiply:0,lean:0};
+const F2P={breathe:.05,squash:.28,pop:260,pop2:.34,listenR:34,deform:1,proc:1,ringA:.32,ringV:230,
+  kick:180,lift:120,rubber:.5,snapKick:60,hap:10,tone:700,unc:1.4,roll:0,hop:0,multiply:0,lean:0};
+const F3P={breathe:.075,squash:.5,pop:420,pop2:.52,listenR:40,deform:1.5,proc:1.3,ringA:.4,ringV:300,
+  kick:420,lift:300,rubber:.75,snapKick:180,hap:14,tone:760,unc:2.4,roll:1,hop:1,multiply:1,lean:1};
+EXPERIMENTS.push({id:'F',name:'React',concepts:[
+ {title:'F1 · Restrained',gestures:['drag'],props:fProps(),
+  note:'An elegant tool with a pulse. Progress advances without ceremony. Reads as <b>trustworthy and quiet</b>; risk is that nothing ever feels earned.',make:fMake(F1P)},
+ {title:'F2 · Responsive',gestures:['drag'],props:fProps(),
+  note:'Clearly alive, still an interface object: momentum, squash on travel, a crisp pop on resolution. <span class="flag">This is the recommended default.</span> Note the impulse — the system moves it, you cannot.',make:fMake(F2P)},
+ {title:'F3 · Expressive',gestures:['drag'],props:fProps(),
+  note:'Hops, rolls, splits at milestones. Delightful twice, then it is a pet: at this intensity ● stops being where you look for information and becomes something you watch. <b>This is where the mascot line sits.</b>',make:fMake(F3P)},
+]});
+
+/* ============================================================
+   · NOTES
+   ============================================================ */
+const NOTES_HTML='<div class="notes tappable">'
++'<h2>What changed before building</h2>'
++'<p><span class="k">1 · Hold is spoken for, so nothing else may use time.</span> Speech owns press-and-hold. Every other role therefore had to be expressed as tap, attached-drag, or system-initiated motion. No double-tap, no long-long-press, no swipe vocabulary.</p>'
++'<p><span class="k">2 · Drag is only legal where the dot is visibly attached.</span> Each concept declares which gestures are live (see the badges above the stage). If drag is off, the dot is not attached to anything and horizontal movement means nothing.</p>'
++'<p><span class="k">3 · The progress rail became the dot’s home, not a second widget.</span> Putting session progress on a top bar while the mic sits at the bottom would need two dots. In F the rail <i>is</i> the bottom position — same object, and its place on the rail is the progress.</p>'
++'<p><span class="k">4 · Added a conventional baseline to D.</span> D3 exists so the novel help interactions have something to lose to.</p>'
++'<p><span class="k">5 · Dropped emotional-state inventory.</span> F carries six learning-affect states only, and system uncertainty is neutral — never a disappointed dot.</p>'
++'<h2>The grammar under test</h2>'
++'<ul><li><span class="k">Tap ●</span> — ask the system for something.</li>'
++'<li><span class="k">Hold ●</span> — the system listens to you.</li>'
++'<li><span class="k">Drag ●</span> — only when it is visibly attached; you manipulate the thing it is attached to.</li>'
++'<li><span class="k">The system moves ●</span> — something happened. You never drag progress; it is given to you.</li></ul>'
++'<h2>Conflict map</h2>'
++'<ul>'
++'<li><span class="tag cut">1</span><b>Hold vs drag on the same dot.</b> Press-and-move is ambiguous for ~190ms. Resolved by declaring gestures per context, not per dot — but D1/D2 put a draggable dot exactly where the mic lives. Real conflict.</li>'
++'<li><span class="tag cut">2</span><b>Tap-to-navigate vs tap-to-act.</b> In A3 and E2 the dot is attached to a thing, so tap means "act on this", not "open the menu". The menu has to move to the resting dot only.</li>'
++'<li><span class="tag">3</span><b>Progress token vs microphone.</b> Survivable only because they share one home position. If progress ever needs to live elsewhere on screen, one of the two roles must leave the dot.</li>'
++'<li><span class="tag">4</span><b>Dispersal vs single presence.</b> A3 multiplies the dot; F3 also splits it at milestones. Splitting cannot mean two different things.</li>'
++'<li><span class="tag">5</span><b>Accessibility.</b> Everything here is a gesture on one small target. Hold needs a tap-to-start/tap-to-stop alternative, drag needs stepped buttons, and motion must respect reduce-motion. Conventional fallbacks are not optional.</li>'
++'</ul>'
++'<h2>Read the badges</h2><p>Above the stage, <span class="tag">tap</span><span class="tag">hold</span><span class="tag">drag</span> show which gestures are live in the current concept. That is the honest test of whether form is communicating affordance: if you have to read the badge, the form failed.</p>'
++'<p class="hint" style="margin-top:18px">Prototype 02A &middot; interaction R&amp;D only. Speech recognition, audio, router decisions and lesson data are faked. Igbo audio is a prosody sketch, never a pronunciation model.</p>'
++'</div>';
+EXPERIMENTS.push({id:'·',name:'Notes',concepts:[
+ {title:'Read me',gestures:[],props:NOTES_HTML,
+  note:'Critique, grammar under test, and the conflict map — kept inside the prototype so the argument travels with it.',
+  make:function(S){ return {draw:function(){}}; }},
+]});
+
+
+buildTabs();
+/* Deep link: #E opens the encounter-to-practice tab directly, so the seam
+   can be pointed at from outside without landing on Nav first. */
+(function(){
+  var want=(location.hash||'').replace('#','').split('.');
+  var i=0,j=0;
+  if(want[0]){
+    var k=EXPERIMENTS.findIndex(function(e){return e.id===want[0];});
+    if(k>=0){ i=k; var n=parseInt(want[1],10); if(n>=0&&n<EXPERIMENTS[k].concepts.length) j=n; }
+  }
+  select(i,j);
+})();
+resize();
+</script>
+</body>
+</html>

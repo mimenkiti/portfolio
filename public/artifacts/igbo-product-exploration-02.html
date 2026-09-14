@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Language Learning — Lesson 01</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafaf8;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f3f0 100%);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: rgba(250, 250, 248, 0.95);
+            border-bottom: 1px solid #f0f0f0;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .close-btn:active {
+            color: #1a1a1a;
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .progress-bar-simple {
+            flex: 1;
+            max-width: 120px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #d4714a;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dev-controls {
+            font-size: 10px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .dev-btn {
+            background: #e8e8e8;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 9px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s ease;
+        }
+
+        .dev-btn:active {
+            background: #d0d0d0;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 24px;
+            animation: fadeIn 0.4s ease;
+            scroll-behavior: smooth;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== HOME SCREEN ===== */
+        .screen.home-screen {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .home-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            letter-spacing: -0.8px;
+        }
+
+        .home-subtitle {
+            font-size: 15px;
+            color: #999;
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        .lesson-card {
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 28px 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .lesson-card:active {
+            background: #f8f8f6;
+            border-color: #d4714a;
+            transform: scale(0.98);
+        }
+
+        .lesson-info {
+            text-align: left;
+        }
+
+        .lesson-number {
+            font-size: 11px;
+            font-weight: 700;
+            color: #d4714a;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .lesson-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .lesson-desc {
+            font-size: 14px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .lesson-status {
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        /* ===== EXERCISE SCREEN ===== */
+        .screen.exercise-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+            padding-bottom: 24px;
+        }
+
+        .exercise-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exercise-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #999;
+            margin-bottom: 24px;
+            text-align: center;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+        }
+
+        /* SPHERE POSITIONING & BEHAVIORS */
+        .sphere-container {
+            position: relative;
+            margin-bottom: 28px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Different position classes for compositional variety */
+        .sphere-container.top-left {
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 48px;
+        }
+
+        .sphere-container.top-right {
+            justify-content: flex-end;
+            align-items: flex-start;
+            margin-bottom: 48px;
+        }
+
+        .sphere-container.center {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sphere-container.bottom-right {
+            justify-content: flex-end;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .sphere-container.listening-position {
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .sphere {
+            width: 80px;
+            height: 80px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: sphereEntry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes sphereEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.4) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* SPHERE SPEAKING: Vibrates and subtly deforms */
+        .sphere.speaking {
+            animation: sphereSpeak 0.8s ease-in-out infinite;
+        }
+
+        @keyframes sphereSpeak {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 12px 28px rgba(212, 113, 74, 0.15);
+            }
+            25% {
+                transform: scaleX(1.03) scaleY(0.98);
+                box-shadow: 0 12px 32px rgba(212, 113, 74, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 14px 36px rgba(212, 113, 74, 0.25), 0 0 0 8px rgba(212, 113, 74, 0.08);
+            }
+            75% {
+                transform: scaleX(0.98) scaleY(1.03);
+                box-shadow: 0 12px 32px rgba(212, 113, 74, 0.2);
+            }
+        }
+
+        /* SPHERE LISTENING: Settled, present, ready */
+        .sphere.listening {
+            animation: sphereListen 2s ease-in-out infinite;
+        }
+
+        @keyframes sphereListen {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            }
+            50% {
+                transform: scale(1.04);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(212, 113, 74, 0.3);
+            }
+        }
+
+        /* SPHERE WAITING: Subtle idle drift */
+        .sphere.waiting {
+            animation: sphereWaiting 3s ease-in-out infinite;
+        }
+
+        @keyframes sphereWaiting {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-4px) scale(0.99);
+                opacity: 0.95;
+            }
+        }
+
+        /* SPHERE REACTING: Quick, satisfying response */
+        .sphere.reacting {
+            animation: sphereReact 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes sphereReact {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+                box-shadow: 0 14px 40px rgba(212, 113, 74, 0.3);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            }
+        }
+
+        /* SPHERE TURN-TAKING: Moves aside to cede turn */
+        .sphere.turn-taking {
+            animation: sphereTurnTaking 0.8s ease-out forwards;
+        }
+
+        @keyframes sphereTurnTaking {
+            from {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(-80px) scale(0.85);
+                opacity: 0.6;
+            }
+        }
+
+        /* SPHERE CELEBRATION: Bigger, more playful */
+        .sphere.celebration {
+            animation: sphereCelebration 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes sphereCelebration {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                box-shadow: 0 16px 40px rgba(212, 113, 74, 0.25);
+            }
+            100% {
+                transform: scale(1.15) rotate(360deg);
+                box-shadow: 0 12px 28px rgba(212, 113, 74, 0.2);
+            }
+        }
+
+        /* SPHERE STATIC: No animation */
+        .sphere.static {
+            animation: none;
+        }
+
+        /* RIPPLE EFFECT for speech */
+        .sphere::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: none;
+        }
+
+        .sphere.speaking::before {
+            animation: ripple 0.8s ease-out infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 113, 74, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 16px rgba(212, 113, 74, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 113, 74, 0);
+            }
+        }
+
+        .sphere-inner {
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        /* LANGUAGE AS VISUAL MATERIAL */
+        .language-block {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .language-prompt {
+            font-size: 13px;
+            font-weight: 500;
+            color: #999;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+            text-transform: capitalize;
+        }
+
+        .language-text {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            animation: languageEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .language-text.accent {
+            color: #d4714a;
+        }
+
+        @keyframes languageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-translation {
+            font-size: 15px;
+            color: #666;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .audio-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .audio-btn:active {
+            background: #f8f8f6;
+            border-color: #d4714a;
+            color: #d4714a;
+        }
+
+        .audio-icon {
+            font-size: 14px;
+        }
+
+        /* ===== ANSWER BUTTONS ===== */
+        .answer-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 48px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .answer-btn:active {
+            border-color: #d4714a;
+            background: #fff8f5;
+            transform: scale(0.98);
+            box-shadow: 0 4px 12px rgba(212, 113, 74, 0.15);
+        }
+
+        .answer-btn.selected {
+            background: #fff8f5;
+            border-color: #d4714a;
+        }
+
+        .answer-btn.correct {
+            background: #fff8f5;
+            border-color: #d4714a;
+            color: #d4714a;
+            font-weight: 600;
+        }
+
+        .answer-btn.incorrect {
+            background: #fff0f0;
+            border-color: #d32f2f;
+        }
+
+        /* ===== WORD BANK ===== */
+        .word-bank-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .word-tile {
+            background: white;
+            border: 1px solid #d0d0d0;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .word-tile:active {
+            background: #fff8f5;
+            border-color: #d4714a;
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(212, 113, 74, 0.15);
+        }
+
+        .word-tile.used {
+            background: #e8e8e8;
+            border-color: #999;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .answer-area {
+            background: #fafaf8;
+            border: 1px dashed #d0d0d0;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+        }
+
+        .answer-word {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .answer-word:active {
+            opacity: 0.7;
+        }
+
+        /* ===== TYPING INPUT ===== */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .text-input {
+            flex: 1;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #d4714a;
+            background: #fff8f5;
+            box-shadow: 0 4px 12px rgba(212, 113, 74, 0.1);
+        }
+
+        .text-input::placeholder {
+            color: #bbb;
+        }
+
+        /* ===== FEEDBACK STATE ===== */
+        .feedback-area {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-left: 4px solid #d4714a;
+            box-shadow: 0 4px 16px rgba(212, 113, 74, 0.15);
+        }
+
+        .feedback-area.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #d4714a;
+        }
+
+        .feedback-checkmark {
+            font-size: 16px;
+            animation: checkBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes checkBounce {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .feedback-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .correct-answer {
+            background: #fff8f5;
+            border: 1px solid #e0d0c8;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 12px;
+        }
+
+        .primary-btn {
+            background: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .primary-btn:active {
+            background: #333;
+            transform: scale(0.98);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .secondary-btn {
+            background: white;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .secondary-btn:active {
+            background: #f8f8f6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .speak-btn {
+            background: white;
+            border: 1px solid #d4714a;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #d4714a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(212, 113, 74, 0.1);
+        }
+
+        .speak-btn:active {
+            background: #fff8f5;
+            box-shadow: 0 4px 12px rgba(212, 113, 74, 0.15);
+        }
+
+        .mic-icon {
+            font-size: 14px;
+        }
+
+        /* ===== CONTEXT SCREEN ===== */
+        .screen.context-screen {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .context-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(212, 113, 74, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .context-content {
+            animation: contextEnter 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes contextEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .context-emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: emojiFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .context-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        .context-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            max-width: 340px;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        /* ===== COMPLETION SCREEN ===== */
+        .screen.completion-screen {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-content {
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .completion-sphere {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            margin: 0 auto 32px;
+            box-shadow: 0 16px 48px rgba(212, 113, 74, 0.25);
+            animation: sphereBigCelebration 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes sphereBigCelebration {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.15) rotate(200deg);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .completion-subtitle {
+            font-size: 16px;
+            color: #d4714a;
+            margin-bottom: 36px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .capability-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .capability-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: #d4714a;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .capability-item {
+            font-size: 15px;
+            color: #1a1a1a;
+            margin-bottom: 11px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .capability-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .capability-check {
+            font-size: 14px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            color: #d4714a;
+            font-weight: 700;
+        }
+
+        .phrase-reference {
+            background: #f5f3f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .reference-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: #d4714a;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .reference-item {
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reference-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .reference-phrase {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .reference-meaning {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .reference-btn {
+            background: none;
+            border: none;
+            font-size: 13px;
+            color: #d4714a;
+            cursor: pointer;
+            padding: 0;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .reference-btn:active {
+            transform: scale(1.15);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-height: 700px) {
+            .exercise-content {
+                justify-content: flex-start;
+            }
+            .sphere-container {
+                min-height: 80px;
+            }
+            .sphere {
+                width: 60px;
+                height: 60px;
+            }
+            .language-text {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <button class="close-btn" onclick="app.closeLesson()">×</button>
+                <div class="progress-bar-simple">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="dev-controls">
+                    <button class="dev-btn" onclick="app.resetLesson()">RESET</button>
+                    <button class="dev-btn" onclick="app.resetAll()">ALL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- HOME SCREEN -->
+            <div class="screen home-screen active">
+                <div class="home-title">Learn Igbo</div>
+                <div class="home-subtitle">Heritage language learning</div>
+                <div class="lesson-card" onclick="app.startLesson()">
+                    <div class="lesson-info">
+                        <div class="lesson-number">LESSON 01</div>
+                        <div class="lesson-title">Greeting Someone</div>
+                        <div class="lesson-desc">You're arriving at your auntie's house</div>
+                    </div>
+                    <div class="lesson-status" id="lessonStatus">▶</div>
+                </div>
+            </div>
+
+            <!-- CONTEXT SCREEN -->
+            <div class="screen context-screen">
+                <div class="context-backdrop"></div>
+                <div class="context-content">
+                    <div class="context-emoji">🏠</div>
+                    <div class="context-title">Greeting Someone</div>
+                    <div class="context-description">You're arriving at your auntie's house for the evening. Time to greet.</div>
+                </div>
+            </div>
+
+            <!-- EXERCISE SCREEN -->
+            <div class="screen exercise-screen">
+                <div class="exercise-content" id="exerciseContent"></div>
+                <div class="button-group" id="buttonGroup"></div>
+            </div>
+
+            <!-- COMPLETION SCREEN -->
+            <div class="screen completion-screen">
+                <div class="completion-content">
+                    <div class="completion-sphere"></div>
+                    <div class="completion-title">Greeting Someone</div>
+                    <div class="completion-subtitle">You're ready for this moment.</div>
+
+                    <div class="capability-box">
+                        <div class="capability-header">YOU CAN NOW:</div>
+                        <div class="capability-item">
+                            <span class="capability-check">✓</span>
+                            <span>Recognize "Kedụ?" when you hear it</span>
+                        </div>
+                        <div class="capability-item">
+                            <span class="capability-check">✓</span>
+                            <span>Understand the greeting exchange</span>
+                        </div>
+                        <div class="capability-item">
+                            <span class="capability-check">✓</span>
+                            <span>Respond with "Ọ dị mma."</span>
+                        </div>
+                    </div>
+
+                    <div class="phrase-reference">
+                        <div class="reference-header">THINGS YOU CAN SAY:</div>
+                        <div class="reference-item">
+                            <button class="reference-btn" onclick="app.playAudio('Kedụ?')">🔊 play</button>
+                            <div>
+                                <div class="reference-phrase">Kedụ?</div>
+                                <div class="reference-meaning">How are you?</div>
+                            </div>
+                        </div>
+                        <div class="reference-item">
+                            <button class="reference-btn" onclick="app.playAudio('Ọ dị mma.')">🔊 play</button>
+                            <div>
+                                <div class="reference-phrase">Ọ dị mma.</div>
+                                <div class="reference-meaning">I'm fine / It's good.</div>
+                            </div>
+                        </div>
+                        <div class="reference-item">
+                            <button class="reference-btn" onclick="app.playAudio('Adị m mma.')">🔊 play</button>
+                            <div>
+                                <div class="reference-phrase">Adị m mma.</div>
+                                <div class="reference-meaning">I am fine.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="primary-btn" onclick="app.returnHome()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            state: {
+                currentScreen: 'home',
+                currentExercise: 1,
+                completedLessons: {},
+                selectedAnswers: {},
+                showingFeedback: false
+            },
+
+            exercises: [
+                {
+                    type: 'listen_and_read',
+                    title: 'Listen',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    layout: 'center',
+                    sphereSize: 'normal'
+                },
+                {
+                    type: 'multiple_choice',
+                    title: 'What did you hear?',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    options: ['How are you?', 'Where are you?', 'What are you?'],
+                    correct: 0,
+                    layout: 'center'
+                },
+                {
+                    type: 'listen_and_choose',
+                    title: 'What does this mean?',
+                    phrase: 'Ọ dị mma.',
+                    meaning: 'I\'m fine / It\'s good.',
+                    options: ['I\'m fine', 'I\'m tired', 'I\'m happy'],
+                    correct: 0,
+                    layout: 'center'
+                },
+                {
+                    type: 'conversational',
+                    title: 'Listen and respond',
+                    speaker: 'speaks Kedụ?',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    prompt: 'Your auntie asks:',
+                    options: ['Ọ dị mma.', 'I\'m tired', 'I\'m happy'],
+                    correct: 0,
+                    layout: 'speaking'
+                },
+                {
+                    type: 'multiple_choice',
+                    title: 'What does this mean?',
+                    phrase: 'Adị m mma.',
+                    meaning: 'I am fine',
+                    options: ['I am fine', 'You are fine', 'He is fine'],
+                    correct: 0,
+                    layout: 'center'
+                },
+                {
+                    type: 'word_bank',
+                    title: 'Build the phrase',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    instruction: 'Put it in order:',
+                    words: ['Kedụ?'],
+                    correct: ['Kedụ?'],
+                    layout: 'center'
+                },
+                {
+                    type: 'listen_and_choose',
+                    title: 'What does this mean?',
+                    phrase: 'Ọ dị mma.',
+                    meaning: 'I\'m fine / It\'s good.',
+                    options: ['I\'m fine', 'You\'re tired', 'We\'re here'],
+                    correct: 0,
+                    layout: 'center'
+                },
+                {
+                    type: 'typing',
+                    title: 'Type what you heard',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    instruction: 'What did you hear?',
+                    acceptableAnswers: ['kedụ', 'kedu', 'Kedụ', 'Kedu', 'Kedụ?', 'kedu?'],
+                    layout: 'center'
+                },
+                {
+                    type: 'word_bank',
+                    title: 'Build the phrase',
+                    phrase: 'Adị m mma.',
+                    meaning: 'I am fine',
+                    instruction: 'Put it in order:',
+                    words: ['Adị', 'm', 'mma.'],
+                    correct: ['Adị', 'm', 'mma.'],
+                    layout: 'center'
+                },
+                {
+                    type: 'typing',
+                    title: 'Respond',
+                    phrase: 'Kedụ?',
+                    meaning: 'How are you?',
+                    instruction: 'Someone greets you. What do you say?',
+                    acceptableAnswers: ['ọ dị mma', 'o di mma', 'ọ dị mma.', 'o di mma.'],
+                    layout: 'center'
+                },
+                {
+                    type: 'word_bank_hard',
+                    title: 'Build the exchange',
+                    phrase: 'Kedụ? Ọ dị mma.',
+                    meaning: 'How are you? I\'m fine.',
+                    instruction: 'Put it in order (harder):',
+                    words: ['Ọ', 'Kedụ?', 'dị', 'mma.', 'na'],
+                    correct: ['Kedụ?', 'Ọ', 'dị', 'mma.'],
+                    canSpeak: true,
+                    layout: 'center'
+                },
+                {
+                    type: 'conversational_challenge',
+                    title: 'Have the conversation',
+                    phrase1: 'Kedụ?',
+                    phrase2: 'Ọ dị mma.',
+                    instruction: 'They greet you. Type or speak your response:',
+                    acceptableAnswers: ['ọ dị mma', 'o di mma', 'ọ dị mma.', 'o di mma.'],
+                    canSpeak: true,
+                    layout: 'speaking'
+                }
+            ],
+
+            init() {
+                const saved = localStorage.getItem('igbo_exploration_state');
+                if (saved) {
+                    this.state = JSON.parse(saved);
+                }
+                if (this.state.completedLessons[1]) {
+                    document.getElementById('lessonStatus').textContent = '✓';
+                }
+            },
+
+            saveState() {
+                localStorage.setItem('igbo_exploration_state', JSON.stringify(this.state));
+            },
+
+            closeLesson() {
+                this.returnHome();
+            },
+
+            startLesson() {
+                this.state.currentScreen = 'context';
+                this.showScreen('context');
+                setTimeout(() => {
+                    this.state.currentExercise = 1;
+                    this.state.showingFeedback = false;
+                    this.renderExercise();
+                    this.showScreen('exercise');
+                }, 2200);
+            },
+
+            renderExercise() {
+                const exNum = this.state.currentExercise;
+                const ex = this.exercises[exNum - 1];
+                if (!ex) return;
+
+                const progress = ((exNum - 1) / 12) * 100;
+                document.getElementById('progressFill').style.width = progress + '%';
+
+                const content = document.getElementById('exerciseContent');
+                const buttons = document.getElementById('buttonGroup');
+                content.innerHTML = '';
+                buttons.innerHTML = '';
+
+                if (ex.type === 'listen_and_read') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="sphere-container center">
+                            <div class="sphere speaking" id="sphere"></div>
+                        </div>
+                        <div class="language-block">
+                            <div class="language-text accent">${ex.phrase}</div>
+                            <div class="language-translation">${ex.meaning}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">Continue</button>`;
+
+                } else if (ex.type === 'multiple_choice') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="language-block">
+                            <div class="language-text accent">${ex.phrase}</div>
+                            <div class="language-translation">${ex.meaning}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'listen_and_choose') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="sphere-container center">
+                            <div class="sphere listening" id="sphere"></div>
+                        </div>
+                        <div class="language-block">
+                            <div class="language-text accent">${ex.phrase}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'conversational') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="sphere-container center">
+                            <div class="sphere speaking" id="sphere"></div>
+                        </div>
+                        <div class="language-block">
+                            <div class="language-prompt">${ex.prompt}</div>
+                            <div class="language-text accent">${ex.phrase}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0; padding: 16px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; font-size: 14px; color: #d4714a; font-weight: 600;">Your turn →</div>
+                        <div class="answer-group">
+                            ${ex.options.map((opt, i) => `
+                                <button class="answer-btn" onclick="app.checkAnswer(${i}, ${ex.correct})">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+
+                } else if (ex.type === 'word_bank') {
+                    const key = `wb_${exNum}`;
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="language-block">
+                            <div class="language-prompt">${ex.instruction}</div>
+                        </div>
+                        <div class="word-bank-display" id="wordBank">
+                            ${ex.words.map((word, i) => `
+                                <div class="word-tile" onclick="app.addToWordBank('${key}', '${word}')" id="tile_${key}_${i}">
+                                    ${word}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="answer-area" id="answerArea_${key}"></div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.checkWordBank(${exNum})" id="checkBtn">Check</button>`;
+
+                } else if (ex.type === 'typing') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="sphere-container center">
+                            <div class="sphere listening" id="sphere"></div>
+                        </div>
+                        <div class="language-block">
+                            <div class="language-text accent">${ex.phrase}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                        <div class="language-prompt" style="margin: 20px 0;">${ex.instruction}</div>
+                        <div class="input-group">
+                            <input class="text-input" type="text" placeholder="Type here..." id="typingInput" onkeyup="app.checkTyping()">
+                        </div>
+                    `;
+                    buttons.innerHTML = `<button class="primary-btn" onclick="app.checkTyped(${exNum})" id="checkBtn">Check</button>`;
+                    setTimeout(() => document.getElementById('typingInput').focus(), 100);
+
+                } else if (ex.type === 'word_bank_hard') {
+                    const key = `hwb_${exNum}`;
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="language-block">
+                            <div class="language-prompt">${ex.instruction}</div>
+                        </div>
+                        <div class="word-bank-display" id="wordBank">
+                            ${ex.words.map((word, i) => `
+                                <div class="word-tile" onclick="app.addToWordBank('${key}', '${word}')" id="tile_${key}_${i}">
+                                    ${word}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="answer-area" id="answerArea_${key}"></div>
+                    `;
+                    buttons.innerHTML = `
+                        <button class="speak-btn" onclick="app.startSpeech(${exNum})">
+                            <span class="mic-icon">🎙️</span>
+                            Tap to speak
+                        </button>
+                        <button class="primary-btn" onclick="app.checkWordBank(${exNum})" id="checkBtn">Check</button>
+                    `;
+
+                } else if (ex.type === 'conversational_challenge') {
+                    content.innerHTML = `
+                        <div class="exercise-title">${ex.title}</div>
+                        <div class="sphere-container center">
+                            <div class="sphere speaking" id="sphere"></div>
+                        </div>
+                        <div class="language-block">
+                            <div class="language-prompt">They greet you:</div>
+                            <div class="language-text accent">${ex.phrase1}</div>
+                            <div class="audio-controls">
+                                <button class="audio-btn" onclick="app.playAudio('${ex.phrase1}')">
+                                    <span class="audio-icon">🔊</span>
+                                    Hear again
+                                </button>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin: 20px 0; padding: 16px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; font-size: 14px; color: #d4714a; font-weight: 600;">Your turn →</div>
+                        <div class="language-prompt">${ex.instruction}</div>
+                        <div class="input-group">
+                            <input class="text-input" type="text" placeholder="Type your response..." id="typingInput" onkeyup="app.checkTyping()">
+                        </div>
+                    `;
+                    buttons.innerHTML = `
+                        <button class="speak-btn" onclick="app.startSpeech(${exNum})">
+                            <span class="mic-icon">🎙️</span>
+                            Tap to speak
+                        </button>
+                        <button class="primary-btn" onclick="app.checkTyped(${exNum})" id="checkBtn">Submit</button>
+                    `;
+                    setTimeout(() => document.getElementById('typingInput').focus(), 100);
+                }
+            },
+
+            checkAnswer(selectedIndex, correctIndex) {
+                const btns = document.querySelectorAll('.answer-btn');
+                btns[selectedIndex].classList.add('selected');
+
+                setTimeout(() => {
+                    btns.forEach(btn => btn.disabled = true);
+
+                    if (selectedIndex === correctIndex) {
+                        btns[selectedIndex].classList.remove('selected');
+                        btns[selectedIndex].classList.add('correct');
+                        this.reactSphere('correct');
+                        this.showFeedback('You got it.', '');
+                    } else {
+                        btns[selectedIndex].classList.remove('selected');
+                        btns[selectedIndex].classList.add('incorrect');
+                        btns[correctIndex].classList.add('correct');
+                        this.reactSphere('incorrect');
+                        this.showFeedback('Almost.', `The answer is: <strong>${this.exercises[this.state.currentExercise - 1].options[correctIndex]}</strong>`);
+                    }
+
+                    const buttonGroup = document.getElementById('buttonGroup');
+                    buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">Continue</button>`;
+                }, 200);
+            },
+
+            checkTyped(exNum) {
+                const input = document.getElementById('typingInput');
+                const answer = input.value.trim().toLowerCase();
+                const ex = this.exercises[exNum - 1];
+                const isCorrect = ex.acceptableAnswers.some(a => answer === a.toLowerCase());
+
+                input.disabled = true;
+
+                if (isCorrect) {
+                    input.style.borderColor = '#d4714a';
+                    input.style.background = '#fff8f5';
+                    this.reactSphere('correct');
+                    this.showFeedback('Perfect.', '');
+                } else {
+                    input.style.borderColor = '#d32f2f';
+                    input.style.background = '#fff0f0';
+                    this.reactSphere('incorrect');
+                    this.showFeedback('Almost.', `Try: <strong>${ex.acceptableAnswers[0]}</strong>`);
+                }
+
+                const buttonGroup = document.getElementById('buttonGroup');
+                buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">Continue</button>`;
+            },
+
+            checkWordBank(exNum) {
+                const answerKey = (exNum === 6) ? `wb_${exNum}` : (exNum <= 9 ? `wb_${exNum}` : `hwb_${exNum}`);
+                const answerArea = document.getElementById(`answerArea_${answerKey}`);
+                const selected = Array.from(answerArea.querySelectorAll('.answer-word')).map(el => el.textContent.trim());
+                const ex = this.exercises[exNum - 1];
+                const correct = JSON.stringify(selected) === JSON.stringify(ex.correct);
+
+                const checkBtn = document.getElementById('checkBtn');
+                checkBtn.disabled = true;
+
+                if (correct) {
+                    this.reactSphere('correct');
+                    this.showFeedback('Correct.', '');
+                } else {
+                    this.reactSphere('incorrect');
+                    const correctStr = ex.correct.join(' ');
+                    this.showFeedback('Almost.', `The order is: <strong>${correctStr}</strong>`);
+                }
+
+                const buttonGroup = document.getElementById('buttonGroup');
+                buttonGroup.innerHTML = `<button class="primary-btn" onclick="app.nextExercise()">Continue</button>`;
+            },
+
+            addToWordBank(key, word) {
+                const answerArea = document.getElementById(`answerArea_${key}`);
+                const wordElem = document.createElement('div');
+                wordElem.className = 'answer-word';
+                wordElem.textContent = word;
+                wordElem.onclick = () => {
+                    wordElem.remove();
+                    document.getElementById(`tile_${key}_${Array.from(document.querySelectorAll(`#wordBank .word-tile`)).findIndex(el => el.textContent.trim() === word)}`).style.opacity = '1';
+                };
+                answerArea.appendChild(wordElem);
+
+                const index = Array.from(document.querySelectorAll(`#wordBank .word-tile`)).findIndex(el => el.textContent.trim() === word);
+                if (index >= 0) {
+                    document.getElementById(`tile_${key}_${index}`).style.opacity = '0.5';
+                }
+            },
+
+            showFeedback(message, details) {
+                const content = document.getElementById('exerciseContent');
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback-area active';
+                feedback.innerHTML = `
+                    <div class="feedback-header">
+                        <span class="feedback-checkmark">✓</span>
+                        <span>${message}</span>
+                    </div>
+                    ${details ? `<div class="feedback-text">${details}</div>` : ''}
+                `;
+                content.appendChild(feedback);
+                this.state.showingFeedback = true;
+            },
+
+            reactSphere(state) {
+                const sphere = document.getElementById('sphere');
+                if (!sphere) return;
+
+                sphere.classList.remove('speaking', 'listening', 'waiting');
+                sphere.classList.add('reacting');
+                setTimeout(() => sphere.classList.remove('reacting'), 600);
+            },
+
+            checkTyping() {
+                // Real-time validation if needed
+            },
+
+            startSpeech(exNum) {
+                const btn = event.target.closest('.speak-btn');
+                btn.textContent = '🎤 Recording...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.textContent = '✓ Recorded';
+                    this.state.speechAnswers = this.state.speechAnswers || {};
+                    this.state.speechAnswers[exNum] = true;
+                }, 1500);
+            },
+
+            nextExercise() {
+                this.state.currentExercise++;
+                this.state.showingFeedback = false;
+                this.saveState();
+
+                if (this.state.currentExercise > 12) {
+                    this.completeLesson();
+                } else {
+                    this.renderExercise();
+                }
+            },
+
+            completeLesson() {
+                this.state.completedLessons[1] = true;
+                document.getElementById('lessonStatus').textContent = '✓';
+                this.saveState();
+                this.showScreen('completion');
+            },
+
+            returnHome() {
+                this.state.currentScreen = 'home';
+                this.state.currentExercise = 1;
+                this.state.showingFeedback = false;
+                this.showScreen('home');
+            },
+
+            resetLesson() {
+                this.state.currentExercise = 1;
+                this.state.showingFeedback = false;
+                this.state.selectedAnswers = {};
+                this.state.speechAnswers = {};
+                this.saveState();
+                this.renderExercise();
+            },
+
+            resetAll() {
+                this.state = {
+                    currentScreen: 'home',
+                    currentExercise: 1,
+                    completedLessons: {},
+                    selectedAnswers: {},
+                    showingFeedback: false
+                };
+                document.getElementById('lessonStatus').textContent = '▶';
+                this.saveState();
+                this.returnHome();
+            },
+
+            playAudio(text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ig-NG';
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            },
+
+            showScreen(screenName) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const screenMap = {
+                    'home': 'home-screen',
+                    'context': 'context-screen',
+                    'exercise': 'exercise-screen',
+                    'completion': 'completion-screen'
+                };
+                const screen = document.querySelector(`.${screenMap[screenName]}`);
+                if (screen) screen.classList.add('active');
+            }
+        };
+
+        app.init();
+    </script>
+</body>
+</html>
