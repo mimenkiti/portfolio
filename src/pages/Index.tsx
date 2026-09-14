@@ -170,14 +170,23 @@ export function Index({ setGround }: { setGround: (v: number) => void }) {
           {/* 01 — the taller entry. A question, a live full stop, and
               the project's own language in the ground. */}
           <article className="index__band index__band--llp" {...heat('warm')}>
-            <button className="index__reach" onClick={() => go('/llp')} tabIndex={active ? -1 : 0}>
-              <span className="index__sr">Explore LLP</span>
-            </button>
+            {/* The whole band stays clickable for a mouse, but the
+                labelled control below is the real one: two focusable
+                things per entry saying the same sentence would only be
+                two stops in the tab order. */}
+            <div className="index__reach" onClick={() => go('/llp')} aria-hidden="true" />
 
             <header className="index__meta">
               <span className="index__num data">01</span>
               <span className="index__slug">LLP</span>
               <span className="index__desc">Learning a heritage language</span>
+              <button
+                className="index__enter"
+                onClick={() => go('/llp')}
+                tabIndex={active ? -1 : 0}
+              >
+                Explore LLP <span aria-hidden="true">→</span>
+              </button>
             </header>
 
             <h2 className="index__q">
@@ -251,16 +260,24 @@ export function Index({ setGround }: { setGround: (v: number) => void }) {
             </div>
           </article>
 
-          {/* 02 — shorter and quieter, and drawn rather than spoken. */}
+          {/* 02 — the same grammar, different material. Its drawing sits
+              under its own title rather than isolated at the far edge, and
+              a datum runs off it across the band, which is how Faber uses
+              width everywhere else. Drawn rather than spoken. */}
           <article className="index__band index__band--faber" {...heat('cool')}>
-            <button className="index__reach" onClick={() => go('/faber')} tabIndex={active ? -1 : 0}>
-              <span className="index__sr">Explore Faber</span>
-            </button>
+            <div className="index__reach" onClick={() => go('/faber')} aria-hidden="true" />
 
             <header className="index__meta">
               <span className="index__num data">02</span>
               <span className="index__slug">Faber</span>
               <span className="index__desc">Making my way back to making</span>
+              <button
+                className="index__enter"
+                onClick={() => go('/faber')}
+                tabIndex={active ? -1 : 0}
+              >
+                Explore Faber <span aria-hidden="true">→</span>
+              </button>
             </header>
 
             <div className="index__mark">

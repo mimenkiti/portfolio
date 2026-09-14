@@ -80,7 +80,10 @@ export function CoverChair() {
       <g className="cchair__leads" style={{ opacity: on ? 1 : 0 }}>
         <line className="cchair__lead" x1="52" y1="128" x2="30" y2="128" />
         <line className="cchair__lead" x1="160" y1="122" x2="182" y2="122" />
-        <line className="cchair__lead cchair__lead--up" x1="134" y1="16" x2="134" y2="6" />
+        {/* Reaches up out of the drawing toward the entry's title, so the
+            two read as one object rather than a label with a picture
+            parked under it. */}
+        <line className="cchair__lead cchair__lead--up" x1="134" y1="16" x2="134" y2="-16" />
         <circle cx="108" cy="62" r="1.8" fill="currentColor" />
         <circle cx="160" cy="80" r="1.8" fill="currentColor" />
       </g>

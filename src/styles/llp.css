@@ -753,7 +753,14 @@ html.is-dark-ground .toc {
 
 .hero__line {
   font-family: var(--serif);
-  font-size: var(--t-display);
+  /* Larger than `--t-display`, which is the scale for a line of prose
+     set big. This is five glyphs holding a viewport, and at the display
+     scale it read as underscaled against the canvas and against the
+     ground letter behind it. At this size the phrase's cap height meets
+     the ground glyph's stem width, so the word and the letter lock
+     together instead of the word floating in front of it.
+     148px at 1440, 134px at 1280, 152px at 1728. */
+  font-size: clamp(3rem, 1rem + 9.2vw, 9.5rem);
   font-weight: 300;
   line-height: 1.02;
   letter-spacing: -0.022em;

@@ -149,10 +149,16 @@ html.is-dark-ground .modeswitch {
 .index__first {
   position: relative;
   min-height: 100svh;
-  align-content: space-between;
-  padding-top: clamp(3.5rem, 9vh, 6.5rem);
-  padding-bottom: clamp(1rem, 3vh, 2.5rem);
-  row-gap: clamp(1.5rem, 5vh, 4rem);
+  /* `space-between` made this gap a residue rather than a decision: it
+     was whatever height the bands did not use, which swung from 21px on
+     a short laptop to 211px on a tall display, and separated the intro
+     from the ledger exactly where the composition needed to hold
+     together. Packed to the top with an explicit gap instead, so the
+     variable space collects harmlessly below the last entry. */
+  align-content: start;
+  padding-top: clamp(3rem, 7vh, 5.5rem);
+  padding-bottom: clamp(0.75rem, 2vh, 1.75rem);
+  row-gap: clamp(3rem, 8vh, 5.5rem);
 }
 
 .index__id {
@@ -242,10 +248,32 @@ html.is-dark-ground .modeswitch {
   color: var(--ink-2);
 }
 
+.index__enter {
+  margin-left: auto;
+  pointer-events: auto;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding-bottom: 0.15em;
+  border-bottom: 1px solid var(--rule);
+  transition: gap 0.25s var(--e-out), border-color 0.25s var(--e-out);
+}
+
+.index__band:hover .index__enter,
+.index__enter:focus-visible {
+  gap: 0.8em;
+  border-color: var(--ink);
+}
+
 /* --- 01, the taller entry --------------------------------------- */
 
 .index__band--llp {
-  padding-bottom: clamp(1.4rem, 4vh, 2.6rem);
+  padding-bottom: clamp(1rem, 2.6vh, 2rem);
+  border-bottom-color: var(--ink-3);
   /* Deliberately NOT `overflow: hidden`. The ghost forms clip themselves
      inside `.index__ghosts`, and clipping here would cut off the
      encounter, which is laid out hanging below this band. */
@@ -347,28 +375,40 @@ html.is-dark-ground .modeswitch {
 /* --- 02, shorter and drawn -------------------------------------- */
 
 .index__band--faber {
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-content: center;
-  align-items: center;
-  column-gap: clamp(1rem, 3vw, 2.5rem);
-  padding-top: clamp(0.8rem, 2vh, 1.4rem);
-  padding-bottom: clamp(0.8rem, 2vh, 1.4rem);
-}
-
-.index__band--faber .index__meta {
-  grid-column: 1;
+  row-gap: clamp(0.4rem, 1.4vh, 1rem);
+  padding-top: clamp(0.9rem, 2.4vh, 1.6rem);
+  padding-bottom: clamp(0.9rem, 2.4vh, 1.6rem);
 }
 
 .index__mark {
-  grid-column: 2;
-  grid-row: 1;
   position: relative;
   z-index: 1;
-  width: clamp(9rem, 17vw, 15rem);
+  width: clamp(10.5rem, 18.5vw, 17rem);
   color: var(--ink);
-  opacity: 0.82;
+  opacity: 1;
   pointer-events: none;
-  transition: opacity 0.5s var(--e-out);
+}
+
+/* A datum off the seat, running across the band to a registration tick.
+   Faber uses width this way on its own pages; here it is what stops the
+   drawing reading as an isolated ornament in a corner. */
+.index__mark::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 61%;
+  width: min(52vw, 44rem);
+  /* Dashed along the top, with a solid tick dropped at the far end, so
+     it terminates the way a dimension does instead of trailing off. */
+  height: 7px;
+  border-top: 1px dashed var(--rule);
+  border-right: 1px solid var(--ink-3);
+  transition: width 0.5s var(--e-out);
+}
+
+.index__band--faber:hover .index__mark::after,
+.index__band--faber:focus-within .index__mark::after {
+  width: min(58vw, 50rem);
 }
 
 .index__band--faber:hover .index__mark,
@@ -454,6 +494,31 @@ html.is-dark-ground .modeswitch {
 .index__links a:hover {
   color: var(--live);
   border-color: var(--live);
+}
+
+/* Short desktop viewports. A 1366x768 laptop cannot hold the intro, two
+   entries with real material in them, and About at the sizes a 900px
+   screen allows, and the first-viewport rule is the one that matters
+   most. So the entries give back padding and the drawing gives back
+   size, in that order, rather than About being pushed under the fold. */
+@media (min-width: 46.001rem) and (max-height: 840px) {
+  .index__first {
+    padding-top: clamp(1.75rem, 4.5vh, 3rem);
+    row-gap: clamp(1.75rem, 4.5vh, 3rem);
+  }
+
+  .index__band {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .index__band--llp {
+    padding-bottom: 0.9rem;
+  }
+
+  .index__mark {
+    width: clamp(8.5rem, 15vw, 13rem);
+  }
 }
 
 /* --- the descriptions, underneath ------------------------------- */
