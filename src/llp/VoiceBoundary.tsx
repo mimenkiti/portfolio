@@ -1,6 +1,6 @@
 /**
  * The other half of the section: what the deployed product does with all
- * this. Values observed from the live build's own response headers, which
+ * this. Values observed from the live build’s own response headers, which
  * is the only claim here that is not from the archive.
  */
 export function VoiceBoundary() {

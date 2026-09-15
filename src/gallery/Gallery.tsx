@@ -221,16 +221,16 @@ function Preview({
 }) {
   const ext = isExternal(room)
   return (
-    <article className={['pv', `pv--${room.id}`, shown ? 'is-on' : ''].join(' ')} aria-hidden={!shown}>
-      <div className="pv__words">
-        <p className="pv__meta data">
+    <article className={['peek', `peek--${room.id}`, shown ? 'is-on' : ''].join(' ')} aria-hidden={!shown}>
+      <div className="peek__words">
+        <p className="peek__meta data">
           {room.n} · {room.name}
         </p>
-        <h2 className="pv__title">{room.title}</h2>
-        <p className="pv__orient">{room.orientation}</p>
+        <h2 className="peek__title">{room.title}</h2>
+        <p className="peek__orient">{room.orientation}</p>
         {ext ? (
           <a
-            className="pv__enter"
+            className="peek__enter"
             href={room.to.href}
             target="_blank"
             rel="noreferrer"
@@ -239,16 +239,16 @@ function Preview({
             {room.action} <span aria-hidden="true">↗</span>
           </a>
         ) : (
-          <button className="pv__enter" onClick={() => onEnter(room.id)} tabIndex={shown ? 0 : -1}>
+          <button className="peek__enter" onClick={() => onEnter(room.id)} tabIndex={shown ? 0 : -1}>
             {room.action} <span aria-hidden="true">→</span>
           </button>
         )}
       </div>
 
       {room.id !== 'archive' && (
-        <div className="pv__plate">
+        <div className="peek__plate">
           {room.id === 'llp' ? <PlateLLP /> : <PlateFaber />}
-          <p className="pv__cap data">
+          <p className="peek__cap data">
             {room.n} · {room.name}
           </p>
         </div>
@@ -328,11 +328,11 @@ function Carousel({
             <h2 className="car__title">{r.title}</h2>
             <p className="car__orient">{r.orientation}</p>
             {ext ? (
-              <a className="pv__enter" href={r.to.href} target="_blank" rel="noreferrer">
+              <a className="peek__enter" href={r.to.href} target="_blank" rel="noreferrer">
                 {r.action} <span aria-hidden="true">↗</span>
               </a>
             ) : (
-              <button className="pv__enter" onClick={() => onEnter(r.id)}>
+              <button className="peek__enter" onClick={() => onEnter(r.id)}>
                 {r.action} <span aria-hidden="true">→</span>
               </button>
             )}

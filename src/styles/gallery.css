@@ -222,9 +222,16 @@
   min-height: clamp(10rem, 23vh, 13rem);
 }
 
+/* The resting line sits in the middle of the reserved band rather than
+   at the top of it. The stage has to keep its full height so the plan
+   never jumps when a room becomes active, which left this one line
+   clinging to the top of an otherwise empty half-screen on first load.
+   Centring it settles the default state without moving anything else. */
 .band__rest {
   position: absolute;
   inset: 0;
+  display: grid;
+  align-content: center;
   font-family: var(--sans);
   font-size: var(--t-small);
   color: var(--ink-3);
@@ -238,8 +245,14 @@
 }
 
 /* Previews are stacked and cross-faded so the band never reflows and
-   the leader never has to chase a moving target. */
-.pv {
+   the leader never has to chase a moving target.
+
+   Named `peek`, not `pv`: `.pv` is ProjectView's container on the LLP and
+   Faber pages, and these rules (absolute, opacity 0, pointer-events none)
+   were landing on it, so both essays rendered invisible and dead to the
+   pointer with only their header, hero and footer painting. Nothing in
+   this file may use a `.pv` selector. */
+.peek {
   position: absolute;
   inset: 0;
   display: grid;
@@ -253,16 +266,16 @@
   transition: opacity 0.35s var(--e-out);
 }
 
-.pv.is-on {
+.peek.is-on {
   opacity: 1;
   pointer-events: auto;
 }
 
-.pv--archive {
+.peek--archive {
   grid-template-columns: minmax(0, 1fr);
 }
 
-.pv__words {
+.peek__words {
   display: grid;
   gap: 0.5rem;
   align-content: start;
@@ -270,11 +283,11 @@
   max-width: 34rem;
 }
 
-.pv__meta {
+.peek__meta {
   color: var(--ink-3);
 }
 
-.pv__title {
+.peek__title {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 1rem + 1.9vw, 2.6rem);
   font-weight: 300;
@@ -284,7 +297,7 @@
   text-wrap: balance;
 }
 
-.pv__orient {
+.peek__orient {
   font-size: var(--t-body-sm);
   line-height: 1.5;
   font-weight: 340;
@@ -293,7 +306,7 @@
   text-wrap: pretty;
 }
 
-.pv__enter {
+.peek__enter {
   font-family: var(--sans);
   font-size: var(--t-small);
   font-weight: 500;
@@ -308,18 +321,18 @@
   transition: gap 0.25s var(--e-out);
 }
 
-.pv__enter:hover {
+.peek__enter:hover {
   gap: 0.8em;
 }
 
-.pv__plate {
+.peek__plate {
   display: grid;
   gap: 0.4rem;
   align-content: start;
   justify-items: end;
 }
 
-.pv__cap {
+.peek__cap {
   color: var(--ink-3);
   border-top: 1px solid var(--rule);
   padding-top: 0.3rem;
@@ -518,7 +531,7 @@
     max-width: none;
   }
 
-  .pv__enter {
+  .peek__enter {
     min-height: 2.75rem;
     align-items: center;
   }
@@ -581,7 +594,7 @@
   .plan__openings rect,
   .band__leader,
   .band__rule,
-  .pv,
+  .peek,
   .car__card {
     transition: none;
   }

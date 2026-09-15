@@ -14,21 +14,21 @@ import { CLIPS, hush, prime, say } from '../lib/voice'
    The sequence is the real writing order for this orthography. You
    write the letters, then you go back and add the diacritics, then the
    punctuation. That second pass is not a flourish: the dot below is the
-   part the technology drops, which is the subject of this project's
+   part the technology drops, which is the subject of this project’s
    whole pronunciation layer. So it arrives as its own event, and then
    it stops being an event and becomes part of the letter.
 
    Two things are load-bearing about the settled state:
 
-   The form is the archive's. While the dot is being written the word is
+   The form is the archive’s. While the dot is being written the word is
    `Ked` + `u` with a drawn mark beneath it; the instant that pass ends
    the word is swapped for the precomposed `Kedụ` out of forms.json.
    A dot below does not change a `u`'s advance width, so the swap does
    not move anything, and what is left on the page afterwards is a real
    character rather than a letter with a decoration parked under it.
 
-   The Dot is the question mark's point, not a second mark next to it.
-   The glyph's own point is clipped off and the live Dot occupies the
+   The Dot is the question mark’s point, not a second mark next to it.
+   The glyph’s own point is clipped off and the live Dot occupies the
    space it left, so the phrase reads `Kedụ?` with one full stop in it,
    and that full stop is the thing you can touch. This is the same move
    the index makes with the full stop at the end of its question.
@@ -89,7 +89,7 @@ export function Hero() {
       </span>
 
       <div className="hero__body">
-        {/* The accessible name is always the archive's string, whatever
+        {/* The accessible name is always the archive’s string, whatever
             the animation is doing to the glyphs on the way there. */}
         <h1 className="hero__line ig" aria-label={phrase.form}>
           <span className="hero__word">
@@ -109,7 +109,7 @@ export function Hero() {
 
           <span className="hero__dot">
             <Dot
-              /* The measured diameter of Newsreader's own question-mark
+              /* The measured diameter of Newsreader’s own question-mark
                  point at this weight: 0.1196em. Given in em so it stays
                  the point of the glyph at every clamp step. */
               size="0.1196em"

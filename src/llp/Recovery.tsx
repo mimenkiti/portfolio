@@ -5,7 +5,7 @@ import { useState } from 'react'
  *
  * Ported from the struggle-and-recovery lab rather than embedded: the
  * original is a fixed 390px with overflow hidden, so it clips on a phone.
- * The text is the lab's, verbatim, including the Igbo — this is the record
+ * The text is the lab’s, verbatim, including the Igbo — this is the record
  * of where these four names came from, and the names are the point, because
  * they are the ones the deployed build uses.
  */
@@ -33,7 +33,7 @@ const STATES: State[] = [
     letter: 'A',
     name: 'Comprehension Gap',
     shipped: 'comprehension-gap',
-    stage: "You're unsure what she asked. What do you do?",
+    stage: "You’re unsure what she asked. What do you do?",
     learnerSaid: [{ text: '🔄 Replay that' }, { text: '... (Stay silent)' }, { text: '? I need help' }],
     inferred: 'Meaning is not yet clear. You need help understanding the phrase.',
     approach: 'Sound-first help, on demand. No automatic translation.',
@@ -49,10 +49,10 @@ const STATES: State[] = [
     letter: 'B',
     name: 'Retrieval / Production Gap',
     shipped: 'production-gap',
-    stage: "You understand her. But you hesitate, and the response isn't there yet.",
-    learnerSaid: [{ text: "I'm good" }, { text: '... (searching)' }],
+    stage: "You understand her. But you hesitate, and the response isn’t there yet.",
+    learnerSaid: [{ text: "I’m good" }, { text: '... (searching)' }],
     inferred:
-      "You understood what she asked. The gap is: you don't yet have the Igbo words ready.",
+      "You understood what she asked. The gap is: you don’t yet have the Igbo words ready.",
     approach: 'Credit what you did know. Then teach production.',
     differs:
       '"You got it. Here\'s how to say what you meant" comes before the teaching card, not after it. The credit is the first thing on screen.',
@@ -67,7 +67,7 @@ const STATES: State[] = [
     name: 'System Uncertainty',
     shipped: 'system-uncertainty',
     stage: 'You respond confidently in appropriate Igbo.',
-    learnerSaid: [{ text: 'Ọ dị mma', gloss: "I'm good" }],
+    learnerSaid: [{ text: 'Ọ dị mma', gloss: "I’m good" }],
     inferred:
       'Audio was slightly unclear, or your pronunciation differs from the training data. The system has insufficient evidence to judge.',
     approach: 'Neutral retry. No judgment. No red.',
@@ -84,9 +84,9 @@ const STATES: State[] = [
     name: 'Misunderstanding',
     shipped: 'misunderstanding',
     stage: 'You respond confidently, but you misunderstood what she asked.',
-    learnerSaid: [{ text: "Ànyị nọ n'Ígbò", gloss: "We're in Igboland" }],
+    learnerSaid: [{ text: "Ànyị nọ n'Ígbò", gloss: "We’re in Igboland" }],
     inferred:
-      "You responded confidently, but your answer doesn't match what she asked. You have a meaning hypothesis that's incorrect.",
+      "You responded confidently, but your answer doesn’t match what she asked. You have a meaning hypothesis that’s incorrect.",
     approach: 'Clarify without shaming. Help discovery.',
     differs:
       'The only state where Chioma does the repair herself. She looks gently confused and rephrases, and the correction arrives as conversation rather than as a verdict.',

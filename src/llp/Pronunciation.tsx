@@ -8,7 +8,7 @@ import data from './data/pronunciation.json'
  * There is no score, no rating, no verdict in any of the result files, so
  * this cannot be a before-and-after and does not pretend to be one. What it
  * can do is exact: the same voice, the same model, and the two strings that
- * were actually sent. The visitor's own ear is the instrument, which is also
+ * were actually sent. The visitor’s own ear is the instrument, which is also
  * how the work was done.
  *
  * Nothing plays unless asked, and one clip plays at a time.
@@ -183,7 +183,7 @@ export function Pronunciation() {
   return (
     <div className="pron">
       {/* The lead sentence that used to sit here said the same thing as
-          the figure's own caption ("the same voice and model in each, and
+          the figure’s own caption ("the same voice and model in each, and
           the exact string that produced them"), which the caption states
           in both Experience and Read. One note, not two. */}
       <div className="pron__head">
@@ -238,8 +238,8 @@ export function Pronunciation() {
           {group === 'context' && (
             <p className="pron__anchorNote caption">
               Two of these carry a verdict in their own label, calling one phrase good at baseline
-              and the other repaired. That is the author's assessment at the time, written into the
-              experiment's design so the later items had something to be compared against. It is an
+              and the other repaired. That is the author’s assessment at the time, written into the
+              experiment’s design so the later items had something to be compared against. It is an
               ear, not a measurement, and no measurement of it exists.
             </p>
           )}

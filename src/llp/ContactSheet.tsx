@@ -3,7 +3,7 @@
  *
  * There were more studies than this. Five is enough to show that the
  * current encounter was chosen rather than arrived at, and the page has
- * more important things to spend a visitor's attention on. Each tile
+ * more important things to spend a visitor’s attention on. Each tile
  * opens the real document.
  */
 

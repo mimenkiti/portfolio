@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
  * withdraws, the lamp comes up, and the build gets the viewport.
  *
  * The iframe is only created once someone has crossed the threshold, so
- * the product's first synthesis call is never made by a visitor who was
+ * the product’s first synthesis call is never made by a visitor who was
  * only scrolling past.
  */
 export function Room({

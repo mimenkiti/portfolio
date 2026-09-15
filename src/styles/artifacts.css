@@ -910,7 +910,8 @@
   max-width: 38rem;
 }
 
-.hear__narrow,
+/* `.hear__narrow` is gone: the reframing it held is now the pull quote
+   in the prose, where it is not buried under a heading. */
 .hear__mic {
   display: grid;
   gap: 0.35rem;

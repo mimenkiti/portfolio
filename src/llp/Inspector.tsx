@@ -75,7 +75,7 @@ const STATUS_FIELDS = new Set([
 ])
 
 /* The workbooks are named for a visitor rather than by filename. Provenance
-   without a tour of anyone's folders. */
+   without a tour of anyone’s folders. */
 const ARTIFACT_NAMES: Record<string, string> = {
   'igbo_source_registry_v0_2.xlsx': 'source registry v0.2',
   'igbo_knowledge_registry_v0_2.xlsx': 'knowledge registry v0.2',
@@ -196,7 +196,7 @@ export function Inspector() {
               Every capability in the registry is <strong>Draft</strong> or{' '}
               <strong>Knowledge Gap</strong>. Of {META.counts.knowledge} knowledge objects, the
               review queue holds {META.counts.humanReviewQueue} questions for native speakers and{' '}
-              {META.counts.humanReviewQueueDecided} of them have an answer. The system's own gate
+              {META.counts.humanReviewQueueDecided} of them have an answer. The system’s own gate
               is closed, and it is the system that says so.
             </p>
           </div>
