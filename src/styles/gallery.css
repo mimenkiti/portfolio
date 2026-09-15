@@ -1,0 +1,619 @@
+/* ---------------------------------------------------------------
+   The Gallery — E1.
+
+   The plan sits on the page and stays dominant; a 1px leader drops
+   from the active room into the preview band. Editorial first: the
+   type is the site's, the drawing is navigation, and the metaphor is
+   never explained twice.
+   --------------------------------------------------------------- */
+
+/* A fixed-height grid, not a min-height one. That is the difference
+   between the plan row getting the leftover space and the plan row
+   growing to whatever height its own aspect ratio wants: with
+   `min-height`, the SVG's intrinsic size became the row's min-content
+   and the cover scrolled. With `height`, `minmax(0, 1fr)` genuinely
+   means "what is left", and the drawing scales into it. */
+.gallery {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  row-gap: clamp(0.5rem, 1.5vh, 1.15rem);
+  padding: clamp(0.9rem, 2.4vh, 1.6rem) var(--pad) clamp(0.7rem, 1.8vh, 1.15rem);
+}
+
+/* --- header: the name, and About. Nothing else. ----------------- */
+
+.gal__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: clamp(0.6rem, 1.6vh, 1rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.gal__name {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.45rem);
+  font-weight: 350;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+
+.gal__about {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink-2);
+  min-height: 2.5rem;
+  transition: color 0.25s var(--e-out);
+}
+
+.gal__about:hover,
+.gal__about:focus-visible {
+  color: var(--live);
+}
+
+/* --- bio and the invitation ------------------------------------- */
+
+.gal__intro {
+  display: grid;
+  gap: clamp(0.4rem, 1.2vh, 0.8rem);
+  max-width: 54rem;
+}
+
+.gal__bio {
+  font-size: var(--t-body-sm);
+  line-height: 1.55;
+  font-weight: 340;
+  color: var(--ink-2);
+  text-wrap: pretty;
+  max-width: 46rem;
+}
+
+/* The primary framing, and deliberately not a marketing slogan: it is
+   set at reading-display scale, once, and never repeated. */
+.gal__invite {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 0.9rem + 1.2vw, 2rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.016em;
+  color: var(--ink);
+}
+
+/* --- the plan --------------------------------------------------- */
+
+/* `place-items: center` here un-stretched the SVG, so its `height: 100%`
+   had no definite area to resolve against and fell back to its
+   intrinsic 580px — the same indefinite-percentage trap as the room
+   iframe. The item is stretched and centred with auto margins instead. */
+.gal__plan {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  place-items: stretch;
+  min-height: 0;
+  padding-block: clamp(0.2rem, 1vh, 0.9rem);
+}
+
+/* Fills the row it is given, in both axes. preserveAspectRatio keeps
+   the drawing centred and undistorted, so a short viewport costs the
+   plan size rather than costing the composition a scrollbar. */
+.plan {
+  width: 100%;
+  height: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.plan__floor {
+  fill: var(--floor-vest, #ddd9d0);
+  transition: fill 0.5s var(--e-out);
+}
+
+.plan__floor--room {
+  fill: var(--floor);
+}
+
+.plan__floor--room.is-active,
+.plan__floor--room.is-entering {
+  fill: var(--floor-active, var(--ground-2));
+}
+
+.plan__walls rect {
+  fill: none;
+  stroke: var(--poche);
+  transition: stroke 0.5s var(--e-out);
+}
+
+/* The openings are the ground painted back over the wall, which is
+   what makes them read as punched through rather than drawn on. */
+.plan__openings rect {
+  fill: var(--ground);
+  transition: fill 0.5s var(--e-out);
+}
+
+.plan__swings path {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 1.4;
+  opacity: 0.55;
+}
+
+.plan__swings .plan__leaf {
+  stroke: var(--poche);
+  stroke-width: 3.4;
+  opacity: 0.9;
+}
+
+.plan__entry path {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 1.6;
+}
+
+.plan__n {
+  font-family: var(--mono);
+  font-size: 17px;
+  fill: var(--plan-n);
+}
+
+.plan__tiny {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--plan-tiny);
+}
+
+.plan__hit rect {
+  fill: transparent;
+  cursor: pointer;
+  outline-offset: -4px;
+}
+
+.plan__hit rect:focus-visible {
+  outline: 2px solid var(--live);
+}
+
+/* --- desktop: the callout band ---------------------------------- */
+
+.band {
+  display: grid;
+  gap: clamp(0.5rem, 1.4vh, 1rem);
+  min-height: clamp(9rem, 22vh, 12.5rem);
+}
+
+.band__rule {
+  position: relative;
+  height: 1px;
+  background: var(--rule);
+  transition: background-color 0.5s var(--e-out);
+}
+
+/* The leader. It drops from the active room's own position on the
+   axis, so the band is annotated by the drawing rather than paired
+   with it. */
+.band__leader {
+  position: absolute;
+  top: -14px;
+  height: 15px;
+  width: 1px;
+  background: var(--poche);
+  opacity: 0;
+  left: var(--leader-x, 50%);
+  transition: left 0.45s var(--e-io), opacity 0.3s var(--e-out);
+}
+
+.band__leader.is-llp,
+.band__leader.is-faber,
+.band__leader.is-archive {
+  opacity: 0.8;
+}
+
+/* Sized to the tallest preview rather than to the shortest. The
+   previews are stacked and absolute so the band never reflows and the
+   leader never chases a moving target, which means the stage cannot
+   size itself to its content — so it is given the room, and the plan
+   row absorbs the difference. */
+.band__stage {
+  position: relative;
+  min-height: clamp(10rem, 23vh, 13rem);
+}
+
+.band__rest {
+  position: absolute;
+  inset: 0;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity 0.35s var(--e-out);
+  pointer-events: none;
+}
+
+.band__rest.is-on {
+  opacity: 1;
+}
+
+/* Previews are stacked and cross-faded so the band never reflows and
+   the leader never has to chase a moving target. */
+.pv {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  /* The plate column sizes to the plate, so the card keeps its
+     proportion instead of stretching into a banner. */
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--e-out);
+}
+
+.pv.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pv--archive {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.pv__words {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  justify-items: start;
+  max-width: 34rem;
+}
+
+.pv__meta {
+  color: var(--ink-3);
+}
+
+.pv__title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 1rem + 1.9vw, 2.6rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.pv__orient {
+  font-size: var(--t-body-sm);
+  line-height: 1.5;
+  font-weight: 340;
+  color: var(--ink-2);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+.pv__enter {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--live);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  text-decoration: none;
+  padding: 0.3rem 0 0.2rem;
+  border-bottom: 1px solid currentColor;
+  margin-top: 0.4rem;
+  transition: gap 0.25s var(--e-out);
+}
+
+.pv__enter:hover {
+  gap: 0.8em;
+}
+
+.pv__plate {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+  justify-items: end;
+}
+
+.pv__cap {
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.3rem;
+}
+
+/* --- plates -----------------------------------------------------
+
+   Assembled from material the project already ships, in one shared
+   proportion so the rooms read as a collection.
+   ---------------------------------------------------------------- */
+
+.plate {
+  aspect-ratio: 16 / 10;
+  height: clamp(7.5rem, 20vh, 12.5rem);
+  width: auto;
+  max-width: 100%;
+  background: var(--ground-raised);
+  border: 1px solid var(--rule);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.plate--llp .plate__word {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 7vh, 3.6rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.plate__q {
+  display: inline-block;
+  clip-path: inset(0 0 28.6% 0);
+}
+
+.plate__dot {
+  display: inline-block;
+  margin-left: -0.308em;
+}
+
+.plate__ipa {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.6rem;
+  color: var(--ink-3);
+}
+
+.plate__chair {
+  width: 68%;
+  height: 76%;
+  color: var(--ink);
+}
+
+.plate__chair .cchair {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- footer ------------------------------------------------------ */
+
+.gal__foot {
+  display: flex;
+  gap: 1.4rem;
+  align-items: baseline;
+  border-top: 1px solid var(--rule);
+  padding-top: clamp(0.5rem, 1.4vh, 0.9rem);
+  font-family: var(--sans);
+  font-size: var(--t-small);
+}
+
+.gal__foot a {
+  text-decoration: none;
+  color: var(--ink-2);
+  border-bottom: 1px solid transparent;
+  min-height: 2.2rem;
+  transition: color 0.25s var(--e-out), border-color 0.25s var(--e-out);
+}
+
+.gal__foot a:hover,
+.gal__foot a:focus-visible {
+  color: var(--live);
+  border-color: var(--live);
+}
+
+/* --- Transition B ------------------------------------------------
+
+   The room the visitor pressed, expanding outward until its walls pass
+   beyond the frame. Flat 2D the whole way: it is the same rectangle,
+   larger. No camera, no perspective, no walking.
+   ---------------------------------------------------------------- */
+
+.gallery__veil {
+  position: fixed;
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--floor-active, var(--ground-2));
+}
+
+.gallery__veil.is-llp {
+  background: #efe7dd;
+}
+
+.gallery__veil.is-faber {
+  background: #e6e9ec;
+}
+
+.gallery.is-entering .gal__head,
+.gallery.is-entering .gal__intro,
+.gallery.is-entering .band,
+.gallery.is-entering .car,
+.gallery.is-entering .gal__foot {
+  opacity: 0;
+  transition: opacity 0.22s var(--e-out);
+}
+
+/* --- mobile ------------------------------------------------------
+
+   The same system, a different composition. The plan keeps its size
+   and the type keeps reading size; the carousel is allowed to begin
+   below the fold, and the next card peeks so scrolling is obvious.
+   ---------------------------------------------------------------- */
+
+@media (max-width: 52rem) {
+  .gallery {
+    height: auto;
+    min-height: 0;
+    grid-template-rows: auto auto auto auto auto;
+    row-gap: clamp(1rem, 2.5vh, 1.5rem);
+  }
+
+  .gal__plan {
+    padding-block: 0.5rem;
+  }
+
+  .gal__plan {
+    grid-template-rows: auto;
+  }
+
+  .plan {
+    width: min(100%, 420px);
+    height: auto;
+    max-height: 214px;
+  }
+
+  .car {
+    display: grid;
+    grid-auto-flow: column;
+    /* The next card peeks. */
+    grid-auto-columns: 78%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    /* Bleed to the edges so a card can sit against the screen. */
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+
+  .car::-webkit-scrollbar {
+    display: none;
+  }
+
+  .car__card {
+    scroll-snap-align: start;
+    border: 1px solid var(--rule);
+    background: var(--ground-raised);
+    padding: 0.85rem 0.9rem 1rem;
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+    justify-items: start;
+    transition: border-color 0.4s var(--e-out), background-color 0.4s var(--e-out);
+  }
+
+  .car__card.is-on {
+    border-color: var(--ink-3);
+  }
+
+  .car__plate {
+    width: 100%;
+    margin-bottom: 0.35rem;
+  }
+
+  .car__plate .plate {
+    width: 100%;
+    height: auto;
+    max-width: none;
+  }
+
+  .pv__enter {
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .car__meta {
+    color: var(--ink-3);
+  }
+
+  .car__title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.014em;
+    color: var(--ink);
+  }
+
+  .car__orient {
+    font-size: var(--t-body-sm);
+    line-height: 1.5;
+    font-weight: 340;
+    color: var(--ink-2);
+  }
+
+  .gal__foot {
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+  }
+}
+
+/* Short desktop viewports. E1 keeps the whole plan visible, which is
+   the point of it, so the plan is what gives way rather than the
+   preview being clipped. */
+@media (min-width: 52.001rem) and (max-height: 760px) {
+  .gal__invite {
+    font-size: clamp(1.15rem, 0.9rem + 0.9vw, 1.5rem);
+  }
+
+  .band {
+    min-height: clamp(8rem, 20vh, 10.5rem);
+  }
+
+  .band__stage {
+    min-height: clamp(9.5rem, 22vh, 11.5rem);
+  }
+
+  .gal__bio {
+    font-size: var(--t-small);
+    line-height: 1.5;
+  }
+
+  .plate {
+    height: clamp(6rem, 16vh, 9rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan__floor,
+  .plan__walls rect,
+  .plan__openings rect,
+  .band__leader,
+  .band__rule,
+  .pv,
+  .car__card {
+    transition: none;
+  }
+}
+
+/* --- About: back matter, on plain paper ------------------------- */
+
+.about__head {
+  padding-inline: var(--pad);
+  padding-top: clamp(1rem, 2.6vh, 1.75rem);
+}
+
+.about__home {
+  text-align: left;
+  transition: color 0.25s var(--e-out);
+}
+
+.about__home:hover,
+.about__home:focus-visible {
+  color: var(--live);
+}
+
+.about__where {
+  color: var(--ink-3);
+}
+
+.about .m {
+  padding-top: clamp(3rem, 9vh, 5.5rem);
+  padding-bottom: clamp(2rem, 6vh, 4rem);
+}
+
+.about__foot {
+  margin-inline: var(--pad);
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+}

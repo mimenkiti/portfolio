@@ -49,7 +49,7 @@ const STATES: State[] = [
     letter: 'B',
     name: 'Retrieval / Production Gap',
     shipped: 'production-gap',
-    stage: "You understand her. But you hesitate — the response isn't there yet.",
+    stage: "You understand her. But you hesitate, and the response isn't there yet.",
     learnerSaid: [{ text: "I'm good" }, { text: '... (searching)' }],
     inferred:
       "You understood what she asked. The gap is: you don't yet have the Igbo words ready.",

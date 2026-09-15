@@ -150,6 +150,82 @@ html[data-world='cover'].is-cooling {
   --rule-soft: #314c6c;
 }
 
+/* ---------------------------------------------------------------
+   The Gallery. The index only.
+
+   A light, neutral environment: the Gallery is connective tissue, and
+   the two project worlds still own the warm and the cool. Poché is a
+   near-black with the site's warmth in it, so the plan reads as a
+   drawing on paper rather than as UI.
+
+   The environment is the state. Hovering or focusing a room moves the
+   ground, the ink and the poché together — LLP warm, Faber cool,
+   Archive graphite rather than a third project colour, because it is
+   not a current flagship. Every ink stays at or above 4.5:1 in all
+   four states.
+   --------------------------------------------------------------- */
+html[data-world='gallery'] {
+  --ground: #e6e2da;
+  --ground-lift: #efece6;
+  --ground-2: #dcd8cf;
+  --ground-raised: #edeae4;
+
+  --ink: #1a1712;
+  --ink-2: #55504a;
+  --ink-3: #5f594f;
+  --rule: #c9c4ba;
+  --rule-soft: #d8d3ca;
+
+  --live: #a63a22;
+  --live-2: #852c19;
+  --live-wash: rgba(166, 58, 34, 0.09);
+
+  /* Filled wall thickness, and the floor of an inactive room. */
+  --poche: #221c16;
+  --floor: #ddd9d0;
+  --floor-vest: #e0dcd3;
+
+  /* The plan's own text sits on a floor whose colour changes with the
+     active room, so it cannot use --ink-2/--ink-3: on LLP's active floor
+     (#d8bd97, the warmest and lightest of them) those measure 4.42 and
+     3.85 against an 11px and a 17px label, both short of AA. These two
+     are set to clear 4.5:1 on every floor, every ground and the
+     vestibule, in all four states, and they stay one step apart so the
+     number still reads ahead of the name. */
+  --plan-n: #454036;
+  --plan-tiny: #514b40;
+}
+
+html[data-world='gallery'].room-llp {
+  --ground: #eaddc9;
+  --ground-lift: #f3e9d9;
+  --ground-2: #e0d1ba;
+  --rule: #cdbb9f;
+  --rule-soft: #dbcdb6;
+  --floor: #e2d5c0;
+  --floor-active: #d8bd97;
+}
+
+html[data-world='gallery'].room-faber {
+  --ground: #dde3e9;
+  --ground-lift: #e9eef2;
+  --ground-2: #d0d8e0;
+  --rule: #b8c3cd;
+  --rule-soft: #c9d3dc;
+  --floor: #d3dae1;
+  --floor-active: #bccbd8;
+}
+
+html[data-world='gallery'].room-archive {
+  --ground: #e1e1de;
+  --ground-lift: #ebebe8;
+  --ground-2: #d6d6d2;
+  --rule: #c2c2bd;
+  --rule-soft: #d1d1cc;
+  --floor: #d8d8d4;
+  --floor-active: #cbcbc5;
+}
+
 /* --- LLP: warmer, ochre, evening. Its room is lit like a lamp. */
 html[data-world='llp'] {
   --ground: #efe7dd;

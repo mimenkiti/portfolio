@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import type { Route } from './router'
 
-export type World = 'global' | 'cover' | 'llp' | 'faber'
+export type World = 'global' | 'gallery' | 'llp' | 'faber'
 
 /**
  * The index gets its own world rather than sharing 'global' with About.
- * About is a reading page and belongs on paper; the index is the cover.
+ * About is back matter and belongs on plain paper; the index is the
+ * Gallery, with its own neutral environment and three room states.
  */
 const WORLD: Record<Route, World> = {
-  '/': 'cover',
+  '/': 'gallery',
   '/llp': 'llp',
   '/faber': 'faber',
   '/about': 'global',
@@ -29,9 +30,9 @@ export function useWorld(route: Route) {
     const world = WORLD[route] || 'global'
     const prev = document.documentElement.dataset.world
     document.documentElement.dataset.world = world
-    // Leaving the index clears any hover temperature it was holding.
-    if (world !== 'cover') {
-      document.documentElement.classList.remove('is-warming', 'is-cooling')
+    // Leaving the Gallery clears whichever room state it was holding.
+    if (world !== 'gallery') {
+      document.documentElement.classList.remove('room-llp', 'room-faber', 'room-archive')
     }
 
     if (!ENTRANCE.includes(world) || prev === world) return

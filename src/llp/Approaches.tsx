@@ -15,7 +15,7 @@ const REGISTERS = [
   {
     key: 'order',
     ask: 'What order do you teach in?',
-    said: 'Four sequences for the same first greeting. Teach then practise, try then discover, observe then infer, or test first and teach only what is missing. Walk any of them, then read them side by side.',
+    said: 'Four sequences for the same first greeting. Teach then practice, try then discover, observe then infer, or test first and teach only what is missing. Walk any of them, then read them side by side.',
     kind: 'embed' as const,
     src: '/artifacts/teaching-approaches.html',
     title: 'Four teaching approaches',

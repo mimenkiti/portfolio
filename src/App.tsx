@@ -5,7 +5,7 @@ import { useScrollHide } from './lib/hide'
 import { useWorld } from './lib/theme'
 import { useMode } from './project/useMode'
 import { ModeSwitch } from './project/ModeSwitch'
-import { Index } from './pages/Index'
+import { Gallery } from './gallery/Gallery'
 import { LLP } from './pages/LLP'
 import { Faber } from './pages/Faber'
 import { About } from './pages/About'
@@ -48,7 +48,7 @@ export default function App() {
           </div>
         )}
         <main key={route}>
-          {route === '/' && <Index setGround={setGround} />}
+          {route === '/' && <Gallery />}
           {route === '/llp' && <LLP mode={mode} setGround={setGround} />}
           {route === '/faber' && <Faber mode={mode} setGround={setGround} />}
           {route === '/about' && <About />}

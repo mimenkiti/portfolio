@@ -35,9 +35,9 @@ export function Marker({
         <button
           className="marker__home"
           onClick={() => go('/')}
-          aria-label={home ? 'Michelle Menkiti' : 'Back to the index'}
+          aria-label={home ? 'Michelle A. Menkiti' : 'Back to the Gallery'}
         >
-          {home ? 'Michelle Menkiti' : <span className="marker__back">← index</span>}
+          {home ? 'Michelle A. Menkiti' : <span className="marker__back">← Gallery</span>}
         </button>
         {!home && title && <span className="marker__title">{title}</span>}
       </div>

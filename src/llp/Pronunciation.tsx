@@ -182,11 +182,11 @@ export function Pronunciation() {
 
   return (
     <div className="pron">
+      {/* The lead sentence that used to sit here said the same thing as
+          the figure's own caption ("the same voice and model in each, and
+          the exact string that produced them"), which the caption states
+          in both Experience and Read. One note, not two. */}
       <div className="pron__head">
-        <p className="pron__lead">
-          The same voice and the same model in both clips. The only thing that changes is the
-          string sent to the API.
-        </p>
         <div className="pron__voices" role="group" aria-label="Voice">
           {voices.map((v) => (
             <button

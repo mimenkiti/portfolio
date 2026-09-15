@@ -2,18 +2,18 @@
  * What happens when it cannot hear you.
  *
  * This is the unfinished part, so it is shown rather than described. Every
- * string here is the deployed build's own: the outcomes its recogniser can
+ * string here is the deployed build's own: the outcomes its recognizer can
  * return, the ways a microphone can fail it, and what it says to a learner
  * in each case. Quoted verbatim, which is why the punctuation is the
  * product's and not the page's.
  */
 
 const OUTCOMES = [
-  { k: 'Match — correct Igbo', v: 'The response is one of the accepted forms for this moment. Chioma continues.' },
-  { k: 'English — comprehension, no production', v: 'Understood, but answered in the wrong language. Credit the understanding, teach the words.' },
-  { k: 'Low confidence — correct but unrecognised', v: 'Probably right. The system cannot tell. It says so and does not score it.' },
-  { k: 'Silence — nothing heard', v: 'No evidence either way. Not a failure.' },
-  { k: 'Mismatch — a different phrase', v: 'Heard something else. Chioma rephrases rather than marking it wrong.' },
+  { k: 'Match: correct Igbo', v: 'The response is one of the accepted forms for this moment. Chioma continues.' },
+  { k: 'English: comprehension, no production', v: 'Understood, but answered in the wrong language. Credit the understanding, teach the words.' },
+  { k: 'Low confidence: correct but unrecognized', v: 'Probably right. The system cannot tell. It says so and does not score it.' },
+  { k: 'Silence: nothing heard', v: 'No evidence either way. Not a failure.' },
+  { k: 'Mismatch: a different phrase', v: 'Heard something else. Chioma rephrases rather than marking it wrong.' },
 ]
 
 const MIC = ['unsupported', 'insecure-context', 'denied', 'no-device', 'unknown']
@@ -23,7 +23,7 @@ export function Hearing() {
     <div className="hear">
       <div className="hear__what">
         <p className="hear__lead">
-          What the recogniser is allowed to come back with, and what the lesson does with each.
+          What the recognizer is allowed to come back with, and what the lesson does with each.
         </p>
         <dl className="hear__list">
           {OUTCOMES.map((o) => (

@@ -604,12 +604,9 @@
   justify-content: space-between;
 }
 
-.pron__lead {
-  max-width: 34rem;
-  color: var(--ink-2);
-  font-size: var(--t-body-sm);
-}
-
+/* `.pron__lead` is gone: its sentence duplicated the figure caption. The
+   head now carries only the voice switch, which space-between leaves at
+   the start as the sole child. */
 .pron__voices {
   display: flex;
   gap: 0.3rem;

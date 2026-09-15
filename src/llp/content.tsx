@@ -254,7 +254,7 @@ export const LLP_PROJECT: Project = {
       terms: 'sound on · about three minutes · a microphone, if you want to answer aloud',
       caption: (
         <>
-          The build as deployed. Chioma's speech is synthesised on request against the knowledge
+          The build as deployed. Chioma's speech is synthesized on request against the knowledge
           registry, teaching opens over the scene without ending it, and the microphone is real.
           Nothing here is a recording of the product; it is the product.
         </>
@@ -348,7 +348,7 @@ export const LLP_PROJECT: Project = {
       id: 'dot-lab',
       kind: 'embed',
       src: '/artifacts/dot-lab.html',
-      title: 'Eighteen behaviours for one dot',
+      title: 'Eighteen behaviors for one dot',
       scale: 'wide',
       frame: 'phone',
       invite: 'tap, hold and drag it',
@@ -356,7 +356,7 @@ export const LLP_PROJECT: Project = {
       caption: (
         <>
           Tap asks the system for something. Hold means it is listening to you. Drag only works
-          when the dot is attached to something. The lab keeps its own critique of each behaviour
+          when the dot is attached to something. The lab keeps its own critique of each behavior
           beside it, including this one, on what all of that costs:{' '}
           <em>
             Everything here is a gesture on one small target. Hold needs a tap-to-start/tap-to-stop
@@ -501,7 +501,7 @@ export const LLP_PROJECT: Project = {
       caption: (
         <>
           The tests, as they were run. Two clips per line, the same voice and model in each, and
-          the exact string that produced them. Whether the second is better is the judgement the
+          the exact string that produced them. Whether the second is better is the judgment the
           work was trying to make, and it is left to you.
         </>
       ),
