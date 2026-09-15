@@ -56,10 +56,13 @@
 
 /* --- bio and the invitation ------------------------------------- */
 
+/* The `max-width` that used to sit here is gone on purpose: the invitation
+   centres on the whole content width, the way the plan below it does, and a
+   54rem cap would have centred it inside the bio's block instead. The bio
+   keeps its own measure. */
 .gal__intro {
   display: grid;
   gap: clamp(0.4rem, 1.2vh, 0.8rem);
-  max-width: 54rem;
 }
 
 .gal__bio {
@@ -80,6 +83,12 @@
   line-height: 1.12;
   letter-spacing: -0.016em;
   color: var(--ink);
+  /* A hinge between the bio and the plan: separated from the paragraph
+     above, centred over the drawing below. The space goes above it only,
+     because the grid's own row gap already sets it off from the plan and
+     a matching gap underneath would read as a moat. */
+  text-align: center;
+  margin-top: clamp(1.5rem, 4.4vh, 2.9rem);
 }
 
 /* --- the plan --------------------------------------------------- */
@@ -556,6 +565,12 @@
     color: var(--ink-2);
   }
 
+  /* The same hinge, scaled down: still clearly separated from the bio,
+     without eating the space the plan needs on a phone. */
+  .gal__invite {
+    margin-top: clamp(1.15rem, 3.2vh, 1.9rem);
+  }
+
   .gal__foot {
     flex-wrap: wrap;
     gap: 0.4rem 1.2rem;
@@ -568,6 +583,7 @@
 @media (min-width: 52.001rem) and (max-height: 760px) {
   .gal__invite {
     font-size: clamp(1.15rem, 0.9rem + 0.9vw, 1.5rem);
+    margin-top: clamp(1.1rem, 3.4vh, 2rem);
   }
 
   .band {

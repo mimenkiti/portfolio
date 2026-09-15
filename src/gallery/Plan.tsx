@@ -69,7 +69,12 @@ export function Plan({
       viewBox={vb}
       role="group"
       aria-label="Gallery floor plan. Three rooms on one axis."
-      onPointerLeave={() => onHover(null)}
+      /* Clearing the active room used to happen here, on leaving the SVG.
+         That made the preview's own button unreachable: the pointer has to
+         leave the plan to get to it, which dropped the preview to
+         `opacity: 0; pointer-events: none` before the click landed, so
+         `Enter →` and `View archive ↗` could never be pressed with a
+         mouse. The Gallery clears it on leaving the whole page instead. */
     >
       {/* Room floors. Painted first so the walls always sit on top. */}
       <rect className="plan__floor" {...box(VESTIBULE)} />

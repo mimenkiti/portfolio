@@ -125,7 +125,13 @@ export function Gallery() {
   const shown = active ?? null
 
   return (
-    <div className={['route gallery', entering ? 'is-entering' : ''].join(' ')}>
+    <div
+      className={['route gallery', entering ? 'is-entering' : ''].join(' ')}
+      // The active room survives the trip from the plan down to the
+      // preview, so the preview's own button can actually be pressed. It
+      // clears when the pointer leaves the Gallery altogether.
+      onPointerLeave={() => setActive(null)}
+    >
       <div
         className={['gallery__veil', entering ? `is-${entering}` : ''].join(' ')}
         ref={veil}

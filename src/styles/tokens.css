@@ -196,34 +196,94 @@ html[data-world='gallery'] {
   --plan-tiny: #514b40;
 }
 
+/* The three room environments.
+
+   Deepened from the original pastel states to mid-tone, saturated fields:
+   clay for LLP, slate for Faber, a quieter olive for Archive. Every
+   surface token carries the state, not just the active room, so the whole
+   page turns.
+
+   These are generated from one hue per state and a lightness ladder rather
+   than picked by eye, because the ladder is what keeps depth once the
+   ground is this saturated: ground-raised > floor-active > ground-lift >
+   floor-vest > ground > floor > ground-2 > rule-soft > rule, with poche
+   far below all of them and three inks below that.
+
+   The active room reads LIGHTER than the field, not darker. At these
+   depths that is both the lamp-lit reading the design always wanted and
+   the only way an 11px label inside the room clears AA.
+
+   Every text token is solved against the worst surface it can land on in
+   its own state, so all three clear WCAG AA 4.5:1. Worst cases, measured:
+   LLP 4.62 (ink-3 on ground-2), Faber 4.60 (live on ground), Archive 4.62
+   (ink-3 on ground-2). `--live` is lifted per state because the pale
+   oxblood would have failed on a ground this deep. */
 html[data-world='gallery'].room-llp {
-  --ground: #eaddc9;
-  --ground-lift: #f3e9d9;
-  --ground-2: #e0d1ba;
-  --rule: #cdbb9f;
-  --rule-soft: #dbcdb6;
-  --floor: #e2d5c0;
-  --floor-active: #d8bd97;
+  /* clay / madder */
+  --ground: #d08b7e;
+  --ground-lift: #d3aba3;
+  --ground-raised: #dbc4c0;
+  --ground-2: #ce7361;
+  --rule: #b44b36;
+  --rule-soft: #c56653;
+  --floor: #cf7d6d;
+  --floor-active: #e6a396;
+  --floor-vest: #cd9b91;
+  --poche: #1e1513;
+  --ink: #080605;
+  --ink-2: #1d1311;
+  --ink-3: #31201c;
+  --plan-n: #221715;
+  --plan-tiny: #382521;
+  --live: #58230a;
+  --live-2: #441905;
+  --live-wash: rgba(88, 35, 10, 0.14);
 }
 
 html[data-world='gallery'].room-faber {
-  --ground: #dde3e9;
-  --ground-lift: #e9eef2;
-  --ground-2: #d0d8e0;
-  --rule: #b8c3cd;
-  --rule-soft: #c9d3dc;
-  --floor: #d3dae1;
-  --floor-active: #bccbd8;
+  /* slate / ink blue */
+  --ground: #8ba5c6;
+  --ground-lift: #abbacd;
+  --ground-raised: #c5ced8;
+  --ground-2: #7195c0;
+  --rule: #4972a5;
+  --rule-soft: #6589b6;
+  --floor: #7c9cc2;
+  --floor-active: #a3bcdc;
+  --floor-vest: #9baec6;
+  --poche: #14181c;
+  --ink: #0a0c0e;
+  --ink-2: #171c21;
+  --ink-3: #232b35;
+  --plan-n: #1b2026;
+  --plan-tiny: #29313b;
+  --live: #163c52;
+  --live-2: #0f2e40;
+  --live-wash: rgba(22, 60, 82, 0.14);
 }
 
 html[data-world='gallery'].room-archive {
-  --ground: #e1e1de;
-  --ground-lift: #ebebe8;
-  --ground-2: #d6d6d2;
-  --rule: #c2c2bd;
-  --rule-soft: #d1d1cc;
-  --floor: #d8d8d4;
-  --floor-active: #cbcbc5;
+  /* olive / moss. Deliberately the quietest of the three: it is not a
+     current flagship, so it carries the least saturation and sits
+     lightest. */
+  --ground: #aebd93;
+  --ground-lift: #bfc8b0;
+  --ground-raised: #d0d5c8;
+  --ground-2: #a0b47d;
+  --rule: #7f9756;
+  --rule-soft: #95aa71;
+  --floor: #9eb37a;
+  --floor-active: #c5d3ab;
+  --floor-vest: #b4c0a1;
+  --poche: #191b15;
+  --ink: #1b1d17;
+  --ink-2: #2c3025;
+  --ink-3: #3c4232;
+  --plan-n: #292d23;
+  --plan-tiny: #3b4132;
+  --live: #364e21;
+  --live-2: #2a3d18;
+  --live-wash: rgba(54, 78, 33, 0.14);
 }
 
 /* --- LLP: warmer, ochre, evening. Its room is lit like a lamp. */
