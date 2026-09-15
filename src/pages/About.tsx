@@ -40,13 +40,12 @@ export function About() {
             an idea, feel free to reach out.
           </p>
         </div>
-
-        <div className="m__next wide">
-          <hr className="rule" />
-          <button className="act" onClick={() => go('/')}>
-            <span aria-hidden="true">←</span> Gallery
-          </button>
-        </div>
+        {/* No `m__next` block here. The Marker already carries `← Gallery`
+            at the top of the page, so a second one above the footer was
+            the same link twice. Its `<hr className="rule">` went with it
+            rather than being left behind: `.gal__foot` has its own
+            `border-top`, so the rule was a second hairline immediately
+            above the footer's. */}
       </section>
 
       <footer className="gal__foot about__foot">
