@@ -10,10 +10,16 @@ import { LLP } from './pages/LLP'
 import { Faber } from './pages/Faber'
 import { About } from './pages/About'
 
+/**
+ * What the Marker names beside `← Gallery`.
+ *
+ * About is deliberately absent. It is the one route that carries its own
+ * header, which already says "About" on the right, so giving the Marker
+ * the same word printed it twice in the same corner.
+ */
 const TITLES: Record<string, string> = {
   '/llp': 'LLP',
   '/faber': 'Faber',
-  '/about': 'About',
 }
 
 export default function App() {

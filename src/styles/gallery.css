@@ -602,9 +602,19 @@
 
 /* --- About: back matter, on plain paper ------------------------- */
 
+/* About is the only route that has both its own header and the fixed
+   Marker, because App renders the Marker everywhere except the Gallery.
+   This header was written as a copy of the Gallery's, where there is no
+   Marker, so at 1440x900 "Michelle A. Menkiti" (top 23) was painting
+   under "← Gallery" (top 37) in the same corner.
+
+   The clearance is derived from the Marker's own position rather than
+   guessed: it is fixed at `top: clamp(16px, 2.4vw, 30px)` and stands
+   about 3rem tall with its progress hairline, so the header starts below
+   that and keeps a visible gap. Nothing inside the header moves. */
 .about__head {
   padding-inline: var(--pad);
-  padding-top: clamp(1rem, 2.6vh, 1.75rem);
+  padding-top: calc(clamp(16px, 2.4vw, 30px) + 3.75rem);
 }
 
 .about__home {
