@@ -18,8 +18,8 @@ export function LLP({ mode, setGround }: { mode: Mode; setGround: (v: number) =>
         {/* A reader can arrive here without passing the Gallery, so the
             thing the Gallery's preview says has to be said once here too. */}
         <p className="proj__draft caption side">
-          LLP is short for Language Learning Product. It is a heritage-language learning product,
-          starting with Igbo: you meet a guide who speaks it, and the lesson happens around that
+          LLP is short for Language Learning Product. It teaches a heritage language, starting
+          with Igbo: you meet a guide who speaks it, and the lesson happens around that
           conversation rather than before it.
         </p>
       </header>

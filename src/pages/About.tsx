@@ -26,12 +26,11 @@ export function About() {
         <div className="prose m__prose">
           <h1 className="lede m__lift">I lead product at Samsung Wallet, and I trained as an architect.</h1>
           <p>
-            I&rsquo;m a Senior Product Manager at Samsung, responsible for products across payments,
+            I&rsquo;m a Senior Product Manager at Samsung, where I lead the products for payments,
             rewards and digital identity in Samsung Wallet. Before Samsung I worked on consumer
             financial products at Goldman Sachs, with a stretch at an early-stage startup in
-            between. The work I have been given has mostly been the kind where the hard part is
-            deciding what the thing should be, and then staying with it long enough that it reaches
-            people.
+            between. Most of that work has been the kind where the hard part is deciding what the
+            thing should be, and then staying with it long enough that it reaches people.
           </p>
           <p>
             I studied architecture at MIT. I never practiced, but the training is the reason I think

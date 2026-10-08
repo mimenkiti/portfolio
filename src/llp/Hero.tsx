@@ -129,7 +129,7 @@ export function Hero() {
             the page said so. Plain, and true on both a mouse and a thumb:
             the Dot is a real button with a real accessible name. */}
         <p className={['hero__say caption', stage === 'settled' ? 'is-on' : ''].join(' ')}>
-          The dot at the end of the question is a button. Press it to hear her say the word.
+          The dot at the end of the question is a button. Press it to hear her say it.
         </p>
       </div>
 
