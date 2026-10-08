@@ -26,13 +26,13 @@ const REGISTERS = [
   {
     key: 'break',
     ask: 'What does it look like when it goes wrong?',
-    said: 'A learner might understand immediately, understand part of it, or have no idea at all. Four different failures, four different recoveries, and only one of them is about the learner being wrong.',
+    said: 'Four recovery states for the same moment, and only one of them is about the learner being wrong. The names are the ones the deployed build runs on.',
     kind: 'recovery' as const,
   },
   {
     key: 'seam',
     ask: 'Where does the help live?',
-    said: 'Three ways to leave a conversation for practice and come back to it. Drag across a seam, magnify in place, or carry the card in front of a conversation that never went away. Drag the dot.',
+    said: 'You are mid-encounter and you did not catch what Chioma said. Help opens over the conversation: you can hear the phrase again and read what it means, the scene stays behind it rather than being replaced, and closing the card puts you back at the same beat. Three ways of making that move. Drag the dot.',
     kind: 'embed' as const,
     src: '/artifacts/dot-lab.html#E',
     title: 'Encounter and practice',

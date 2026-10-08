@@ -96,8 +96,8 @@ export function MissingObject() {
         ))}
       </div>
       <p className="mo__note">
-        A portfolio drawing of something Faber cannot do. It can already write these three builds
-        and it does, in detail. What it cannot do is show you the object at the end of one.
+        Something Faber cannot do. It can already write these three builds and it does, in detail.
+        What it cannot do is show you the object at the end of one.
       </p>
     </div>
   )

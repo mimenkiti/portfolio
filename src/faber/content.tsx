@@ -102,14 +102,16 @@ export const FABER_PROJECT: Project = {
       scale: 'column',
       caption: (
         <>
-          A working drawing made while building Faber. Photograph the object, identify and measure
-          it, adjust the approach to making it, leave with something you can build from. Project
-          material, not a screen and not a Faber output.
+          A working drawing I made while building Faber: photograph the object, identify and
+          measure it, adjust the approach to making it, and leave with something you can build
+          from.
         </>
       ),
       render: () => (
         <img
           className="fsketch"
+          width={1800}
+          height={362}
           src={PROCESS_SKETCH.full}
           alt="Four panels: photographing a chair, a dimensioned line drawing of it, two versions of the chair with a slider between them, and a multi-view drawing sheet"
           loading="lazy"
@@ -129,9 +131,9 @@ export const FABER_PROJECT: Project = {
           it is, who designed it, where it came from, and when it was made.
         </>,
         <>
-          This works surprisingly well for recognizable pieces. It becomes less reliable as the
-          object becomes more obscure, and that distinction ended up mattering. A plausible
-          identification and a correct identification can look almost identical on a screen.
+          This works surprisingly well for recognizable pieces and becomes less reliable as the
+          object becomes more obscure. A plausible identification and a correct identification can
+          look almost identical on a screen.
         </>,
       ],
     },
@@ -185,9 +187,9 @@ export const FABER_PROJECT: Project = {
       caption: (
         <>
           Six views of one object: the photograph, the elevation, the axonometric, a view you turn
-          yourself, the parts separated, and the single bent length the product singles out. A
-          portfolio drawing. Faber&rsquo;s own Understand stage shows a placeholder frame where an
-          object viewer will go.
+          yourself, the parts separated, and the single bent length the product singles out.
+          Faber&rsquo;s own Understand stage shows a placeholder frame where an object viewer will
+          go, and it does not turn.
         </>
       ),
       render: (mode, setGround) => (
@@ -263,13 +265,10 @@ export const FABER_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          The Curious version should be approachable and relatively quick, using simpler
-          construction and more accessible tools. The Maker can take on more time and complexity.
-          The Craftsperson can move closer to the logic and fabrication of the original.
-        </>,
-        <>
           I wanted those to be genuinely different interpretations of the same object rather than
-          easier and harder instruction manuals, and that part works.
+          easier and harder instruction manuals, and the panel above is the evidence that it works:
+          pliers and wire at one end, a lathe and compound-angle joinery at the other, and a
+          different object at each stop.
         </>,
         <>What I haven&rsquo;t finished is being able to see it.</>,
       ],
@@ -320,7 +319,6 @@ export const FABER_PROJECT: Project = {
           The new object should still carry whatever made the original interesting, but it should
           also visibly belong to the person who is going to make it.
         </>,
-        <>I haven&rsquo;t solved that yet.</>,
       ],
     },
     {
@@ -329,14 +327,15 @@ export const FABER_PROJECT: Project = {
       scale: 'column',
       caption: (
         <>
-          From the same drawing: two versions of one chair, and a control between them. The
-          transformation was drawn before it could be built, and it is still the part that
-          isn&rsquo;t.
+          From the same drawing: two versions of one chair, and a control between them. I drew what
+          I want this part of the product to do, and I have not built it yet.
         </>
       ),
       render: () => (
         <img
           className="fsketch fsketch--panel"
+          width={900}
+          height={823}
           src={PROCESS_SKETCH.transformPanel}
           alt="Two line drawings of the same lounge chair, one more complex than the other, with a slider between them"
           loading="lazy"
@@ -400,14 +399,21 @@ export const FABER_PROJECT: Project = {
     {
       id: 'colophon',
       kind: 'aside',
+      /* TODO (Michelle): the brief asks a built note to say when the
+         project started, its stack, which models it calls, and how you
+         used AI-assisted development. None of that is recorded in this
+         repository, so it is left out rather than guessed at. The capture
+         date, the generation time and the geometry limitation below are
+         all from `data.ts` and the live build. */
       text: (
         <>
-          Faber is live at{' '}
+          <strong>How this was built.</strong> I designed and built Faber myself. It is live at{' '}
           <a href={FABER_URL.home} target="_blank" rel="noreferrer">
             faber-five.vercel.app
           </a>
-          . Product output on this page was {CAPTURE.label} and is quoted, not generated here.
-          Drawings of the chair are the portfolio&rsquo;s.
+          . Its output on this page was copied out of the build on {CAPTURE.on} rather than
+          generated while you read, because a build takes thirty to sixty seconds to write and does
+          not always finish.
         </>
       ),
     },

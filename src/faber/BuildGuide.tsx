@@ -1,4 +1,4 @@
-import { CAPTURE, GUIDE_FOOT, GUIDE_HEAD, GUIDE_STEPS, LEVELS } from './data'
+import { GUIDE_FOOT, GUIDE_HEAD, GUIDE_STEPS, LEVELS } from './data'
 
 /**
  * What actually comes off the screen today.
@@ -44,8 +44,8 @@ export function BuildGuide() {
         </p>
       </div>
       <p className="fq__cap caption">
-        Faber&rsquo;s printable Build Guide, set at paper proportions. Running heads and step titles
-        are the product&rsquo;s own; {CAPTURE.label}.
+        The printable Build Guide, set at paper proportions, with its real running heads and the
+        real step titles for this chair.
       </p>
     </div>
   )

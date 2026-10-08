@@ -107,7 +107,7 @@ export function Recovery() {
   return (
     <div className="rec">
       <p className="rec__lead">
-        The same moment, Chioma saying <span className="ig">Kedụ?</span>, going wrong in four
+        The same moment, Chioma saying <span className="ig" lang="ig">Kedụ?</span>, going wrong in four
         different ways.
       </p>
 
@@ -128,12 +128,14 @@ export function Recovery() {
 
       <div className="rec__panel">
         <div className="rec__stage">
-          <p className="rec__she ig">Kedụ?</p>
+          <p className="rec__she ig" lang="ig">Kedụ?</p>
           <p className="rec__what">{s.stage}</p>
           <div className="rec__said">
             {s.learnerSaid.map((l) => (
               <span className="rec__chip" key={l.text}>
-                <span className={l.gloss ? 'ig' : ''}>{l.text}</span>
+                <span className={l.gloss ? 'ig' : ''} lang={l.gloss ? 'ig' : undefined}>
+                  {l.text}
+                </span>
                 {l.gloss && <span className="rec__chipGloss caption">{l.gloss}</span>}
               </span>
             ))}

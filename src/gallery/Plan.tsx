@@ -235,11 +235,15 @@ export function Plan({
           )}
         </g>
       ))}
-      {/* Archive is too narrow to hold its own name inside the room. */}
+      {/* Archive is too narrow to hold its own name inside the room, so
+          its label sits outside. It steps back with the others. */}
       <text
         x={ROOMS[2].rect.x + ROOMS[2].rect.w + 12}
         y={ROOMS[2].rect.y + 34}
-        className="plan__tiny"
+        className={[
+          'plan__tiny plan__mark',
+          active && active !== 'archive' ? 'is-quiet' : '',
+        ].join(' ')}
         aria-hidden="true"
       >
         archive

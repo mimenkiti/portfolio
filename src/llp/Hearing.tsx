@@ -27,7 +27,9 @@ export function Hearing() {
     <div className="hear">
       <div className="hear__what">
         <p className="hear__lead">
-          What the recognizer is allowed to come back with, and what the lesson does with each.
+          Five outcomes the recognizer is allowed to return, and what the lesson does with each. The
+          third one is the decision: when the system cannot verify what it heard, it does not score
+          the answer.
         </p>
         <dl className="hear__list">
           {OUTCOMES.map((o) => (
@@ -42,11 +44,8 @@ export function Hearing() {
       <div className="hear__mic">
         <p className="hear__k label">And when there is no microphone at all</p>
         <p className="hear__v">
-          Five named ways it can fail, each with its own recovery, and an exit that is not a
-          penalty: <em>carry on without speaking</em>. None of these is the learner getting
-          something wrong. A browser that cannot do it, a page served without a secure context, a
-          permission that was never granted, a device that is not there: those are all mine to
-          handle, and the lesson should never charge them to the person trying to speak.
+          Five ordinary browser problems, each with its own recovery and the same exit:{' '}
+          <em>carry on without speaking</em>. None of them is scored.
         </p>
         <ul className="hear__kinds data">
           {MIC.map((m) => (

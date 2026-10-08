@@ -2,16 +2,17 @@ import { useState } from 'react'
 import reg from './data/registry.json'
 
 /**
- * Knowledge, curriculum, teaching — traced through the real artifacts.
+ * Knowledge, curriculum, teaching, traced through the real artifacts.
  *
- * Two things this deliberately does not do. It does not draw a tidy
- * three-box diagram: the system states its own chain as five links, and
- * collapsing that silently would be inventing architecture. And it does
- * not hide the status columns. Every capability here is Draft, every
- * knowledge object the lesson needs is Candidate, and the lesson carries
- * a blocker saying so. That is the interesting part.
+ * One model, not two. The three questions in the prose are the model;
+ * the rail is the route one phrase takes through them. The system's own
+ * five-link chain used to be stated here as a correction to the three
+ * bands, which left a reader reconciling two architectures and five
+ * unexplained nouns before they could look at anything. It is still on
+ * the page, inside the registry's own readout, where it belongs.
  *
- * Every value on screen is a cell from one of the workbooks.
+ * The status columns are not hidden. Every value on screen is a cell
+ * from one of the workbooks.
  */
 
 type Row = Record<string, string | null>
@@ -35,13 +36,13 @@ const BANDS = [
   {
     key: 'knowledge',
     name: 'Knowledge',
-    asks: 'What do we know about the language, and how much do we trust it?',
+    asks: 'What do I know about the language, and how much do I trust it?',
     layers: ['source', 'knowledge'],
   },
   {
     key: 'curriculum',
     name: 'Curriculum',
-    asks: 'What should this learner learn, and in what order?',
+    asks: 'What should a learner be able to do, and in what order?',
     layers: ['curriculum', 'lesson'],
   },
   {
@@ -156,19 +157,20 @@ export function Inspector() {
             onClick={() => setAt(Math.min(TRACE.length - 1, at + 1))}
             disabled={at === TRACE.length - 1}
           >
-            onward <span aria-hidden="true">→</span>
+            next <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>
 
       <p className="insp__stated caption">
-        The chain the system states for itself is longer than three:{' '}
-        <strong>{META.architectureStatedBySystem}</strong>. Sources sit under knowledge; lessons,
-        exercises and beats sit under teaching.
+        A <strong>capability</strong> is one thing a learner should be able to do, written down with
+        the knowledge objects it depends on. Nothing in the registry has passed the gate yet: of the{' '}
+        {META.counts.capabilities} capabilities, none has reached Ready for Lesson, and the lesson
+        this phrase belongs to carries a blocker saying why.
       </p>
 
       <button className="insp__more act act--quiet" onClick={() => setDeep(!deep)} aria-expanded={deep}>
-        {deep ? 'close' : 'what the registry says about itself'}
+        {deep ? 'close' : 'the registry\u2019s own audit of itself'}
       </button>
 
       {deep && (
@@ -195,9 +197,13 @@ export function Inspector() {
             <p className="caption">
               Every capability in the registry is <strong>Draft</strong> or{' '}
               <strong>Knowledge Gap</strong>. Of {META.counts.knowledge} knowledge objects, the
-              review queue holds {META.counts.humanReviewQueue} questions for native speakers and{' '}
-              {META.counts.humanReviewQueueDecided} of them have an answer. The system’s own gate
-              is closed, and it is the system that says so.
+              review queue holds {META.counts.humanReviewQueue} questions for native speakers, and{' '}
+              {META.counts.humanReviewQueueDecided} of them have an answer.
+            </p>
+            <p className="caption">
+              The chain the registry states for itself runs{' '}
+              <strong>{META.architectureStatedBySystem}</strong>. Sources sit under knowledge;
+              lessons, exercises and beats sit under teaching.
             </p>
           </div>
 

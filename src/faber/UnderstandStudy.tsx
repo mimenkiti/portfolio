@@ -45,7 +45,7 @@ const STAGES = [
   },
   {
     at: 0.81,
-    name: 'DETAIL — BACK HOOP',
+    name: 'DETAIL \u00b7 BACK HOOP',
     note: '“The continuous rear leg and backpost are a single length of bent beech, eliminating what would otherwise be the most vulnerable joint in the chair.”',
     quoted: true,
   },
@@ -271,7 +271,7 @@ export function UnderstandStudy({ onGround, embedded = false }: Props) {
             <span className="study__name">{info.name}</span>
           </div>
           <p className={['study__note', info.quoted ? 'is-quoted' : ''].join(' ')}>{info.note}</p>
-          {info.quoted && <p className="study__src">Faber, Understand — Chair No. 14</p>}
+          {info.quoted && <p className="study__src">Faber, Understand · Chair No. 14</p>}
         </div>
 
         {embedded && (
@@ -283,7 +283,7 @@ export function UnderstandStudy({ onGround, embedded = false }: Props) {
                 onClick={() => goTo(i)}
                 aria-pressed={i === stage}
               >
-                {s.name.split(' — ')[0]}
+                {s.name.split(' \u00b7 ')[0]}
               </button>
             ))}
           </div>
@@ -292,8 +292,8 @@ export function UnderstandStudy({ onGround, embedded = false }: Props) {
         <div className={['study__hint', canDrag && !touched ? 'is-on' : ''].join(' ')}>drag</div>
 
         <p className="study__meta">
-          Portfolio drawing. Faber has no object viewer: its Understand stage currently shows a
-          placeholder frame labelled “drag to rotate” that does not rotate.
+          Faber has no object viewer. Its Understand stage currently shows a placeholder frame
+          labeled “drag to rotate” that does not rotate.
         </p>
       </div>
     </div>

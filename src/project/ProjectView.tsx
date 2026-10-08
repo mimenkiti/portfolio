@@ -4,6 +4,7 @@ import { LiveMark } from '../components/LiveMark'
 import { Embed } from '../llp/Embed'
 import { Room } from '../llp/Room'
 import { WATERMARKS, form } from '../llp/lang'
+import { useMedia } from '../lib/media'
 import { clamp01, ease, inv, stickyProgress, useScrollEffect } from '../lib/scroll'
 import { Contents } from './Contents'
 import type { Block, Mode, Project } from './blocks'
@@ -34,6 +35,11 @@ export function ProjectView({
   // it on the same frame.
   const scenes = useRef<Map<string, number>>(new Map())
   const experience = mode === 'experience'
+  // A scroll-driven sequence costs about 4,700px on a phone, which is
+  // five and a half screens of one figure. Narrow viewports get the
+  // contained form instead: same six views, same drawing, stepped by
+  // button rather than by scrolling past it.
+  const narrow = useMedia('(max-width: 52rem)')
 
   useScrollEffect(
     (_, vh) => {
@@ -92,7 +98,9 @@ export function ProjectView({
       <div className="spread pv__spread">
         <Contents project={project} mode={mode} />
         {project.blocks.map((b) => (
-          <Fragment key={b.id}>{renderBlock(b, mode, { enter, setThreshold, sceneGround })}</Fragment>
+          <Fragment key={b.id}>
+            {renderBlock(b, mode, { enter, setThreshold, sceneGround, narrow })}
+          </Fragment>
         ))}
       </div>
 
@@ -112,6 +120,7 @@ type Ctx = {
   enter: (src: string, label?: string, allow?: string) => void
   setThreshold: (id: string) => (el: HTMLDivElement | null) => void
   sceneGround: (id: string) => (v: number) => void
+  narrow: boolean
 }
 
 /** Reading measure, reading plus margin, or the whole viewport. */
@@ -147,7 +156,7 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
       return (
         <p className="b b--moment label" {...anchor}>
           {b.n}
-          {b.title ? ` — ${b.title}` : ''}
+          {b.title ? ` · ${b.title}` : ''}
         </p>
       )
 
@@ -211,7 +220,7 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
       const f = form(b.formId)
       const body = (
         <>
-          <span className="gloss__form ig">{f.form}</span>
+          <span className="gloss__form ig" lang="ig">{f.form}</span>
           <span className="gloss__ipa data">{f.ipa}</span>
           <span className="gloss__gloss">{f.gloss}</span>
           {b.note && <span className="gloss__note">{b.note}</span>}
@@ -288,13 +297,16 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
     // ground with it; in Read it becomes a contained figure, still live
     // and still turnable, but no longer in charge of the page.
     case 'scene':
-      return experience ? (
+      return experience && !ctx.narrow ? (
         <div className="b b--scene bleed" {...anchor}>
           {b.render(mode, ctx.sceneGround(b.id))}
         </div>
       ) : (
+        // 'read' is what the scene's own render function calls its
+        // contained form, so a narrow Experience viewport asks for it by
+        // that name rather than growing a third mode.
         <figure className="b b--figure b--scenefig" {...anchor}>
-          <div className="b__art b__art--scene">{b.render(mode, () => {})}</div>
+          <div className="b__art b__art--scene">{b.render('read', () => {})}</div>
           <figcaption className="caption b__cap">{b.caption}</figcaption>
         </figure>
       )

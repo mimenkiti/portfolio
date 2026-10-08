@@ -179,8 +179,44 @@ html.is-dark-ground .faber::after {
   border: 1px solid var(--fq-line);
 }
 
+/* Every caption under a quotation carries the same mark, so provenance is
+   a consistent small signal rather than a sentence repeated five times.
+   The rule itself is stated once, in the page header. */
+.fq__cap::before {
+  content: 'Faber';
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--fq-tan, #a0896a);
+  border: 1px solid currentColor;
+  padding: 0.15em 0.4em 0.1em;
+  margin-right: 0.6em;
+  white-space: nowrap;
+}
+
 .fq__cap {
   margin-top: 0.7rem;
+}
+
+/* The same mark, set inline inside the header sentence that explains it. */
+.fq__tag {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  border: 1px solid currentColor;
+  padding: 0.1em 0.35em 0.05em;
+  white-space: nowrap;
+}
+
+/* Faber's onward links sit on one line and wrap together. */
+.proj__onward {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  align-items: baseline;
 }
 
 /* --- 01 Identify: two real outputs, switchable --------------------- */
@@ -919,13 +955,21 @@ html.is-dark-ground .faber::after {
     max-width: none;
   }
 
+  /* The three branches are a comparison; stacking them is what stops
+     them being one, and stacked they also cost three screens on a phone.
+     They stay side by side and the drawing shrinks instead. */
   .mo__row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
   }
 
   .mo__svg {
     max-width: 13rem;
+  }
+
+  .mo__branch figcaption {
+    font-size: 0.75rem;
+    line-height: 1.35;
   }
 
   .bx__meta {

@@ -1,4 +1,4 @@
-import { CAPTURE, UNDERSTAND } from './data'
+import { UNDERSTAND } from './data'
 
 /**
  * What Faber's Understand stage actually says.
@@ -43,9 +43,9 @@ export function UnderstandQuote() {
         </aside>
       </div>
       <p className="fq__cap caption">
-        {CAPTURE.label}. Faber&rsquo;s Understand output for this chair, abridged to its three
-        written sections and its dimension rail. The dimensions are the product&rsquo;s figures, and
-        the drawing above does not claim to match them.
+        The Understand output for this chair, abridged to its three written sections and its
+        dimension rail. The dimensions are its figures, and the drawing above does not claim to
+        match them.
       </p>
     </div>
   )

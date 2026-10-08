@@ -91,7 +91,7 @@ export function Hero() {
       <div className="hero__body">
         {/* The accessible name is always the archive’s string, whatever
             the animation is doing to the glyphs on the way there. */}
-        <h1 className="hero__line ig" aria-label={phrase.form}>
+        <p className="hero__line ig" lang="ig" aria-label={phrase.form}>
           <span className="hero__word">
             {written ? (
               'Kedụ'
@@ -118,11 +118,18 @@ export function Hero() {
               label={`Hear ${phrase.form}`}
             />
           </span>
-        </h1>
+        </p>
 
         <p className="hero__gloss">
           <span className="hero__ipa data">{phrase.ipa}</span>
           <span className="hero__mean caption">{phrase.gloss}</span>
+        </p>
+
+        {/* The full stop of the question is the live Dot, and nothing on
+            the page said so. Plain, and true on both a mouse and a thumb:
+            the Dot is a real button with a real accessible name. */}
+        <p className={['hero__say caption', stage === 'settled' ? 'is-on' : ''].join(' ')}>
+          The dot at the end of the question is a button. Press it to hear her say the word.
         </p>
       </div>
 
@@ -130,7 +137,7 @@ export function Hero() {
           the count is what separates a composition from a word cloud. */}
       <div className="hero__periphery" aria-hidden="true">
         {HERO_PERIPHERY.map((id, i) => (
-          <span key={id} className={`hero__near hero__near--${i + 1} ig`}>
+          <span key={id} className={`hero__near hero__near--${i + 1} ig`} lang="ig">
             {form(id).form}
           </span>
         ))}

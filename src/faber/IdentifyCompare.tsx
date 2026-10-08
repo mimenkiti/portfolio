@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 import { FaberPhoto } from './assets'
-import { CAPTURE, IDENTIFIED } from './data'
+import { IDENTIFIED } from './data'
 
 /**
  * Two real identifications, side by side in time.
@@ -60,8 +60,8 @@ export function IdentifyCompare() {
       </div>
 
       <p className="fq__cap caption">
-        {CAPTURE.label}. Marked in tan: the places the product declines to be certain.
-        The marking is the portfolio&rsquo;s, the words are Faber&rsquo;s.
+        Marked in tan: the places the product declines to be certain. The marking is mine, the
+        wording is not.
       </p>
     </div>
   )

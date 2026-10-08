@@ -27,7 +27,7 @@ export function PlateLLP() {
   const f = form('context-32')
   return (
     <div className="plate plate--llp">
-      <span className="plate__word ig" aria-hidden="true">
+      <span className="plate__word ig" lang="ig" aria-hidden="true">
         {f.form.replace('?', '')}
         <span className="plate__q">?</span>
         <span className="plate__dot">

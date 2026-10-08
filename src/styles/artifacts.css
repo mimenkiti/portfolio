@@ -855,6 +855,7 @@
 
 .boundary__t {
   display: block;
+  max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -1067,4 +1068,35 @@ html.is-dark-ground .topright {
   max-width: 42rem;
   border-left: 2px solid var(--live);
   padding-left: 0.9rem;
+}
+
+/* --- phone pacing -------------------------------------------------
+
+   Two figures were responsible for most of this page's length on a
+   phone, both because a grid that is right at 1440px becomes a stack at
+   390px. Neither loses anything here: the contact sheet keeps all five
+   documents and the comparison keeps all three branches. They are read
+   across instead of down, which is the same gesture the Gallery teaches.
+   ---------------------------------------------------------------- */
+
+@media (max-width: 52rem) {
+  .sheet {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 0.4rem;
+  }
+
+  .sheet::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sheet__tile {
+    scroll-snap-align: start;
+  }
 }

@@ -9,10 +9,18 @@ export function LLP({ mode, setGround }: { mode: Mode; setGround: (v: number) =>
   return (
     <div className={['route llp', `mode-${mode}`].join(' ')}>
       <header className="spread proj proj--llp">
+        <h1 className="sr-only">LLP: learning a heritage language</h1>
         <p className="proj__meta label">
           <span className="proj__num">01</span>
           <span className="proj__name">{LLP_PROJECT.name}</span>
           <span>{LLP_PROJECT.subject}</span>
+        </p>
+        {/* A reader can arrive here without passing the Gallery, so the
+            thing the Gallery's preview says has to be said once here too. */}
+        <p className="proj__draft caption side">
+          LLP is short for Language Learning Product. It is a heritage-language learning product,
+          starting with Igbo: you meet a guide who speaks it, and the lesson happens around that
+          conversation rather than before it.
         </p>
       </header>
 
@@ -41,7 +49,7 @@ export function LLP({ mode, setGround }: { mode: Mode; setGround: (v: number) =>
             </a>
           </div>
           <button className="act act--quiet" onClick={() => go('/faber')}>
-            Next project · Faber <span aria-hidden="true">→</span>
+            Room 02 · Faber <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>

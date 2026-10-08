@@ -2,20 +2,26 @@ import { FABER_PROJECT } from '../faber/content'
 import { ProjectView } from '../project/ProjectView'
 import type { Mode } from '../project/blocks'
 import { go } from '../lib/router'
-import { LIVE, SOURCE } from '../lib/links'
+import { EARLIER, LIVE, SOURCE } from '../lib/links'
 
 export function Faber({ mode, setGround }: { mode: Mode; setGround: (v: number) => void }) {
   return (
     <div className={['route faber', `mode-${mode}`].join(' ')}>
       <header className="spread proj">
+        <h1 className="sr-only">Faber: identifying an object, and understanding it well enough to make one</h1>
         <p className="proj__meta label">
           <span className="proj__num">02</span>
           <span className="proj__name">{FABER_PROJECT.name}</span>
           <span>{FABER_PROJECT.subject}</span>
         </p>
+        {/* The provenance rule, stated once. Everything downstream of this
+            carries a small mark where it is a quotation and says nothing
+            about authorship again, except where a specific limitation or a
+            specific event is the point. */}
         <p className="proj__draft caption side">
-          Product output quoted from the live build. Drawings of the chair are made for this page:
-          Faber does not generate geometry.
+          Everything marked <span className="fq__tag">Faber</span> on this page was copied out of
+          the live build rather than generated here. The drawings of the chair are mine, made for
+          this page: Faber generates no geometry.
         </p>
       </header>
 
@@ -32,9 +38,14 @@ export function Faber({ mode, setGround }: { mode: Mode; setGround: (v: number) 
               Source on GitHub <span aria-hidden="true">↗</span>
             </a>
           </div>
-          <button className="act act--quiet" onClick={() => go('/')}>
-            Back to the index <span aria-hidden="true">→</span>
-          </button>
+          <div className="proj__onward">
+            <button className="act act--quiet" onClick={() => go('/llp')}>
+              Room 01 · LLP <span aria-hidden="true">→</span>
+            </button>
+            <a className="act act--quiet" href={EARLIER.archive} target="_blank" rel="noreferrer">
+              Room 03 · Earlier work <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

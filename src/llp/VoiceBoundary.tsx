@@ -39,7 +39,7 @@ export function VoiceBoundary() {
           {rows.map((r) => (
             <tr key={r.id}>
               <td>{r.id}</td>
-              <td className="ig">{r.igbo}</td>
+              <td className="ig" lang="ig">{r.igbo}</td>
               <td>{r.provider}</td>
               <td className={r.pronunciation ? 'is-set' : 'is-none'}>
                 {r.pronunciation || 'not set'}

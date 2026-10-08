@@ -1,11 +1,16 @@
 import { go } from '../lib/router'
+import { CONTACT, EARLIER } from '../lib/links'
 
 /**
  * About is back matter, not Room 04.
  *
- * A normal page on plain paper: no plan, no room state, no résumé, and
- * none of the Gallery's apparatus. It carries the professional record
- * in prose and then gets out of the way.
+ * A normal page on plain paper: no plan, no room state, no resume, and
+ * none of the Gallery's apparatus.
+ *
+ * It no longer repeats the Gallery's paragraph. The Gallery says where
+ * she is and what she does in two lines, because that is all a visitor
+ * needs before choosing a room; this page answers the question the
+ * Gallery cannot, which is why these two projects come from this person.
  */
 export function About() {
   return (
@@ -19,43 +24,66 @@ export function About() {
 
       <section className="m spread">
         <div className="prose m__prose">
-          <p className="lede m__lift">
-            I&rsquo;m Michelle A. Menkiti, a product manager and builder based in San Francisco.
+          <h1 className="lede m__lift">I lead product at Samsung Wallet, and I trained as an architect.</h1>
+          <p>
+            I&rsquo;m a Senior Product Manager at Samsung, responsible for products across payments,
+            rewards and digital identity in Samsung Wallet. Before Samsung I worked on consumer
+            financial products at Goldman Sachs, with a stretch at an early-stage startup in
+            between. The work I have been given has mostly been the kind where the hard part is
+            deciding what the thing should be, and then staying with it long enough that it reaches
+            people.
           </p>
           <p>
-            I currently work as a Senior Product Manager at Samsung, where I lead products across
-            payments, rewards and digital identity for Samsung Wallet. Prior to that, I worked on
-            consumer financial products at Goldman Sachs, with a brief stint at an early-stage
-            startup in between.
+            I studied architecture at MIT. I never practiced, but the training is the reason I think
+            about products the way I do: in plans and sections, in what someone does first and what
+            they do next, and in how much a drawing can commit to before anybody has to build it.
           </p>
           <p>
-            I studied architecture at MIT, and I&rsquo;ve never really stopped designing outside of
-            work. I&rsquo;m usually building something of my own, sometimes software, sometimes
-            something physical, and often just because there&rsquo;s something I want to understand
-            better.
+            I also never stopped designing outside of work. Usually that means software, sometimes
+            something physical, and almost always because there is something I want to understand
+            better than I currently do. Both projects on this site started that way. LLP started
+            because my mother speaks Igbo, almost nobody in my generation of the family does, I
+            never learned it, and the tools I used to keep up my French simply do not exist for it.
+            Faber started because I wanted to make furniture and kept getting stuck in the distance
+            between liking an object and understanding it well enough to build one.
           </p>
           <p>
-            This site is a collection of some of the newer and older projects I&rsquo;ve worked on,
-            including a few things that are still in progress. If anything here sparks a question or
-            an idea, feel free to reach out.
+            Neither of them is finished, and both pages say where. That is most of what I find
+            interesting about them.
+          </p>
+
+          <div className="about__earlier">
+            <h2 className="label">Earlier work</h2>
+            <p>
+              Before any of this there was architecture school and the computational design work
+              around it. I&rsquo;ve kept some of it around.
+            </p>
+            <p className="about__archive">
+              <a className="act act--quiet" href={EARLIER.archive} target="_blank" rel="noreferrer">
+                The archive <span aria-hidden="true">↗</span>
+              </a>
+            </p>
+          </div>
+
+          <p>
+            If something here raises a question, or you want to know how a piece of it was built,
+            write to me.
           </p>
         </div>
-        {/* No `m__next` block here. The Marker already carries `← Gallery`
-            at the top of the page, so a second one above the footer was
-            the same link twice. Its `<hr className="rule">` went with it
-            rather than being left behind: `.gal__foot` has its own
-            `border-top`, so the rule was a second hairline immediately
-            above the footer's. */}
       </section>
 
       <footer className="gal__foot about__foot">
-        <a href="https://www.linkedin.com/in/michelle-menkiti/" target="_blank" rel="noreferrer">
-          LinkedIn
-        </a>
-        <a href="https://github.com/mimenkiti" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
-        <a href="mailto:mimichelle2011@gmail.com">Email</a>
+        {CONTACT.map((c) => (
+          <a
+            key={c.label}
+            href={c.href}
+            {...(c.href.startsWith('mailto:')
+              ? {}
+              : { target: '_blank', rel: 'noreferrer' })}
+          >
+            {c.label}
+          </a>
+        ))}
       </footer>
     </div>
   )

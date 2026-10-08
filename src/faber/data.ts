@@ -26,7 +26,10 @@ export const CAPTURE = {
  *
  * TO DO BEFORE LAUNCH: copy demo/thonet.jpg and demo/cabinet.jpg out of
  * the Faber repo into this folder and import them here, the way the
- * process sketches below are imported. They will then be inlined in the
+ * process sketches below are imported. Doing that is also what makes it
+ * possible to give them intrinsic `width`/`height`, which is why they
+ * are still the two images on the site without it: the files are not in
+ * this repository, so their pixel dimensions are not knowable here. They will then be inlined in the
  * build and the page will not depend on another deployment staying up.
  * Until then the page degrades to a labelled plate rather than a broken
  * image if they fail to load.

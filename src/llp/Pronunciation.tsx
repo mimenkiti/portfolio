@@ -149,7 +149,7 @@ function PairRow({ p, now, toggle }: { p: Pair; now: string | null; toggle: (s: 
   return (
     <div className="pron__row">
       <div className="pron__phrase">
-        <p className="ig pron__ig">{p.display}</p>
+        <p className="ig pron__ig" lang="ig">{p.display}</p>
         <p className="pron__en caption">{p.english}</p>
         {p.ipa && <p className="pron__ipa data">{p.ipa}</p>}
       </div>
@@ -248,7 +248,7 @@ export function Pronunciation() {
             {DIAG.groups[group].map((it) => (
               <div className="pron__item" key={it.id}>
                 <div className="pron__itemHead">
-                  <p className="ig pron__itemForm">{it.form}</p>
+                  <p className="ig pron__itemForm" lang="ig">{it.form}</p>
                   <p className="pron__itemGloss caption">{it.gloss}</p>
                 </div>
                 <p className="pron__feature data">{it.feature}</p>

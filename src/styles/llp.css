@@ -978,3 +978,137 @@ html.is-dark-ground .toc {
   padding-top: clamp(4.5rem, 11vh, 7rem);
   padding-bottom: 0;
 }
+
+/* The hero's one instruction. It arrives only once the word has finished
+   being written, because before that the Dot is not yet a button. */
+.hero__say {
+  margin-top: 0.7rem;
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity 0.7s var(--e-out);
+}
+
+.hero__say.is-on {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__say {
+    transition: none;
+  }
+}
+
+/* --- The first encounter, as four turns ---------------------------
+
+   A contained stage at phone proportions rather than a tall screenshot.
+   The replies are drawn as the build draws them, but they are not
+   buttons here: this is a reconstruction of a sequence, and the real
+   one is two blocks further down.
+   ---------------------------------------------------------------- */
+
+.turns {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 30rem;
+}
+
+.turns__stage {
+  background: var(--ground-lift);
+  border: 1px solid var(--rule);
+  padding: 0.9rem 1rem 1.1rem;
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+  min-height: 21rem;
+}
+
+.turns__where {
+  color: var(--ink-3);
+}
+
+.turns__list {
+  display: grid;
+  gap: 0.85rem;
+  align-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.turns__turn {
+  display: grid;
+  gap: 0.15rem;
+  opacity: 0.16;
+  transition: opacity 0.45s var(--e-out);
+}
+
+.turns__turn.is-on {
+  opacity: 1;
+}
+
+.turns__turn.is-you {
+  justify-items: end;
+  text-align: right;
+}
+
+.turns__who {
+  color: var(--ink-3);
+}
+
+.turns__line {
+  font-family: var(--serif);
+  font-size: 1.32rem;
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.turns__gloss,
+.turns__held {
+  color: var(--ink-3);
+}
+
+.turns__held {
+  font-style: italic;
+}
+
+.turns__replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.turns__reply {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+  padding: 0.25rem 0.5rem;
+}
+
+.turns__ctl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  align-items: baseline;
+}
+
+.turns__ctl button[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turns__turn {
+    transition: none;
+  }
+}
+
+/* The hero's periphery is decoration and is allowed to run off the page,
+   but at 390px it was running off by enough to clip a word mid-letter
+   and to add 12px of phantom horizontal scroll under the body's clip. */
+@media (max-width: 52rem) {
+  .hero__periphery {
+    overflow: hidden;
+  }
+}

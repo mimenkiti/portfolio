@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { LevelDrawing } from './assets'
-import { CAPTURE, LEVELS, RERUN } from './data'
+import { LEVELS, RERUN } from './data'
 
 /**
  * The panel demonstrates itself once.
@@ -172,9 +172,8 @@ export function BuildAxis() {
       </div>
 
       <p className="fq__cap caption">
-        {CAPTURE.label}. Three runs of the same object on one afternoon. Names, materials, tool
-        lists, step counts and quoted lines are Faber&rsquo;s; the materials totals are its
-        per-item ranges added up. {RERUN}
+        Three runs of the same object on one afternoon. The materials totals are its own per-item
+        ranges added up. {RERUN}
       </p>
     </div>
   )

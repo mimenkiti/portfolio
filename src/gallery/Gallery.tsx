@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { go } from '../lib/router'
+import { CONTACT } from '../lib/links'
 import { useMedia, useReducedMotion } from '../lib/media'
 import { Plan } from './Plan'
 import { PlateFaber, PlateLLP } from './Plates'
@@ -199,13 +200,15 @@ export function Gallery() {
       )}
 
       <footer className="gal__foot">
-        <a href="https://www.linkedin.com/in/michelle-menkiti/" target="_blank" rel="noreferrer">
-          LinkedIn
-        </a>
-        <a href="https://github.com/mimenkiti" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
-        <a href="mailto:mimichelle2011@gmail.com">Email</a>
+        {CONTACT.map((c) => (
+          <a
+            key={c.label}
+            href={c.href}
+            {...(c.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })}
+          >
+            {c.label}
+          </a>
+        ))}
       </footer>
     </div>
   )

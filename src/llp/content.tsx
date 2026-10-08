@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { Approaches } from './Approaches'
 import { ContactSheet } from './ContactSheet'
+import { Encounter } from './Encounter'
 import { Hearing } from './Hearing'
 import { VoiceBoundary } from './VoiceBoundary'
 import type { Project } from '../project/blocks'
@@ -183,6 +184,18 @@ export const LLP_PROJECT: Project = {
       ],
     },
     {
+      id: 'sheet-note',
+      kind: 'aside',
+      text: (
+        <>
+          These five are working documents rather than writing. I made them while I was still
+          deciding things, and they are here as they were: their own formatting, their own voice,
+          and in places their own bad ideas. Bringing them into line with this page would hide how
+          far the thinking actually moved.
+        </>
+      ),
+    },
+    {
       id: 'sheet',
       kind: 'figure',
       // A sheet of five documents wants to be read as a sheet, so it
@@ -225,7 +238,7 @@ export const LLP_PROJECT: Project = {
           speaks to you in Igbo and the lesson unfolds around that interaction.
         </>,
         <>
-          The first encounter is simple. Chioma says <span className="ig">Kedụ?</span> You hear her
+          The first encounter is simple. Chioma says <span className="ig" lang="ig">Kedụ?</span> You hear her
           say it and see the words on screen, but she doesn’t translate them for you. You can
           answer aloud or choose one of two responses.
         </>,
@@ -238,6 +251,37 @@ export const LLP_PROJECT: Project = {
           with it.
         </>,
       ],
+    },
+    // What a cold reader otherwise has to infer from the registries
+    // several screens below, and the thing everyone assumes the wrong way
+    // round. A margin note rather than a paragraph, because the narrative
+    // does not need interrupting to say it.
+    {
+      id: 'authored',
+      kind: 'aside',
+      text: (
+        <>
+          Worth saying this early, because it is the part people assume the other way round: the
+          Igbo is not generated. Every phrase Chioma says is a row in a registry I maintain, and a
+          lesson cannot invent language while it runs. What happens live is her voice, synthesized
+          line by line as each line is needed, and the choice of which small piece of teaching to
+          offer next.
+        </>
+      ),
+    },
+    {
+      id: 'turns',
+      kind: 'figure',
+      scale: 'column',
+      does: 'advance a turn at a time',
+      caption: (
+        <>
+          The opening of the encounter, in the order the build runs it, with every phrase and gloss
+          read out of the registry. Nothing is translated until after you answer, which is the whole
+          of what Chioma not translating herself means. The real one is below.
+        </>
+      ),
+      render: () => <Encounter />,
     },
     // Her opening line in the deployed build, and the diagnostic’s
     // anchor item. Sits beside the threshold you are about to cross.
@@ -384,9 +428,9 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          I’m still figuring out exactly what its role should be, but it has become one of the ways
-          I think about the broader interface: something can be useful without constantly asking
-          for attention.
+          I’m still figuring out exactly what its role should be. What it has settled so far is a
+          question I keep asking about the rest of the interface, which is how much of it needs to
+          ask for attention at all.
         </>,
       ],
     },
@@ -411,13 +455,23 @@ export const LLP_PROJECT: Project = {
         <>
           What it knows is held as a registry rather than as copy inside a lesson. Every word and
           phrase carries where it came from and how much I trust it, which means the product can
-          tell the difference between Igbo it is confident about and Igbo it is not. Anything that
-          hasn’t cleared that bar can be blocked from reaching a learner at all.
+          tell the difference between Igbo it is confident about and Igbo it is not.
         </>,
+        // The four figures in this paragraph are the registry's own
+        // tallies: `meta.counts.capabilities`, `meta.statusTallies
+        // .capabilityStatus`, the capability registry's Current Blocker,
+        // and `meta.counts.humanReviewQueue` / `humanReviewQueueDecided`.
+        // They are written out rather than imported because importing
+        // registry.json here would pull 95kB into the first chunk. If the
+        // workbooks are extracted again, check this paragraph against the
+        // Inspector's own readout.
         <>
-          That rule currently blocks parts of my own curriculum. The review queue still holds
-          questions for native speakers that have no answers, and until they do, the material they
-          cover stays where it is.
+          The rule I wrote for myself is that every Igbo form a learner sees has to trace back to a
+          knowledge object I have marked Approved. Nothing has cleared that yet. All ten
+          capabilities in the registry are still Draft or marked as a knowledge gap, the first
+          lesson carries a blocker saying the knowledge it needs is still Candidate or Hold, and the
+          eight questions sitting in the review queue for a native speaker have no answers. So the
+          first lesson is not cleared for teaching.
         </>,
       ],
     },
@@ -456,7 +510,6 @@ export const LLP_PROJECT: Project = {
           That means building enough structure to reuse what should be reusable without assuming
           that every language, culture, or learner should be treated the same way.
         </>,
-        <>That boundary is something I’m still working through.</>,
       ],
     },
 
@@ -501,14 +554,14 @@ export const LLP_PROJECT: Project = {
         </>,
         <>
           I compared voices, tested generated speech against the pronunciation I expected,
-          experimented with grapheme-to-phoneme information, and eventually built support for
-          phrase-specific pronunciation overrides when a general rule wasn’t enough.
+          experimented with grapheme-to-phoneme information, and eventually built support for what
+          I call a pronunciation override: a pronunciation I write out myself for one specific
+          phrase and send to the voice system instead of leaving it to work the spelling out.
         </>,
         <>
-          The override itself is not complicated. If the normal written phrase produces speech that
-          sounds wrong to me, I can provide a pronunciation specifically for that phrase and send
-          that to the voice model instead. Same voice. Same model. Different pronunciation
-          instruction.
+          The mechanism is not complicated. If the written phrase produces speech that sounds wrong
+          to me, the same voice on the same model receives a different string, and that is the whole
+          of it.
         </>,
         <>
           The build reports whether it used one, on every response, so the product always knows
@@ -605,27 +658,18 @@ export const LLP_PROJECT: Project = {
     // Parting. The last thing the encounter asks a learner to say, and
     // the one the product is least able to hear.
     { id: 'g-kaodi', kind: 'gloss', formId: 'context-36' },
-    {
-      id: 'hearing',
-      kind: 'figure',
-      scale: 'wide',
-      caption: (
-        <>
-          Where the build has got to. It can tell these five outcomes apart, and one of them is an
-          admission that it does not know, which is the one that had to exist.
-        </>
-      ),
-      render: () => <Hearing />,
-    },
-    // The reframing, and the strongest single idea in the section: a
-    // hard model problem turned into a decision about product scope.
+    // The reframing, and the strongest single idea in the section: a hard
+    // model problem turned into a decision about product scope. It now sits
+    // before the apparatus rather than after it, because a reader skimming
+    // this section should meet the decision first and the five outcomes as
+    // its evidence, not the other way round.
     {
       id: 'pull-asking',
       kind: 'pull',
       text: "The product isn’t really asking what did you say?",
     },
     {
-      id: 'end-after',
+      id: 'end-narrow',
       kind: 'prose',
       paras: [
         <>
@@ -638,6 +682,25 @@ export const LLP_PROJECT: Project = {
           before moving forward. That creates a much more constrained recognition problem than
           understanding arbitrary conversation.
         </>,
+      ],
+    },
+    {
+      id: 'hearing',
+      kind: 'figure',
+      scale: 'wide',
+      caption: (
+        <>
+          Where the build has got to. Five outcomes it can tell apart, and the decision the section
+          is about is the third one: when it cannot verify what it heard, it does not score the
+          answer.
+        </>
+      ),
+      render: () => <Hearing />,
+    },
+    {
+      id: 'end-after',
+      kind: 'prose',
+      paras: [
         <>I don’t know yet how far that will get me.</>,
         <>
           But that is also more or less the point of LLP now. It started because I wanted to learn
@@ -653,6 +716,33 @@ export const LLP_PROJECT: Project = {
           matters to me and LLP is genuinely helping me do it.
         </>,
       ],
+    },
+    /* How it was built. Everything stated here is in this repository: the
+       model, voice ids and g2p library come from `pronunciation.json`'s
+       own `method` and `diagnosticMeta` blocks, the response headers from
+       the deployed build are in VoiceBoundary, and the registries are the
+       workbooks `registry.json` was extracted from.
+
+       TODO (Michelle): four things the brief asks for are not recorded
+       anywhere in this repository, so they are left out rather than
+       guessed at. When the project started; the application's own stack;
+       which models it calls besides ElevenLabs; and how you used
+       AI-assisted development while building it. Send those and this note
+       can say them. */
+    {
+      id: 'built',
+      kind: 'aside',
+      text: (
+        <>
+          <strong>How this was built.</strong> I designed and built LLP myself. Chioma&rsquo;s
+          speech is generated through ElevenLabs on <code>eleven_v3</code>, with two voices in the
+          archive, Ayomide and Rho. The pronunciation work puts Igbo spellings through africa-g2p
+          0.2.0 to get IPA before the text reaches the voice model, and the deployed build reports
+          the provider and whether an override was applied on every response. What the product knows
+          lives in spreadsheets outside the application and is extracted into the registries this
+          page reads. The pronunciation diagnostic on this page was run on 23 August 2026.
+        </>
+      ),
     },
   ],
 }
