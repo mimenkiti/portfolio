@@ -32,13 +32,25 @@ export type Room = {
   rect: { x: number; y: number; w: number; h: number }
 }
 
+/* TODO (Michelle): nothing in this repository records what LLP stands
+   for. The brief asks for the initials to be expanded at their first
+   meaningful occurrence, so the expansion needs to come from you rather
+   than be guessed at here. Until then the orientation sentence below
+   carries the whole job of saying what the project is, and the initials
+   are left unexpanded everywhere.
+
+   Searched: src/, README.md, public/artifacts/*.html. The closest the
+   archive comes is the working title "Heritage Language Learning" on
+   `igbo-product-exploration-02.html`, which is a lesson document rather
+   than a name for the product. */
 export const ROOMS: Room[] = [
   {
     id: 'llp',
     n: '01',
     name: 'LLP',
     title: 'Learning a heritage language',
-    orientation: 'A language-learning product built around conversation, starting with Igbo.',
+    orientation:
+      'A working heritage-language learning product, starting with Igbo, where the lesson happens inside a conversation rather than before one.',
     to: '/llp',
     action: 'Enter',
     rect: { x: 78, y: 0, w: 289, h: 356 },
@@ -49,7 +61,7 @@ export const ROOMS: Room[] = [
     name: 'Faber',
     title: 'Making my way back to making',
     orientation:
-      "An AI tool for identifying designed objects, understanding how they're made, and figuring out how to make them yourself.",
+      'A working tool that takes a photograph of an object, works out what it is and how it was made, and writes three different ways you could build one yourself.',
     to: '/faber',
     action: 'Enter',
     rect: { x: 367, y: 26, w: 220, h: 282 },

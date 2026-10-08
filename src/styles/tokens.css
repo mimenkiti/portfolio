@@ -209,9 +209,19 @@ html[data-world='gallery'] {
    floor-vest > ground > floor > ground-2 > rule-soft > rule, with poche
    far below all of them and three inks below that.
 
-   The active room reads LIGHTER than the field, not darker. At these
-   depths that is both the lamp-lit reading the design always wanted and
-   the only way an 11px label inside the room clears AA.
+   The active room reads LIGHTER than the field and the inactive rooms
+   read DARKER than it, so selection is carried by a real fill step
+   instead of a tint. Measured active-to-inactive: LLP 2.78:1, Faber
+   2.76:1, Archive 2.66:1, up from about 1.46:1 when both sides of the
+   pair sat within 12% lightness of the ground. The plan therefore sits
+   outside the ground ladder above on purpose; it is a drawing, not a
+   surface.
+
+   The room number and name only ever land on the light active floor,
+   the vestibule or the ground, because the marks on inactive rooms fade
+   out while another room is selected. That is the hierarchy doing the
+   work, and it keeps every label clear of its 4.5:1 floor without
+   needing a second set of knocked-out label colours.
 
    Every text token is solved against the worst surface it can land on in
    its own state, so all three clear WCAG AA 4.5:1. Worst cases, measured:
@@ -226,8 +236,8 @@ html[data-world='gallery'].room-llp {
   --ground-2: #ce7361;
   --rule: #b44b36;
   --rule-soft: #c56653;
-  --floor: #cf7d6d;
-  --floor-active: #e6a396;
+  --floor: #c85943;
+  --floor-active: #eccac3;
   --floor-vest: #cd9b91;
   --poche: #1e1513;
   --ink: #080605;
@@ -248,8 +258,8 @@ html[data-world='gallery'].room-faber {
   --ground-2: #7195c0;
   --rule: #4972a5;
   --rule-soft: #6589b6;
-  --floor: #7c9cc2;
-  --floor-active: #a3bcdc;
+  --floor: #5580b7;
+  --floor-active: #c8d6e6;
   --floor-vest: #9baec6;
   --poche: #14181c;
   --ink: #0a0c0e;
@@ -272,8 +282,8 @@ html[data-world='gallery'].room-archive {
   --ground-2: #a0b47d;
   --rule: #7f9756;
   --rule-soft: #95aa71;
-  --floor: #9eb37a;
-  --floor-active: #c5d3ab;
+  --floor: #7e9553;
+  --floor-active: #e2e8d7;
   --floor-vest: #b4c0a1;
   --poche: #191b15;
   --ink: #1b1d17;

@@ -59,6 +59,16 @@ a {
   color: inherit;
 }
 
+/* For headings the page needs in its outline but not in its composition. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 button {
   font: inherit;
   color: inherit;

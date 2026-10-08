@@ -6,6 +6,7 @@ import { useWorld } from './lib/theme'
 import { useMode } from './project/useMode'
 import { ModeSwitch } from './project/ModeSwitch'
 import { Gallery } from './gallery/Gallery'
+import { rememberRoom } from './lib/visited'
 import { LLP } from './pages/LLP'
 import { Faber } from './pages/Faber'
 import { About } from './pages/About'
@@ -42,6 +43,14 @@ export default function App() {
   useEffect(() => {
     setGround(0)
   }, [route, setGround])
+
+  // Entering a room is what leaves the mark on the Gallery's plan. Recorded
+  // on arrival rather than on the click, so a transition that was abandoned
+  // does not count as a visit.
+  useEffect(() => {
+    if (route === '/llp') rememberRoom('llp')
+    if (route === '/faber') rememberRoom('faber')
+  }, [route])
 
   return (
     <>

@@ -4,6 +4,7 @@ import { useMedia, useReducedMotion } from '../lib/media'
 import { Plan } from './Plan'
 import { PlateFaber, PlateLLP } from './Plates'
 import { ROOMS, byId, isExternal, type Room, type RoomId } from './rooms'
+import { rememberRoom, visitedRooms } from '../lib/visited'
 
 /* ---------------------------------------------------------------
    The Gallery — Entry.
@@ -26,6 +27,17 @@ import { ROOMS, byId, isExternal, type Room, type RoomId } from './rooms'
 
 const ENTER_MS = 420
 
+/* Two bios, because the phone is a different composition rather than a
+   narrower copy of this one. The long one is the orientation a desktop
+   visitor reads above a plan they can see all of at once; the short one
+   exists so that on a phone the invitation and the plan are both above
+   the fold. What the short one leaves out is in About, which is where it
+   belongs now that About no longer repeats this paragraph. */
+const BIO =
+  "I\u2019m a product manager and builder based in San Francisco. I currently work on Samsung Wallet and previously worked at Goldman Sachs. I studied architecture at MIT, and outside of work I\u2019m usually designing or building digital or physical things of my own."
+const BIO_SHORT =
+  'Product manager and builder in San Francisco. Samsung Wallet now, Goldman Sachs before that, architecture at MIT.'
+
 export function Gallery() {
   const [active, setActive] = useState<RoomId | null>(null)
   const [entering, setEntering] = useState<RoomId | null>(null)
@@ -33,6 +45,9 @@ export function Gallery() {
   const narrow = useMedia('(max-width: 52rem)')
   const veil = useRef<HTMLDivElement>(null)
   const timer = useRef<number | null>(null)
+  // Read once, on mount. The set only grows by leaving this page, so it
+  // cannot change underneath the Gallery while it is on screen.
+  const [visited] = useState(visitedRooms)
 
   // The environment lives on the root element, so the whole page turns
   // rather than a panel inside it.
@@ -56,6 +71,7 @@ export function Gallery() {
     (id: RoomId) => {
       const room = byId(id)
       if (isExternal(room)) {
+        rememberRoom(id)
         window.open(room.to.href, '_blank', 'noopener,noreferrer')
         return
       }
@@ -139,19 +155,14 @@ export function Gallery() {
       />
 
       <header className="gal__head">
-        <span className="gal__name">Michelle A. Menkiti</span>
+        <h1 className="gal__name">Michelle A. Menkiti</h1>
         <button className="gal__about" onClick={() => go('/about')}>
           About
         </button>
       </header>
 
       <div className="gal__intro">
-        <p className="gal__bio">
-          I&rsquo;m a product manager and builder based in San Francisco. I currently work on
-          Samsung Wallet and previously worked at Goldman Sachs. I studied architecture at MIT, and
-          outside of work I&rsquo;m usually designing or building digital or physical things of my
-          own.
-        </p>
+        <p className="gal__bio">{narrow ? BIO_SHORT : BIO}</p>
         <p className="gal__invite">Walk through my work.</p>
       </div>
 
@@ -166,10 +177,20 @@ export function Gallery() {
           active={shown}
           entering={entering}
           selectOnly={narrow}
+          visited={visited}
           onActivate={narrow ? setActive : enter}
           onHover={setActive}
         />
       </div>
+
+      {/* Phone only. The plan says which room is selected in the drawing;
+          this says it in words, directly under it, so the connection
+          between a tap on the plan and the card below is never a guess. */}
+      {narrow && (
+        <p className="gal__at label" aria-live="polite">
+          {shown ? `Room ${byId(shown).n} \u00b7 ${byId(shown).name}` : 'Three rooms, one axis'}
+        </p>
+      )}
 
       {narrow ? (
         <Carousel active={shown} onActive={setActive} onEnter={enter} />
