@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500" class="ga ga--archive" role="img" aria-labelledby="ga--archive-title ga--archive-desc">
+<title id="ga--archive-title">Archive: Earlier work</title>
+<desc id="ga--archive-desc">A cut-paper still life of architectural pieces: a leaning column, a plan corner, a sun, an arch with a window, and a stair.</desc>
+<rect data-part="ground" width="400" height="500" fill="#efe6d4"/>
+<polygon data-part="column" fill="#8c9b6c" points="17.49,151.62 51.4,149.25 76.51,508.38 42.6,510.75"/>
+<circle data-part="sun" cx="300" cy="150" r="66" fill="#dda33f"/>
+<path data-part="plan" fill="#e9b7a4" d="M108 70H212V98H138V196H108Z"/>
+<g data-part="arch">
+  <path fill="#22304f" d="M80 500V250A80 80 0 0 1 240 250V500Z"/>
+  <path fill="#efe6d4" d="M130 500V302A30 30 0 0 1 190 302V500Z"/>
+</g>
+<polygon data-part="stair" fill="#c4573a" points="214,500 214,432 260,432 260,388 306,388 306,344 352,344 352,300 400,300 400,500"/>
+</svg>

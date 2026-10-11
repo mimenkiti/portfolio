@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" class="ga ga--faber-landscape" role="img" aria-labelledby="ga--faber-landscape-title ga--faber-landscape-desc">
+<title id="ga--faber-landscape-title">Faber: Making my way back to making</title>
+<desc id="ga--faber-landscape-desc">Two scenes side by side. Left, the parts of a chair laid out like a kit. Right, the finished chair, slightly handmade.</desc>
+<rect data-part="ground" width="600" height="400" fill="#8c9b6c"/>
+<rect data-part="panel-parts" x="16" y="16" width="252" height="368" fill="#efe6d4"/>
+<rect data-part="panel-chair" x="280" y="16" width="304" height="368" fill="#efe6d4"/>
+<g data-part="parts">
+  <g data-part="part-post">
+    <polygon fill="#22304f" points="24.46,71.42 41,67.99 66.35,234.25 49.47,234.34"/>
+  </g>
+  <g data-part="part-backrest">
+    <polygon fill="#c4573a" points="95.42,178.2 112.83,179.26 106.74,235.56 88.78,234.42"/>
+  </g>
+  <g data-part="part-leg">
+    <polygon fill="#22304f" points="140.8,174.27 156.09,170.42 167.35,234.44 150.56,235.67"/>
+    <polygon fill="#dda33f" points="144.37,163.99 152.29,162.88 153.4,170.8 145.48,171.91"/>
+  </g>
+  <g data-part="part-seat">
+    <polygon fill="#c4573a" points="32.83,302.46 115.43,309.78 114.85,328.33 30.02,320.73"/>
+    <polygon fill="#dda33f" points="23.8,305.72 31.74,306.7 30.89,313.65 22.95,312.67"/>
+  </g>
+  <g data-part="part-rung">
+    <polygon fill="#22304f" points="138.72,320.58 196.24,308.16 198.64,318.54 141.12,330.96"/>
+    <polygon fill="#dda33f" points="130.96,322.66 138.84,321.27 140.06,328.16 132.18,329.55"/>
+    <polygon fill="#dda33f" points="197.3,310.96 205.18,309.57 206.4,316.46 198.52,317.85"/>
+  </g>
+</g>
+<g data-part="chair">
+  <polygon fill="#22304f" points="327.63,70.94 357.03,68 370.75,362 341.35,359.06"/>
+  <polygon fill="#c4573a" points="357.03,87.6 387.41,84.66 392.31,183.64 360.95,186.58"/>
+  <polygon fill="#22304f" points="362.91,299.28 465.81,295.36 466.79,313.98 363.89,317.9"/>
+  <polygon fill="#c4573a" points="345.27,220.88 490.31,215.98 493.25,248.32 344.29,253.22"/>
+  <polygon fill="#22304f" points="458.95,251.26 486.39,248.32 490.31,362 460.91,360.04"/>
+</g>
+<rect data-part="floor" x="300" y="362" width="264" height="5" fill="#22304f"/>
+</svg>

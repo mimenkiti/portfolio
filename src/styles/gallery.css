@@ -260,38 +260,42 @@
   opacity: 0.8;
 }
 
-/* Sized to the tallest preview rather than to the shortest. The
-   previews are stacked and absolute so the band never reflows and the
-   leader never chases a moving target, which means the stage cannot
-   size itself to its content — so it is given the room, and the plan
-   row absorbs the difference. */
+/* The stage holds the words at the left margin and, over the whole
+   band, the layer the selected room's artwork hangs in. Everything is
+   stacked and revealed in place, so the band never reflows, the plan
+   above never moves, and the leader never chases a moving target. */
 .band__stage {
   position: relative;
   min-height: clamp(10rem, 23vh, 13rem);
 }
 
-/* The resting line sits in the middle of the reserved band rather than
-   at the top of it. The stage has to keep its full height so the plan
-   never jumps when a room becomes active, which left this one line
-   clinging to the top of an otherwise empty half-screen on first load.
-   Centring it settles the default state without moving anything else. */
-/* Previews are stacked and cross-faded so the band never reflows and
-   the leader never has to chase a moving target.
-
-   Named `peek`, not `pv`: `.pv` is ProjectView's container on the LLP and
+/* Named `peek`, not `pv`: `.pv` is ProjectView's container on the LLP and
    Faber pages, and these rules (absolute, opacity 0, pointer-events none)
    were landing on it, so both essays rendered invisible and dead to the
    pointer with only their header, hero and footer painting. Nothing in
    this file may use a `.pv` selector. */
-.peek {
-  position: absolute;
-  inset: 0;
+.band__words {
   display: grid;
-  /* The plate column sizes to the plate, so the card keeps its
-     proportion instead of stretching into a banner. */
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  align-items: start;
+  /* All three previews in one cell, so the column is as tall as the
+     tallest and none of them leaves the flow. */
+  grid-template-areas: 'one';
+  /* Never runs under the leftmost plate: measured from the plan. */
+  max-width: min(32rem, var(--words-max, 32rem));
+  /* Out of flow, as the previews always were: the stage keeps its fixed
+     height and the plan keeps its size, whatever the words wrap to. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.peek {
+  grid-area: one;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  justify-items: start;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s var(--e-out);
@@ -302,30 +306,18 @@
   pointer-events: auto;
 }
 
-.peek--archive {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.peek__words {
-  display: grid;
-  gap: 0.5rem;
-  align-content: start;
-  justify-items: start;
-  max-width: 34rem;
+.peek__title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 0.9rem + 1.6vw, 2.35rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
 }
 
 .peek__meta {
   color: var(--ink-3);
-}
-
-.peek__title {
-  font-family: var(--serif);
-  font-size: clamp(1.6rem, 1rem + 1.9vw, 2.6rem);
-  font-weight: 300;
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-wrap: balance;
 }
 
 .peek__orient {
@@ -333,7 +325,6 @@
   line-height: 1.5;
   font-weight: 340;
   color: var(--ink-2);
-  max-width: 40ch;
   text-wrap: pretty;
 }
 
@@ -356,74 +347,78 @@
   gap: 0.8em;
 }
 
-.peek__plate {
-  display: grid;
-  gap: 0.4rem;
-  align-content: start;
-  justify-items: end;
-}
+/* --- room artwork -----------------------------------------------
 
-.peek__cap {
-  color: var(--ink-3);
-  border-top: 1px solid var(--rule);
-  padding-top: 0.3rem;
-}
-
-/* --- plates -----------------------------------------------------
-
-   Assembled from material the project already ships, in one shared
-   proportion so the rooms read as a collection.
+   The approved plates, from art/RoomArt. The frame takes the drawing's
+   own proportion (set inline from its viewBox: 3:2 for the landscape
+   compositions, 4:5 for the portrait ones), and nothing else: the
+   drawing paints its own ground edge to edge, and if a layout ever hands
+   it a box of another shape it letterboxes rather than crops. Size and
+   placement live in the rules below this one, so either can change
+   without touching the artwork or the selection wiring.
    ---------------------------------------------------------------- */
 
-.plate {
-  aspect-ratio: 16 / 10;
-  height: clamp(7.5rem, 20vh, 12.5rem);
-  width: auto;
-  max-width: 100%;
-  background: var(--ground-raised);
-  border: 1px solid var(--rule);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  position: relative;
+.art {
+  display: block;
+  aspect-ratio: 3 / 2;
 }
 
-.plate--llp .plate__word {
-  font-family: var(--serif);
-  font-size: clamp(2.2rem, 7vh, 3.6rem);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  white-space: nowrap;
-}
-
-.plate__q {
-  display: inline-block;
-  clip-path: inset(0 0 28.6% 0);
-}
-
-.plate__dot {
-  display: inline-block;
-  margin-left: -0.308em;
-}
-
-.plate__ipa {
-  position: absolute;
-  bottom: 0.5rem;
-  left: 0.6rem;
-  color: var(--ink-3);
-}
-
-.plate__chair {
-  width: 68%;
-  height: 76%;
-  color: var(--ink);
-}
-
-.plate__chair .cchair {
+.art > svg {
+  display: block;
   width: 100%;
   height: 100%;
+}
+
+/* The band's artwork. One plate at a time, hung from its own room: its
+   centre is the room's measured centre (`--x`), so it sits on the same
+   vertical as the leader that drops from that room. The two that are not
+   selected are closed, not dimmed, so there is never a row of three. */
+.band__art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bplate {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  transform: translateX(-50%);
+  /* Closed: the plate is rolled up into the leader. Leaving is quick so
+     the next room's artwork is never revealed over the last one. */
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.22s var(--e-out);
+}
+
+/* A small window into the room: about 270 x 180 at 1440 x 900, inside the
+   180 x 120 to 360 x 240 range the landscape art was checked at, and
+   well under the plan's own width so the drawing stays the thing you
+   read first. Sized by height so the band never grows. */
+.bplate .art {
+  height: clamp(8rem, 20vh, 11.5rem);
+  width: auto;
+}
+
+/* Revealed: it drops open from the leader, after the floor and the words
+   have turned, which is what makes it read as the inside of the room
+   rather than as another control. */
+.bplate.is-on {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.42s var(--e-io) 0.12s;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* A plan too narrow to leave the words a column beside the leftmost
+   plate: the plate moves to the band's right edge instead. */
+.band__stage.is-tight .band__words {
+  max-width: min(30rem, calc(100% - var(--plate-w, 17rem) - 2.5rem));
+}
+
+.band__stage.is-tight .bplate {
+  left: auto;
+  right: 0;
+  transform: none;
 }
 
 /* --- footer ------------------------------------------------------ */
@@ -592,19 +587,11 @@
     outline-offset: 3px;
   }
 
-  .car__plate {
-    width: 100%;
-    margin-bottom: 0.35rem;
-  }
-
-  /* One frame per card. The plate used to carry its own border inside the
-     card's, which read as a card inside a card. */
-  .car__plate .plate {
-    width: 100%;
-    height: auto;
-    max-width: none;
-    border: 0;
-    background: var(--ground-2);
+  /* The artwork leads: the full inner width of the card, edge to edge
+     inside its frame, with the room's words beneath it. */
+  .car__art {
+    width: calc(100% + 1.8rem);
+    margin: -0.85rem -0.9rem 0.6rem;
   }
 
   .peek__enter {
@@ -666,8 +653,33 @@
     line-height: 1.5;
   }
 
-  .plate {
-    height: clamp(6rem, 16vh, 9rem);
+  .bplate .art {
+    height: clamp(7rem, 19vh, 9rem);
+  }
+}
+
+/* Desktop up to 920px tall: the words get a slightly smaller setting so
+   the longest of them (LLP's) clears the footer without the plan giving
+   up any height. */
+@media (min-width: 52.001rem) and (max-height: 920px) {
+  .peek {
+    gap: 0.3rem;
+  }
+
+  .peek__title {
+    font-size: clamp(1.4rem, 0.8rem + 1.3vw, 2.1rem);
+  }
+
+  .peek__enter {
+    margin-top: 0.15rem;
+  }
+}
+
+/* Under 800px tall the orientation steps down as well. */
+@media (min-width: 52.001rem) and (max-height: 800px) {
+  .peek__orient {
+    font-size: var(--t-small);
+    line-height: 1.45;
   }
 }
 
@@ -679,6 +691,7 @@
   .band__leader,
   .band__rule,
   .peek,
+  .bplate,
   .car__card {
     transition: none;
   }

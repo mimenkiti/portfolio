@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { go } from '../lib/router'
 import { CONTACT } from '../lib/links'
 import { useMedia, useReducedMotion } from '../lib/media'
 import { Plan } from './Plan'
-import { PlateFaber, PlateLLP } from './Plates'
+import { RoomArt, type ArtShape } from './art/RoomArt'
 import { ROOMS, byId, isExternal, type Room, type RoomId } from './rooms'
 
 /* ---------------------------------------------------------------
@@ -26,6 +26,11 @@ import { ROOMS, byId, isExternal, type Room, type RoomId } from './rooms'
    --------------------------------------------------------------- */
 
 const ENTER_MS = 420
+
+/* Which composition of the artwork each presentation uses. Landscape 3:2
+   at both for now; the portrait 4:5 files stay in art/ until that is
+   settled, and switching back is this one line. */
+const ART_SHAPE: Record<'desktop' | 'mobile', ArtShape> = { desktop: 'landscape', mobile: 'landscape' }
 
 /* Two bios, because the phone is a different composition rather than a
    narrower copy of this one. The long one is the orientation a desktop
@@ -142,7 +147,12 @@ export function Gallery() {
       // The active room survives the trip from the plan down to the
       // preview, so the preview's own button can actually be pressed. It
       // clears when the pointer leaves the Gallery altogether.
-      onPointerLeave={() => setActive(null)}
+      // Touch excluded: a finger "leaves" on every lift, so a swipe that
+      // hit the end of the rail, or a tap on the bio, used to drop the
+      // selection and send the selected card's artwork back to rest.
+      onPointerLeave={(e) => {
+        if (e.pointerType !== 'touch') setActive(null)
+      }}
     >
       <div
         className={['gallery__veil', entering ? `is-${entering}` : ''].join(' ')}
@@ -217,22 +227,114 @@ export function Gallery() {
 
 /* --- desktop: the callout ---------------------------------------
 
-   One band, and the leader drops into it from whichever room is
-   active. The instruction that used to rest here now sits under the
-   invitation, beside the plan it describes.
+   One room at a time. The selected room's artwork hangs directly under
+   that room, on the leader, as if the plan had been lifted to show what
+   is inside it, and the room's words sit at the left margin. The other
+   two artworks are not on the page at all: there is no strip of
+   thumbnails to choose from, so the plan stays the only way to choose.
+
+   The order is the room's own: the floor and the environment turn first,
+   the words come up with them, and the artwork is revealed a beat later,
+   dropping open from the leader. Its own response (the reply, the kit
+   lining up, the column righting itself) starts once it is in view, then
+   holds. Under reduced motion all of it is simply there.
    ---------------------------------------------------------------- */
 
+/** When the artwork's own response starts, after its reveal has begun. */
+const ART_AFTER = 340
+
 function Band({ active, onEnter }: { active: RoomId | null; onEnter: (id: RoomId) => void }) {
+  const quiet = useReducedMotion()
+  const stage = useRef<HTMLDivElement>(null)
+  const [lit, setLit] = useState<RoomId | null>(null)
+  const [tight, setTight] = useState(false)
+
+  // The artwork the motion CSS sees as active. It follows the selection,
+  // a beat late so the response plays in view rather than behind the
+  // reveal. Deselecting is immediate, so a plate leaving starts home at once.
+  useEffect(() => {
+    if (quiet || !active) {
+      setLit(active)
+      return
+    }
+    setLit(null)
+    const t = window.setTimeout(() => setLit(active), ART_AFTER)
+    return () => window.clearTimeout(t)
+  }, [active, quiet])
+
+  // Each plate hangs from its own room, so its x is the room's measured
+  // centre, the same measurement the leader uses. Where the plan is too
+  // narrow for that to leave the words a readable column, the plates
+  // move to the band's right edge instead.
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = stage.current
+      if (!el) return
+      const b = el.getBoundingClientRect()
+      const plate = el.querySelector<HTMLElement>('.bplate')
+      const w = plate?.offsetWidth ?? 0
+      let first = Infinity
+      for (const r of ROOMS) {
+        const room = document.querySelector<SVGRectElement>(`.plan__floor[data-room="${r.id}"]`)
+        if (!room) continue
+        const rr = room.getBoundingClientRect()
+        const x = Math.min(Math.max(rr.left + rr.width / 2 - b.left, w / 2), b.width - w / 2)
+        el.style.setProperty('--plate-w', `${w}px`)
+        el.style.setProperty(`--x-${r.id}`, `${Math.round(x)}px`)
+        first = Math.min(first, x - w / 2)
+      }
+      // Room left for the words, beside the leftmost plate.
+      const room = first - 40
+      el.style.setProperty('--words-max', `${Math.round(room)}px`)
+      setTight(room < 380)
+    }
+    place()
+    window.addEventListener('resize', place, { passive: true })
+    return () => window.removeEventListener('resize', place)
+  }, [])
+
   return (
     <div className={['band', active ? 'is-on' : ''].join(' ')}>
       <div className="band__rule">
         <span className={['band__leader', active ? `is-${active}` : ''].join(' ')} aria-hidden="true" />
       </div>
-      <div className="band__stage">
-        {ROOMS.map((r) => (
-          <Preview key={r.id} room={r} shown={active === r.id} onEnter={onEnter} />
-        ))}
+      <div className={['band__stage', tight ? 'is-tight' : ''].join(' ')} ref={stage}>
+        <div className="band__words">
+          {ROOMS.map((r) => (
+            <Preview key={r.id} room={r} shown={active === r.id} onEnter={onEnter} />
+          ))}
+        </div>
+        <div className="band__art">
+          {ROOMS.map((r) => (
+            <Plate key={r.id} room={r} on={active === r.id} lit={lit === r.id} onEnter={onEnter} />
+          ))}
+        </div>
       </div>
+    </div>
+  )
+}
+
+/** The selected room's artwork. Pressing it is the same as its Enter,
+ *  because that is what a visitor who has just watched it respond will
+ *  try; Enter stays the keyboard's target, so this is not a tab stop. */
+function Plate({
+  room,
+  on,
+  lit,
+  onEnter,
+}: {
+  room: Room
+  on: boolean
+  lit: boolean
+  onEnter: (id: RoomId) => void
+}) {
+  return (
+    <div
+      className={['bplate', `bplate--${room.id}`, on ? 'is-on' : ''].join(' ')}
+      style={{ ['--x' as string]: `var(--x-${room.id}, 50%)` }}
+      onClick={on ? () => onEnter(room.id) : undefined}
+    >
+      <RoomArt id={room.id} active={lit} shape={ART_SHAPE.desktop} />
     </div>
   )
 }
@@ -249,36 +351,25 @@ function Preview({
   const ext = isExternal(room)
   return (
     <article className={['peek', `peek--${room.id}`, shown ? 'is-on' : ''].join(' ')} aria-hidden={!shown}>
-      <div className="peek__words">
-        <p className="peek__meta data">
-          {room.n} · {room.name}
-        </p>
-        <h2 className="peek__title">{room.title}</h2>
-        <p className="peek__orient">{room.orientation}</p>
-        {ext ? (
-          <a
-            className="peek__enter"
-            href={room.to.href}
-            target="_blank"
-            rel="noreferrer"
-            tabIndex={shown ? 0 : -1}
-          >
-            {room.action} <span aria-hidden="true">↗</span>
-          </a>
-        ) : (
-          <button className="peek__enter" onClick={() => onEnter(room.id)} tabIndex={shown ? 0 : -1}>
-            {room.action} <span aria-hidden="true">→</span>
-          </button>
-        )}
-      </div>
-
-      {room.id !== 'archive' && (
-        <div className="peek__plate">
-          {room.id === 'llp' ? <PlateLLP /> : <PlateFaber />}
-          <p className="peek__cap data">
-            {room.n} · {room.name}
-          </p>
-        </div>
+      <p className="peek__meta data">
+        {room.n} · {room.name}
+      </p>
+      <h2 className="peek__title">{room.title}</h2>
+      <p className="peek__orient">{room.orientation}</p>
+      {ext ? (
+        <a
+          className="peek__enter"
+          href={room.to.href}
+          target="_blank"
+          rel="noreferrer"
+          tabIndex={shown ? 0 : -1}
+        >
+          {room.action} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <button className="peek__enter" onClick={() => onEnter(room.id)} tabIndex={shown ? 0 : -1}>
+          {room.action} <span aria-hidden="true">→</span>
+        </button>
       )}
     </article>
   )
@@ -350,9 +441,10 @@ function Carousel({
             data-card={r.id}
             onClick={() => onEnter(r.id)}
           >
-            {r.id !== 'archive' && (
-              <div className="car__plate">{r.id === 'llp' ? <PlateLLP /> : <PlateFaber />}</div>
-            )}
+            {/* The artwork first, across the card's full width, and the
+                room's words under it: swiping the rail is a walk past
+                three pictures, each captioned, not three text cards. */}
+            <RoomArt id={r.id} active={active === r.id} shape={ART_SHAPE.mobile} className="car__art" />
             <p className="car__meta data">
               {r.n} · {r.name}
             </p>
