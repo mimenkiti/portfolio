@@ -55,7 +55,7 @@ export const ROOMS: Room[] = [
     name: 'Faber',
     title: 'Making my way back to making',
     orientation:
-      'A working tool that takes a photograph of an object, works out what it is and how it was made, and writes three different ways you could build one yourself.',
+      'A design and DIY companion that helps you understand designed objects, how they\u2019re made, and how you could make them yourself.',
     to: '/faber',
     action: 'Enter',
     rect: { x: 367, y: 26, w: 220, h: 282 },

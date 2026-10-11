@@ -91,6 +91,26 @@
   margin-top: clamp(1.5rem, 4.4vh, 2.9rem);
 }
 
+/* The plan's one instruction. It belongs to the invitation, so it sits
+   directly under it in the plan's own small type, quiet enough to read
+   as a caption to the drawing rather than as interface help. Withdrawn
+   where nothing can hover; a phone has its own line under the plan. */
+.gal__cue {
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  letter-spacing: 0.01em;
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: -0.15rem;
+  transition: color 0.5s var(--e-out);
+}
+
+@media (hover: none) {
+  .gal__cue {
+    display: none;
+  }
+}
+
 /* --- the plan --------------------------------------------------- */
 
 /* `place-items: center` here un-stretched the SVG, so its `height: 100%`
@@ -145,19 +165,6 @@
    survive greyscale and a colour-blind reading.
    ---------------------------------------------------------------- */
 
-.plan__reg {
-  fill: none;
-  stroke: var(--poche);
-  stroke-width: 2.4;
-  stroke-linecap: square;
-  opacity: 0;
-  transition: opacity 0.4s var(--e-out);
-}
-
-.plan__reg.is-on {
-  opacity: 1;
-}
-
 /* The marks on the rooms that are not selected. */
 .plan__mark {
   transition: opacity 0.4s var(--e-out);
@@ -169,13 +176,6 @@
 
 /* Floor wear: a room this visitor has already walked into. Session only,
    and deliberately at the threshold of visible. */
-.plan__wear line {
-  stroke: var(--poche);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  opacity: 0.11;
-}
-
 /* The openings are the ground painted back over the wall, which is
    what makes them read as punched through rather than drawn on. */
 .plan__openings rect {
@@ -275,23 +275,6 @@
    never jumps when a room becomes active, which left this one line
    clinging to the top of an otherwise empty half-screen on first load.
    Centring it settles the default state without moving anything else. */
-.band__rest {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  align-content: center;
-  font-family: var(--sans);
-  font-size: var(--t-small);
-  color: var(--ink-3);
-  opacity: 0;
-  transition: opacity 0.35s var(--e-out);
-  pointer-events: none;
-}
-
-.band__rest.is-on {
-  opacity: 1;
-}
-
 /* Previews are stacked and cross-faded so the band never reflows and
    the leader never has to chase a moving target.
 
@@ -673,7 +656,6 @@
   .plan__floor,
   .plan__walls rect,
   .plan__openings rect,
-  .plan__reg,
   .plan__mark,
   .band__leader,
   .band__rule,

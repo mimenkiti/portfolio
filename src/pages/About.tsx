@@ -5,12 +5,9 @@ import { CONTACT, EARLIER } from '../lib/links'
  * About is back matter, not Room 04.
  *
  * A normal page on plain paper: no plan, no room state, no resume, and
- * none of the Gallery's apparatus.
- *
- * It no longer repeats the Gallery's paragraph. The Gallery says where
- * she is and what she does in two lines, because that is all a visitor
- * needs before choosing a room; this page answers the question the
- * Gallery cannot, which is why these two projects come from this person.
+ * none of the Gallery's apparatus. It says plainly who she is, what she
+ * does now, and why the site exists, in her own order. It does not build
+ * a thesis about architecture and product management.
  */
 export function About() {
   return (
@@ -24,31 +21,23 @@ export function About() {
 
       <section className="m spread">
         <div className="prose m__prose">
-          <h1 className="lede m__lift">I lead product at Samsung Wallet, and I trained as an architect.</h1>
+          <h1 className="lede m__lift">
+            I&rsquo;m Michelle A. Menkiti, a product manager and builder based in San Francisco.
+          </h1>
           <p>
-            I&rsquo;m a Senior Product Manager at Samsung, where I lead the products for payments,
-            rewards and digital identity in Samsung Wallet. Before Samsung I worked on consumer
-            financial products at Goldman Sachs, with a stretch at an early-stage startup in
-            between. Most of that work has been the kind where the hard part is deciding what the
-            thing should be, and then staying with it long enough that it reaches people.
+            I&rsquo;m currently a Senior Product Manager at Samsung, working on Samsung Wallet
+            across payments, rewards and digital identity. Before that I worked on consumer
+            financial products at Goldman Sachs, with a brief stint at an early-stage startup.
           </p>
           <p>
-            I studied architecture at MIT. I never practiced, but the training is the reason I think
-            about products the way I do: in plans and sections, in what someone does first and what
-            they do next, and in how much a drawing can commit to before anybody has to build it.
+            I studied architecture at MIT, and I never really stopped designing outside of work.
+            I&rsquo;m usually building something of my own, sometimes software and sometimes
+            something physical, and often because there&rsquo;s something I want to understand
+            better than I do.
           </p>
           <p>
-            I also never stopped designing outside of work. Usually that means software, sometimes
-            something physical, and almost always because there is something I want to understand
-            better than I currently do. Both projects on this site started that way. LLP started
-            because my mother speaks Igbo, almost nobody in my generation of the family does, I
-            never learned it, and the tools I used to keep up my French simply do not exist for it.
-            Faber started because I wanted to make furniture and kept getting stuck in the distance
-            between liking an object and understanding it well enough to build one.
-          </p>
-          <p>
-            Neither of them is finished, and both pages say where. That is most of what I find
-            interesting about them.
+            This site collects some of those projects, newer and older, including a few that are
+            still in progress.
           </p>
 
           <div className="about__earlier">
@@ -65,8 +54,7 @@ export function About() {
           </div>
 
           <p>
-            If something here raises a question, or you want to know how a piece of it was built,
-            write to me.
+            If something here sparks a question or an idea, I&rsquo;d love to hear from you.
           </p>
         </div>
       </section>

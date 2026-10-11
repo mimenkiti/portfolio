@@ -46,38 +46,10 @@ const DOORS = [
 /** Leaf length: the opening, unless the receiving room is narrower. */
 const leaf = (d: (typeof DOORS)[number]) => Math.min(OPENING, d.into - WALL)
 
-/** Corner register marks, inset inside the room and clamped to its size.
- *
- *  Archive is 47 units wide, so a fixed inset and tick length would put
- *  its left and right marks on top of each other. Both are taken from
- *  the room's own dimensions instead. */
-function register(r: { x: number; y: number; w: number; h: number }) {
-  const o = Math.min(14, Math.round(r.w * 0.18))
-  const t = Math.min(24, Math.round(Math.min(r.w, r.h) * 0.22))
-  const { x, y, w, h } = r
-  return [
-    `M${x + o} ${y + o + t} V${y + o} H${x + o + t}`,
-    `M${x + w - o - t} ${y + o} H${x + w - o} V${y + o + t}`,
-    `M${x + w - o} ${y + h - o - t} V${y + h - o} H${x + w - o - t}`,
-    `M${x + o + t} ${y + h - o} H${x + o} V${y + h - o - t}`,
-  ].join(' ')
-}
-
-/** The walking line: every door sits within a few units of this row. */
-const AXIS = 168
-const WEAR = [
-  [-7, 0.3],
-  [-3.5, 0.45],
-  [0, 0.58],
-  [3.5, 0.42],
-  [7, 0.28],
-] as const
-
 export function Plan({
   active,
   entering,
   selectOnly,
-  visited,
   onActivate,
   onHover,
 }: {
@@ -86,8 +58,6 @@ export function Plan({
   entering?: RoomId | null
   /** Narrow: activating a room shows its card rather than entering it. */
   selectOnly?: boolean
-  /** Rooms entered earlier in this session. They keep a faint floor mark. */
-  visited?: Set<RoomId>
   onActivate: (id: RoomId) => void
   onHover: (id: RoomId | null) => void
 }) {
@@ -120,24 +90,6 @@ export function Plan({
           data-room={r.id}
           {...box(r.rect)}
         />
-      ))}
-
-      {/* Floor wear. A room entered earlier in this session keeps a faint
-          scuff along the walking line, the way a plan records traffic. It
-          is drawn on the floor and under the walls, so it belongs to the
-          building rather than sitting on top of it as a status badge. */}
-      {ROOMS.filter((r) => visited?.has(r.id)).map((r) => (
-        <g className="plan__wear" key={r.id} aria-hidden="true">
-          {WEAR.map(([dy, len]) => (
-            <line
-              key={dy}
-              x1={r.rect.x + 7}
-              y1={AXIS + dy}
-              x2={r.rect.x + 7 + r.rect.w * len}
-              y2={AXIS + dy}
-            />
-          ))}
-        </g>
       ))}
 
       {/* Poché. Thick strokes, then the openings painted back out. The
@@ -196,21 +148,6 @@ export function Plan({
           entry
         </text>
       </g>
-
-      {/* Register marks on the selected room. Not a highlight colour: the
-          same poché the walls are drawn in, which is why selection still
-          reads at a glance with the colour taken away. */}
-      {ROOMS.map((r) => (
-        <path
-          key={r.id}
-          className={[
-            'plan__reg',
-            active === r.id || entering === r.id ? 'is-on' : '',
-          ].join(' ')}
-          d={register(r.rect)}
-          aria-hidden="true"
-        />
-      ))}
 
       {/* Room numbers, set in the drawing rather than on labels beside it.
           While a room is selected the other two step back: their marks are

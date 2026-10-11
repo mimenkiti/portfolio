@@ -5,7 +5,6 @@ import { useMedia, useReducedMotion } from '../lib/media'
 import { Plan } from './Plan'
 import { PlateFaber, PlateLLP } from './Plates'
 import { ROOMS, byId, isExternal, type Room, type RoomId } from './rooms'
-import { rememberRoom, visitedRooms } from '../lib/visited'
 
 /* ---------------------------------------------------------------
    The Gallery — Entry.
@@ -46,9 +45,6 @@ export function Gallery() {
   const narrow = useMedia('(max-width: 52rem)')
   const veil = useRef<HTMLDivElement>(null)
   const timer = useRef<number | null>(null)
-  // Read once, on mount. The set only grows by leaving this page, so it
-  // cannot change underneath the Gallery while it is on screen.
-  const [visited] = useState(visitedRooms)
 
   // The environment lives on the root element, so the whole page turns
   // rather than a panel inside it.
@@ -72,7 +68,6 @@ export function Gallery() {
     (id: RoomId) => {
       const room = byId(id)
       if (isExternal(room)) {
-        rememberRoom(id)
         window.open(room.to.href, '_blank', 'noopener,noreferrer')
         return
       }
@@ -165,6 +160,11 @@ export function Gallery() {
       <div className="gal__intro">
         <p className="gal__bio">{narrow ? BIO_SHORT : BIO}</p>
         <p className="gal__invite">Walk through my work.</p>
+        {/* Said at the plan, not in the band below it: an instruction a
+            screen away from the thing it describes is one nobody reads.
+            Desktop only, and only where hovering is possible at all. A phone
+            gets its own cue under the drawing. */}
+        {!narrow && <p className="gal__cue">Hover over a room to look inside.</p>}
       </div>
 
       <div className="gal__plan">
@@ -178,7 +178,6 @@ export function Gallery() {
           active={shown}
           entering={entering}
           selectOnly={narrow}
-          visited={visited}
           onActivate={narrow ? setActive : enter}
           onHover={setActive}
         />
@@ -189,7 +188,7 @@ export function Gallery() {
           between a tap on the plan and the card below is never a guess. */}
       {narrow && (
         <p className="gal__at label" aria-live="polite">
-          {shown ? `Room ${byId(shown).n} \u00b7 ${byId(shown).name}` : 'Three rooms, one axis'}
+          {shown ? `Room ${byId(shown).n} \u00b7 ${byId(shown).name}` : 'Tap a room to look inside.'}
         </p>
       )}
 
@@ -217,9 +216,8 @@ export function Gallery() {
 /* --- desktop: the callout ---------------------------------------
 
    One band, and the leader drops into it from whichever room is
-   active. With nothing selected the band holds the invitation's answer
-   rather than going blank, because an empty half-screen reads as a
-   loading state.
+   active. The instruction that used to rest here now sits under the
+   invitation, beside the plan it describes.
    ---------------------------------------------------------------- */
 
 function Band({ active, onEnter }: { active: RoomId | null; onEnter: (id: RoomId) => void }) {
@@ -232,9 +230,6 @@ function Band({ active, onEnter }: { active: RoomId | null; onEnter: (id: RoomId
         {ROOMS.map((r) => (
           <Preview key={r.id} room={r} shown={active === r.id} onEnter={onEnter} />
         ))}
-        <p className={['band__rest', active ? '' : 'is-on'].join(' ')} aria-hidden={!!active}>
-          Three rooms. Hover or focus one to look in.
-        </p>
       </div>
     </div>
   )

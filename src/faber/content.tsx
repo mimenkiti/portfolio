@@ -156,7 +156,10 @@ export const FABER_PROJECT: Project = {
       caption: (
         <>
           A chair the world has written about, and a cabinet nobody signed. Same fields, same
-          product, different willingness to commit.
+          product, different willingness to commit. Everything marked{' '}
+          <span className="fq__tag">Faber</span> on this page was copied out of the live build
+          rather than generated here. The drawings of the chair that follow are mine, made for this
+          page: Faber generates no geometry.
         </>
       ),
       render: () => <IdentifyCompare />,

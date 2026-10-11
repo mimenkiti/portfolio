@@ -14,14 +14,14 @@ export function Faber({ mode, setGround }: { mode: Mode; setGround: (v: number) 
           <span className="proj__name">{FABER_PROJECT.name}</span>
           <span>{FABER_PROJECT.subject}</span>
         </p>
-        {/* The provenance rule, stated once. Everything downstream of this
-            carries a small mark where it is a quotation and says nothing
-            about authorship again, except where a specific limitation or a
-            specific event is the point. */}
+        {/* What Faber is, said once for a reader who arrives without the
+            Gallery. The provenance rule used to sit here; it now sits under
+            the first quotation it governs (identify-compare), so a visitor
+            learns the idea before the bookkeeping. */}
         <p className="proj__draft caption side">
-          Everything marked <span className="fq__tag">Faber</span> on this page was copied out of
-          the live build rather than generated here. The drawings of the chair are mine, made for
-          this page: Faber generates no geometry.
+          Faber is a design and DIY companion. Start with a photograph of a designed object, and it
+          helps you identify what it is, understand how it was made, and work out how you could
+          make one yourself.
         </p>
       </header>
 

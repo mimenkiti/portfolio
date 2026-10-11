@@ -53,7 +53,14 @@
   font-size: clamp(1.2rem, 0.9rem + 0.9vw, 1.55rem);
 }
 
-.mode-read .proj__draft {
+/* The header note sits in the margin column in Experience. Read collapses
+   that column to nothing, so without this the note kept its margin
+   placement in a zero-width track and set one word per line, pushing the
+   essay most of a screen down. In Read it joins the reading column, the
+   same move every other margin note makes. */
+.mode-read .spread > .proj__draft {
+  grid-column: 2 / 3;
+  max-width: 34rem;
   border-left: 0;
   padding-left: 0;
   margin-top: 0.75rem;

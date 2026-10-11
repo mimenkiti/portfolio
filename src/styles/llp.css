@@ -1112,3 +1112,11 @@ html.is-dark-ground .toc {
     overflow: hidden;
   }
 }
+
+/* On a narrow screen the margin note drops under the project line; give it
+   the same breathing room the reading column gives a paragraph. */
+@media (max-width: 62rem) {
+  .proj__draft {
+    margin-top: 0.85rem;
+  }
+}
