@@ -251,6 +251,7 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
       )
 
     case 'figure':
+      if (b.experienceOnly && !experience) return null
       return (
         <figure
           className={[

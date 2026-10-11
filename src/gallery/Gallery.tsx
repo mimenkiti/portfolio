@@ -178,7 +178,9 @@ export function Gallery() {
           active={shown}
           entering={entering}
           selectOnly={narrow}
-          onActivate={narrow ? setActive : enter}
+          // Phone: the first tap on a room selects it and brings its card
+          // round; a tap on the room that is already selected enters it.
+          onActivate={(id, wasActive) => (narrow && !wasActive ? setActive(id) : enter(id))}
           onHover={setActive}
         />
       </div>
@@ -339,10 +341,14 @@ function Carousel({
       {ROOMS.map((r) => {
         const ext = isExternal(r)
         return (
+          // The whole card is the way in; `Enter` stays as the explicit
+          // call to action and the keyboard's target. A swipe never fires
+          // a click, so scrolling the rail cannot open a project by accident.
           <article
             className={['car__card', `car__card--${r.id}`, active === r.id ? 'is-on' : ''].join(' ')}
             key={r.id}
             data-card={r.id}
+            onClick={() => onEnter(r.id)}
           >
             {r.id !== 'archive' && (
               <div className="car__plate">{r.id === 'llp' ? <PlateLLP /> : <PlateFaber />}</div>
@@ -353,11 +359,23 @@ function Carousel({
             <h2 className="car__title">{r.title}</h2>
             <p className="car__orient">{r.orientation}</p>
             {ext ? (
-              <a className="peek__enter" href={r.to.href} target="_blank" rel="noreferrer">
+              <a
+                className="peek__enter"
+                href={r.to.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {r.action} <span aria-hidden="true">↗</span>
               </a>
             ) : (
-              <button className="peek__enter" onClick={() => onEnter(r.id)}>
+              <button
+                className="peek__enter"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onEnter(r.id)
+                }}
+              >
                 {r.action} <span aria-hidden="true">→</span>
               </button>
             )}

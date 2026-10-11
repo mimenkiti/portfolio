@@ -573,6 +573,25 @@
     opacity: 0.6;
   }
 
+  /* The whole card is the way in. No hover lift or shadow, which would
+     turn it into a component: a pointer, the press itself registering as
+     the card settling slightly, and a focus outline drawn by the frame it
+     already has when its Enter is reached by keyboard. */
+  .car__card {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x pan-y;
+  }
+
+  .car__card:active {
+    background: var(--ground-lift);
+  }
+
+  .car__card:has(.peek__enter:focus-visible) {
+    outline: 1px solid var(--poche);
+    outline-offset: 3px;
+  }
+
   .car__plate {
     width: 100%;
     margin-bottom: 0.35rem;

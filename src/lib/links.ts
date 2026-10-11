@@ -12,6 +12,9 @@ export const LIVE = {
   faber: 'https://faber-five.vercel.app/',
 }
 
+// Not linked from any page while both repositories are private: a public
+// link to them is a 404. Kept here so the links return in one place when
+// the repositories are made public.
 export const SOURCE = {
   llp: 'https://github.com/mimenkiti/LLP',
   faber: 'https://github.com/mimenkiti/faber',

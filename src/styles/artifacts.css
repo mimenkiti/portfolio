@@ -1096,6 +1096,13 @@ html.is-dark-ground .topright {
     display: none;
   }
 
+  /* `.mode-read .sheet` (above) outranks the rail on specificity and put
+     the desktop grid back on a phone, which widened the whole page by
+     about 70px in Read. The rail is the phone composition in both modes. */
+  .mode-read .sheet {
+    grid-template-columns: none;
+  }
+
   .sheet__tile {
     scroll-snap-align: start;
   }

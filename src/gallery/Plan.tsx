@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { PLAN_VIEWBOX, ROOMS, VESTIBULE, type RoomId } from './rooms'
 
 /* ---------------------------------------------------------------
@@ -58,10 +59,17 @@ export function Plan({
   entering?: RoomId | null
   /** Narrow: activating a room shows its card rather than entering it. */
   selectOnly?: boolean
-  onActivate: (id: RoomId) => void
+  /** `wasActive`: the room was already selected when the press began. */
+  onActivate: (id: RoomId, wasActive: boolean) => void
   onHover: (id: RoomId | null) => void
 }) {
   const vb = `${PLAN_VIEWBOX.x} ${PLAN_VIEWBOX.y} ${PLAN_VIEWBOX.w} ${PLAN_VIEWBOX.h}`
+  // Whether the pressed room was already the selected one, read at
+  // pointerdown. A touch fires focus before click, and focus selects, so
+  // by the time click arrives every tapped room looks selected. Reading it
+  // at the start of the press is what lets a first tap select and a second
+  // tap enter.
+  const pressedSelected = useRef(false)
 
   return (
     <svg
@@ -198,18 +206,26 @@ export function Plan({
             // The label has to say what the press actually does, which is
             // not the same on both layouts.
             aria-label={
-              selectOnly
+              selectOnly && active !== r.id
                 ? `Show room ${r.n}, ${r.name}. ${r.title}.`
                 : `Enter room ${r.n}, ${r.name}. ${r.title}.`
             }
-            onClick={() => onActivate(r.id)}
+            onPointerDown={() => {
+              pressedSelected.current = active === r.id
+            }}
+            onClick={() => onActivate(r.id, pressedSelected.current)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault()
-                onActivate(r.id)
+                // Focus has already selected it; a key press commits.
+                onActivate(r.id, true)
               }
             }}
-            onPointerEnter={() => onHover(r.id)}
+            // Hover is a mouse idea. A finger's pointerenter arrives just
+            // before the tap and would select the room behind the press.
+            onPointerEnter={(e) => {
+              if (e.pointerType !== 'touch') onHover(r.id)
+            }}
             onFocus={() => onHover(r.id)}
           />
         </g>

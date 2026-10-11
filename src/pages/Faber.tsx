@@ -2,7 +2,7 @@ import { FABER_PROJECT } from '../faber/content'
 import { ProjectView } from '../project/ProjectView'
 import type { Mode } from '../project/blocks'
 import { go } from '../lib/router'
-import { EARLIER, LIVE, SOURCE } from '../lib/links'
+import { EARLIER, LIVE } from '../lib/links'
 
 export function Faber({ mode, setGround }: { mode: Mode; setGround: (v: number) => void }) {
   return (
@@ -33,9 +33,6 @@ export function Faber({ mode, setGround }: { mode: Mode; setGround: (v: number) 
           <div className="proj__links">
             <a className="act" href={LIVE.faber} target="_blank" rel="noreferrer">
               The live product <span aria-hidden="true">↗</span>
-            </a>
-            <a className="act act--quiet" href={SOURCE.faber} target="_blank" rel="noreferrer">
-              Source on GitHub <span aria-hidden="true">↗</span>
             </a>
           </div>
           <div className="proj__onward">

@@ -63,6 +63,12 @@ export type Block =
       caption: ReactNode
       render: (mode: Mode) => ReactNode
       /**
+       * Rendered in Experience only. Set when Read shows the same artifact
+       * somewhere else (LLP's encounter opens the Read document), so the
+       * two modes never carry it twice.
+       */
+      experienceOnly?: boolean
+      /**
        * What a visitor can do to this figure, in the imperative: "drag
        * the dot", "pick a level". Present means the figure is an
        * instrument and gets the live mark on its caption. Absent means

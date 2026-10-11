@@ -35,6 +35,15 @@ const defer = (node: ReactNode, label: string) => (
  */
 const LIVE = 'https://llp-build-01.vercel.app'
 
+/** One caption for the encounter, wherever a mode places it. */
+export const ENCOUNTER_CAPTION = (
+  <>
+    The opening of the encounter, in the order the build runs it, with every phrase and gloss read
+    out of the registry. Nothing is translated until after you answer, which is the whole of what
+    Chioma not translating herself means. The real one is below.
+  </>
+)
+
 export const LLP_PROJECT: Project = {
   slug: 'llp',
   name: 'LLP',
@@ -274,14 +283,10 @@ export const LLP_PROJECT: Project = {
       kind: 'figure',
       scale: 'column',
       does: 'advance a turn at a time',
-      caption: (
-        <>
-          The opening of the encounter, in the order the build runs it, with every phrase and gloss
-          read out of the registry. Nothing is translated until after you answer, which is the whole
-          of what Chioma not translating herself means. The real one is below.
-        </>
-      ),
+      caption: ENCOUNTER_CAPTION,
       render: () => <Encounter />,
+      // Read opens with this encounter instead (llp/ReadOpening.tsx).
+      experienceOnly: true,
     },
     // Her opening line in the deployed build, and the diagnostic’s
     // anchor item. Sits beside the threshold you are about to cross.

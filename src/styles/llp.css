@@ -1120,3 +1120,55 @@ html.is-dark-ground .toc {
     margin-top: 0.85rem;
   }
 }
+
+/* ---------------------------------------------------------------
+   LLP's opening in Read: the hero's question as a figure, then the
+   four turns. Contained in the reading column, on the document's own
+   ground, with none of the hero's ground letter, periphery or
+   write-on sequence. That is what keeps the two modes different.
+   --------------------------------------------------------------- */
+.ropen {
+  margin: clamp(1.25rem, 3vh, 2rem) 0 0;
+  display: grid;
+  gap: clamp(1.1rem, 2.6vh, 1.6rem);
+}
+
+.ropen__ask {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.ropen__line {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 2rem + 3.2vw, 4.75rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 60;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* At figure scale the point is about 8px across, so the button keeps a
+   finger-sized target around it without the mark itself growing. */
+.ropen__dot .dot::before {
+  inset: -0.28em;
+}
+
+.ropen__say {
+  color: var(--ink-3);
+  max-width: 30rem;
+}
+
+.ropen .turns {
+  max-width: none;
+}
+
+.ropen .turns__stage {
+  min-height: 0;
+}
+
+.ropen__cap {
+  margin-top: -0.2rem;
+}
