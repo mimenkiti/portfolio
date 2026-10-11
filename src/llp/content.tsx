@@ -2,6 +2,7 @@ import { lazy, Suspense, type ReactNode } from 'react'
 import { Approaches } from './Approaches'
 import { ContactSheet } from './ContactSheet'
 import { Encounter } from './Encounter'
+import { Streak } from './Streak'
 import { Hearing } from './Hearing'
 import { VoiceBoundary } from './VoiceBoundary'
 import type { Project } from '../project/blocks'
@@ -52,7 +53,11 @@ export const LLP_PROJECT: Project = {
     {
       id: 'open',
       kind: 'lede',
-      text: 'I have a 221-day streak on Duolingo.',
+      text: (
+        <>
+          I have a <Streak />-day streak on Duolingo.
+        </>
+      ),
     },
     {
       id: 'open-prose',

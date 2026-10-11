@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import type { Mode } from './blocks'
+import { holdChrome } from '../lib/hide'
 
 const MORPH_MS = 820
 
@@ -20,6 +21,8 @@ export function useMode(initial: Mode = 'experience') {
   const [morphing, setMorphing] = useState(false)
 
   const switchTo = useCallback((next: Mode) => {
+    // The pinning below scrolls the page; that is not the reader scrolling.
+    holdChrome(MORPH_MS + 200)
     const eyeline = window.innerHeight * 0.3
     let anchorId: string | null = null
     let anchorTop = 0

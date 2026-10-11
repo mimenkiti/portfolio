@@ -45,6 +45,14 @@ export function useWorld(route: Route) {
     return () => {
       window.clearTimeout(t)
       el.remove()
+      // Undo this run's claim on the world. Without it, a mount that is torn
+      // down at once (StrictMode does this to every component in
+      // development) leaves `data-world` already set, so the mount that stays
+      // reads it as "already here" and the entrance never plays. On a real
+      // route change the next effect sets the new world immediately after,
+      // in the same commit, so nothing paints in between.
+      if (prev) document.documentElement.dataset.world = prev
+      else delete document.documentElement.dataset.world
     }
   }, [route])
 }

@@ -715,8 +715,13 @@ html.is-dark-ground .toc {
 
 .hero {
   position: relative;
-  min-height: min(74svh, 660px);
-  padding: clamp(1.5rem, 6vh, 4.5rem) var(--pad) clamp(1.5rem, 5vh, 3.5rem);
+  /* Was min(74svh, 660px) around about 250px of content, which centred
+     the word in a box with ~200px of nothing above it and ~200px below
+     the instruction before the essay began. The hero still owns more
+     height than its content, so it reads as an opening rather than a
+     heading, but the reader reaches the essay about 150px sooner. */
+  min-height: min(56svh, 500px);
+  padding: clamp(1rem, 3.5vh, 2.5rem) var(--pad) clamp(1rem, 3vh, 2rem);
   display: grid;
   align-content: center;
   /* Crops the ground glyph against the viewport rather than letting it
@@ -965,7 +970,7 @@ html.is-dark-ground .toc {
 
 @media (max-width: 40rem) {
   .hero {
-    min-height: min(62svh, 460px);
+    min-height: min(50svh, 380px);
   }
   .hero__near--3 {
     display: none;
@@ -1171,4 +1176,54 @@ html.is-dark-ground .toc {
 
 .ropen__cap {
   margin-top: -0.2rem;
+}
+
+/* ---------------------------------------------------------------
+   The streak in the essay's first line. A word in the sentence: the
+   line's own face and size, lining tabular figures so nothing reflows
+   while it moves, no box and no rule.
+   --------------------------------------------------------------- */
+.streak {
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+/* The roll: a window one line tall over a column of figures. */
+.roll {
+  display: inline-flex;
+}
+
+.roll__win {
+  display: inline-block;
+  height: 1lh;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.roll__reel {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  /* Quick to start, long to settle: the wheel coasting onto its figure. */
+  transition-timing-function: cubic-bezier(0.16, 0.8, 0.12, 1);
+  will-change: transform;
+}
+
+.roll__fig {
+  display: block;
+  height: 1lh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll__reel {
+    transition: none;
+  }
+}
+
+.streak__vis {
+  transition: opacity 0.18s var(--e-out);
+}
+
+.streak__vis.is-waiting {
+  opacity: 0;
 }

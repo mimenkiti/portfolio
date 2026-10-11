@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dot } from '../components/Dot'
 import { useReducedMotion } from '../lib/media'
 import { HERO_GLYPH, HERO_PERIPHERY, HERO_PHRASE, form } from './lang'
@@ -44,29 +44,42 @@ const AT: Record<Exclude<Stage, 'blank'>, number> = {
   settled: 1120,
 }
 
+/**
+ * Set once the word has actually been written, for the rest of the visit.
+ * Coming back to Experience from Read shows the finished word rather than
+ * writing it again.
+ *
+ * This used to be a per-instance `ran` ref set when the sequence was
+ * *scheduled*. React's StrictMode (on in development) mounts every
+ * component twice: the first mount set the ref and scheduled the timers,
+ * its cleanup cancelled them, and the real mount saw the ref already set
+ * and never scheduled them again. The hero stayed on its blank frame for
+ * good: word clipped away, Dot and periphery hidden. Recording completion
+ * instead of intent survives any remount.
+ */
+let heroWritten = false
+
 export function Hero() {
   const phrase = form(HERO_PHRASE)
   const quiet = useReducedMotion()
-  const [stage, setStage] = useState<Stage>(quiet ? 'settled' : 'blank')
+  const [stage, setStage] = useState<Stage>(quiet || heroWritten ? 'settled' : 'blank')
   const [speaking, setSpeaking] = useState(false)
-  const timers = useRef<number[]>([])
-  const ran = useRef(false)
 
   useEffect(() => {
-    if (quiet) {
+    if (quiet || heroWritten) {
       setStage('settled')
       return
     }
-    // Once. Not on scroll, not on a mode switch, not on a re-render.
-    if (ran.current) return
-    ran.current = true
-    for (const [s, ms] of Object.entries(AT)) {
-      timers.current.push(window.setTimeout(() => setStage(s as Stage), ms))
-    }
-    return () => {
-      timers.current.forEach((t) => window.clearTimeout(t))
-      timers.current = []
-    }
+    // Every mount schedules its own sequence and cancels it on cleanup, so
+    // a mount that is torn down early leaves nothing behind and the mount
+    // that stays plays the whole thing.
+    const timers = Object.entries(AT).map(([s, ms]) =>
+      window.setTimeout(() => {
+        setStage(s as Stage)
+        if (s === 'settled') heroWritten = true
+      }, ms),
+    )
+    return () => timers.forEach((t) => window.clearTimeout(t))
   }, [quiet])
 
   useEffect(() => () => hush(), [])
