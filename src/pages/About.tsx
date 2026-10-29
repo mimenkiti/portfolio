@@ -6,7 +6,7 @@ import { CONTACT, EARLIER } from '../lib/links'
  *
  * A normal page on plain paper: no plan, no room state, no resume, and
  * none of the Gallery's apparatus. It says plainly who she is, what she
- * does now (pointing to Practice for the work itself), and why the site exists, in her own order. It does not build
+ * does now (pointing to Professional for the work itself), and why the site exists, in her own order. It does not build
  * a thesis about architecture and product management.
  */
 export function About() {
@@ -35,13 +35,13 @@ export function About() {
             Marcus Checking and the Apple Card Savings account at Goldman. The projects are listed,
             with links to what&rsquo;s been published about them, in{' '}
             <a
-              href="#/practice"
+              href="#/professional"
               onClick={(ev) => {
                 ev.preventDefault()
-                go('/practice')
+                go('/professional')
               }}
             >
-              Practice
+              Professional
             </a>
             .
           </p>

@@ -4,10 +4,10 @@ import archiveSvg from './gallery-archive.svg?raw'
 import llpWide from './gallery-llp-landscape.svg?raw'
 import faberWide from './gallery-faber-landscape.svg?raw'
 import archiveWide from './gallery-archive-landscape.svg?raw'
-import practiceWide from './gallery-practice-landscape.svg?raw'
+import professionalWide from './gallery-professional-landscape.svg?raw'
 import './gallery-art-motion.css'
 import './gallery-art-motion-landscape.css'
-import './gallery-practice-motion.css'
+import './gallery-professional-motion.css'
 import type { RoomId } from '../rooms'
 
 /* ---------------------------------------------------------------
@@ -45,10 +45,10 @@ import type { RoomId } from '../rooms'
 export type ArtShape = 'portrait' | 'landscape'
 
 const SOURCE: Record<ArtShape, Record<RoomId, string>> = {
-  // Practice has only the landscape composition, which both breakpoints
+  // Professional has only the landscape composition, which both breakpoints
   // use today; the portrait slot falls back to it until one is drawn.
-  portrait: { llp: llpSvg, faber: faberSvg, practice: practiceWide, archive: archiveSvg },
-  landscape: { llp: llpWide, faber: faberWide, practice: practiceWide, archive: archiveWide },
+  portrait: { llp: llpSvg, faber: faberSvg, professional: professionalWide, archive: archiveSvg },
+  landscape: { llp: llpWide, faber: faberWide, professional: professionalWide, archive: archiveWide },
 }
 
 type Parts = { viewBox: string; ratio: string; className: string; inner: string }

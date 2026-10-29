@@ -256,7 +256,7 @@
 
 .band__leader.is-llp,
 .band__leader.is-faber,
-.band__leader.is-practice,
+.band__leader.is-professional,
 .band__leader.is-archive {
   opacity: 0.8;
 }
@@ -471,8 +471,8 @@
   background: #e6e9ec;
 }
 
-/* Practice enters onto plain paper, the same ground About uses. */
-.gallery__veil.is-practice {
+/* Professional enters onto plain paper, the same ground About uses. */
+.gallery__veil.is-professional {
   background: #ece7e3;
 }
 
@@ -744,7 +744,7 @@
   margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
 }
 
-/* --- Practice: Room 03, on the same paper as About --------------- */
+/* --- Professional: Room 03, on the same paper as About --------------- */
 
 .pr {
   margin-top: clamp(2.5rem, 7vh, 4.5rem);
@@ -808,4 +808,22 @@
 
 .pr__after {
   margin-top: clamp(2.5rem, 7vh, 4rem);
+}
+
+.pr__launches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  margin: 0.55rem 0 0;
+  font-size: 0.92em;
+}
+
+.pr__launches-label {
+  color: var(--ink-3);
+  margin-right: 0.2rem;
+}
+
+.pr__launches .act {
+  text-decoration: none;
 }

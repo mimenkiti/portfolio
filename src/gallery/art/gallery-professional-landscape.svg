@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" class="ga ga--practice-landscape" role="img" aria-labelledby="ga--practice-landscape-title ga--practice-landscape-desc">
-<title id="ga--practice-landscape-title">Practice: Professional work</title>
-<desc id="ga--practice-landscape-desc">A wide cut-paper still life of everyday finance: a bank front with columns, a phone showing app tiles, a payment card leaning against it, and a coin.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" class="ga ga--professional-landscape" role="img" aria-labelledby="ga--professional-landscape-title ga--professional-landscape-desc">
+<title id="ga--professional-landscape-title">Professional: Professional work</title>
+<desc id="ga--professional-landscape-desc">A wide cut-paper still life of everyday finance: a bank front with columns, a phone showing app tiles, a payment card leaning against it, and a coin.</desc>
 <rect data-part="ground" width="600" height="400" fill="#efe6d4"/>
 <g data-part="bank" fill="#8c9b6c">
   <polygon points="372,96 470,44 568,96"/>

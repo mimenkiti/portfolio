@@ -10,14 +10,18 @@ import type { Route } from '../lib/router'
    scale the real room the visitor clicked rather than an approximation
    of it.
 
-   Four rooms, newest to oldest along the axis: the two current
-   projects of her own, then Practice (her professional work), then
-   Archive. The rooms step down in size the further back they go. The
-   vestibule exists because an enfilade needs somewhere to enter from,
-   and it is not a project.
+   Four rooms. Three sit on the axis as before: the two current
+   projects of her own and Archive. Professional is not another room in
+   that line. It is one long room laid under both LLP and Faber, entered
+   by a door from each, because it is the work she has done all along
+   and both projects stand on it. LLP and Faber share a floor line so
+   that it can run under them. It is numbered 03 so the phone carousel,
+   which follows this array, reaches it before Archive. The vestibule
+   exists because an enfilade needs somewhere to enter from, and it is
+   not a project.
    --------------------------------------------------------------- */
 
-export type RoomId = 'llp' | 'faber' | 'practice' | 'archive'
+export type RoomId = 'llp' | 'faber' | 'professional' | 'archive'
 
 export type Room = {
   id: RoomId
@@ -50,7 +54,7 @@ export const ROOMS: Room[] = [
       'Language Learning Product: a working heritage-language tool that starts with Igbo, where the lesson happens inside a conversation rather than before one.',
     to: '/llp',
     action: 'Enter',
-    rect: { x: 78, y: 0, w: 270, h: 356 },
+    rect: { x: 78, y: 0, w: 289, h: 330 },
   },
   {
     id: 'faber',
@@ -61,18 +65,18 @@ export const ROOMS: Room[] = [
       'A design and DIY companion that helps you understand designed objects, how they\u2019re made, and how you could make them yourself.',
     to: '/faber',
     action: 'Enter',
-    rect: { x: 348, y: 26, w: 205, h: 282 },
+    rect: { x: 367, y: 26, w: 220, h: 304 },
   },
   {
-    id: 'practice',
+    id: 'professional',
     n: '03',
-    name: 'Practice',
+    name: 'Professional',
     title: 'Professional work',
     orientation:
       'Digital wallets, payments and identity at Samsung, and consumer banking at Goldman Sachs.',
-    to: '/practice',
+    to: '/professional',
     action: 'Enter',
-    rect: { x: 553, y: 52, w: 170, h: 250 },
+    rect: { x: 78, y: 330, w: 509, h: 90 },
   },
   {
     id: 'archive',
@@ -83,14 +87,14 @@ export const ROOMS: Room[] = [
       'Architecture, computational design and other work from before I moved into product.',
     to: { href: 'https://mmenkiti.myportfolio.com/' },
     action: 'View archive',
-    rect: { x: 723, y: 76, w: 47, h: 180 },
+    rect: { x: 587, y: 76, w: 47, h: 180 },
   },
 ]
 
 export const VESTIBULE = { x: 6, y: 86, w: 72, h: 170 }
 
 /** The plan's drawing area, with room for the wall thickness at the edges. */
-export const PLAN_VIEWBOX = { x: -34, y: -10, w: 876, h: 376 }
+export const PLAN_VIEWBOX = { x: -34, y: -10, w: 700, h: 440 }
 
 export const byId = (id: RoomId) => ROOMS.find((r) => r.id === id)!
 

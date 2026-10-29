@@ -272,7 +272,7 @@ html[data-world='gallery'].room-faber {
   --live-wash: rgba(22, 60, 82, 0.14);
 }
 
-html[data-world='gallery'].room-practice {
+html[data-world='gallery'].room-professional {
   /* aubergine. Professional work gets a fourth colour that belongs to
      neither personal project nor to Archive's moss: the Faber slate
      turned toward plum and quietened, so it reads as a working room. */

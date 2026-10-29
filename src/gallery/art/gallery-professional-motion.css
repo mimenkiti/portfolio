@@ -1,30 +1,30 @@
 /*
-  Gallery artwork · Practice (landscape) · selected-state motion
+  Gallery artwork · Professional (landscape) · selected-state motion
   ---------------------------------------------------------------
   Same rules as the other two sheets: inline the SVG and add `is-active`
-  to its root <svg class="ga ga--practice-landscape"> while the room is
+  to its root <svg class="ga ga--professional-landscape"> while the room is
   selected. One response, then settled. Nothing loops. Coordinates are in
   the 600 x 400 viewBox.
 
-  ---------- 03 · Practice · the card goes in ----------
+  ---------- 03 · Professional · the card goes in ----------
   At rest the card leans at an angle against the phone. When selected it
   straightens and slides up toward the screen, as if it were being added
   to the wallet, and the coin lifts once. The bank front doesn't move.
 */
 
-.ga--practice-landscape [data-part="card"] {
+.ga--professional-landscape [data-part="card"] {
   transform-origin: 354px 301px;
   transform: rotate(-11deg);
   transition: transform 460ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.ga--practice-landscape.is-active [data-part="card"] {
+.ga--professional-landscape.is-active [data-part="card"] {
   transform: translate(-18px, -26px) rotate(0deg);
 }
 
-.ga--practice-landscape [data-part="coin"] {
+.ga--professional-landscape [data-part="coin"] {
   transition: transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.ga--practice-landscape.is-active [data-part="coin"] {
+.ga--professional-landscape.is-active [data-part="coin"] {
   transform: translateY(-14px);
   transition-delay: 80ms;
 }

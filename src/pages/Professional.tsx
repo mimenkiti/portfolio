@@ -1,23 +1,24 @@
 import { go } from '../lib/router'
 import { CONTACT } from '../lib/links'
-import { PRACTICE } from '../lib/practice'
+import { PROFESSIONAL } from '../lib/professional'
 
 /**
- * Practice: Room 03.
+ * Professional: Room 03, the long room under LLP and Faber.
  *
  * Her professional work, set out plainly on the same paper as About. It
- * is deliberately not a set of case studies: one sentence per project
- * and a link to what has been published about it. The personal projects
+ * is career highlights, not case studies: one short line per project
+ * saying what she led or contributed to, and links to what has been
+ * published about it. The personal projects
  * are where she writes at length; this room says what she works on.
  */
-export function Practice() {
+export function Professional() {
   return (
-    <div className="route about practice">
+    <div className="route about professional">
       <header className="gal__head about__head">
         <button className="gal__name about__home" onClick={() => go('/')}>
           Michelle A. Menkiti
         </button>
-        <span className="about__where label">03 · Practice</span>
+        <span className="about__where label">03 · Professional</span>
       </header>
 
       <section className="m spread">
@@ -30,10 +31,10 @@ export function Practice() {
             published, it&rsquo;s linked.
           </p>
 
-          {PRACTICE.map((e) => (
-            <section className="pr" key={e.org} aria-labelledby={`pr-${e.org}`}>
+          {PROFESSIONAL.map((e) => (
+            <section className="pr" key={e.org} aria-labelledby={`pr-${e.org.replace(/\s+/g, '-')}`}>
               <header className="pr__head">
-                <h2 className="pr__org" id={`pr-${e.org}`}>
+                <h2 className="pr__org" id={`pr-${e.org.replace(/\s+/g, '-')}`}>
                   {e.org} <span className="pr__team">· {e.team}</span>
                 </h2>
                 <p className="pr__meta data">
@@ -45,6 +46,22 @@ export function Practice() {
                   <li className="pr__item" key={p.name}>
                     <h3 className="pr__name">{p.name}</h3>
                     <p className="pr__line">{p.line}</p>
+                    {p.launches && (
+                      <p className="pr__launches">
+                        <span className="pr__launches-label data">State launches</span>
+                        {p.launches.map((l) => (
+                          <a
+                            key={l.href}
+                            className="act act--quiet"
+                            href={l.href}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {l.label}
+                          </a>
+                        ))}
+                      </p>
+                    )}
                     {p.links.length > 0 && (
                       <p className="pr__links">
                         {p.links.map((l) => (

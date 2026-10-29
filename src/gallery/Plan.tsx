@@ -33,22 +33,34 @@ const box = (r: { x: number; y: number; w: number; h: number }) => ({
   height: r.h,
 })
 
-/** Where the four openings sit on the axis, in viewBox units.
+/** Where the openings sit, in viewBox units.
  *
- *  `into` is the clear width of the room the leaf swings into. A door
+ *  `v` doors are cut through a vertical wall on the axis: `x` is the wall,
+ *  `y` the opening's centre. The two `h` doors are cut through the shared
+ *  floor line of LLP and Faber into Professional: `y` is the wall, `x` the
+ *  opening's centre.
+ *
+ *  `into` is the clear depth of the room the leaf swings into. A door
  *  cannot swing further than the room it opens onto, and Archive is only
  *  47 units wide, so the arc radius is clamped per door rather than
  *  taken from OPENING. Without this the Archive leaf swept straight
  *  through the far wall and out of the building. */
-const DOORS = [
-  { x: VESTIBULE.x + VESTIBULE.w, y: 171, swing: 1, into: ROOMS[0].rect.w },
-  { x: ROOMS[0].rect.x + ROOMS[0].rect.w, y: 167, swing: 1, into: ROOMS[1].rect.w },
-  { x: ROOMS[1].rect.x + ROOMS[1].rect.w, y: 166, swing: 1, into: ROOMS[2].rect.w },
-  { x: ROOMS[2].rect.x + ROOMS[2].rect.w, y: 166, swing: 1, into: ROOMS[3].rect.w },
+const LLP = byId('llp')
+const FABER = byId('faber')
+const PROFESSIONAL = byId('professional')
+
+type Door = { dir: 'v' | 'h'; x: number; y: number; swing: 0 | 1; into: number }
+
+const DOORS: Door[] = [
+  { dir: 'v', x: VESTIBULE.x + VESTIBULE.w, y: 171, swing: 1, into: LLP.rect.w },
+  { dir: 'v', x: LLP.rect.x + LLP.rect.w, y: 167, swing: 1, into: FABER.rect.w },
+  { dir: 'v', x: FABER.rect.x + FABER.rect.w, y: 166, swing: 1, into: ARCHIVE.rect.w },
+  { dir: 'h', x: LLP.rect.x + LLP.rect.w / 2, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
+  { dir: 'h', x: FABER.rect.x + FABER.rect.w / 2, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
 ]
 
 /** Leaf length: the opening, unless the receiving room is narrower. */
-const leaf = (d: (typeof DOORS)[number]) => Math.min(OPENING, d.into - WALL)
+const leaf = (d: Door) => Math.min(OPENING, d.into - WALL)
 
 export function Plan({
   active,
@@ -79,7 +91,7 @@ export function Plan({
       className="plan"
       viewBox={vb}
       role="group"
-      aria-label="Gallery floor plan. Four rooms on one axis."
+      aria-label="Gallery floor plan. Three rooms on one axis, and a long room beneath the first two."
       /* Clearing the active room used to happen here, on leaving the SVG.
          That made the preview's own button unreachable: the pointer has to
          leave the plan to get to it, which dropped the preview to
@@ -122,21 +134,30 @@ export function Plan({
       </g>
 
       <g className="plan__openings">
-        {DOORS.map((d, i) => (
-          <rect
-            key={i}
-            x={d.x - WALL / 2 - 1}
-            y={d.y - OPENING / 2}
-            width={WALL + 2}
-            height={OPENING}
-          />
-        ))}
+        {DOORS.map((d, i) =>
+          d.dir === 'v' ? (
+            <rect key={i} x={d.x - WALL / 2 - 1} y={d.y - OPENING / 2} width={WALL + 2} height={OPENING} />
+          ) : (
+            <rect key={i} x={d.x - OPENING / 2} y={d.y - WALL / 2 - 1} width={OPENING} height={WALL + 2} />
+          ),
+        )}
       </g>
 
       {/* Door swings. One leaf and one arc, the way a plan draws them. */}
       <g className="plan__swings">
         {DOORS.map((d, i) => {
           const r = leaf(d)
+          if (d.dir === 'h') {
+            // Hinged at the left jamb, swinging down into Professional: the
+            // vertical door drawn with its axes swapped.
+            const left = d.x - OPENING / 2
+            return (
+              <g key={i}>
+                <path d={`M ${left} ${d.y} L ${left + r} ${d.y}`} className="plan__leaf" />
+                <path d={`M ${left} ${d.y + 2} A ${r} ${r} 0 0 ${d.swing} ${left + r} ${d.y + 2 + r}`} />
+              </g>
+            )
+          }
           const top = d.y - OPENING / 2
           return (
             <g key={i}>
