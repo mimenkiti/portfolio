@@ -1,5 +1,7 @@
 import { useRef } from 'react'
-import { PLAN_VIEWBOX, ROOMS, VESTIBULE, type RoomId } from './rooms'
+import { PLAN_VIEWBOX, ROOMS, VESTIBULE, byId, type RoomId } from './rooms'
+
+const ARCHIVE = byId('archive')
 
 /* ---------------------------------------------------------------
    The Enfilade.
@@ -31,7 +33,7 @@ const box = (r: { x: number; y: number; w: number; h: number }) => ({
   height: r.h,
 })
 
-/** Where the three openings sit on the axis, in viewBox units.
+/** Where the four openings sit on the axis, in viewBox units.
  *
  *  `into` is the clear width of the room the leaf swings into. A door
  *  cannot swing further than the room it opens onto, and Archive is only
@@ -42,6 +44,7 @@ const DOORS = [
   { x: VESTIBULE.x + VESTIBULE.w, y: 171, swing: 1, into: ROOMS[0].rect.w },
   { x: ROOMS[0].rect.x + ROOMS[0].rect.w, y: 167, swing: 1, into: ROOMS[1].rect.w },
   { x: ROOMS[1].rect.x + ROOMS[1].rect.w, y: 166, swing: 1, into: ROOMS[2].rect.w },
+  { x: ROOMS[2].rect.x + ROOMS[2].rect.w, y: 166, swing: 1, into: ROOMS[3].rect.w },
 ]
 
 /** Leaf length: the opening, unless the receiving room is narrower. */
@@ -76,7 +79,7 @@ export function Plan({
       className="plan"
       viewBox={vb}
       role="group"
-      aria-label="Gallery floor plan. Three rooms on one axis."
+      aria-label="Gallery floor plan. Four rooms on one axis."
       /* Clearing the active room used to happen here, on leaving the SVG.
          That made the preview's own button unreachable: the pointer has to
          leave the plan to get to it, which dropped the preview to
@@ -158,7 +161,7 @@ export function Plan({
       </g>
 
       {/* Room numbers, set in the drawing rather than on labels beside it.
-          While a room is selected the other two step back: their marks are
+          While a room is selected the others step back: their marks are
           decorative here, the accessible name lives on the target below,
           and letting them fade is what keeps one room unambiguous. */}
       {ROOMS.map((r) => (
@@ -183,8 +186,8 @@ export function Plan({
       {/* Archive is too narrow to hold its own name inside the room, so
           its label sits outside. It steps back with the others. */}
       <text
-        x={ROOMS[2].rect.x + ROOMS[2].rect.w + 12}
-        y={ROOMS[2].rect.y + 34}
+        x={ARCHIVE.rect.x + ARCHIVE.rect.w + 12}
+        y={ARCHIVE.rect.y + 34}
         className={[
           'plan__tiny plan__mark',
           active && active !== 'archive' ? 'is-quiet' : '',

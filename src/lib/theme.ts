@@ -12,6 +12,7 @@ const WORLD: Record<Route, World> = {
   '/': 'gallery',
   '/llp': 'llp',
   '/faber': 'faber',
+  '/practice': 'global',
   '/about': 'global',
 }
 
@@ -32,7 +33,7 @@ export function useWorld(route: Route) {
     document.documentElement.dataset.world = world
     // Leaving the Gallery clears whichever room state it was holding.
     if (world !== 'gallery') {
-      document.documentElement.classList.remove('room-llp', 'room-faber', 'room-archive')
+      document.documentElement.classList.remove('room-llp', 'room-faber', 'room-practice', 'room-archive')
     }
 
     if (!ENTRANCE.includes(world) || prev === world) return

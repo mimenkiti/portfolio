@@ -57,14 +57,15 @@ export function Gallery() {
     const c = document.documentElement.classList
     c.toggle('room-llp', active === 'llp')
     c.toggle('room-faber', active === 'faber')
+    c.toggle('room-practice', active === 'practice')
     c.toggle('room-archive', active === 'archive')
-    return () => c.remove('room-llp', 'room-faber', 'room-archive')
+    return () => c.remove('room-llp', 'room-faber', 'room-practice', 'room-archive')
   }, [active])
 
   useEffect(
     () => () => {
       if (timer.current) window.clearTimeout(timer.current)
-      document.documentElement.classList.remove('room-llp', 'room-faber', 'room-archive')
+      document.documentElement.classList.remove('room-llp', 'room-faber', 'room-practice', 'room-archive')
     },
     [],
   )
@@ -78,7 +79,7 @@ export function Gallery() {
       }
       if (entering) return
 
-      const route = room.to as '/llp' | '/faber'
+      const route = room.to as '/llp' | '/faber' | '/practice'
 
       if (quiet) {
         go(route)

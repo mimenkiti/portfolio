@@ -10,11 +10,14 @@ import type { Route } from '../lib/router'
    scale the real room the visitor clicked rather than an approximation
    of it.
 
-   Three rooms only. The vestibule exists because an enfilade needs
-   somewhere to enter from, and it is not a project.
+   Four rooms, newest to oldest along the axis: the two current
+   projects of her own, then Practice (her professional work), then
+   Archive. The rooms step down in size the further back they go. The
+   vestibule exists because an enfilade needs somewhere to enter from,
+   and it is not a project.
    --------------------------------------------------------------- */
 
-export type RoomId = 'llp' | 'faber' | 'archive'
+export type RoomId = 'llp' | 'faber' | 'practice' | 'archive'
 
 export type Room = {
   id: RoomId
@@ -47,7 +50,7 @@ export const ROOMS: Room[] = [
       'Language Learning Product: a working heritage-language tool that starts with Igbo, where the lesson happens inside a conversation rather than before one.',
     to: '/llp',
     action: 'Enter',
-    rect: { x: 78, y: 0, w: 289, h: 356 },
+    rect: { x: 78, y: 0, w: 270, h: 356 },
   },
   {
     id: 'faber',
@@ -58,25 +61,36 @@ export const ROOMS: Room[] = [
       'A design and DIY companion that helps you understand designed objects, how they\u2019re made, and how you could make them yourself.',
     to: '/faber',
     action: 'Enter',
-    rect: { x: 367, y: 26, w: 220, h: 282 },
+    rect: { x: 348, y: 26, w: 205, h: 282 },
+  },
+  {
+    id: 'practice',
+    n: '03',
+    name: 'Practice',
+    title: 'Professional work',
+    orientation:
+      'Digital wallets, payments and identity at Samsung, and consumer banking at Goldman Sachs.',
+    to: '/practice',
+    action: 'Enter',
+    rect: { x: 553, y: 52, w: 170, h: 250 },
   },
   {
     id: 'archive',
-    n: '03',
+    n: '04',
     name: 'Archive',
     title: 'Earlier work',
     orientation:
       'Architecture, computational design and other work from before I moved into product.',
     to: { href: 'https://mmenkiti.myportfolio.com/' },
     action: 'View archive',
-    rect: { x: 587, y: 76, w: 47, h: 180 },
+    rect: { x: 723, y: 76, w: 47, h: 180 },
   },
 ]
 
 export const VESTIBULE = { x: 6, y: 86, w: 72, h: 170 }
 
 /** The plan's drawing area, with room for the wall thickness at the edges. */
-export const PLAN_VIEWBOX = { x: -34, y: -10, w: 700, h: 376 }
+export const PLAN_VIEWBOX = { x: -34, y: -10, w: 876, h: 376 }
 
 export const byId = (id: RoomId) => ROOMS.find((r) => r.id === id)!
 

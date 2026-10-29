@@ -2,11 +2,11 @@ import { go } from '../lib/router'
 import { CONTACT, EARLIER } from '../lib/links'
 
 /**
- * About is back matter, not Room 04.
+ * About is back matter, not a room.
  *
  * A normal page on plain paper: no plan, no room state, no resume, and
  * none of the Gallery's apparatus. It says plainly who she is, what she
- * does now, and why the site exists, in her own order. It does not build
+ * does now (pointing to Practice for the work itself), and why the site exists, in her own order. It does not build
  * a thesis about architecture and product management.
  */
 export function About() {
@@ -28,6 +28,22 @@ export function About() {
             I&rsquo;m currently a Senior Product Manager at Samsung, working on Samsung Wallet
             across payments, rewards and digital identity. Before that I worked on consumer
             financial products at Goldman Sachs, with a brief stint at an early-stage startup.
+          </p>
+          <p>
+            Most of that work has been on how people pay, save and prove who they are from a
+            phone: Samsung Cash and the mobile driver&rsquo;s license in Samsung Wallet, and
+            Marcus Checking and the Apple Card Savings account at Goldman. The projects are listed,
+            with links to what&rsquo;s been published about them, in{' '}
+            <a
+              href="#/practice"
+              onClick={(ev) => {
+                ev.preventDefault()
+                go('/practice')
+              }}
+            >
+              Practice
+            </a>
+            .
           </p>
           <p>
             I studied architecture at MIT, and I never really stopped designing outside of work.
