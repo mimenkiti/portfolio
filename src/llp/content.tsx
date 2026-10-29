@@ -5,6 +5,9 @@ import { Encounter } from './Encounter'
 import { Streak } from './Streak'
 import { Hearing } from './Hearing'
 import { VoiceBoundary } from './VoiceBoundary'
+import { Phones } from './Phones'
+import { DotStates } from './DotStates'
+import { Stages } from './Stages'
 import type { Project } from '../project/blocks'
 
 /* The registry and the pronunciation archive are ~140kB of real data
@@ -630,6 +633,144 @@ export const LLP_PROJECT: Project = {
       ],
     },
 
+    /* ---- Since the web build (Oct 2026) ---------------------------
+       Everything from here to 'h-end' is new. The prose blocks are
+       DRAFTS written for Michelle to rewrite (`draft: true` shows a
+       visible mark). Facts come from the LLP asset pack of 29 Oct 2026:
+       stage dates, tester themes (her summary, no quotes, no names) and
+       the exploratory status of everything after TestFlight. */
+    { id: 'h-app', kind: 'heading', text: 'Putting it on a phone' },
+    {
+      id: 'app-prose',
+      kind: 'prose',
+      draft: true,
+      paras: [
+        <>
+          The web build answered the question I started with well enough that I wanted to live
+          with it, and living with something means having it on my phone. So in October I rebuilt
+          Lesson 1 as an iPhone app: Chioma first, and then Ifeoma, a friend of hers, where this
+          time you are the one who starts the conversation.
+        </>,
+        <>
+          An app also meant deciding what sits around a single lesson. There is a short onboarding
+          that introduces the dot, a Today screen, the people you&rsquo;ve met, a Notebook of
+          everything you&rsquo;ve heard and said, and a page about you. Igbo is the only language
+          you can choose. There are no streaks and no points, which is a slightly strange decision
+          for someone whose story starts with a Duolingo streak, but I wanted to find out whether
+          the conversation could be reason enough to come back.
+        </>,
+      ],
+    },
+    {
+      id: 'app-screens',
+      kind: 'figure',
+      scale: 'wide',
+      caption: (
+        <>
+          The approved designs the TestFlight build follows: meeting the dot, Today, Lesson 1 with
+          Chioma, the Notebook, and Chioma&rsquo;s page in People. These are design references
+          rather than captures from the build, and the Igbo in them hasn&rsquo;t yet been reviewed
+          by a native speaker.
+        </>
+      ),
+      render: () => (
+        <Phones
+          screens={[
+            { src: '/llp/app-meet-the-dot.webp', label: 'Meet the dot', alt: 'Onboarding screen introducing the dot: hold it to answer, tap it for help.' },
+            { src: '/llp/app-today.webp', label: 'Today', alt: 'Today screen with the next lesson, Ifeoma is next, and recent Notebook entries.' },
+            { src: '/llp/app-lesson1-chioma.webp', label: 'Lesson 1', alt: 'Lesson 1 in the market: Chioma speaking, with her line Kedụ? on a card above her.' },
+            { src: '/llp/app-notebook.webp', label: 'Notebook', alt: 'Notebook listing phrases heard and said, each marked with how it was learned.' },
+            { src: '/llp/app-people-chioma.webp', label: 'People', alt: 'Chioma’s page in People, with what you know about her and where you learned it.' },
+          ]}
+        />
+      ),
+    },
+    {
+      id: 'app-testers',
+      kind: 'prose',
+      draft: true,
+      paras: [
+        <>
+          In late October I put the build in front of a few people through a private TestFlight.
+          What they said was more consistent than I expected. The conversation was the most
+          compelling part, with the Notebook not far behind. Several characters might make things
+          more complicated rather than richer. Nobody found the purpose of the dot obvious. And
+          they wanted to speak more.
+        </>,
+        <>
+          That last one was the clearest. If the conversation is the part that works, then the next
+          version should be more of a conversation, not a better lesson built around one.
+        </>,
+      ],
+    },
+
+    { id: 'h-explore', kind: 'heading', text: 'A conversation that turns into a lesson' },
+    {
+      id: 'explore-prose',
+      kind: 'prose',
+      draft: true,
+      paras: [
+        <>
+          So the newest work turns the order around again. Instead of a lesson staged as a
+          conversation, it&rsquo;s a conversation with Chioma that becomes a lesson when it needs
+          to, where she listens before she teaches and treats a tangent as an opening rather than
+          an interruption.
+        </>,
+        <>
+          The version I&rsquo;m most interested in is one you could have with headphones in and
+          your phone in your pocket. Chioma explains things out loud in English, but every word of
+          Igbo she says comes from recordings that have already been checked, never from a model.
+          The dot stops being a button and simply shows whose turn it is. None of this is built
+          yet. It exists as design work, and the clearest way I&rsquo;ve found to describe the rule
+          underneath it is a line from one of those working documents.
+        </>,
+      ],
+    },
+    {
+      id: 'explore-rule',
+      kind: 'aside',
+      text: (
+        <>
+          &ldquo;Igbo is sealed; English is free.&rdquo; And, from the same document: &ldquo;The
+          system owns every miss.&rdquo; Both are from a working document for the voice
+          exploration, October 2026.
+        </>
+      ),
+    },
+    {
+      id: 'explore-call',
+      kind: 'figure',
+      scale: 'wide',
+      caption: (
+        <>
+          Exploratory. An early round of the voice idea, when it was still framed as a call with
+          Chioma: the voice view, and a written view of the same moment. A later round dropped the
+          ringing and the timer and renamed it Talk with Chioma.
+        </>
+      ),
+      render: () => (
+        <Phones
+          screens={[
+            { src: '/llp/explore-voice-view.webp', label: 'Voice view', alt: 'Exploratory voice view: Chioma’s portrait, a large dot while she speaks, and her line Kedụ aha gị?' },
+            { src: '/llp/explore-written-view.webp', label: 'Written view', alt: 'Exploratory written view of the same moment: each Igbo line with its meaning, and what you said.' },
+          ]}
+        />
+      ),
+    },
+    {
+      id: 'explore-dot',
+      kind: 'figure',
+      scale: 'wide',
+      caption: (
+        <>
+          Exploratory. The dot&rsquo;s proposed states for a spoken conversation, from connecting
+          to listening to thinking. Compared with the eighteen behaviors above, its job has
+          narrowed to one thing: showing whose turn it is.
+        </>
+      ),
+      render: () => <DotStates />,
+    },
+
     { id: 'h-end', kind: 'heading', text: 'The part that still doesn’t work' },
     {
       id: 'end-lede',
@@ -706,6 +847,32 @@ export const LLP_PROJECT: Project = {
         </>
       ),
       render: () => <Hearing />,
+    },
+    {
+      id: 'end-measure',
+      kind: 'prose',
+      draft: true,
+      paras: [
+        <>
+          It&rsquo;s also why the next step isn&rsquo;t the voice version. Before building that, I
+          want to record real learners speaking Igbo and measure how well recognition actually
+          hears them, and only then build a small hands-free version: one greetings-and-names
+          conversation, taken a turn at a time, with a deliberately limited role for the language
+          model.
+        </>,
+      ],
+    },
+    {
+      id: 'stages',
+      kind: 'figure',
+      scale: 'column',
+      caption: (
+        <>
+          Where each part of LLP stands, from the first build to what comes next. Built, tested,
+          exploratory and proposed are kept apart on purpose.
+        </>
+      ),
+      render: () => <Stages />,
     },
     {
       id: 'end-after',

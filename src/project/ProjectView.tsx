@@ -190,9 +190,14 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
     case 'prose':
       return (
         <div
-          className={['b b--prose prose', experience && b.offset ? 'is-shifted' : ''].join(' ')}
+          className={[
+            'b b--prose prose',
+            experience && b.offset ? 'is-shifted' : '',
+            b.draft ? 'is-draft' : '',
+          ].join(' ')}
           {...anchor}
         >
+          {b.draft && <p className="draft-mark label">Draft, to be rewritten</p>}
           {b.paras.map((p, i) => (
             <p key={i}>{p}</p>
           ))}

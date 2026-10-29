@@ -32,6 +32,12 @@ export type Block =
        * so the page turns without the line length moving.
        */
       offset?: boolean
+      /**
+       * Drafted for Michelle to rewrite, not her words yet. Rendered with
+       * a visible "Draft" mark so it cannot go out unnoticed; remove the
+       * flag once the paragraphs are hers.
+       */
+      draft?: boolean
     }
   | { id: string; kind: 'aside'; text: ReactNode }
   /**

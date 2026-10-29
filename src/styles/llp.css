@@ -1227,3 +1227,175 @@ html.is-dark-ground .toc {
 .streak__vis.is-waiting {
   opacity: 0;
 }
+
+/* --- Since the web build: phones, the dot's states, the stages ------ */
+
+/* Drafted prose: visible on purpose until Michelle rewrites it. */
+.b--prose.is-draft {
+  position: relative;
+  outline: 1px dashed var(--rule);
+  outline-offset: 0.6rem;
+}
+.draft-mark {
+  color: var(--live);
+  margin-bottom: 0.4rem;
+}
+
+.phones__rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+}
+.phones__item {
+  flex: 0 1 11.5rem;
+  min-width: 0;
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+/* A drawn phone: a dark body with rounded corners round the screen. */
+.phone {
+  width: 100%;
+  aspect-ratio: 780 / 1688;
+  padding: 3.2%;
+  border-radius: 13% / 6%;
+  background: #1c1a19;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+.phone__screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10.5% / 4.9%;
+  background: #f4efe8;
+}
+.phones__label {
+  color: var(--ink-3);
+}
+.phones__note {
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 52rem) {
+  .phones__rail {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.6rem;
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+  .phones__rail::-webkit-scrollbar {
+    display: none;
+  }
+  .phones__item {
+    flex: 0 0 9.5rem;
+    scroll-snap-align: start;
+  }
+}
+
+.dotstates video,
+.dotstates img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: #f4efe8;
+}
+
+.stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.stages__row {
+  display: grid;
+  grid-template-columns: 7.5rem 1.2rem 1fr auto;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--rule-soft, var(--rule));
+}
+.stages__when,
+.stages__status {
+  color: var(--ink-3);
+}
+/* The mark says the status by its line, never by colour. */
+.stages__mark {
+  align-self: center;
+  height: 0;
+  border-top: 2px solid var(--ink);
+}
+.stages__row--exploratory .stages__mark {
+  border-top-style: dashed;
+}
+.stages__row--proposed .stages__mark {
+  border-top-style: dotted;
+}
+.stages__row--tested .stages__mark {
+  border-top-width: 1px;
+}
+
+@media (max-width: 40rem) {
+  .stages__row {
+    grid-template-columns: 1.2rem 1fr;
+    row-gap: 0.15rem;
+  }
+  .stages__when {
+    grid-column: 2;
+    order: -1;
+  }
+  .stages__mark {
+    grid-row: 2;
+  }
+  .stages__status {
+    grid-column: 2;
+  }
+}
+
+/* The rail scrolls inside its figure; it must never widen the page. */
+.phones {
+  min-width: 0;
+  width: 100%;
+}
+.b--figure:has(.phones),
+.b--figure:has(.phones) .b__art {
+  min-width: 0;
+}
+@media (max-width: 52rem) {
+  .phones__rail {
+    width: calc(100% + var(--pad) * 2);
+    max-width: 100vw;
+  }
+}
+
+/* Eight states across one board are unreadable at phone width, so the
+   board keeps a legible size and swipes, like the screens above. */
+@media (max-width: 52rem) {
+  .dotstates {
+    overflow-x: auto;
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+  .dotstates::-webkit-scrollbar {
+    display: none;
+  }
+  .dotstates video,
+  .dotstates img {
+    width: 880px;
+    max-width: none;
+  }
+}
+.b--figure:has(.dotstates),
+.b--figure:has(.dotstates) .b__art {
+  min-width: 0;
+}
