@@ -15,7 +15,10 @@ import type { Route } from '../lib/router'
    that line. It is one long room laid under both LLP and Faber, entered
    by a door from each, because it is the work she has done all along
    and both projects stand on it. LLP and Faber share a floor line so
-   that it can run under them. It is numbered 03 so the phone carousel,
+   that it can run under them. It is deliberately off the grid of the
+   rooms above: it starts in from LLP's outer wall and runs out past
+   Faber, so the building reads as added to over time rather than
+   drawn in one go. It is numbered 03 so the phone carousel,
    which follows this array, reaches it before Archive. The vestibule
    exists because an enfilade needs somewhere to enter from, and it is
    not a project.
@@ -65,7 +68,7 @@ export const ROOMS: Room[] = [
       'A design and DIY companion that helps you understand designed objects, how they\u2019re made, and how you could make them yourself.',
     to: '/faber',
     action: 'Enter',
-    rect: { x: 367, y: 26, w: 220, h: 304 },
+    rect: { x: 367, y: 44, w: 220, h: 286 },
   },
   {
     id: 'professional',
@@ -76,7 +79,7 @@ export const ROOMS: Room[] = [
       'Digital wallets, payments and identity at Samsung, and consumer banking at Goldman Sachs.',
     to: '/professional',
     action: 'Enter',
-    rect: { x: 78, y: 330, w: 509, h: 90 },
+    rect: { x: 132, y: 330, w: 528, h: 98 },
   },
   {
     id: 'archive',
@@ -87,14 +90,14 @@ export const ROOMS: Room[] = [
       'Architecture, computational design and other work from before I moved into product.',
     to: { href: 'https://mmenkiti.myportfolio.com/' },
     action: 'View archive',
-    rect: { x: 587, y: 76, w: 47, h: 180 },
+    rect: { x: 587, y: 58, w: 47, h: 164 },
   },
 ]
 
 export const VESTIBULE = { x: 6, y: 86, w: 72, h: 170 }
 
 /** The plan's drawing area, with room for the wall thickness at the edges. */
-export const PLAN_VIEWBOX = { x: -34, y: -10, w: 700, h: 440 }
+export const PLAN_VIEWBOX = { x: -34, y: -10, w: 724, h: 448 }
 
 export const byId = (id: RoomId) => ROOMS.find((r) => r.id === id)!
 

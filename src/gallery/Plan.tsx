@@ -54,9 +54,10 @@ type Door = { dir: 'v' | 'h'; x: number; y: number; swing: 0 | 1; into: number }
 const DOORS: Door[] = [
   { dir: 'v', x: VESTIBULE.x + VESTIBULE.w, y: 171, swing: 1, into: LLP.rect.w },
   { dir: 'v', x: LLP.rect.x + LLP.rect.w, y: 167, swing: 1, into: FABER.rect.w },
-  { dir: 'v', x: FABER.rect.x + FABER.rect.w, y: 166, swing: 1, into: ARCHIVE.rect.w },
-  { dir: 'h', x: LLP.rect.x + LLP.rect.w / 2, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
-  { dir: 'h', x: FABER.rect.x + FABER.rect.w / 2, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
+  { dir: 'v', x: FABER.rect.x + FABER.rect.w, y: 150, swing: 1, into: ARCHIVE.rect.w },
+  // Off-centre on purpose, one toward each end of the long room.
+  { dir: 'h', x: LLP.rect.x + LLP.rect.w * 0.66, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
+  { dir: 'h', x: FABER.rect.x + FABER.rect.w * 0.7, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
 ]
 
 /** Leaf length: the opening, unless the receiving room is narrower. */

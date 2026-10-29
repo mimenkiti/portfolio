@@ -36,7 +36,7 @@ export const PROFESSIONAL: Employer[] = [
     projects: [
       {
         name: 'Samsung Cash',
-        line: 'I led it from zero to launch: a prepaid card built into Samsung Wallet.',
+        line: 'Led from conception to launch: a prepaid card built into Samsung Wallet.',
         links: [
           {
             label: 'Samsung Newsroom, Oct 2026',
@@ -50,7 +50,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Mobile ID',
-        line: 'I led driver’s licenses and state IDs in Samsung Wallet, from the first launch to each state that followed.',
+        line: 'Owned driver’s licenses and state IDs in Samsung Wallet, from the first launch through each state that followed.',
         links: [
           {
             label: 'Samsung Newsroom, Oct 2023',
@@ -79,7 +79,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Samsung Pay Benefits',
-        line: 'I led our partnership with Kudos on a browser add-on that finds the best card and cash back at checkout.',
+        line: 'Headed the Kudos partnership behind a browser add-on that finds the best card and cash back at checkout.',
         links: [
           {
             label: 'IoT M2M Council, Nov 2025',
@@ -101,7 +101,7 @@ export const PROFESSIONAL: Employer[] = [
     projects: [
       {
         name: 'Apple Card Savings',
-        line: 'I worked on the launch of the high-yield Savings account for Apple Card, built on Marcus deposits.',
+        line: 'Worked on the launch of the high-yield Savings account for Apple Card, built on Marcus deposits.',
         links: [
           {
             label: 'MacRumors, Apr 2023',
@@ -115,7 +115,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Marcus Checking',
-        line: 'I worked on Marcus’s first digital checking account.',
+        line: 'Worked on Marcus’s first digital checking account.',
         links: [
           {
             label: 'American Banker',
