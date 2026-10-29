@@ -50,7 +50,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Mobile ID',
-        line: 'Owned driver’s licenses and state IDs in Samsung Wallet, from the first launch through each state that followed.',
+        line: 'Owned driver’s licenses and state IDs in Samsung Wallet, from the first state launches through most of the rollouts that followed.',
         links: [
           {
             label: 'Samsung Newsroom, Oct 2023',
@@ -79,7 +79,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Samsung Pay Benefits',
-        line: 'Headed the Kudos partnership behind a browser add-on that finds the best card and cash back at checkout.',
+        line: 'Headed the Samsung and Kudos partnership to build a shopping companion that helps people choose the best card in their wallet for each purchase, and earn cash back along the way.',
         links: [
           {
             label: 'IoT M2M Council, Nov 2025',
@@ -104,8 +104,8 @@ export const PROFESSIONAL: Employer[] = [
         line: 'Worked on the launch of the high-yield Savings account for Apple Card, built on Marcus deposits.',
         links: [
           {
-            label: 'MacRumors, Apr 2023',
-            href: 'https://www.macrumors.com/2023/04/17/apple-card-savings-interest-rate/',
+            label: 'Apple Newsroom, Apr 2023',
+            href: 'https://www.apple.com/newsroom/2023/04/apple-cards-new-high-yield-savings-account-is-now-available-offering-a-4-point-15-percent-apy/',
           },
           {
             label: 'Apple Newsroom, Aug 2023',
@@ -120,6 +120,24 @@ export const PROFESSIONAL: Employer[] = [
           {
             label: 'American Banker',
             href: 'https://www.americanbanker.com/news/goldman-sachs-tests-checking-account-with-u-s-employees',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    org: 'Spatio Metrics',
+    team: 'MIT-backed startup',
+    years: '2020',
+    role: 'Product Manager',
+    projects: [
+      {
+        name: 'Spatial analytics for hospitals',
+        line: 'Worked directly with the CTO on early tools for evaluating hospital floor plans during COVID-era redesigns, from automation scripts to prototypes for customer pilots and investor demos.',
+        links: [
+          {
+            label: 'MIT Sloan, Jun 2020',
+            href: 'https://mitsloan.mit.edu/ideas-made-to-matter/mit-startup-studies-hospital-health-one-floor-plan-a-time',
           },
         ],
       },

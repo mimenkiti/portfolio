@@ -1,7 +1,6 @@
-import { useRef } from 'react'
-import { PLAN_VIEWBOX, ROOMS, VESTIBULE, byId, type RoomId } from './rooms'
-
-const ARCHIVE = byId('archive')
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { ROOMS, type RoomId } from './rooms'
+import { ASPECT, planLayout, type Door } from './layout'
 
 /* ---------------------------------------------------------------
    The Enfilade.
@@ -33,33 +32,6 @@ const box = (r: { x: number; y: number; w: number; h: number }) => ({
   height: r.h,
 })
 
-/** Where the openings sit, in viewBox units.
- *
- *  `v` doors are cut through a vertical wall on the axis: `x` is the wall,
- *  `y` the opening's centre. The two `h` doors are cut through the shared
- *  floor line of LLP and Faber into Professional: `y` is the wall, `x` the
- *  opening's centre.
- *
- *  `into` is the clear depth of the room the leaf swings into. A door
- *  cannot swing further than the room it opens onto, and Archive is only
- *  47 units wide, so the arc radius is clamped per door rather than
- *  taken from OPENING. Without this the Archive leaf swept straight
- *  through the far wall and out of the building. */
-const LLP = byId('llp')
-const FABER = byId('faber')
-const PROFESSIONAL = byId('professional')
-
-type Door = { dir: 'v' | 'h'; x: number; y: number; swing: 0 | 1; into: number }
-
-const DOORS: Door[] = [
-  { dir: 'v', x: VESTIBULE.x + VESTIBULE.w, y: 171, swing: 1, into: LLP.rect.w },
-  { dir: 'v', x: LLP.rect.x + LLP.rect.w, y: 167, swing: 1, into: FABER.rect.w },
-  { dir: 'v', x: FABER.rect.x + FABER.rect.w, y: 150, swing: 1, into: ARCHIVE.rect.w },
-  // Off-centre on purpose, one toward each end of the long room.
-  { dir: 'h', x: LLP.rect.x + LLP.rect.w * 0.66, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
-  { dir: 'h', x: FABER.rect.x + FABER.rect.w * 0.7, y: PROFESSIONAL.rect.y, swing: 0, into: PROFESSIONAL.rect.h },
-]
-
 /** Leaf length: the opening, unless the receiving room is narrower. */
 const leaf = (d: Door) => Math.min(OPENING, d.into - WALL)
 
@@ -79,7 +51,30 @@ export function Plan({
   onActivate: (id: RoomId, wasActive: boolean) => void
   onHover: (id: RoomId | null) => void
 }) {
-  const vb = `${PLAN_VIEWBOX.x} ${PLAN_VIEWBOX.y} ${PLAN_VIEWBOX.w} ${PLAN_VIEWBOX.h}`
+  // The plan reshapes to the box it is given: measure that box, and draw
+  // the building at its proportion. The box is sized by CSS, never by the
+  // drawing, so measuring it cannot feed back into itself.
+  const svg = useRef<SVGSVGElement>(null)
+  const [aspect, setAspect] = useState(ASPECT.fallback)
+  useLayoutEffect(() => {
+    const el = svg.current
+    if (!el) return
+    const measure = () => {
+      const r = el.getBoundingClientRect()
+      if (r.width > 0 && r.height > 0) {
+        // Round so sub-pixel jitter during a resize does not redraw.
+        setAspect(Math.round((r.width / r.height) * 20) / 20)
+      }
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+  const L = useMemo(() => planLayout(aspect), [aspect])
+  const VESTIBULE = L.vest
+  const DOORS = L.doors
+  const ARCHIVE = { rect: L.rects.archive }
   // Whether the pressed room was already the selected one, read at
   // pointerdown. A touch fires focus before click, and focus selects, so
   // by the time click arrives every tapped room looks selected. Reading it
@@ -89,8 +84,9 @@ export function Plan({
 
   return (
     <svg
+      ref={svg}
       className="plan"
-      viewBox={vb}
+      viewBox={L.viewBox}
       role="group"
       aria-label="Gallery floor plan. Three rooms on one axis, and a long room beneath the first two."
       /* Clearing the active room used to happen here, on leaving the SVG.
@@ -112,7 +108,7 @@ export function Plan({
             entering === r.id ? 'is-entering' : '',
           ].join(' ')}
           data-room={r.id}
-          {...box(r.rect)}
+          {...box(L.rects[r.id])}
         />
       ))}
 
@@ -126,7 +122,7 @@ export function Plan({
           return (
             <rect
               key={r.id}
-              {...box(r.rect)}
+              {...box(L.rects[r.id])}
               strokeWidth={on ? WALL + 4 : WALL}
               className={on ? 'is-active' : ''}
             />
@@ -173,9 +169,10 @@ export function Plan({
 
       {/* Entry. The plan has to say where you came in from. */}
       <g className="plan__entry" aria-hidden="true">
-        <path d={`M ${VESTIBULE.x - 30} ${VESTIBULE.y + VESTIBULE.h / 2} L ${VESTIBULE.x - 4} ${VESTIBULE.y + VESTIBULE.h / 2}`} />
+        {/* Pointing in, through the opening in the entry's outer wall. */}
+        <path d={`M ${VESTIBULE.x - 40} ${VESTIBULE.y + VESTIBULE.h / 2} L ${VESTIBULE.x - 10} ${VESTIBULE.y + VESTIBULE.h / 2}`} />
         <path
-          d={`M ${VESTIBULE.x - 30} ${VESTIBULE.y + VESTIBULE.h / 2} l 9 -6 M ${VESTIBULE.x - 30} ${VESTIBULE.y + VESTIBULE.h / 2} l 9 6`}
+          d={`M ${VESTIBULE.x - 10} ${VESTIBULE.y + VESTIBULE.h / 2} l -9 -6 M ${VESTIBULE.x - 10} ${VESTIBULE.y + VESTIBULE.h / 2} l -9 6`}
         />
         <text x={VESTIBULE.x + 8} y={VESTIBULE.y + 26} className="plan__tiny">
           entry
@@ -195,11 +192,11 @@ export function Plan({
           ].join(' ')}
           aria-hidden="true"
         >
-          <text x={r.rect.x + 15} y={r.rect.y + 34} className="plan__n">
+          <text x={L.rects[r.id].x + 15} y={L.rects[r.id].y + 34} className="plan__n">
             {r.n}
           </text>
-          {r.rect.w > 90 && (
-            <text x={r.rect.x + 15} y={r.rect.y + 52} className="plan__tiny">
+          {L.rects[r.id].w > 90 && (
+            <text x={L.rects[r.id].x + 15} y={L.rects[r.id].y + 52} className="plan__tiny">
               {r.name}
             </text>
           )}
@@ -225,7 +222,7 @@ export function Plan({
       {ROOMS.map((r) => (
         <g key={r.id} className="plan__hit">
           <rect
-            {...box(r.rect)}
+            {...box(L.rects[r.id])}
             role="button"
             tabIndex={0}
             // The label has to say what the press actually does, which is

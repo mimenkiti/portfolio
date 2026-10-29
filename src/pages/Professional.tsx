@@ -25,9 +25,11 @@ export function Professional() {
         <div className="prose m__prose">
           <h1 className="lede m__lift">The products I work on for a living.</h1>
           <p>
-            I work mainly on financial and identity products: digital wallets, payments and
-            digital ID at Samsung, and consumer banking at Goldman Sachs before that. Relevant
-            press releases and articles are listed for key launches.
+            I&rsquo;ve mainly worked on consumer financial and identity products: digital
+            wallets, payments and digital ID at Samsung, and consumer banking at Goldman Sachs.
+            Much of it has meant working closely with partners, from state governments and large
+            financial institutions to startups. Relevant press releases and articles are listed for
+            key launches.
           </p>
 
           {PROFESSIONAL.map((e) => (

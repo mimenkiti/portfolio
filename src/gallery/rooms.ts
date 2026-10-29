@@ -1,27 +1,16 @@
 import type { Route } from '../lib/router'
 
 /* ---------------------------------------------------------------
-   The Gallery's three rooms.
+   The Gallery's rooms.
 
-   Geometry and copy in one place, because the plan drawing, the
-   desktop preview band, the mobile carousel and the entry transition
-   all have to agree about where a room is and what it says. The
-   rectangles are the plan's own coordinates, so the transition can
-   scale the real room the visitor clicked rather than an approximation
-   of it.
+   The rooms' copy and order, shared by the plan drawing, the desktop
+   preview band, the mobile carousel and the entry transition. Their
+   geometry lives in layout.ts, because the plan is drawn to fit the
+   window rather than at one fixed size.
 
-   Four rooms. Three sit on the axis as before: the two current
-   projects of her own and Archive. Professional is not another room in
-   that line. It is one long room laid under both LLP and Faber, entered
-   by a door from each, because it is the work she has done all along
-   and both projects stand on it. LLP and Faber share a floor line so
-   that it can run under them. It is deliberately off the grid of the
-   rooms above: it starts in from LLP's outer wall and runs out past
-   Faber, so the building reads as added to over time rather than
-   drawn in one go. It is numbered 03 so the phone carousel,
-   which follows this array, reaches it before Archive. The vestibule
-   exists because an enfilade needs somewhere to enter from, and it is
-   not a project.
+   Four rooms: LLP, Faber and Archive on the axis, and Professional as
+   one long room under LLP and Faber. Professional is numbered 03 so the
+   phone carousel, which follows this array, reaches it before Archive.
    --------------------------------------------------------------- */
 
 export type RoomId = 'llp' | 'faber' | 'professional' | 'archive'
@@ -38,8 +27,6 @@ export type Room = {
   /** Where entering goes. External rooms open in a new tab. */
   to: Route | { href: string }
   action: string
-  /** Interior rectangle in the plan's viewBox units. */
-  rect: { x: number; y: number; w: number; h: number }
 }
 
 /* "Language Learning Product" is Michelle's expansion of LLP, confirmed
@@ -57,7 +44,6 @@ export const ROOMS: Room[] = [
       'Language Learning Product: a working heritage-language tool that starts with Igbo, where the lesson happens inside a conversation rather than before one.',
     to: '/llp',
     action: 'Enter',
-    rect: { x: 78, y: 0, w: 289, h: 330 },
   },
   {
     id: 'faber',
@@ -68,7 +54,6 @@ export const ROOMS: Room[] = [
       'A design and DIY companion that helps you understand designed objects, how they\u2019re made, and how you could make them yourself.',
     to: '/faber',
     action: 'Enter',
-    rect: { x: 367, y: 44, w: 220, h: 286 },
   },
   {
     id: 'professional',
@@ -76,10 +61,9 @@ export const ROOMS: Room[] = [
     name: 'Professional',
     title: 'Professional work',
     orientation:
-      'Digital wallets, payments and identity at Samsung, and consumer banking at Goldman Sachs.',
+      'Digital wallets, payments, identity and consumer banking at Samsung and Goldman Sachs.',
     to: '/professional',
     action: 'Enter',
-    rect: { x: 132, y: 330, w: 528, h: 98 },
   },
   {
     id: 'archive',
@@ -90,14 +74,8 @@ export const ROOMS: Room[] = [
       'Architecture, computational design and other work from before I moved into product.',
     to: { href: 'https://mmenkiti.myportfolio.com/' },
     action: 'View archive',
-    rect: { x: 587, y: 58, w: 47, h: 164 },
   },
 ]
-
-export const VESTIBULE = { x: 6, y: 86, w: 72, h: 170 }
-
-/** The plan's drawing area, with room for the wall thickness at the edges. */
-export const PLAN_VIEWBOX = { x: -34, y: -10, w: 724, h: 448 }
 
 export const byId = (id: RoomId) => ROOMS.find((r) => r.id === id)!
 
