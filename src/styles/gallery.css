@@ -156,7 +156,8 @@
   fill: var(--floor-active, var(--ground-2));
 }
 
-.plan__walls rect {
+.plan__walls rect,
+.plan__walls polygon {
   fill: none;
   stroke: var(--poche);
   transition: stroke 0.5s var(--e-out), stroke-width 0.4s var(--e-out);
@@ -220,13 +221,15 @@
   fill: var(--plan-tiny);
 }
 
-.plan__hit rect {
+.plan__hit rect,
+.plan__hit polygon {
   fill: transparent;
   cursor: pointer;
   outline-offset: -4px;
 }
 
-.plan__hit rect:focus-visible {
+.plan__hit rect:focus-visible,
+.plan__hit polygon:focus-visible {
   outline: 2px solid var(--live);
 }
 
@@ -698,6 +701,7 @@
 @media (prefers-reduced-motion: reduce) {
   .plan__floor,
   .plan__walls rect,
+  .plan__walls polygon,
   .plan__openings rect,
   .plan__mark,
   .band__leader,

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ROOMS, type RoomId } from './rooms'
-import { ASPECT, planLayout, type Door } from './layout'
+import { ASPECT, planLayout, points, type Door } from './layout'
 
 /* ---------------------------------------------------------------
    The Enfilade.
@@ -74,7 +74,6 @@ export function Plan({
   const L = useMemo(() => planLayout(aspect), [aspect])
   const VESTIBULE = L.vest
   const DOORS = L.doors
-  const ARCHIVE = { rect: L.rects.archive }
   // Whether the pressed room was already the selected one, read at
   // pointerdown. A touch fires focus before click, and focus selects, so
   // by the time click arrives every tapped room looks selected. Reading it
@@ -88,7 +87,7 @@ export function Plan({
       className="plan"
       viewBox={L.viewBox}
       role="group"
-      aria-label="Gallery floor plan. Three rooms on one axis, and a long room beneath the first two."
+      aria-label="Gallery floor plan. Two large L-shaped rooms, LLP and Professional, lock together, with Faber between them and Archive beside."
       /* Clearing the active room used to happen here, on leaving the SVG.
          That made the preview's own button unreachable: the pointer has to
          leave the plan to get to it, which dropped the preview to
@@ -99,7 +98,7 @@ export function Plan({
       {/* Room floors. Painted first so the walls always sit on top. */}
       <rect className="plan__floor" {...box(VESTIBULE)} />
       {ROOMS.map((r) => (
-        <rect
+        <polygon
           key={r.id}
           className={[
             'plan__floor',
@@ -108,7 +107,7 @@ export function Plan({
             entering === r.id ? 'is-entering' : '',
           ].join(' ')}
           data-room={r.id}
-          {...box(L.rects[r.id])}
+          points={points(L.rooms[r.id].pts)}
         />
       ))}
 
@@ -120,9 +119,9 @@ export function Plan({
         {ROOMS.map((r) => {
           const on = active === r.id || entering === r.id
           return (
-            <rect
+            <polygon
               key={r.id}
-              {...box(L.rects[r.id])}
+              points={points(L.rooms[r.id].pts)}
               strokeWidth={on ? WALL + 4 : WALL}
               className={on ? 'is-active' : ''}
             />
@@ -143,6 +142,7 @@ export function Plan({
       {/* Door swings. One leaf and one arc, the way a plan draws them. */}
       <g className="plan__swings">
         {DOORS.map((d, i) => {
+          if (d.leaf === false) return null
           const r = leaf(d)
           if (d.dir === 'h') {
             // Hinged at the left jamb, swinging down into Professional: the
@@ -174,7 +174,7 @@ export function Plan({
         <path
           d={`M ${VESTIBULE.x - 10} ${VESTIBULE.y + VESTIBULE.h / 2} l -9 -6 M ${VESTIBULE.x - 10} ${VESTIBULE.y + VESTIBULE.h / 2} l -9 6`}
         />
-        <text x={VESTIBULE.x + 8} y={VESTIBULE.y + 26} className="plan__tiny">
+        <text x={VESTIBULE.x + 12} y={VESTIBULE.y + 18} className="plan__tiny">
           entry
         </text>
       </g>
@@ -192,37 +192,23 @@ export function Plan({
           ].join(' ')}
           aria-hidden="true"
         >
-          <text x={L.rects[r.id].x + 15} y={L.rects[r.id].y + 34} className="plan__n">
+          <text x={L.rooms[r.id].label[0]} y={L.rooms[r.id].label[1]} className="plan__n">
             {r.n}
           </text>
-          {L.rects[r.id].w > 90 && (
-            <text x={L.rects[r.id].x + 15} y={L.rects[r.id].y + 52} className="plan__tiny">
+          {L.rooms[r.id].w > 90 && (
+            <text x={L.rooms[r.id].label[0]} y={L.rooms[r.id].label[1] + 18} className="plan__tiny">
               {r.name}
             </text>
           )}
         </g>
       ))}
-      {/* Archive is too narrow to hold its own name inside the room, so
-          its label sits outside. It steps back with the others. */}
-      <text
-        x={ARCHIVE.rect.x + ARCHIVE.rect.w + 12}
-        y={ARCHIVE.rect.y + 34}
-        className={[
-          'plan__tiny plan__mark',
-          active && active !== 'archive' ? 'is-quiet' : '',
-        ].join(' ')}
-        aria-hidden="true"
-      >
-        archive
-      </text>
-
       {/* The targets. Last in paint order so nothing can sit over them,
-          and sized to the room's own rectangle so the transition can
+          and shaped like the room itself so the transition can
           expand exactly what was pressed. */}
       {ROOMS.map((r) => (
         <g key={r.id} className="plan__hit">
-          <rect
-            {...box(L.rects[r.id])}
+          <polygon
+            points={points(L.rooms[r.id].pts)}
             role="button"
             tabIndex={0}
             // The label has to say what the press actually does, which is

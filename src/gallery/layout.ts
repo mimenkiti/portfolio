@@ -1,91 +1,138 @@
 import type { RoomId } from './rooms'
 
 /* ---------------------------------------------------------------
-   The plan, drawn to fit the window.
+   The plan, drawn to fit the window: Interlocking Ls.
 
-   The building is not one fixed drawing scaled up and down. The Plan
-   measures the box it is given and asks for a layout at that box's
-   proportion, so a wide desktop gets a longer building and a phone gets
-   a compact one, within limits that keep the rooms from stretching into
-   corridors, and the drawing always fills its space rather
-   than sitting letterboxed in the middle of it.
+   LLP and Professional are two L-shaped rooms that lock into each
+   other. Faber sits in the corner they make, and Archive is set into
+   Professional's notch. The way through runs entry, LLP, Faber,
+   Professional, Archive, with a second door straight from LLP into
+   Professional, so the two large rooms are also directly connected.
 
-   Height is fixed in drawing units (H) and only the width changes with
-   the proportion. That keeps wall thickness, door openings and the room
-   numbers at the same size relative to the plan's height everywhere, so
-   only the shape of the building changes, never the weight of its line.
+   The building is not one drawing scaled up and down. Two compositions
+   are drawn by hand, a compact one for phones and a wider one for
+   desktop, with the same rooms, walls and doors in the same order, and
+   the plan interpolates between them by the proportion of the box it
+   is given. A phone gets a nearly square building with Faber at its
+   centre; a wide screen gets a longer one whose rooms widen while
+   their depths barely change. Past the widest composition the building
+   stops stretching and sits centred with space around it, so no room
+   is ever pulled into a corridor.
 
-   The arrangement holds at every size: entry, LLP, Faber and Archive
-   along the axis, and Professional as one long room under LLP and
-   Faber, entered from each. It is kept deliberately off the grid of the
-   rooms above (in from LLP's outer wall, out past Faber), with Faber and
-   Archive stepping down at uneven heights.
+   Height is fixed in drawing units (H), which keeps wall thickness,
+   door openings and labels the same weight at every size.
    --------------------------------------------------------------- */
 
+export type Pt = [number, number]
 export type Rect = { x: number; y: number; w: number; h: number }
-export type Door = { dir: 'v' | 'h'; x: number; y: number; swing: 0 | 1; into: number }
+/** `leaf: false` is an opening with no door in it: the way in from outside. */
+export type Door = { dir: 'v' | 'h'; x: number; y: number; swing: 0 | 1; into: number; leaf?: boolean }
+export type RoomShape = { pts: Pt[]; label: Pt; w: number }
 export type PlanLayout = {
   viewBox: string
   vest: Rect
-  rects: Record<RoomId, Rect>
+  rooms: Record<RoomId, RoomShape>
   doors: Door[]
 }
 
-/** Drawing height, in plan units. */
 const H = 440
-/** Room left around the building for the entry arrow and Archive's label. */
-const PAD = { l: 44, r: 74, t: 12, b: 12 }
+const PAD = { l: 52, r: 24, t: 12, b: 12 }
 
-/** The proportions the plan will stretch between. */
-export const ASPECT = { min: 1.5, max: 3.3, fallback: 2.4 }
+/* The two hand-drawn compositions, as named coordinates. Every value is
+   interpolated, so the two must describe the same plan. */
+type Spec = {
+  ew: number // entry width
+  ey: number // entry top
+  eh: number // entry height
+  lTop: number // LLP's top edge (it sits a step below Professional)
+  armR: number // right end of LLP's upper arm, where Professional begins
+  armB: number // underside of LLP's arm: Faber's top and Professional's notch
+  legR: number // right side of LLP's leg, where Faber begins
+  fR: number // Faber's right side, where Professional's leg begins
+  pR: number // Professional's right side
+  pB: number // underside of Professional's leg
+  aR: number // Archive's right side
+}
+const COMPACT: Spec = { ew: 58, ey: 250, eh: 104, lTop: 30, armR: 330, armB: 170, legR: 196, fR: 418, pR: 660, pB: 330, aR: 590 }
+const WIDE: Spec = { ew: 70, ey: 286, eh: 112, lTop: 40, armR: 540, armB: 196, legR: 320, fR: 650, pR: 1060, pB: 326, aR: 880 }
+
+/** Building widths at the two compositions, for mapping proportion to blend. */
+const width = (s: Spec) => s.pR
+const ratio = (s: Spec) => (width(s) + PAD.l + PAD.r) / (H + PAD.t + PAD.b)
+
+/** The proportion the plan falls back to before it has been measured. */
+export const ASPECT = { fallback: ratio(WIDE) }
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 export function planLayout(aspect: number): PlanLayout {
-  const a = Math.min(ASPECT.max, Math.max(ASPECT.min, aspect || ASPECT.fallback))
-  // The whole viewBox has proportion `a`; the building fills it inside PAD.
-  const W = a * (H + PAD.t + PAD.b) - PAD.l - PAD.r
+  const lo = ratio(COMPACT)
+  const hi = ratio(WIDE)
+  const t = Math.min(1, Math.max(0, ((aspect || hi) - lo) / (hi - lo)))
+  const s = Object.fromEntries(
+    (Object.keys(COMPACT) as (keyof Spec)[]).map((k) => [k, Math.round(lerp(COMPACT[k], WIDE[k], t))]),
+  ) as Spec
 
-  // Professional's depth: shallower than LLP and Faber, but a real room,
-  // not a corridor.
-  const prof = Math.round(H * 0.4)
-  const base = H - prof // the shared floor line of LLP and Faber
+  const x0 = s.ew // the building proper starts after the entry
+  const vest: Rect = { x: 0, y: s.ey, w: s.ew, h: s.eh }
 
-  const vw = Math.round(Math.min(96, Math.max(56, W * 0.075)))
-  const U = W - vw // what the rooms share along the axis
+  const llp: Pt[] = [
+    [x0, s.lTop],
+    [s.armR, s.lTop],
+    [s.armR, s.armB],
+    [s.legR, s.armB],
+    [s.legR, H],
+    [x0, H],
+  ]
+  const faber: Pt[] = [
+    [s.legR, s.armB],
+    [s.fR, s.armB],
+    [s.fR, H],
+    [s.legR, H],
+  ]
+  const professional: Pt[] = [
+    [s.armR, 0],
+    [s.pR, 0],
+    [s.pR, s.pB],
+    [s.fR, s.pB],
+    [s.fR, s.armB],
+    [s.armR, s.armB],
+  ]
+  const archive: Pt[] = [
+    [s.fR, s.pB],
+    [s.aR, s.pB],
+    [s.aR, H],
+    [s.fR, H],
+  ]
 
-  const vest: Rect = { x: 0, y: Math.round(base * 0.2), w: vw, h: Math.round(base * 0.6) }
-  const llp: Rect = { x: vw, y: 0, w: Math.round(U * 0.4), h: base }
-  const fy = Math.round(base * 0.1)
-  const faber: Rect = { x: llp.x + llp.w, y: fy, w: Math.round(U * 0.31), h: base - fy }
-  const ay = Math.round(base * 0.16)
-  const archive: Rect = {
-    x: faber.x + faber.w,
-    y: ay,
-    w: Math.max(47, Math.round(U * 0.065)),
-    h: Math.round(base * 0.52),
-  }
-  const px = llp.x + Math.round(llp.w * 0.17)
-  const professional: Rect = {
-    x: px,
-    y: base,
-    w: Math.round(vw + U * 0.93) - px,
-    h: prof,
+  const rooms: Record<RoomId, RoomShape> = {
+    llp: { pts: llp, label: [x0 + 15, s.lTop + 34], w: s.armR - x0 },
+    faber: { pts: faber, label: [s.legR + 15, s.armB + 34], w: s.fR - s.legR },
+    professional: { pts: professional, label: [s.armR + 15, 34], w: s.pR - s.armR },
+    archive: { pts: archive, label: [s.fR + 15, s.pB + 30], w: s.aR - s.fR },
   }
 
   const doors: Door[] = [
-    // The way in from outside, where the entry arrow arrives.
-    { dir: 'v', x: vest.x, y: vest.y + vest.h / 2, swing: 1, into: vest.w },
-    { dir: 'v', x: vest.x + vest.w, y: vest.y + vest.h / 2, swing: 1, into: llp.w },
-    { dir: 'v', x: faber.x, y: faber.y + (base - faber.y) * 0.5, swing: 1, into: faber.w },
-    { dir: 'v', x: archive.x, y: archive.y + archive.h * 0.55, swing: 1, into: archive.w },
-    // Off-centre on purpose, one toward each end of the long room.
-    { dir: 'h', x: llp.x + llp.w * 0.66, y: base, swing: 0, into: prof },
-    { dir: 'h', x: faber.x + faber.w * 0.7, y: base, swing: 0, into: prof },
+    // In from outside, where the entry arrow arrives, then into LLP.
+    { dir: 'v', x: 0, y: s.ey + s.eh / 2, swing: 1, into: s.ew, leaf: false },
+    { dir: 'v', x: x0, y: s.ey + s.eh / 2, swing: 1, into: s.legR - x0 },
+    // LLP's arm straight into Professional.
+    { dir: 'v', x: s.armR, y: s.lTop + (s.armB - s.lTop) * 0.55, swing: 1, into: s.fR - s.armR },
+    // LLP's leg into Faber, low on the shared wall.
+    { dir: 'v', x: s.legR, y: s.armB + (H - s.armB) * 0.62, swing: 1, into: s.fR - s.legR },
+    // Faber into Professional's leg.
+    { dir: 'v', x: s.fR, y: s.armB + (s.pB - s.armB) * 0.5, swing: 1, into: s.pR - s.fR },
+    // Professional down into Archive.
+    { dir: 'h', x: s.fR + (s.aR - s.fR) * 0.45, y: s.pB, swing: 0, into: H - s.pB },
   ]
 
+  const w = s.pR + PAD.l + PAD.r
   return {
-    viewBox: `${-PAD.l} ${-PAD.t} ${W + PAD.l + PAD.r} ${H + PAD.t + PAD.b}`,
+    viewBox: `${-PAD.l} ${-PAD.t} ${w} ${H + PAD.t + PAD.b}`,
     vest,
-    rects: { llp, faber, professional, archive },
+    rooms,
     doors,
   }
 }
+
+export const points = (pts: Pt[]) => pts.map(([x, y]) => `${x},${y}`).join(' ')
