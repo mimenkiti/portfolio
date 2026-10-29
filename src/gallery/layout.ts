@@ -9,9 +9,10 @@ import type { RoomId } from './rooms'
    Professional, Archive, with a second door straight from LLP into
    Professional, so the two large rooms are also directly connected.
 
-   The building is not one drawing scaled up and down. Two compositions
-   are drawn by hand, a compact one for phones and a wider one for
-   desktop, with the same rooms, walls and doors in the same order, and
+   The building is not one drawing scaled up and down. Three
+   compositions are drawn by hand, a compact one for phones, a wider one
+   for tablets and smaller laptops, and a long one for large landscape
+   screens, with the same rooms, walls and doors in the same order, and
    the plan interpolates between them by the proportion of the box it
    is given. A phone gets a nearly square building with Faber at its
    centre; a wide screen gets a longer one whose rooms widen while
@@ -55,6 +56,10 @@ type Spec = {
 }
 const COMPACT: Spec = { ew: 58, ey: 250, eh: 104, lTop: 30, armR: 330, armB: 170, legR: 196, fR: 418, pR: 660, pB: 330, aR: 590 }
 const WIDE: Spec = { ew: 70, ey: 286, eh: 112, lTop: 40, armR: 540, armB: 196, legR: 320, fR: 650, pR: 1060, pB: 326, aR: 880 }
+/* Large landscape screens. Same plan again, opened out so the building
+   takes more of the page's width: every room widens, Faber most of all
+   so it never reads as left-over space, while depths hold. */
+const XWIDE: Spec = { ew: 80, ey: 290, eh: 112, lTop: 44, armR: 720, armB: 196, legR: 420, fR: 900, pR: 1500, pB: 318, aR: 1180 }
 
 /** Building widths at the two compositions, for mapping proportion to blend. */
 const width = (s: Spec) => s.pR
@@ -63,14 +68,21 @@ const ratio = (s: Spec) => (width(s) + PAD.l + PAD.r) / (H + PAD.t + PAD.b)
 /** The proportion the plan falls back to before it has been measured. */
 export const ASPECT = { fallback: ratio(WIDE) }
 
+const STEPS: Spec[] = [COMPACT, WIDE, XWIDE]
+
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 export function planLayout(aspect: number): PlanLayout {
-  const lo = ratio(COMPACT)
-  const hi = ratio(WIDE)
-  const t = Math.min(1, Math.max(0, ((aspect || hi) - lo) / (hi - lo)))
+  // Find the two compositions the box's proportion falls between and
+  // blend them; outside the range, hold the nearest one.
+  const a = aspect || ratio(WIDE)
+  let i = 0
+  while (i < STEPS.length - 2 && a > ratio(STEPS[i + 1])) i++
+  const A = STEPS[i]
+  const B = STEPS[i + 1]
+  const t = Math.min(1, Math.max(0, (a - ratio(A)) / (ratio(B) - ratio(A))))
   const s = Object.fromEntries(
-    (Object.keys(COMPACT) as (keyof Spec)[]).map((k) => [k, Math.round(lerp(COMPACT[k], WIDE[k], t))]),
+    (Object.keys(A) as (keyof Spec)[]).map((k) => [k, Math.round(lerp(A[k], B[k], t))]),
   ) as Spec
 
   const x0 = s.ew // the building proper starts after the entry
