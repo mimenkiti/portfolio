@@ -50,7 +50,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Mobile ID',
-        line: 'Owned driver’s licenses and state IDs in Samsung Wallet, from the first state launches through most of the rollouts that followed.',
+        line: 'Led the early launches of driver’s licenses and state IDs in Samsung Wallet, building the product foundation that supported subsequent state rollouts.',
         links: [
           {
             label: 'Samsung Newsroom, Oct 2023',
@@ -79,7 +79,7 @@ export const PROFESSIONAL: Employer[] = [
       },
       {
         name: 'Samsung Pay Benefits',
-        line: 'Headed the Samsung and Kudos partnership to build a shopping companion that helps people choose the best card in their wallet for each purchase, and earn cash back along the way.',
+        line: 'Led the Samsung and Kudos partnership to launch a browser-based shopping companion that helps users maximize credit card rewards and earn additional cash back on purchases.',
         links: [
           {
             label: 'IoT M2M Council, Nov 2025',
@@ -133,7 +133,7 @@ export const PROFESSIONAL: Employer[] = [
     projects: [
       {
         name: 'Spatial analytics for hospitals',
-        line: 'Worked directly with the CTO on early tools for evaluating hospital floor plans during COVID-era redesigns, from automation scripts to prototypes for customer pilots and investor demos.',
+        line: 'As the startup’s sole product manager, worked directly with the CTO to develop early spatial analytics tools for hospitals, including prototypes for customer pilots and investor demos.',
         links: [
           {
             label: 'MIT Sloan, Jun 2020',

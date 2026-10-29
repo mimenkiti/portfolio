@@ -61,7 +61,7 @@ export const ROOMS: Room[] = [
     name: 'Professional',
     title: 'Professional work',
     orientation:
-      'Digital wallets, payments, identity and consumer banking at Samsung and Goldman Sachs.',
+      'Consumer technology, payments, digital identity, and early-stage product development at Samsung, Goldman Sachs, and Spatio Metrics.',
     to: '/professional',
     action: 'Enter',
   },
