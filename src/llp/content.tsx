@@ -634,16 +634,13 @@ export const LLP_PROJECT: Project = {
     },
 
     /* ---- Since the web build (Oct 2026) ---------------------------
-       Everything from here to 'h-end' is new. The prose blocks are
-       DRAFTS written for Michelle to rewrite (`draft: true` shows a
-       visible mark). Facts come from the LLP asset pack of 29 Oct 2026:
-       stage dates, tester themes (her summary, no quotes, no names) and
-       the exploratory status of everything after TestFlight. */
+       Everything from here to 'h-end' is new, drafted for Michelle and
+       pending her rewrite. The private TestFlight has NOT happened yet:
+       nothing here may present tester feedback as a finding. */
     { id: 'h-app', kind: 'heading', text: 'Putting it on a phone' },
     {
       id: 'app-prose',
       kind: 'prose',
-      draft: true,
       paras: [
         <>
           The web build answered the question I started with well enough that I wanted to live
@@ -667,10 +664,10 @@ export const LLP_PROJECT: Project = {
       scale: 'wide',
       caption: (
         <>
-          The approved designs the TestFlight build follows: meeting the dot, Today, Lesson 1 with
-          Chioma, the Notebook, and Chioma&rsquo;s page in People. These are design references
-          rather than captures from the build, and the Igbo in them hasn&rsquo;t yet been reviewed
-          by a native speaker.
+          The approved designs for the iPhone app: meeting the dot, Today, Lesson 1 with Chioma, the
+          Notebook, and Chioma&rsquo;s page in People. These are design references rather than
+          captures from the app, and the Igbo in them hasn&rsquo;t yet been reviewed by a native
+          speaker.
         </>
       ),
       render: () => (
@@ -685,30 +682,10 @@ export const LLP_PROJECT: Project = {
         />
       ),
     },
-    {
-      id: 'app-testers',
-      kind: 'prose',
-      draft: true,
-      paras: [
-        <>
-          In late October I put the build in front of a few people through a private TestFlight.
-          What they said was more consistent than I expected. The conversation was the most
-          compelling part, with the Notebook not far behind. Several characters might make things
-          more complicated rather than richer. Nobody found the purpose of the dot obvious. And
-          they wanted to speak more.
-        </>,
-        <>
-          That last one was the clearest. If the conversation is the part that works, then the next
-          version should be more of a conversation, not a better lesson built around one.
-        </>,
-      ],
-    },
-
     { id: 'h-explore', kind: 'heading', text: 'A conversation that turns into a lesson' },
     {
       id: 'explore-prose',
       kind: 'prose',
-      draft: true,
       paras: [
         <>
           So the newest work turns the order around again. Instead of a lesson staged as a
@@ -719,7 +696,7 @@ export const LLP_PROJECT: Project = {
         <>
           The version I&rsquo;m most interested in is one you could have with headphones in and
           your phone in your pocket. Chioma explains things out loud in English, but every word of
-          Igbo she says comes from recordings that have already been checked, never from a model.
+          Igbo she says comes from the registry, never from a model.
           The dot stops being a button and simply shows whose turn it is. None of this is built
           yet. It exists as design work, and the clearest way I&rsquo;ve found to describe the rule
           underneath it is a line from one of those working documents.
@@ -851,7 +828,6 @@ export const LLP_PROJECT: Project = {
     {
       id: 'end-measure',
       kind: 'prose',
-      draft: true,
       paras: [
         <>
           It&rsquo;s also why the next step isn&rsquo;t the voice version. Before building that, I

@@ -1399,3 +1399,6 @@ html.is-dark-ground .toc {
 .b--figure:has(.dotstates) .b__art {
   min-width: 0;
 }
+.stages__row--planned .stages__mark {
+  border-top-style: dotted;
+}
