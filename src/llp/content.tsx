@@ -42,9 +42,8 @@ const LIVE = 'https://llp-build-01.vercel.app'
 /** One caption for the encounter, wherever a mode places it. */
 export const ENCOUNTER_CAPTION = (
   <>
-    The opening of the encounter, in the order the build runs it, with every phrase and gloss read
-    out of the registry. Nothing is translated until after you answer, which is the whole of what
-    Chioma not translating herself means. The real one is below.
+    The opening of the encounter, in the order the build runs it, every phrase read from the
+    registry. Nothing is translated until you answer. The real one is below.
   </>
 )
 
@@ -67,21 +66,19 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          Most of it is French. I was born in France and studied French in school, so I’ve
-          always known a decent amount. I have a pretty good vocabulary and can read and understand
-          quite a bit, but speaking has never come as naturally to me.
+          Most of it is French. I was born in France and studied French in school, so I can read and
+          understand quite a bit, but speaking has never come as naturally to me.
         </>,
         <>
-          This has always felt a little funny because my parents are both genuinely multilingual.
-          My mom speaks English, French and Igbo and can understand a few other languages. My dad
-          speaks English and Spanish, understands Igbo, and has some understanding of others too.
-          Being able to move between languages was a real skill for them, and one that I’ve
-          always admired but never really felt like I inherited.
+          That has always felt a little funny, because my parents are genuinely multilingual. My mom
+          speaks English, French and Igbo, and my dad speaks English and Spanish and understands
+          Igbo. Moving between languages was a real skill for them, and one I&rsquo;ve always
+          admired but never really felt I inherited.
         </>,
         <>
-          Over the last few years, I’ve gotten more serious about changing that. Duolingo has
-          been one way of keeping up with the French I already know and continuing to build on it,
-          and I’ve also worked with a tutor to get more comfortable actually speaking.
+          Over the last few years I&rsquo;ve gotten more serious about changing that: Duolingo to
+          keep building on the French I already know, and a tutor to get more comfortable actually
+          speaking it.
         </>,
       ],
     },
@@ -96,30 +93,26 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          Igbo is a little different. My mom speaks it, my dad understands more than he speaks, and
-          members of my extended family speak it to varying degrees, but not many people in my
-          generation really do. I never learned it either. And when I started thinking seriously
-          about changing that, I realized there wasn’t an obvious equivalent to the tools I
-          could use for French.
+          My mom speaks it, my dad understands more than he speaks, and some of my extended family
+          speak it to varying degrees, but not many people in my generation really do. I never
+          learned it either, and when I went looking, there wasn&rsquo;t an obvious equivalent to
+          the tools I use for French.
         </>,
         <>
-          There are books, YouTube videos, dictionaries and classes, and I’ve tried some
-          combination of all of them. But learning Igbo is much harder to fold into everyday life.
-          There are fewer resources, the quality varies, pronunciation is difficult to learn from
-          text, and most of the language-learning products I already use simply don’t support
-          it.
+          There are books, YouTube videos, dictionaries and classes, and I&rsquo;ve tried most of
+          them. But with fewer resources, uneven quality, and pronunciation that is hard to learn
+          from text, Igbo is much harder to fold into everyday life, and most of the apps I already
+          use don&rsquo;t support it.
         </>,
         <>
-          The thing I want isn’t especially ambitious. I want to understand when my family is
-          speaking Igbo and eventually be able to join in without having to rehearse what I might
+          The thing I want isn&rsquo;t especially ambitious. I want to understand when my family is
+          speaking Igbo, and eventually be able to join in without having to rehearse what I might
           say beforehand.
         </>,
-        <>So I started thinking about what I would actually need in order to learn it.</>,
         <>
-          The bar I kept coming back to was pretty simple: whatever I built had to be useful enough
-          that I would come back tomorrow, and then again the day after that. I couldn’t just
-          make a beautiful Igbo reference tool or a collection of lessons. I had to make something I
-          would actually want to keep using.
+          The bar I kept coming back to was simple: whatever I built had to be useful enough that I
+          would come back tomorrow, and then again the day after that. Not a beautiful reference
+          tool or a collection of lessons, but something I would actually want to keep using.
         </>,
       ],
     },
@@ -133,11 +126,7 @@ export const LLP_PROJECT: Project = {
       text: 'My first instinct was a fairly obvious one: build the thing I wished existed.',
     },
 
-    {
-      id: 'h-first',
-      kind: 'heading',
-      text: 'The first version looked a lot like Duolingo',
-    },
+    { id: 'h-first', kind: 'heading', text: 'It started out like Duolingo' },
     {
       id: 'first-lede',
       kind: 'lede',
@@ -149,13 +138,9 @@ export const LLP_PROJECT: Project = {
       paras: [
         <>
           I built a working prototype around structured lessons and exercises, borrowing quite
-          deliberately from the language-learning products I was already using. At that point I
-          was mostly thinking about the resource problem: if the tools that were helping me learn
-          French didn’t exist for Igbo, perhaps I could make one.
-        </>,
-        <>
-          The exercises were sound, the sequence held together, and it taught the material it set
-          out to teach.
+          deliberately from the products I was already using. If the tools helping me with French
+          didn&rsquo;t exist for Igbo, perhaps I could make one. The exercises were sound, and it
+          taught what it set out to teach.
         </>,
       ],
     },
@@ -169,9 +154,9 @@ export const LLP_PROJECT: Project = {
       invite: 'take the first lesson',
       caption: (
         <>
-          The lesson engine as it was: twelve exercises, a combo counter, hearts. It still runs,
-          and it is left the way it was rather than restyled to match this page, because the
-          distance between it and the current build is most of the story.
+          The first build as it was: twelve exercises, a combo counter, hearts. It still runs, and it
+          is left unrestyled, because the distance between it and what came next is most of the
+          story.
         </>
       ),
     },
@@ -186,31 +171,20 @@ export const LLP_PROJECT: Project = {
     {
       id: 'first-after',
       kind: 'prose',
-      // Same measure, different position on the page: the spread turns
-      // without the line length moving.
       offset: true,
       paras: [
         <>
-          And that started to change the question. I didn’t really want to get good at completing
-          Igbo exercises. I wanted to get comfortable enough with the language to begin
-          participating in it, and the more I thought about that distinction, the more I wondered
-          whether I had started with the wrong unit altogether.
+          I didn&rsquo;t really want to get good at completing Igbo exercises. I wanted to get
+          comfortable enough to begin participating in the language, and the more I thought about
+          that, the more I wondered whether I had started with the wrong unit altogether.
         </>,
-        <>Maybe the lesson shouldn’t lead eventually to a conversation.</>,
-        <>Maybe the conversation could be the lesson.</>,
-      ],
-    },
-    {
-      id: 'sheet-note',
-      kind: 'aside',
-      text: (
         <>
-          These five are working documents rather than writing. I made them while I was still
-          deciding things, and they are here as they were: their own formatting, their own voice,
-          and in places their own bad ideas. Bringing them into line with this page would hide how
-          far the thinking actually moved.
-        </>
-      ),
+          Maybe the lesson shouldn&rsquo;t lead eventually to a conversation.
+        </>,
+        <>
+          Maybe the conversation could be the lesson.
+        </>,
+      ],
     },
     {
       id: 'sheet',
@@ -224,48 +198,34 @@ export const LLP_PROJECT: Project = {
       does: 'Each one opens.',
       caption: (
         <>
-          Some of what that took: what the product should feel like, what makes someone open a
-          learning app on the hundred and ninetieth day, and where a lesson should sit relative to
-          a conversation.
+          Working documents from that turn, as they were, bad ideas included: what the product
+          should feel like, what makes someone open a learning app on the hundred and ninetieth day,
+          and where a lesson should sit relative to a conversation.
         </>
       ),
       render: () => <ContactSheet />,
     },
 
-    {
-      id: 'h-conv',
-      kind: 'heading',
-      text: 'I started experimenting with conversation',
-    },
+    { id: 'h-conv', kind: 'heading', text: 'Conversation as the lesson' },
     {
       id: 'conv-prose',
       kind: 'prose',
       paras: [
         <>
-          Conversation isn’t necessarily the answer. I still don’t know if it is the best format
-          for every lesson, and I suspect it isn’t.
+          I don&rsquo;t think conversation is the right format for every lesson. But it felt like a
+          good place to start, because it puts you inside something recognizable straight away:
+          another person has said something to you, and you need to figure out enough to respond.
         </>,
         <>
-          But it felt like an interesting place to start, particularly for early lessons, because
-          it puts the learner inside something recognizable almost immediately. There is another
-          person, they have said something to you, and you need to figure out enough to respond.
+          The web prototype begins in a market, where you meet a guide named Chioma. She says{' '}
+          <span className="ig" lang="ig">Kedụ?</span> You hear it and see the words, but she
+          doesn&rsquo;t translate them, and you can answer aloud or choose one of two responses.
         </>,
         <>
-          The current prototype begins in a market, where you meet a guide named Chioma. She
-          speaks to you in Igbo and the lesson unfolds around that interaction.
-        </>,
-        <>
-          The first encounter is simple. Chioma says <span className="ig" lang="ig">Kedụ?</span> You hear her
-          say it and see the words on screen, but she doesn’t translate them for you. You can
-          answer aloud or choose one of two responses.
-        </>,
-        <>
-          I liked the market because I didn’t want the language to feel detached from the culture
-          around it, and I liked the idea of Chioma as a person who could guide you through that
-          world rather than simply administer exercises. Both are specific to this version of LLP.
-          If I were designing the experience around another heritage language, I would expect the
-          guide, environment, references, and perhaps even parts of the teaching model to change
-          with it.
+          I wanted the language to feel connected to the culture around it, and Chioma to feel like
+          a person guiding you through that world rather than someone administering exercises. For
+          another heritage language, I would expect the guide, the setting, and perhaps parts of
+          the teaching to change with it.
         </>,
       ],
     },
@@ -278,11 +238,10 @@ export const LLP_PROJECT: Project = {
       kind: 'aside',
       text: (
         <>
-          Worth saying this early, because it is the part people assume the other way round: the
-          Igbo is not generated. Every phrase Chioma says is a row in a registry I maintain, and a
-          lesson cannot invent language while it runs. What happens live is her voice, synthesized
-          line by line as each line is needed, and the choice of which small piece of teaching to
-          offer next.
+          Worth saying early, because people tend to assume the opposite: the Igbo is not
+          generated. Every phrase Chioma says comes from a registry I maintain, and a lesson
+          can&rsquo;t invent language while it runs. What happens live is her voice, synthesized
+          line by line.
         </>
       ),
     },
@@ -315,9 +274,10 @@ export const LLP_PROJECT: Project = {
       terms: 'sound on · about three minutes · a microphone, if you want to answer aloud',
       caption: (
         <>
-          The build as deployed. Chioma’s speech is synthesized on request against the knowledge
-          registry, teaching opens over the scene without ending it, and the microphone is real.
-          Nothing here is a recording of the product; it is the product.
+          The web build as deployed: her speech is synthesized from the registry, and teaching opens
+          over the scene without ending it. You can answer aloud, though in this build what you say
+          is checked by a stand-in rather than live Igbo recognition, which is where the last
+          section picks up.
         </>
       ),
     },
@@ -326,17 +286,14 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          Once I put the learner into a conversation, though, I created another problem for
-          myself. Conversations don’t conveniently stop while you learn the vocabulary required to
-          continue them.
+          Putting the learner in a conversation created a new problem: conversations don&rsquo;t
+          conveniently stop while you learn the vocabulary to continue them.
         </>,
         <>
-          A learner might understand immediately, understand part of what was said, or have no
-          idea at all. I experimented with versions that taught more before asking someone to
-          respond, versions that let them struggle first, and versions that tried to keep almost
-          everything inside the encounter. I also spent a surprising amount of time on smaller
-          questions: when a hint should appear, whether it should persist, how quickly the
-          interface should react, what should happen after a wrong answer.
+          I tried versions that taught more before asking someone to respond, versions that let
+          them struggle first, and versions that kept almost everything inside the encounter, and I
+          spent a surprising amount of time on smaller questions, like when a hint should appear and
+          what should happen after a wrong answer.
         </>,
       ],
     },
@@ -358,23 +315,14 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          The simpler versions generally feel better. Taking out extra instructions, decisions that
-          didn’t need to be made, and help that arrived all at once tended to make the conversation
-          feel more like a conversation.
+          The simpler versions generally feel better. I also wanted more positive reinforcement than
+          I expected: not points or streaks, just small signals that made continuing feel good.
         </>,
         <>
-          I also found myself wanting more positive reinforcement than I expected. Not points or
-          streaks, just small signals that made continuing feel good.
-        </>,
-        <>
-          That led to what I started calling the seam. If someone doesn’t understand Chioma, help
-          can open over the conversation instead of taking them somewhere else. They can hear the
-          phrase again, get enough context to understand what is happening, and then return to
-          exactly where they were.
-        </>,
-        <>
-          There is still a lesson underneath the encounter. I just don’t want the learner to feel
-          like they’ve left the conversation every time they need help.
+          That led to what I started calling the seam. If you don&rsquo;t understand Chioma, help
+          opens over the conversation instead of taking you somewhere else, and you return to
+          exactly where you were. There is still a lesson underneath; you just don&rsquo;t feel
+          like you&rsquo;ve left the conversation every time you need it.
         </>,
       ],
     },
@@ -385,8 +333,7 @@ export const LLP_PROJECT: Project = {
       does: 'ask any of the three',
       caption: (
         <>
-          Three of those experiments, still running. None of them is a finished answer, and the
-          labs were built to disagree with each other.
+          Three of those experiments, still running, and built to disagree with each other.
         </>
       ),
       render: () => <Approaches />,
@@ -397,20 +344,20 @@ export const LLP_PROJECT: Project = {
       id: 'dot-prose',
       kind: 'prose',
       paras: [
-        <>At some point in all of this, I became slightly obsessed with a dot.</>,
         <>
-          I had been thinking about the role that characters like Duo play in learning products,
-          not necessarily as teachers, but as something persistent that follows you through the
-          experience and gives the product a little life. I didn’t want another character competing
-          with Chioma, and I’ve always been attracted to the idea of seeing how much expression can
-          come from an extremely simple form.
+          At some point in all of this, I became slightly obsessed with a dot.
         </>,
-        <>So I started working with a dot.</>,
         <>
-          It has gone through a slightly unreasonable number of design sprints. I’ve used it as a
-          guide, a source of encouragement, an entry point into help, a control, and sometimes
-          simply a reaction. Because there is so little there visually, very small changes in
-          movement, timing and position can make it feel completely different.
+          I liked the role characters like Duo play in learning products: something persistent that
+          follows you through the experience and gives it a little life. But I didn&rsquo;t want
+          another character competing with Chioma, and I&rsquo;ve always been attracted to seeing
+          how much expression can come from an extremely simple form.
+        </>,
+        <>
+          It has gone through a slightly unreasonable number of design sprints: a guide, a source of
+          encouragement, a way into help, a control, and sometimes simply a reaction. Because there
+          is so little there, very small changes in movement and timing make it feel completely
+          different.
         </>,
       ],
     },
@@ -425,14 +372,26 @@ export const LLP_PROJECT: Project = {
       animates: true,
       caption: (
         <>
-          Tap asks the system for something. Hold means it is listening to you. Drag only works
-          when the dot is attached to something. The lab keeps its own critique of each behavior
-          beside it, including this one, on what all of that costs:{' '}
-          <em>
-            Everything here is a gesture on one small target. Hold needs a tap-to-start/tap-to-stop
-            alternative, drag needs stepped buttons, and motion must respect reduce-motion.
-            Conventional fallbacks are not optional.
-          </em>
+          Tap asks the system for something. Hold means it is listening to you. Drag only works when
+          the dot is attached to something.
+        </>
+      ),
+    },
+    {
+      id: 'dot-more',
+      kind: 'more',
+      summary: 'What the lab says about accessibility',
+      body: (
+        <>
+          <p>
+          The lab keeps its own critique beside each behavior, including this one, on what all of
+            that costs:{' '}
+            <em>
+              Everything here is a gesture on one small target. Hold needs a tap-to-start/tap-to-stop
+              alternative, drag needs stepped buttons, and motion must respect reduce-motion.
+              Conventional fallbacks are not optional.
+            </em>
+          </p>
         </>
       ),
     },
@@ -448,43 +407,20 @@ export const LLP_PROJECT: Project = {
       ],
     },
 
-    {
-      id: 'h-under',
-      kind: 'heading',
-      text: 'Building what sits underneath the encounter',
-    },
+    { id: 'h-under', kind: 'heading', text: 'What it knows' },
     {
       id: 'under-prose',
       kind: 'prose',
       paras: [
         <>
-          As the prototype grew, I also needed a way to make sure I wasn’t designing individual
-          conversations in isolation.
+          As the prototype grew, I split it into three questions: what the product knows, what
+          someone should learn, and how the product teaches it.
         </>,
         <>
-          So I separated it into three questions: what the product knows, what someone should
-          learn, and how the product teaches it.
-        </>,
-        <>
-          What it knows is held as a registry rather than as copy inside a lesson. Every word and
-          phrase carries where it came from and how much I trust it, which means the product can
-          tell the difference between Igbo it is confident about and Igbo it is not.
-        </>,
-        // The four figures in this paragraph are the registry's own
-        // tallies: `meta.counts.capabilities`, `meta.statusTallies
-        // .capabilityStatus`, the capability registry's Current Blocker,
-        // and `meta.counts.humanReviewQueue` / `humanReviewQueueDecided`.
-        // They are written out rather than imported because importing
-        // registry.json here would pull 95kB into the first chunk. If the
-        // workbooks are extracted again, check this paragraph against the
-        // Inspector's own readout.
-        <>
-          The rule I wrote for myself is that every Igbo form a learner sees has to trace back to a
-          knowledge object I have marked Approved. Nothing has cleared that yet. All ten
-          capabilities in the registry are still Draft or marked as a knowledge gap, the first
-          lesson carries a blocker saying the knowledge it needs is still Candidate or Hold, and the
-          eight questions sitting in the review queue for a native speaker have no answers. So the
-          first lesson is not cleared for teaching.
+          What it knows lives in a registry rather than inside lessons, and every word and phrase
+          carries where it came from and how much I trust it. A lesson is only cleared for teaching
+          once its Igbo traces back to entries I&rsquo;ve marked Approved, and the first lesson
+          isn&rsquo;t there yet: none of the registry has been reviewed by a native speaker.
         </>,
       ],
     },
@@ -498,48 +434,54 @@ export const LLP_PROJECT: Project = {
       does: 'follow any phrase through',
       caption: (
         <>
-          One phrase, traced from the source it came from to the moment a learner meets it. Every
-          value is a cell from the registries, including the ones saying this is not ready.
+          One phrase, traced from its source to the moment a learner meets it, including the cells
+          that say it isn&rsquo;t ready.
         </>
       ),
       render: () => defer(<Inspector />, 'loading the registries'),
     },
     {
+      id: 'registry-more',
+      kind: 'more',
+      summary: 'Where the registry stands',
+      body: (
+        <>
+          <p>
+          All ten capabilities in the registry are still Draft or marked as a knowledge gap. The
+            first lesson carries a blocker saying the knowledge it needs is still Candidate or Hold,
+            and the eight questions waiting for a native speaker have no answers yet. The lesson
+            itself uses Approved and Candidate entries; anything on Hold is never transcribed, so it
+            can&rsquo;t appear at all.
+          </p>
+        </>
+      ),
+    },
+    {
       id: 'under-after',
       kind: 'prose',
-      // Same measure, different position on the page: the spread turns
-      // without the line length moving.
       offset: true,
       paras: [
         <>
-          The separation is partly practical. I want to be able to improve what LLP knows without
-          redesigning every lesson, and I want to experiment with how something is taught without
-          changing the underlying language material.
+          Partly that separation is practical: I can improve what LLP knows without redesigning every
+          lesson, and change how something is taught without touching the language underneath.
         </>,
         <>
-          But it also comes from the longer-term ambition for the project. I started with Igbo
-          because it is personal to me, but the resource problem isn’t unique to Igbo, and
-          eventually I would like to see what this system looks like for other heritage languages.
-          That means building enough structure to reuse what should be reusable without assuming
-          that every language, culture, or learner should be treated the same way.
+          But I also started with Igbo because it is personal to me, and the resource problem
+          isn&rsquo;t unique to Igbo. Eventually I&rsquo;d like to see what this looks like for
+          other heritage languages, without assuming every language, culture, or learner should be
+          treated the same way.
         </>,
       ],
     },
 
-    {
-      id: 'h-voice',
-      kind: 'heading',
-      text: 'When the technology doesn’t know the language as well as it needs to',
-    },
+    { id: 'h-voice', kind: 'heading', text: 'Teaching a voice Igbo' },
     {
       id: 'voice-prose',
       kind: 'prose',
       paras: [
-        <>One of the more interesting constraints appeared when I gave Chioma a voice.</>,
         <>
-          Modern text-to-speech tools make it relatively easy to give a character speech, but
-          producing audio and producing audio I was comfortable asking someone to learn from turned
-          out to be different problems.
+          Giving Chioma a voice turned out to be easy. Giving her a voice I was comfortable asking
+          someone to learn from was a different problem.
         </>,
       ],
     },
@@ -556,33 +498,19 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          I don’t think a learner needs perfect pronunciation, and an accent isn’t a failure. But I
-          do think the standard changes when the product is the teacher. If LLP is asking someone
-          to listen and repeat, I need to be reasonably confident that what they are hearing is
-          something they should actually learn.
+          An accent isn&rsquo;t a failure, and I don&rsquo;t think a learner needs perfect
+          pronunciation. But the standard changes when the product is the teacher. If LLP asks
+          someone to listen and repeat, I need to be reasonably confident that what they hear is
+          worth learning.
         </>,
         <>
-          So I stopped treating pronunciation as something the voice model would simply handle for
-          me and started treating it as its own layer of the product.
+          So I stopped assuming the voice model would handle pronunciation and started treating it
+          as its own layer. When a phrase sounds wrong to me, I write out how it should be said and
+          send that instead, which I call a pronunciation override.
         </>,
         <>
-          I compared voices, tested generated speech against the pronunciation I expected,
-          experimented with grapheme-to-phoneme information, and eventually built support for what
-          I call a pronunciation override: a pronunciation I write out myself for one specific
-          phrase and send to the voice system instead of leaving it to work the spelling out.
-        </>,
-        <>
-          The mechanism is not complicated. If the written phrase produces speech that sounds wrong
-          to me, the same voice on the same model receives a different string, and that is the whole
-          of it.
-        </>,
-        <>
-          The build reports whether it used one, on every response, so the product always knows
-          which it did. That matters because of what is still missing here: none of these clips
-          have been checked by a native speaker, my own ear is currently part of the evaluation,
-          and native-speaker review is still outstanding. The goal isn’t to build a perfect
-          linguistic model of Igbo; it is to know where the technology is unreliable and make that
-          uncertainty explicit enough that the product can respond to it.
+          My own ear is still part of the judgment, and no native speaker has checked these clips
+          yet.
         </>,
       ],
     },
@@ -598,9 +526,8 @@ export const LLP_PROJECT: Project = {
       does: 'play either reading',
       caption: (
         <>
-          The tests, as they were run. Two clips per line, the same voice and model in each, and
-          the exact string that produced them. Whether the second is better is the judgment the
-          work was trying to make, and it is left to you.
+          The tests as they were run: two clips per line, the same voice and model, and the exact
+          string behind each. Whether the second is better is left to you.
         </>
       ),
       render: () => defer(<Pronunciation />, 'loading the recordings'),
@@ -610,15 +537,31 @@ export const LLP_PROJECT: Project = {
       kind: 'figure',
       scale: 'column',
       caption: (
-        // The prose above now explains the override and the reporting in
-        // plain language, so the caption only has to say what this
-        // instrument is showing.
         <>
-          And what came of it. The override is applied to one line and withheld from another, and
-          the response says which, both times.
+          And what came of it.
         </>
       ),
       render: () => <VoiceBoundary />,
+    },
+    {
+      id: 'voice-more',
+      kind: 'more',
+      summary: 'How the override works',
+      body: (
+        <>
+          <p>
+          Before settling on overrides I compared voices, tested generated speech against the
+            pronunciation I expected, and experimented with grapheme-to-phoneme information. The
+            mechanism itself is simple: the same voice on the same model receives a different
+            string for one specific phrase.
+          </p>
+          <p>
+          The build reports on every response whether it used an override, so the product always
+            knows which it did. That matters because the clips haven&rsquo;t been reviewed by a
+            native speaker, and the product needs to know where its own audio is least certain.
+          </p>
+        </>
+      ),
     },
     {
       id: 'voice-after',
@@ -626,9 +569,9 @@ export const LLP_PROJECT: Project = {
       paras: [
         <>
           That has become one of my favorite parts of the project, because it changed the role I
-          imagined AI playing in LLP. The interesting question isn’t how much of the experience I
-          can generate. It is where generation is useful, where it needs structure around it, and
-          where the product needs to know not to trust it.
+          imagined AI playing in LLP. The interesting question isn&rsquo;t how much of the
+          experience I can generate. It is where generation is useful, where it needs structure
+          around it, and where the product needs to know not to trust it.
         </>,
       ],
     },
@@ -637,24 +580,22 @@ export const LLP_PROJECT: Project = {
        Everything from here to 'h-end' is new, drafted for Michelle and
        pending her rewrite. The private TestFlight has NOT happened yet:
        nothing here may present tester feedback as a finding. */
-    { id: 'h-app', kind: 'heading', text: 'Putting it on a phone' },
+    { id: 'h-app', kind: 'heading', text: 'On a phone' },
     {
       id: 'app-prose',
       kind: 'prose',
       paras: [
         <>
-          The web build answered the question I started with well enough that I wanted to live
-          with it, and living with something means having it on my phone. So in October I rebuilt
-          Lesson 1 as an iPhone app: Chioma first, and then Ifeoma, a friend of hers, where this
-          time you are the one who starts the conversation.
+          In October I rebuilt Lesson 1 as an iPhone app: Chioma first, and then Ifeoma, a friend of
+          hers, where this time you are the one who starts the conversation. Around it are a short
+          introduction to the dot, Today, the people you&rsquo;ve met, and a Notebook of
+          everything you&rsquo;ve heard and said.
         </>,
         <>
-          An app also meant deciding what sits around a single lesson. There is a short onboarding
-          that introduces the dot, a Today screen, the people you&rsquo;ve met, a Notebook of
-          everything you&rsquo;ve heard and said, and a page about you. Igbo is the only language
-          you can choose. There are no streaks and no points, which is a slightly strange decision
-          for someone whose story starts with a Duolingo streak, but I wanted to find out whether
-          the conversation could be reason enough to come back.
+          There are no streaks and no points, which is a slightly strange choice for someone whose
+          story starts with a Duolingo streak, but I want to find out whether the conversation is
+          reason enough to come back. For now it runs on my own phone as a development build; a
+          private TestFlight is next.
         </>,
       ],
     },
@@ -664,10 +605,9 @@ export const LLP_PROJECT: Project = {
       scale: 'wide',
       caption: (
         <>
-          The approved designs for the iPhone app: meeting the dot, Today, Lesson 1 with Chioma, the
-          Notebook, and Chioma&rsquo;s page in People. These are design references rather than
-          captures from the app, and the Igbo in them hasn&rsquo;t yet been reviewed by a native
-          speaker.
+          The approved designs for the app: meeting the dot, Today, Lesson 1, the Notebook and
+          People. They are design references rather than captures from the app, and the Igbo in them
+          hasn&rsquo;t been reviewed by a native speaker.
         </>
       ),
       render: () => (
@@ -682,37 +622,24 @@ export const LLP_PROJECT: Project = {
         />
       ),
     },
-    { id: 'h-explore', kind: 'heading', text: 'A conversation that turns into a lesson' },
+    { id: 'h-explore', kind: 'heading', text: 'Talking with Chioma' },
     {
       id: 'explore-prose',
       kind: 'prose',
       paras: [
         <>
-          So the newest work turns the order around again. Instead of a lesson staged as a
-          conversation, it&rsquo;s a conversation with Chioma that becomes a lesson when it needs
-          to, where she listens before she teaches and treats a tangent as an opening rather than
-          an interruption.
+          The newest work turns the order around again: a conversation with Chioma that becomes a
+          lesson when it needs to, where she listens before she teaches and treats a tangent as an
+          opening rather than an interruption.
         </>,
         <>
-          The version I&rsquo;m most interested in is one you could have with headphones in and
-          your phone in your pocket. Chioma explains things out loud in English, but every word of
-          Igbo she says comes from the registry, never from a model.
-          The dot stops being a button and simply shows whose turn it is. None of this is built
-          yet. It exists as design work, and the clearest way I&rsquo;ve found to describe the rule
-          underneath it is a line from one of those working documents.
+          The version I&rsquo;m most interested in works with headphones in and your phone in your
+          pocket. Chioma can explain things out loud in English, but her Igbo only ever comes from
+          the registry, and when something goes wrong, it&rsquo;s the system&rsquo;s fault, never
+          the learner&rsquo;s. The dot stops being a button and simply shows whose turn it is. None
+          of this is built yet; it exists as design work.
         </>,
       ],
-    },
-    {
-      id: 'explore-rule',
-      kind: 'aside',
-      text: (
-        <>
-          &ldquo;Igbo is sealed; English is free.&rdquo; And, from the same document: &ldquo;The
-          system owns every miss.&rdquo; Both are from a working document for the voice
-          exploration, October 2026.
-        </>
-      ),
     },
     {
       id: 'explore-call',
@@ -720,9 +647,8 @@ export const LLP_PROJECT: Project = {
       scale: 'wide',
       caption: (
         <>
-          Exploratory. An early round of the voice idea, when it was still framed as a call with
-          Chioma: the voice view, and a written view of the same moment. A later round dropped the
-          ringing and the timer and renamed it Talk with Chioma.
+          Exploratory. An early round of the voice idea, when it was still framed as a call, in its
+          voice and written views. A later round dropped the ringing and the timer.
         </>
       ),
       render: () => (
@@ -740,9 +666,8 @@ export const LLP_PROJECT: Project = {
       scale: 'wide',
       caption: (
         <>
-          Exploratory. The dot&rsquo;s proposed states for a spoken conversation, from connecting
-          to listening to thinking. Compared with the eighteen behaviors above, its job has
-          narrowed to one thing: showing whose turn it is.
+          Exploratory. The dot&rsquo;s proposed states for a spoken conversation. Next to the
+          eighteen behaviors above, its job has narrowed to showing whose turn it is.
         </>
       ),
       render: () => <DotStates />,
@@ -776,11 +701,13 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          Speech recognition for Igbo is considerably less capable than it is for languages like
-          English or French, which is particularly inconvenient for a product where I care so much
-          about listening and pronunciation.
+          Speech recognition for Igbo is considerably less capable than it is for English or French,
+          which is particularly inconvenient for a product that cares this much about listening and
+          pronunciation.
         </>,
-        <>So that is where I’m working now.</>,
+        <>
+          So that is where I&rsquo;m working now.
+        </>,
       ],
     },
     // Parting. The last thing the encounter asks a learner to say, and
@@ -801,13 +728,9 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          It’s asking whether what you said is one of a handful of things it already knows the
-          lesson could accept.
-        </>,
-        <>
-          In a lesson, the system already knows quite a lot: what it is trying to teach, what the
-          learner has heard, what kinds of responses make sense, and what it needs to determine
-          before moving forward. That creates a much more constrained recognition problem than
+          It&rsquo;s asking whether what you said is one of a handful of things it already knows the
+          lesson could accept. A lesson knows what it is teaching, what you&rsquo;ve heard, and what
+          makes sense next, which makes recognition a much more constrained problem than
           understanding arbitrary conversation.
         </>,
       ],
@@ -818,9 +741,7 @@ export const LLP_PROJECT: Project = {
       scale: 'wide',
       caption: (
         <>
-          Where the build has got to. Five outcomes it can tell apart, and the decision the section
-          is about is the third one: when it cannot verify what it heard, it does not score the
-          answer.
+          Where the build has got to.
         </>
       ),
       render: () => <Hearing />,
@@ -830,11 +751,9 @@ export const LLP_PROJECT: Project = {
       kind: 'prose',
       paras: [
         <>
-          It&rsquo;s also why the next step isn&rsquo;t the voice version. Before building that, I
-          want to record real learners speaking Igbo and measure how well recognition actually
-          hears them, and only then build a small hands-free version: one greetings-and-names
-          conversation, taken a turn at a time, with a deliberately limited role for the language
-          model.
+          That&rsquo;s also why the next step isn&rsquo;t the voice version. First I want to record
+          real learners speaking Igbo and measure how well recognition actually hears them, and only
+          then build one small hands-free conversation.
         </>,
       ],
     },
@@ -844,8 +763,7 @@ export const LLP_PROJECT: Project = {
       scale: 'column',
       caption: (
         <>
-          Where each part of LLP stands, from the first build to what comes next. Built, tested,
-          exploratory and proposed are kept apart on purpose.
+          Where each part of LLP stands, from the first build to what comes next.
         </>
       ),
       render: () => <Stages />,
@@ -870,30 +788,29 @@ export const LLP_PROJECT: Project = {
         </>,
       ],
     },
-    /* How it was built. Everything stated here is in this repository: the
-       model, voice ids and g2p library come from `pronunciation.json`'s
-       own `method` and `diagnosticMeta` blocks, the response headers from
-       the deployed build are in VoiceBoundary, and the registries are the
-       workbooks `registry.json` was extracted from.
-
-       TODO (Michelle): four things the brief asks for are not recorded
-       anywhere in this repository, so they are left out rather than
-       guessed at. When the project started; the application's own stack;
-       which models it calls besides ElevenLabs; and how you used
-       AI-assisted development while building it. Send those and this note
-       can say them. */
     {
       id: 'built',
-      kind: 'aside',
-      text: (
+      kind: 'more',
+      summary: 'How it’s built',
+      body: (
         <>
-          <strong>How this was built.</strong> I designed and built LLP myself. Chioma&rsquo;s
-          speech is generated through ElevenLabs on <code>eleven_v3</code>, with two voices in the
-          archive, Ayomide and Rho. The pronunciation work puts Igbo spellings through africa-g2p
-          0.2.0 to get IPA before the text reaches the voice model, and the deployed build reports
-          the provider and whether an override was applied on every response. What the product knows
-          lives in spreadsheets outside the application and is extracted into the registries this
-          page reads. The pronunciation diagnostic on this page was run on 23 August 2026.
+          <p>
+          I designed LLP and directed its build: the learning system, the registry and its rules, the
+            interaction model, and the product decisions. The code was written with Claude Code,
+            working under rules I set for it.
+          </p>
+          <p>
+          The web prototype is Next.js and TypeScript, and the iPhone app is Expo and React Native,
+            both running the same learning engine. Chioma&rsquo;s speech comes from ElevenLabs on{' '}
+            <code>eleven_v3</code>, with two voices in the archive, Ayomide and Rho, and spellings go
+            through africa-g2p 0.2.0 to get IPA before they reach the voice model. Recognition, where
+            it is switched on, is ElevenLabs Scribe.
+          </p>
+          <p>
+          What the product knows lives in spreadsheets outside the application and is extracted
+            into the registries this page reads. The pronunciation diagnostic on this page was run on
+            23 August 2026.
+          </p>
         </>
       ),
     },

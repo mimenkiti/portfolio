@@ -352,6 +352,14 @@ function renderBlock(b: Block, mode: Mode, ctx: Ctx) {
         </figure>
       )
 
+    case 'more':
+      return (
+        <details className="b b--more" open={!experience} {...anchor}>
+          <summary className="more__summary label">{b.summary}</summary>
+          <div className="more__body caption">{b.body}</div>
+        </details>
+      )
+
     case 'questions':
       return (
         <section className="b b--questions" {...anchor}>

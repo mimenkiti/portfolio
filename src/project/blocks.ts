@@ -126,6 +126,13 @@ export type Block =
       terms: string
     }
   | { id: string; kind: 'questions'; heading: string; items: string[] }
+  /**
+   * Optional depth: implementation detail a general reader can skip.
+   * Closed in Experience; open in Read, which is the document version
+   * and should hide nothing. Never the only place a caveat lives: the
+   * prose keeps one visible sentence of anything that matters.
+   */
+  | { id: string; kind: 'more'; summary: string; body: ReactNode }
 
 export type Project = {
   slug: string
